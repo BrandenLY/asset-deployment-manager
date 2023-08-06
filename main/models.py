@@ -4,9 +4,11 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.models import AbstractUser
 from django.utils.translation import gettext_lazy as _
 
-
 class User(AbstractUser):
-    pass
+    email = models.EmailField(_('Email Address'), unique=True)
+    username = None
+    USERNAME_FIELD = "email"
+    REQUIRED_FIELDS = ["first_name", "last_name"]
 
 class Event(models.Model):
     name = models.CharField(_("Name"), max_length=150)
@@ -22,7 +24,7 @@ class Event(models.Model):
     sharepoint_url = models.URLField(_("Sharepoint URL"), blank=True, null=True)
 
     def __str__(self):
-        if hasattr(self, "config"):
-            return f"[ {self.config.production_show_code} ] {self.name}, {self.start_date} - {self.end_date}"
+        if hasattr(self, "project"):
+            return f"[ {self.project.production_show_code} ] {self.name}, {self.start_date} - {self.end_date}"
         else:
             return f"[ - ] {self.name}, {self.start_date} - {self.end_date}"

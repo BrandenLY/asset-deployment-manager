@@ -7,7 +7,7 @@ from django.utils.translation import gettext_lazy as _
 from main.models import Event
 
 # Models
-class Product(models.Model):
+class Service(models.Model):
     name = models.CharField(_("Name"), max_length=35)
     business_analyst = models.ForeignKey(
         get_user_model(),
@@ -60,15 +60,21 @@ class Project(models.Model):
         blank=True,
         null=True,
     )
-    insignia_requirement = models.BooleanField(_("Requires Insignia"), default=False)
-    checkin_requirement = models.BooleanField(_("Requires Check-In"), default=False)
-    portal_requirement = models.BooleanField(_("Requires Portal"), default=False)
-    sentinel_requirement = models.BooleanField(_("Requires Sentinel"), default=False)
+    services = models.ManyToManyField(Service)
     printer_type = models.IntegerField(_("Printer type"), choices=settings.AVAILABLE_PRINTER_TYPES, default=0)
     production_redwood_id = models.IntegerField(_("Production Redwood ID"), blank=True, null=True)
     production_show_code = models.CharField(_("Production Showcode"), max_length=15, blank=True, null=True)
     test_redwood_id = models.IntegerField(_("Test Redwood ID"), blank=True, null=True)
     test_show_code = models.CharField(_("Test Showcode"), max_length=15, blank=True, null=True)
+
+    def build_tasks_from_services(self):
+        print('model method called')
+        milestone_templates = Milestone.objects.filter(is_template=True)
+
+        for m in milestone_templates:
+            for t in m.tasks.values():
+                print(str(t))
+
 
     def get_completion_percentage(self):
 
@@ -82,10 +88,12 @@ class Project(models.Model):
         return f"{task_completion_percentage}%"
     
     def __str__(self):
-        return f"{self.production_show_code}-config".lower()
+        return f"{self.production_show_code} | {self.parent_event.name}"
 
+# Base Remark
+# This model contains fields shared among all project-related tasklist items. This does not represent an actual database table.
 
-class Task(models.Model):
+class Remark(models.Model):
     STATUS_CHOICES = (
         (0, "Pending"),
         (1, "In progress"),
@@ -103,10 +111,72 @@ class Task(models.Model):
         (4, "Urgent"),
     )
 
+    related_service = models.ForeignKey(
+        Service, 
+        on_delete = models.SET_NULL, 
+        verbose_name =_("Service"),
+        related_query_name = 'service',
+        blank = True, 
+        null = True
+    )
+
+    date_created = models.DateTimeField(_("Date Created"), auto_now_add=True, editable=False)
+    description = models.TextField(_("Description"), blank=True, null=True)
+    title = models.CharField(_("Title"), max_length=150)
+    status = models.IntegerField(_("Status"), choices=STATUS_CHOICES, default=0)
+    due_date = models.DateField(_("Due Date"), blank=True, null=True)
+    priority = models.IntegerField(_("Priority"), choices=PRIORITY_CHOICES, default=0)
+    sort_order = models.IntegerField(_("Order"), blank=True, null=True)
+
+    class Meta:
+        abstract = True
+
+class Milestone(Remark):
     parent_project = models.ForeignKey( 
-        Project,  
-        on_delete = models.CASCADE
+        Project,
+        verbose_name = _("Parent Project"),
+        related_name = 'milestones',
+        related_query_name = 'milestones_from_project',
+        on_delete = models.CASCADE,
+        blank = True,
+        null = True
     ) 
+    responsible_to = models.ForeignKey(
+        get_user_model(),
+        verbose_name = _("Responsible To"),
+        related_name = 'assigned_milestones',
+        related_query_name = 'reponsible_to',
+        on_delete = models.SET_NULL,
+        blank = True,
+        null = True
+    )
+    created_by = models.ForeignKey(
+        get_user_model(),
+        verbose_name = _("Created By"),
+        related_name = 'created_milestones',
+        related_query_name = 'creator_of',
+        on_delete = models.SET_NULL,
+        blank = True,
+        null = True
+    )
+    is_template = models.BooleanField(_("Is template"), default=False)
+
+    def __str__(self):
+        if hasattr(self, 'parent_project') and hasattr(self.parent_project, 'production_show_code'):
+            return f"{self.parent_project.production_show_code} - {self.title}"
+        else:
+            return f" TEMPLATE - {self.title}"
+
+class Task(Remark):
+    parent_milestone = models.ForeignKey( 
+        Milestone,
+        verbose_name = _('Parent milestone'),
+        related_name = 'tasks',
+        related_query_name = 'tasks_from_milestone',
+        on_delete = models.CASCADE,
+        blank = True,
+        null = True
+    )
 
     responsible_to = models.ForeignKey(
         get_user_model(),
@@ -120,27 +190,13 @@ class Task(models.Model):
     created_by = models.ForeignKey(
         get_user_model(),
         verbose_name = _("Created By"),
-        related_name = 'created_task',
+        related_name = 'created_tasks',
         related_query_name = 'creator_of',
         on_delete = models.SET_NULL,
         blank = True,
         null = True
     )
-    related_product = models.ForeignKey(
-        Product, 
-        on_delete = models.SET_NULL, 
-        verbose_name =_("Related Product"),
-        related_query_name = 'product',
-        blank = True, 
-        null = True
-    )
-    
-
     is_system_task = models.BooleanField(_("Is System Task"), default=False)
-    date_created = models.DateTimeField(_("Date Created"), auto_now_add=True, editable=False)
-    description = models.TextField(_("Description"), blank=True, null=True)
-    title = models.CharField(_("Title"), max_length=150)
-    status = models.IntegerField(_("Status"), choices=STATUS_CHOICES, default=0)
-    due_date = models.DateField(_("Due Date"), blank=True, null=True)
-    priority = models.IntegerField(_("Priority"), choices=PRIORITY_CHOICES, default=0)
-    sort_order = models.IntegerField(_("Order"), blank=True, null=True)
+
+    def __str__(self):
+        return f"{self.title}"

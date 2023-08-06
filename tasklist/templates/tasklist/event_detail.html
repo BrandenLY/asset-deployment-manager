@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block 'style-links' %}<link rel="stylesheet" href="{% static 'css/home.css' %}">{% endblock %}
+
+{% block 'main-content' %}
+    {{event}}
+{% endblock %}

@@ -1,5 +1,4 @@
 from django.contrib import admin
-from django.contrib.auth.admin import UserAdmin
 from .models import Event
 from .models import User
 from tasklist.models import Project
@@ -15,12 +14,11 @@ class ProjectInline(admin.StackedInline):
                     "printer_type",
                     ("production_redwood_id", "production_show_code"),
                     ("test_redwood_id", "test_show_code"),
-                    ("insignia_requirement", "checkin_requirement", "portal_requirement", "sentinel_requirement")
                 ]
             }
         ),
         (
-            'Stakeholders',
+            'Team',
             {
                 "fields": [
                     ("account_manager", "project_manager"),
@@ -51,6 +49,13 @@ class EventAdmin(admin.ModelAdmin):
             }
         ),
     ]
+
+class UserAdmin(admin.ModelAdmin):
+    list_display = (
+        "id", "email", "first_name", "last_name",
+    )
+    fields = ["email", "first_name", "last_name", "groups", "user_permissions", "is_active", "is_staff", "is_superuser", "date_joined", "last_login"]
+    readonly_fields = ["date_joined", "last_login"]
 
 admin.site.register(Event, EventAdmin)
 admin.site.register(User, UserAdmin)

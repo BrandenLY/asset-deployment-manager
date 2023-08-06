@@ -133,41 +133,6 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# Default Tasks : Tasklist
-# -------------------------
-
-AUTO_SYSTEM_TASKS = {
-    'insignia' : [
-        {
-        "responsible_to": {"from_parent_field":'solutions_specialist'},
-        "created_by": {"from_system" : 'DEFAULT_USER'},
-        "related_product" : {"from_model" : "Product", "name" : "insignia"},
-        "is_system_task" : True,
-        "description" : 'first task description',
-        "title": 'Setup Insignia',
-        "status": 0,
-        "due_date" : {"from_date": True, "use_date_from_parent": "start_date", "add": timedelta(days=30)},
-        "priority" : 2,
-        },
-    ],
-    "checkin" : [
-        {
-        "responsible_to": {"from_parent_field":'solutions_specialist'},
-        "created_by": {"from_system" : 'DEFAULT_USER'},
-        "related_product" : {"from_model" : "Product", "name" : "checkin"},
-        "is_system_task" : True,
-        "description" : 'first task description',
-        "title": 'Setup Checkin',
-        "status": 1,
-        "due_date" : {"from_date": True, "use_date_from_parent": "start_date", "add": timedelta(days=30)},
-        "priority" : 2,
-        },
-    ],
-    "sentinel" : [
-
-    ]
-}
-
 AVAILABLE_PRINTER_TYPES = [
     (0, 'EPSON C3400'),
     (1, 'EPSON C3500'),
