@@ -2,6 +2,7 @@ from django.contrib import admin
 from .models import Event
 from .models import User
 from tasklist.models import Project
+from tasklist.models import Service
 
 # Register your models here.
 class ProjectInline(admin.StackedInline):
@@ -14,6 +15,7 @@ class ProjectInline(admin.StackedInline):
                     "printer_type",
                     ("production_redwood_id", "production_show_code"),
                     ("test_redwood_id", "test_show_code"),
+                    "services"
                 ]
             }
         ),
@@ -22,7 +24,7 @@ class ProjectInline(admin.StackedInline):
             {
                 "fields": [
                     ("account_manager", "project_manager"),
-                    ("solutions_specialist", "lead_retrieval_specialist")
+                    ("solutions_specialist", "lead_retrieval_specialist"),
                 ]
             }
         )

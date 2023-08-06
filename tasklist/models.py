@@ -1,7 +1,9 @@
 from django.db import models
+from django.db import transaction
 from django.conf import settings
 from django.db.models.query import QuerySet
 from django.contrib.auth import get_user_model
+from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 
 from main.models import Event
@@ -68,12 +70,34 @@ class Project(models.Model):
     test_show_code = models.CharField(_("Test Showcode"), max_length=15, blank=True, null=True)
 
     def build_tasks_from_services(self):
-        print('model method called')
         milestone_templates = Milestone.objects.filter(is_template=True)
 
         for m in milestone_templates:
-            for t in m.tasks.values():
-                print(str(t))
+            if hasattr(m, 'related_service') and self.services.contains(m.related_service):
+                tasks = m.tasks.values()
+                with transaction.atomic():
+                    # Save milestone
+                    m.pk = None
+                    m.id = None
+                    m.parent_project = self
+                    m._state.adding = True
+                    m.save()
+
+                    # Save tasks
+                    for t in tasks:
+                        t['parent_milestone_id'] = m.id
+                        t['id'] = None
+                        t['pk'] = None
+                        new_task = Task(**t)
+                        try:
+                            new_task.full_clean()
+                            new_task.save()
+                        except ValidationError as e:
+                            raise ValidationError(e)
+
+
+            else:
+                print(f'Milestone: {m}, is NOT required for {str(self)}')
 
 
     def get_completion_percentage(self):
@@ -163,9 +187,9 @@ class Milestone(Remark):
 
     def __str__(self):
         if hasattr(self, 'parent_project') and hasattr(self.parent_project, 'production_show_code'):
-            return f"{self.parent_project.production_show_code} - {self.title}"
+            return f"{self.parent_project.production_show_code} -> {self.title}"
         else:
-            return f" TEMPLATE - {self.title}"
+            return f" TEMPLATE -> {self.title}"
 
 class Task(Remark):
     parent_milestone = models.ForeignKey( 
@@ -174,8 +198,6 @@ class Task(Remark):
         related_name = 'tasks',
         related_query_name = 'tasks_from_milestone',
         on_delete = models.CASCADE,
-        blank = True,
-        null = True
     )
 
     responsible_to = models.ForeignKey(
@@ -199,4 +221,7 @@ class Task(Remark):
     is_system_task = models.BooleanField(_("Is System Task"), default=False)
 
     def __str__(self):
-        return f"{self.title}"
+        if hasattr(self, 'parent_milestone') and hasattr(self.parent_milestone, 'parent_project') and hasattr(self.parent_milestone.parent_project, "production_show_code"):
+            return f"{self.parent_milestone.parent_project.production_show_code} -> {self.parent_milestone.title} -> {self.title}"
+        else:
+            return f" TEMPLATE -> {self.parent_milestone.title} -> {self.title}"
