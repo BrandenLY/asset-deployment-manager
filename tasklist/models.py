@@ -73,9 +73,15 @@ class Project(models.Model):
         milestone_templates = Milestone.objects.filter(is_template=True)
 
         for m in milestone_templates:
-            if hasattr(m, 'related_service') and self.services.contains(m.related_service):
+
+            if hasattr(m, 'related_service') and not self.services.contains(m.related_service):
+                continue
+
+            else:
+                
                 tasks = m.tasks.values()
                 with transaction.atomic():
+
                     # Save milestone
                     m.pk = None
                     m.id = None
@@ -89,16 +95,12 @@ class Project(models.Model):
                         t['id'] = None
                         t['pk'] = None
                         new_task = Task(**t)
+                        new_task.related_service = m.related_service
                         try:
                             new_task.full_clean()
                             new_task.save()
                         except ValidationError as e:
                             raise ValidationError(e)
-
-
-            else:
-                print(f'Milestone: {m}, is NOT required for {str(self)}')
-
 
     def get_completion_percentage(self):
 
