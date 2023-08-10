@@ -1,101 +1,31 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    {% block 'title' %}<title>Sleipnir</title>{% endblock %}
-    <link rel="stylesheet" href="{% static 'css/base.css' %}">
-    {% block 'style-links' %}<link rel="stylesheet" href="{% static 'css/base.css' %}">{% endblock %}
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ConfigView</title>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+    />
+    <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    />  
+    <link rel="stylesheet" href="{% static 'css/base.css' %}" />
     <script
-        src="https://code.jquery.com/jquery-3.7.0.min.js"
-        integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g="
-        crossorigin="anonymous">
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    
-</head>
-<body>
-    <style>
-        :root:has(#theme-button[data-current-theme='dark']){
-            --bgc-1: #0C0C0C;
-            --bgc-2: #1D1D1D;
-            --bgc-3: #707070;
-            --fgc-1: #F7F7F5;
-            --fgc-2: #E8E8E6;
-            --ac-1: #12E3F9;
-            --ac-2: #03A3B5;
-            --ac-3: #038391;
-            --heading-font: Marcellus;
-            --paragraph-font: Poppins;
-        }
-        :root:has(#theme-button[data-current-theme='light']){
-            --bgc-1: #F7F7F5;
-            --bgc-2: #E8E8E6;
-            --bgc-3: #707070;
-            --fgc-1: #1A150F;
-            --fgc-2: #312D27;
-            --ac-1: #12E3F9;
-            --ac-2: #03A3B5;
-            --ac-3: #038391;
-            --heading-font: Marcellus;
-            --paragraph-font: Poppins;
-        }
-    </style>
-    {% block 'primary-nav' %}
-    <header>
-        <div id="nav-logo"><span id="nav-logo-company">Stova</span><span id="nav-logo-page">Sleipnir</span></div>
-        <div id="primary-nav">
-            <button id="theme-button" onclick="toggleTheme()" data-current-theme="{{theme}}">
-                <img class="toggle-icon" src="{% static 'icons/light-mode.svg' %}" alt="Light Mode">
-                <img class="toggle-icon" src="{% static 'icons/dark-mode.svg' %}" alt="Dark Mode">
-            </button>
-            <button id="menu-button" onclick="toggleNavBar()"><img src="{% static 'icons/menu.svg' %}" alt="Menu"></button>
-            <nav id="nav-bar" data-is-open="false">
-                <div id="menu-header" >
-                    <p><span>Welcome,</span><br>{{user.first_name}}<br></p>
-                    <div id="avatar-container">
-                        <img src="{% static 'images/branden.jpg' %}" alt="B">
-                    </div>
-                    <a href="my-profile">Profile</a>
-                    <p class="menu-msg">{{userData.taskCount}} Open Tasks</p>
-                    <p class="menu-msg">{{userData.eventCount}} Events</p>
-                </div>
-                <ul>
-                    <li>
-                        <a href="/events" class="nav-btn">
-                            <img src="{% static 'icons/event-not-available-svgrepo-com.svg' %}" alt="">
-                            Events
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/assets" class="nav-btn">
-                            <img src="{% static 'icons/shipping-fast-svgrepo-com.svg' %}" alt="">
-                            Assets
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/tutorials" class="nav-btn">
-                            <img src="{% static 'icons/article-search-line-svgrepo-com.svg' %}" alt="">
-                            Knowledge base
-                        </a>
-                    </li>
-                </ul>
-                <div id="menu-footer">
-                    <a href="logout">Logout</a>
-                </div>
-            </nav>
-        </div>
-    </header>
-    {% endblock %}
-    {% block 'secondary-nav' %}
-    {% endblock %}
-    {% block 'main-content' %}{% endblock %}
-    {% block 'footer' %}{% endblock %}
-    {% block 'main-js' %}
-    <script>
-        
-    </script>
-    {% endblock %}
-</body>
+      src="https://code.jquery.com/jquery-3.7.0.min.js"
+      integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g="
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <main id="main-content">
+      <!-- React -->
+      {% block 'preloader' %} {% endblock %}
+      <!-- React -->
+    </main>
+    <script src={% static "main/js/main.js" %}></script>
+  </body>
 </html>

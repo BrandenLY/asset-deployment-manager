@@ -14,11 +14,9 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.contrib import admin
 from django.urls import path
-from .views import HomePageView, EventDetailView
+from .views import HomePageView
 
 urlpatterns = [
-    path('home/', HomePageView.as_view(), name="home"),
-    path("events/<int:pk>/", EventDetailView.as_view(), name="event-detail"),
+    path('', HomePageView.as_view(), name="home"),
 ] 

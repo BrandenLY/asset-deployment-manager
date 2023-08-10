@@ -6,6 +6,7 @@ from django.forms import modelformset_factory
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.contrib.auth import get_user_model
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.base import TemplateView
 from django.views.generic.detail import DetailView
 
@@ -18,24 +19,10 @@ from tasklist.forms import CreateProjectForm
 
 user_model = get_user_model()
 
-class HomePageView(TemplateView):
+class HomePageView(LoginRequiredMixin, TemplateView):
+    login_url = "/login/"
+    redirect_field_name = "redirect_to"
     template_name = "home.html"
-
-    def get_workload_chart(self):
-        data = {
-            "labels"  : [],
-            "datasets": [{
-                'backgroundColor':[],
-                'data':[]
-            }]
-        }
-
-        usrs = user_model.objects.all()
-        for u in usrs:
-            data['datasets'][0]['backgroundColor'].append(f"rgb({random.randrange(1, 255)},{random.randrange(1, 255)},{random.randrange(1, 255)})")
-            data['datasets'][0]['data'].append(u.assigned_tasks.filter(status__lt=5).count())
-            data['labels'].append(u.first_name)
-        return json.dumps(data)
 
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
         ctx = super().get_context_data(**kwargs)
@@ -50,7 +37,6 @@ class HomePageView(TemplateView):
             'upcomingTasks' : Task.objects.filter(status__lt = 5)
         }
         ctx['theme'] = 'dark'
-        ctx['workloadData'] = self.get_workload_chart()
 
         ctx['counts'] = json.dumps({
             'Events' : Event.objects.all().count(),
@@ -73,39 +59,3 @@ class HomePageView(TemplateView):
     def get(self, request, **kwargs):
         ctx = self.get_context_data(request=request)
         return render(request, self.template_name, context=ctx)
-    
-    def post(self, request, **kwargs):
-
-        ctx = self.get_context_data(request=request)
-
-        if 'addEventForm' in request.POST:
-
-            _project_form_data = CreateProjectForm(request.POST)
-
-            with transaction.atomic():
-                ## Save the Event
-                _event_form_data = CreateEventForm(request.POST)
-                if _event_form_data.is_valid():
-                    _e = _event_form_data.save()
-                else:
-                    ctx['forms']['addEvent'] = _event_form_data
-
-                ## Save the Project
-                if _project_form_data.is_valid():
-                    _project_form_data = _project_form_data.save(commit=False)
-                    _project_form_data.parent_event = _e
-                    _p = _project_form_data.save()
-                else:
-                    ctx['forms']['addProject'] = _project_form_data
-
-
-        return render(request, self.template_name, context=ctx)
-    
-class EventDetailView(DetailView):
-    model = Event
-    template_name = "tasklist/event_detail.html"
-    def get_context_data(self, **kwargs):
-        ctx = super().get_context_data(**kwargs)
-        ctx['objects'] = None
-        print(kwargs)
-        return ctx

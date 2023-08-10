@@ -1,126 +1,22 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block 'style-links' %}<link rel="stylesheet" href="{% static 'css/home.css' %}">{% endblock %}
-
-{% block 'main-content' %}
-
-<div id="main-content">
-
-    <div class="widget-container" style="grid-column: 1 / 6">
-        <div class="widget-titlebar">
-            <h2>Workload</h2>
-        </div>
-        <div class="widget-content">
-            <canvas id="workload"></canvas>
-        </div>
-        <div class="widget-footerbar">
-            <h2>footer</h2>
-        </div>
-    </div>
-    <script>
-        new Chart(document.getElementById("workload"),{
-            type: 'pie',
-            data: JSON.parse('{{workloadData|safe}}'),
-            options: {}
-        });
-    </script>
-
-    <div class="widget-container" style="grid-column: 6 / -1">
-        <div class="widget-titlebar">
-            <h2>Task Preview</h2>
-            <button class="widget-btn">New +</button>
-        </div>
-        <div class="widget-content">
-            <table class="widget-table" id="upcoming-events">
-                <tr>
-                  <th style="width: 33%;">Title</th>
-                  <th>Due Date</th>
-                  <th>Priority</th>
-                  <th>Assigned</th>
-                </tr>
-                {% for task in objects.upcomingTasks %}
-                <tr>
-                    <td>{{task.title}}</td>
-                    <td>{{task.due_date}}</td>
-                    <td>{{task.get_priority_display}}</td>
-                    <td>{{task.responsible_to}}</td>
-                </tr>
-                {% endfor %}
-              </table>
-        </div>
-        <div class="widget-footerbar">
-            <h2>footer</h2>
-        </div>
-    </div>
-
-    <div class="widget-container" style="grid-column: 1 / -1">
-        <div class="widget-titlebar">
-            <h2>Upcoming Events</h2>
-            <button class="widget-btn" onclick="openAddEventDialog()">New +</button>
-        </div>
-        <div class="widget-content">
-            <table class="widget-table" id="upcoming-events">
-                <tr>
-                  <th style="width: 33%;">Event Name</th>
-                  <th>Dates</th>
-                  <th>Services</th>
-                  <th>Project Manager</th>
-                  <th>Progress</th>
-                  <th style="width: 50px;"></th>
-                </tr>
-                {% for event in objects.events %}
-                <tr>
-                    <td>{{event.name}}</td>
-                    <td>{{event.start_date}} - {{event.end_date}}</td>
-                    <td></td>
-                    <td>{{event.project_manager}}</td>
-                    <td>{{event.get_completion_percentage}}</td>
-                    <td></td>
-                </tr>
-                {% endfor %}
-              </table>
-        </div>
-        <div class="widget-footerbar">
-            <h2>footer</h2>
-        </div>
-    </div>
-
-    <dialog id="addEventDialog">
-        <div class="widget-container">
-            <div class="widget-titlebar">
-                <h2>Add Event</h2>
-            </div>
-            <div class="widget-content">
-                <form id="addEventForm" action="" method="POST">{% csrf_token %}
-                    {{forms.addEvent}}
-                    {{forms.addProject}}
-                </form>
-            </div>
-            <div class="widget-footerbar form-footer">
-                <button id="addEventForm-close" class="widget-btn" onclick="closeAddEventDialog()">Cancel</button>
-                <button id="addEventForm-save" class="widget-btn" form="addEventForm" value="submit" name="addEventForm">Save</button>
-            </div>
-        </div>
-    </dialog>
-    <script>
-        // Add Event Dialog Controls
-        var addEventDialog = document.getElementById('addEventDialog');
-        const openAddEventDialog = function(){
-            addEventDialog.showModal()
-        }
-        const closeAddEventDialog = function(){
-            addEventDialog.close()
-        }
-    </script>
+{% block 'preloader' %}
+<style>
+    body{
+        margin: 0;
+    }
+    #preloader{
+        width: 100%;
+        height: 100vh;
+        background-color: crimson;
+        color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<div id="preloader">
+    <p>Loading React</p>
 </div>
-
-{% endblock %}
-
-{% block 'main-js' %}
-<script>
-    const workloadData = JSON.parse('{{workloadData|safe}}')
-    const userData = JSON.parse('{{userData|safe}}')
-</script>
-<script src="{% static 'js/home.js' %}"></script>
 {% endblock %}

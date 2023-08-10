@@ -38,11 +38,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # Third-party apps
+    'rest_framework',
     # Non-default apps
     'main.apps.MainConfig',
     'tasklist.apps.TasklistConfig',
     'assets.apps.AssetsConfig',
-    'wiki.apps.WikiConfig'
+    'wiki.apps.WikiConfig',
+    'api.apps.ApiConfig'
 ]
 
 MIDDLEWARE = [
@@ -128,10 +131,25 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+STATICFILES_DIRS = [
+    BASE_DIR / "main" / "static",
+]
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Django Rest Framework Settings
+# https://www.django-rest-framework.org/
+
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ]
+}
 
 AVAILABLE_PRINTER_TYPES = [
     (0, 'EPSON C3400'),
