@@ -20,9 +20,11 @@ from django.urls import include
 from rest_framework.routers import DefaultRouter
 
 from .views import UserView
+from .views import EventView
 
 router = DefaultRouter()
 router.register(r"user", UserView)
+router.register(r"event", EventView)
 
 urlpatterns = [
     path("", include(router.urls)),
