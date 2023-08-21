@@ -2,6 +2,7 @@ from django.shortcuts import render
 from rest_framework import generics
 from rest_framework import viewsets
 from rest_framework import status
+from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .serializers import UserSerializer
 from .serializers import EventSerializer
@@ -11,7 +12,7 @@ from main.models import Event
 # Create your views here.
 class UserView(viewsets.ViewSet):
     """
-    Simple Viewset for viewing User Information
+    Simple Viewset for Viewing User Information
     """
 
     queryset = User.objects.all()
@@ -39,10 +40,9 @@ class UserView(viewsets.ViewSet):
     def destroy(self, request, pk=None):
         pass
 
-# Create your views here.
 class EventView(viewsets.ViewSet):
     """
-    Simple Viewset for viewing Event & Project Information
+    Simple Viewset for Viewing Event & Project Information
     """
 
     queryset = Event.objects.all()
@@ -69,3 +69,16 @@ class EventView(viewsets.ViewSet):
 
     def destroy(self, request, pk=None):
         pass
+
+@api_view(('GET',))
+def ModelCounts(request):
+    """
+    Simple View for Viewing Database Row Counts
+    """
+    return Response(
+        {
+            'events': Event.objects.all().count(),
+            'users' : User.objects.all().count()
+        },
+        status=status.HTTP_201_CREATED
+    )

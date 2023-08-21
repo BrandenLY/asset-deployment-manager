@@ -1,58 +1,74 @@
 import React, { Component, useState, useEffect } from "react";
 import {
   BrowserRouter as Router,
-  Route,
-  Link,
-  Redirect,
+  Routes,
+  Route
 } from "react-router-dom";
 import { render } from "react-dom";
-import { createTheme, ThemeProvider } from "@mui/material";
-import DebugPage from "./components/DebugPage";
+import { createTheme, ThemeProvider, CssBaseline } from "@mui/material";
+import { GenericContextProvider } from "./context";
+import DebugView from "./components/DebugView";
+import CustomPage from "./components/CustomPage";
 
-class Event {
-  constructor(
-    eventDataObject
-  ) {
-    this.id = eventDataObject['id'];
-    this.name = eventDataObject['name'];
-    this.dateCreated = new Date(eventDataObject['date_created']);
-    this.lastModified = new Date(eventDataObject['last_modified']);
-    this.startDate = new Date(eventDataObject['start_date']);
-    this.endDate = new Date(eventDataObject['end_date']);
-    this.travelInDate = new Date(eventDataObject['travel_in_date']);
-    this.travelOutDate = new Date(eventDataObject['travel_out_date']);
-    this.timetrackingUrl = eventDataObject['timetracking_url'];
-    this.externalProjectUrl = eventDataObject['external_project_url'];
-    this.sharepointUrl = eventDataObject['sharepoint_url'];
-  }
+// Data Classes
 
-  getCreated = () => 
-
-  updateDB = () => {};
-}
-
+// Primary React Component
 const App = () => {
-  const [events, setEvents] = useState([]);
+  // Load Data
   const theme = createTheme({
     palette: {
       mode: "dark",
+    },
+    typography: {
+      h1: {
+        fontSize: "2.5rem",
+      },
+      h2: {
+        fontSize: "2.25rem",
+      },
+      h3: {
+        fontSize: "2rem",
+      },
+      h4: {
+        fontSize: "1.75rem",
+      },
+      h5: {
+        fontSize: "1.5rem",
+      },
+      h6: {
+        fontSize: "1.25rem",
+      }
     }
   });
-  useEffect(() => {
-    fetch("/api/event/")
-      .then((res) => res.json())
-      .then((data) => {
-        setEvents(data.map(event => new Event(event)));
-      });
-  }, []);
 
   return (
     <React.StrictMode>
-      <Router>
         <ThemeProvider theme={theme}>
-          <DebugPage events={events}/>
+        <CssBaseline />
+        <Router>
+        <GenericContextProvider>
+          <Routes>
+              <Route
+                path="/"
+                element={<CustomPage view={DebugView}/>}
+              >
+              </Route>
+              <Route
+                path="/assets"
+                element={<CustomPage view={null}/>}>
+              </Route>
+              <Route
+                path="/wiki"
+                element={<CustomPage view={null}/>}>
+              </Route>
+              <Route
+                path="/event/:id"
+                element={<CustomPage view={null}/>}>
+              </Route>
+            </Routes>
+        </GenericContextProvider>
+        </Router>
         </ThemeProvider>
-      </Router>
     </React.StrictMode>
   );
 };

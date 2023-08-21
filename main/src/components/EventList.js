@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -22,6 +22,7 @@ import {
   LastPageIcon,
 } from "@mui/icons-material";
 import { Grid, Typography, Popover } from "@mui/material";
+import { GenericContext } from "../context";
 
 const ExpandedDataGrid = (props) => {
   return (
@@ -55,53 +56,56 @@ const ExpandableTableRow = (props) => {
   const [expanded, setExpanded] = useState(false);
 
   return (
-    <><TableRow>
-      <TableCell sx={expanded?{borderBottom: "none !important"}:{}}>
-        <Tooltip title={expanded ? "Show Less" : "Show More"}>
-          <IconButton
-            onClick={() => {
-              setExpanded(!expanded)
-            }}
-          >
-            {expanded ? <ExpandLess></ExpandLess> : <ExpandMore></ExpandMore>}
-          </IconButton>
-        </Tooltip>
-      </TableCell>
-      <TableCell sx={expanded?{borderBottom: "none !important"}:{}}>{props.event.id}</TableCell>
-      <TableCell sx={expanded?{borderBottom: "none !important"}:{}}>{props.event.name}</TableCell>
-      <TableCell sx={expanded?{borderBottom: "none !important"}:{}}>{props.event.startDate.toLocaleDateString()} - {props.event.endDate.toLocaleDateString()}</TableCell>
-      <TableCell sx={expanded?{borderBottom: "none !important"}:{}}>{props.event.travelInDate.toLocaleDateString()} - {props.event.travelOutDate.toLocaleDateString()}</TableCell>
-      <TableCell sx={expanded?{borderBottom: "none !important"}:{}}>{props.event.dateCreated.toLocaleDateString()}</TableCell>
-      <TableCell sx={expanded?{borderBottom: "none !important"}:{}}>{props.event.lastModified.toLocaleDateString()}</TableCell>
-      <TableCell sx={expanded?{borderBottom: "none !important"}:{}}>
-        <ButtonGroup>
-          <Tooltip title="Open Timetracking">
-            <IconButton href={props.event.timetrackingUrl} disabled={props.event.timetrackingUrl ? false : true}>
-              <AccessTime></AccessTime>
+    <>
+      <TableRow>
+        <TableCell sx={expanded?{borderBottom: "none !important"}:{}}>
+          <Tooltip title={expanded ? "Show Less" : "Show More"}>
+            <IconButton
+              onClick={() => {
+                setExpanded(!expanded)
+              }}
+            >
+              {expanded ? <ExpandLess></ExpandLess> : <ExpandMore></ExpandMore>}
             </IconButton>
           </Tooltip>
-          <Tooltip title="Open External Project">
-            <IconButton href={props.event.externalProjectUrl} disabled={props.event.externalProjectUrl ? false : true}>
-              <Launch></Launch>
-            </IconButton>
-          </Tooltip>
-          <Tooltip title="Open in Sharepoint">
-            <IconButton href={props.event.sharepointUrl} disabled={props.event.sharepointUrl ? false : true}>
-              <FolderOpen></FolderOpen>
-            </IconButton>
-          </Tooltip>
-        </ButtonGroup>
-      </TableCell>
-    </TableRow>
+        </TableCell>
+        <TableCell sx={expanded?{borderBottom: "none !important"}:{}}>{props.event.id}</TableCell>
+        <TableCell sx={expanded?{borderBottom: "none !important"}:{}}>{props.event.name}</TableCell>
+        <TableCell sx={expanded?{borderBottom: "none !important"}:{}}>{props.event.startDate.toLocaleDateString()} - {props.event.endDate.toLocaleDateString()}</TableCell>
+        <TableCell sx={expanded?{borderBottom: "none !important"}:{}}>{props.event.travelInDate.toLocaleDateString()} - {props.event.travelOutDate.toLocaleDateString()}</TableCell>
+        <TableCell sx={expanded?{borderBottom: "none !important"}:{}}>{props.event.dateCreated.toLocaleDateString()}</TableCell>
+        <TableCell sx={expanded?{borderBottom: "none !important"}:{}}>{props.event.lastModified.toLocaleDateString()}</TableCell>
+        <TableCell sx={expanded?{borderBottom: "none !important"}:{}}>
+          <ButtonGroup>
+            <Tooltip title="Open Timetracking">
+              <IconButton href={props.event.timetrackingUrl} disabled={props.event.timetrackingUrl ? false : true}>
+                <AccessTime></AccessTime>
+              </IconButton>
+            </Tooltip>
+            <Tooltip title="Open External Project">
+              <IconButton href={props.event.externalProjectUrl} disabled={props.event.externalProjectUrl ? false : true}>
+                <Launch></Launch>
+              </IconButton>
+            </Tooltip>
+            <Tooltip title="Open in Sharepoint">
+              <IconButton href={props.event.sharepointUrl} disabled={props.event.sharepointUrl ? false : true}>
+                <FolderOpen></FolderOpen>
+              </IconButton>
+            </Tooltip>
+          </ButtonGroup>
+        </TableCell>
+      </TableRow>
     {expanded ? <ExpandedDataGrid /> : <></>}</>
-  );
-};
+    );
+  };
+
 
 const EventList = (props) => {
-  const [page, setPage] = useState(1);
-
+  const ctx = useContext(GenericContext);
+  const [events, setEvents] = useState(null);
+  useEffect(() => ctx.events.retrieveAll(setEvents),[]);
   return (
-    <Paper sx={{ margin: 2, padding: 2 }} elevation={2}>
+    <Paper sx={{ padding: 2, maxWidth: '1220px'}} elevation={2}>
       <Typography variant="h4">Events</Typography>
       <Table aria-label="events">
         <TableHead>
@@ -109,16 +113,15 @@ const EventList = (props) => {
             <TableCell></TableCell>
             <TableCell>id</TableCell>
             <TableCell>name</TableCell>
-            <TableCell>start - end</TableCell>
-            <TableCell>travel-in - travel_out</TableCell>
+            <TableCell>event dates</TableCell>
+            <TableCell>travel dates</TableCell>
             <TableCell>created</TableCell>
             <TableCell>last modified</TableCell>
             <TableCell></TableCell>
           </TableRow>
         </TableHead>
         <TableBody sx={{position: "relative"}}>
-          { props.events.map( (event) => <ExpandableTableRow event={event}/> ) }
-
+          {events ? events.map( (event) => <ExpandableTableRow event={event}/> )  : <></>}
         </TableBody>
         <TableFooter>
           <TableRow></TableRow>
