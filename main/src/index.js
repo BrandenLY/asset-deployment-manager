@@ -39,9 +39,11 @@ const App = () => {
         fontSize: "1.25rem",
       },
       navtitle: {
-        fontSize: "2.5rem",
-        fontWeight: "600",
+        fontFamily: ["'M PLUS Rounded 1c'", "'sans-serif'"].join(','),
+        fontSize: "1.75rem",
+        fontWeight: "700",
         lineHeight: "100%",
+        textTransform: "uppercase",
       }
     }
   });
