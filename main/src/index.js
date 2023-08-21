@@ -37,6 +37,11 @@ const App = () => {
       },
       h6: {
         fontSize: "1.25rem",
+      },
+      navtitle: {
+        fontSize: "2.5rem",
+        fontWeight: "600",
+        lineHeight: "100%",
       }
     }
   });
@@ -50,7 +55,7 @@ const App = () => {
           <Routes>
               <Route
                 path="/"
-                element={<CustomPage view={DebugView}/>}
+                element={<CustomPage view={DebugView} title="Debug Console"/>}
               >
               </Route>
               <Route

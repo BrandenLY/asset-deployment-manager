@@ -18,7 +18,6 @@ function PrimaryNav(props) {
     const theme = useTheme();
     const [expanded, setExpanded] = useState(false);
     const navHeight = "60px";
-    const drawerWidth = 240;
     const navigate = useNavigate();
 
     const drawer = (
@@ -82,7 +81,7 @@ function PrimaryNav(props) {
             }}
             color="primary"
         >
-            <Typography variant="h1">Config View</Typography>
+            <Typography variant="navtitle">Config View</Typography>
             <IconButton onClick={() => setExpanded(!expanded)}>
                 <Menu></Menu>
             </IconButton>

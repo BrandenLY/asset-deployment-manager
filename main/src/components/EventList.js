@@ -21,8 +21,9 @@ import {
   KeyboardArrowRight,
   LastPageIcon,
 } from "@mui/icons-material";
-import { Grid, Typography, Popover } from "@mui/material";
+import { Grid, Typography, Popover, Link as StyleLink } from "@mui/material";
 import { GenericContext } from "../context";
+import { useNavigate } from "react-router-dom";
 
 const ExpandedDataGrid = (props) => {
   return (
@@ -54,7 +55,7 @@ const ExpandedDataGrid = (props) => {
 
 const ExpandableTableRow = (props) => {
   const [expanded, setExpanded] = useState(false);
-
+  const navigate = useNavigate();
   return (
     <>
       <TableRow>
@@ -69,7 +70,7 @@ const ExpandableTableRow = (props) => {
             </IconButton>
           </Tooltip>
         </TableCell>
-        <TableCell sx={expanded?{borderBottom: "none !important"}:{}}>{props.event.id}</TableCell>
+        <TableCell sx={expanded?{borderBottom: "none !important"}:{}}><StyleLink sx={{cursor: 'pointer', padding:1}} onClick={() => navigate(`/event/${props.event.id}`)}>{props.event.id}</StyleLink></TableCell>
         <TableCell sx={expanded?{borderBottom: "none !important"}:{}}>{props.event.name}</TableCell>
         <TableCell sx={expanded?{borderBottom: "none !important"}:{}}>{props.event.startDate.toLocaleDateString()} - {props.event.endDate.toLocaleDateString()}</TableCell>
         <TableCell sx={expanded?{borderBottom: "none !important"}:{}}>{props.event.travelInDate.toLocaleDateString()} - {props.event.travelOutDate.toLocaleDateString()}</TableCell>
@@ -105,7 +106,7 @@ const EventList = (props) => {
   const [events, setEvents] = useState(null);
   useEffect(() => ctx.events.retrieveAll(setEvents),[]);
   return (
-    <Paper sx={{ padding: 2, maxWidth: '1220px'}} elevation={2}>
+    <Paper sx={{ padding: 2, maxWidth: '1000px', overflowX: 'auto'}} elevation={2}>
       <Typography variant="h4">Events</Typography>
       <Table aria-label="events">
         <TableHead>

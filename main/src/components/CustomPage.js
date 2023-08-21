@@ -14,7 +14,7 @@ const CustomPage = ({ className, children, view: View, ...props }) => {
     <Box className={classNames} sx={{padding:2}}>
         <PrimaryNav></PrimaryNav>
         <Box className="page-content" sx={{margin: 1.5}}>
-            <Typography variant="h2" sx={{margin: 1}}>Dashboard</Typography>
+            <Typography variant="h2" sx={{margin: 1}}>{props.title}</Typography>
             <Typography variant="subtitle1" sx={{margin: 1}}></Typography>
             {View ? <View {...props}/> : ""}
         </Box>
