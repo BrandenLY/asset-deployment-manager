@@ -1,4 +1,5 @@
 /.venv
+/.inspo
 /db.sqlite3
 
 # dependencies
