@@ -79,17 +79,17 @@ const ExpandableTableRow = (props) => {
         <TableCell sx={expanded?{borderBottom: "none !important"}:{}}>
           <ButtonGroup>
             <Tooltip title="Open Timetracking">
-              <IconButton href={props.event.timetrackingUrl} disabled={props.event.timetrackingUrl ? false : true}>
+              <IconButton target="_blank" href={props.event.timetrackingUrl} disabled={props.event.timetrackingUrl ? false : true}>
                 <AccessTime></AccessTime>
               </IconButton>
             </Tooltip>
             <Tooltip title="Open External Project">
-              <IconButton href={props.event.externalProjectUrl} disabled={props.event.externalProjectUrl ? false : true}>
+              <IconButton target="_blank" href={props.event.externalProjectUrl} disabled={props.event.externalProjectUrl ? false : true}>
                 <Launch></Launch>
               </IconButton>
             </Tooltip>
             <Tooltip title="Open in Sharepoint">
-              <IconButton href={props.event.sharepointUrl} disabled={props.event.sharepointUrl ? false : true}>
+              <IconButton target="_blank" href={props.event.sharepointUrl} disabled={props.event.sharepointUrl ? false : true}>
                 <FolderOpen></FolderOpen>
               </IconButton>
             </Tooltip>

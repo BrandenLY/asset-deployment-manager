@@ -8,3 +8,17 @@ body{
     left: 0;
     right: 0;
 }
+
+.cls-1 {
+    mix-blend-mode: multiply;
+    opacity: .66;
+}
+
+.cls-2 {
+    isolation: isolate;
+}
+
+.cls-3 {
+    fill: #fff;
+    stroke-width: 0px;
+}

@@ -41,8 +41,7 @@ const App = () => {
       navtitle: {
         fontFamily: ["'M PLUS Rounded 1c'", "'sans-serif'"].join(','),
         fontSize: "1.75rem",
-        fontWeight: "700",
-        lineHeight: "100%",
+        fontWeight: "500",
         textTransform: "uppercase",
       }
     }

@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import { useNavigate } from "react-router-dom";
 import Box from '@mui/material/Box';
+import Paper from '@mui/material/Paper';
 import Divider from '@mui/material/Divider';
 import Drawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';
@@ -12,6 +13,7 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import { Menu, LocalShipping, Assignment, Close, LibraryBooks } from '@mui/icons-material';
 import Typography from '@mui/material/Typography';
 import { useTheme } from '@mui/material/styles';
+import { SvgIcon } from '@mui/material';
 
 function PrimaryNav(props) {
 
@@ -70,9 +72,11 @@ function PrimaryNav(props) {
         </Drawer>
     );
 
+    const appIcon = (<Box sx={{height: "50px"}}><img src="/static/main/images/icons/appIcon@300ppi.png" alt="brand logo" style={{width: "60px", height: "60px"}}/></Box>)
+
   return (
     <>
-        <Box 
+        <Paper 
             sx={{ 
                 bgcolor: "primary.dark", 
                 padding: 1, display: "flex", 
@@ -81,11 +85,14 @@ function PrimaryNav(props) {
             }}
             color="primary"
         >
-            <Typography variant="navtitle">Config View</Typography>
+            <Box sx={{display: "flex", alignItems: "center"}}>
+                {appIcon}
+                <Typography variant="navtitle">Config View</Typography>
+            </Box>
             <IconButton onClick={() => setExpanded(!expanded)}>
                 <Menu></Menu>
             </IconButton>
-        </Box> {drawer}
+        </Paper> {drawer}
     </>
   );
 
