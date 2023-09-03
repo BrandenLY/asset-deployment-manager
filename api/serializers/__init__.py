@@ -1,2 +1,5 @@
 from .user_serializer import UserSerializer
 from .event_serializer import EventSerializer
+from .event_serializer import ProjectSerializer
+from .service_serializer import ServiceSerializer
+from .remark_serializers import MilestoneSerializer

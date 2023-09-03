@@ -18,7 +18,7 @@ class Service(models.Model):
         blank=True,
         null=True,
     )
-    icon = models.FileField(_("Icon"), blank=True, null=True)
+    icon = models.FileField(_("Icon"), blank=True, null=True, upload_to="services")
     def __str__(self):
         return self.name
         

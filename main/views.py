@@ -14,12 +14,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.base import TemplateView
 from django.views.generic.detail import DetailView
 
-from .models import Event
-from .forms import CreateEventForm, LoginForm
-from tasklist.models import Service
-from tasklist.models import Project
-from tasklist.models import Task
-from tasklist.forms import CreateProjectForm
+from .forms import LoginForm
 
 user_model = get_user_model()
 
@@ -27,49 +22,6 @@ user_model = get_user_model()
 class HomePageView(LoginRequiredMixin, TemplateView):
     login_url = "/login/"
     template_name = "home.html"
-
-    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
-        ctx = super().get_context_data(**kwargs)
-
-        ctx["forms"] = {
-            "addEvent": CreateEventForm(),
-            "addProject": CreateProjectForm(),
-            "addTask": None,
-        }
-        ctx["objects"] = {
-            "events": Event.objects.all(),
-            "upcomingTasks": Task.objects.filter(status__lt=5),
-        }
-        ctx["theme"] = "dark"
-
-        ctx["counts"] = json.dumps(
-            {
-                "Events": Event.objects.all().count(),
-                "Event Configs": Project.objects.all().count(),
-                "Tasks": Task.objects.all().count(),
-            }
-        )
-        if kwargs["request"].user.is_authenticated:
-            q1 = Project.objects.filter(account_manager=kwargs["request"].user)
-            q2 = q1.union(
-                Project.objects.filter(project_manager=kwargs["request"].user)
-            )
-            q3 = q2.union(
-                Project.objects.filter(solutions_specialist=kwargs["request"].user)
-            )
-            q4 = q3.union(
-                Project.objects.filter(lead_retrieval_specialist=kwargs["request"].user)
-            )
-
-            ctx["userData"] = json.dumps(
-                {
-                    "taskCount": Task.objects.filter(status__lt=5)
-                    .filter(responsible_to=kwargs["request"].user)
-                    .count(),
-                    "eventCount": q4.count(),
-                }
-            )
-        return ctx
 
     def get(self, request, **kwargs):
         ctx = self.get_context_data(request=request)

@@ -22,3 +22,42 @@ body{
     fill: #fff;
     stroke-width: 0px;
 }
+
+.page{
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: repeat(9, 1fr) auto;
+    grid-auto-rows: min-content;
+    grid-template-areas:
+    "nav nav nav nav nav nav nav nav nav sidebar"
+    "content content content content content content content content content sidebar"
+    "content content content content content content content content content sidebar"
+    "content content content content content content content content content sidebar"
+    "content content content content content content content content content sidebar";
+
+    .page-content{
+        height: 100%;
+    }
+}
+
+.breadcrumb-container{
+    margin: 15px 5px;
+
+    & a {
+        text-transform: uppercase;
+        text-decoration: none;
+        line-height: 100%;
+        display: flex;
+        gap: 5px;
+        align-items: flex-end;
+    }
+
+    & ol{
+        display: flex;
+        align-items: flex-end;
+    }
+    
+    & span{
+        padding-bottom: 1px;
+    }
+}

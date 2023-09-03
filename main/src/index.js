@@ -6,9 +6,10 @@ import {
 } from "react-router-dom";
 import { render } from "react-dom";
 import { createTheme, ThemeProvider, CssBaseline } from "@mui/material";
-import { GenericContextProvider } from "./context";
-import DebugView from "./components/DebugView";
+import HomeView from "./views/HomeView";
 import CustomPage from "./components/CustomPage";
+import EventDetailView from "./views/EventDetailView";
+import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
 
 // Data Classes
 
@@ -39,42 +40,50 @@ const App = () => {
         fontSize: "1.25rem",
       },
       navtitle: {
-        fontFamily: ["'M PLUS Rounded 1c'", "'sans-serif'"].join(','),
         fontSize: "1.75rem",
         fontWeight: "500",
+        textTransform: "uppercase",
+      },
+      projectDetailHeading: {
+        fontSize: "1.75rem",
+      },
+      personInitial: {
         textTransform: "uppercase",
       }
     }
   });
 
+  const queryClient = new QueryClient()
   return (
     <React.StrictMode>
-        <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <Router>
-        <GenericContextProvider>
-          <Routes>
-              <Route
-                path="/"
-                element={<CustomPage view={DebugView} title="Debug Console"/>}
-              >
-              </Route>
-              <Route
-                path="/assets"
-                element={<CustomPage view={null}/>}>
-              </Route>
-              <Route
-                path="/wiki"
-                element={<CustomPage view={null}/>}>
-              </Route>
-              <Route
-                path="/event/:id"
-                element={<CustomPage view={null}/>}>
-              </Route>
-            </Routes>
-        </GenericContextProvider>
-        </Router>
-        </ThemeProvider>
+        <QueryClientProvider client={queryClient}>
+          <ThemeProvider theme={theme}>
+          <CssBaseline />
+            <Router>
+              <Routes>
+                  <Route
+                    path="/"
+                    element={<CustomPage view={HomeView} title="Homepage"/>}
+                  >
+                  </Route>
+                  <Route
+                    path="/assets"
+                    element={<CustomPage view={null}/>}>
+                  </Route>
+                  <Route
+                    path="/wiki"
+                    element={<CustomPage view={null}/>}>
+                  </Route>
+                  <Route
+                    path="/events/:id"
+                    element={
+                      <CustomPage view={EventDetailView}/>
+                    }>
+                  </Route>
+                </Routes>
+            </Router>
+          </ThemeProvider>
+        </QueryClientProvider>
     </React.StrictMode>
   );
 };

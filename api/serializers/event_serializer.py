@@ -1,55 +1,16 @@
-from rest_framework.serializers import ModelSerializer
+from rest_framework import serializers
 from main.models import Event
 from tasklist.models import Project
-from tasklist.models import Milestone
-from tasklist.models import Task
+from .service_serializer import ServiceSerializer
+from .remark_serializers import MilestoneSerializer
 
-class TaskSerializer(ModelSerializer):
-    class Meta:
-        model = Task
-        fields = [
-            "id",
-            "is_system_task",
-            "date_created",
-            "description",
-            "title",
-            "status",
-            "due_date",
-            "priority",
-            "sort_order",
-            "created_by",
-            "related_service",
-            "responsible_to",
-            "parent_milestone"
-        ]
+class ProjectSerializer(serializers.ModelSerializer):
 
-class MilestoneSerializer(ModelSerializer):
-    tasks = TaskSerializer(many=True)
-    class Meta:
-        model = Milestone
-        fields = [
-            "id",
-            "date_created",
-            "description",
-            "title",
-            "status",
-            "due_date",
-            "priority",
-            "sort_order",
-            "created_by",
-            "related_service",
-            "responsible_to",
-            "is_template",
-            "parent_project",
-            "tasks"
-        ]
-
-class ProjectSerializer(ModelSerializer):
+    services = ServiceSerializer(many=True)
     milestones = MilestoneSerializer(many=True)
     class Meta:
         model = Project
         fields = [
-            "parent_event_id",
             "printer_type",
             "production_redwood_id",
             "production_show_code",
@@ -59,10 +20,11 @@ class ProjectSerializer(ModelSerializer):
             "lead_retrieval_specialist",
             "project_manager",
             "solutions_specialist",
-            "milestones"
+            "milestones",
+            "services"
         ]
 
-class EventSerializer(ModelSerializer):
+class EventSerializer(serializers.ModelSerializer):
     project = ProjectSerializer()
     class Meta:
         model = Event

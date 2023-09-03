@@ -19,16 +19,19 @@ function PrimaryNav(props) {
 
     const theme = useTheme();
     const [expanded, setExpanded] = useState(false);
-    const navHeight = "60px";
+    const drawerWidth = "300px";
+    const navHeight = "70px";
     const navigate = useNavigate();
 
     const drawer = (
         <Drawer 
             sx={{
-                width: "drawerWidth",
-                flexShrink: 0,
+                gridArea: "sidebar",
+                flex: "unset",
+                width: expanded ? drawerWidth : "0",
+                height: "100%",
                 '& .MuiDrawer-paper': {
-                    width: "drawerWidth",
+                    width: drawerWidth,
                     padding: 1,
                 },
             }}
@@ -72,14 +75,16 @@ function PrimaryNav(props) {
         </Drawer>
     );
 
-    const appIcon = (<Box sx={{height: "50px"}}><img src="/static/main/images/icons/appIcon@300ppi.png" alt="brand logo" style={{width: "60px", height: "60px"}}/></Box>)
+    const appIcon = (<Box sx={{height: "60px"}}><img src="/static/main/images/icons/AppIcon.svg" alt="brand logo" style={{height: "100%"}}/></Box>)
 
   return (
     <>
         <Paper 
-            sx={{ 
+            sx={{
+                gridArea: "nav", 
                 bgcolor: "primary.dark", 
-                padding: 1, display: "flex", 
+                padding: 1, 
+                display: "flex", 
                 justifyContent: "space-between", 
                 height: navHeight,
             }}
@@ -87,7 +92,6 @@ function PrimaryNav(props) {
         >
             <Box sx={{display: "flex", alignItems: "center"}}>
                 {appIcon}
-                <Typography variant="navtitle">Config View</Typography>
             </Box>
             <IconButton onClick={() => setExpanded(!expanded)}>
                 <Menu></Menu>
