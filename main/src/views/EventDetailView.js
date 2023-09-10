@@ -13,8 +13,8 @@ const EventDetails = ({event}) => {
 
     useEffect(() => {
         if (!isLoadingUsers) {
-            setPM(users.find(element => element.id == event.project.project_manager))
-            setSS(users.find(element => element.id == event.project.solutions_specialist))
+            setPM(users.results.find(element => element.id == event.project.project_manager))
+            setSS(users.results.find(element => element.id == event.project.solutions_specialist))
         }
     }, [isLoadingUsers])
 

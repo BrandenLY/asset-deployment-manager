@@ -9,7 +9,7 @@ const HomeView = props =>{
 
     return(
         <Box className="HomeView">
-            {!(isLoadingEvents) ? <EventList events={events}/> : <></>}
+            {!(isLoadingEvents) ? <EventList events={events.results}/> : <></>}
         </Box>
     )
 }
