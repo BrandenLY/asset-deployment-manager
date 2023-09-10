@@ -21,13 +21,15 @@ from rest_framework.routers import DefaultRouter
 
 from .views import UserView
 from .views import EventView
-from .views import ModelCounts
+from .views import MilestoneView
+from .views import ServiceView
 
 router = DefaultRouter()
 router.register(r"user", UserView)
 router.register(r"event", EventView)
+router.register(r"milestone", MilestoneView)
+router.register(r"service", ServiceView)
 
 urlpatterns = [
-    path("counts/", ModelCounts, name='api-counts'),
     path("", include(router.urls)),
 ] 

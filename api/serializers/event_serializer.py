@@ -6,8 +6,6 @@ from .remark_serializers import MilestoneSerializer
 
 class ProjectSerializer(serializers.ModelSerializer):
 
-    services = ServiceSerializer(many=True)
-    milestones = MilestoneSerializer(many=True)
     class Meta:
         model = Project
         fields = [
