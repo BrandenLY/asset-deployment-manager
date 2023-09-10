@@ -45,7 +45,13 @@ const App = () => {
         textTransform: "uppercase",
       },
       projectDetailHeading: {
-        fontSize: "1.75rem",
+        fontSize: "1.25rem",
+      },
+      ProjectDetailLabel: {
+        fontWeight: "bold",
+        display: "flex",
+        alignItems: "center",
+        gap: "5px",
       },
       personInitial: {
         textTransform: "uppercase",

@@ -1,15 +1,16 @@
 import React, { useContext } from "react";
 
 import {EventList} from "../components/EventList";
-import {useEvents} from "../customHooks";
+import {useBackend, useEvents} from "../customHooks";
+import { Box } from "@mui/material";
 
 const HomeView = props =>{
-    const {data:events, isLoading:isLoadingEvents} = useEvents();
+    const {data:events, isLoading:isLoadingEvents} = useBackend("event");
 
     return(
-        <>
-            {!isLoadingEvents ? <EventList events={events}/> : <></>}
-        </>
+        <Box className="HomeView">
+            {!(isLoadingEvents) ? <EventList events={events}/> : <></>}
+        </Box>
     )
 }
 

@@ -1,25 +1,44 @@
 import React, { useContext, useEffect, useState } from "react";
 
-import { Avatar, Box, List, ListItem, ListItemAvatar, ListItemText, Typography, Skeleton } from "@mui/material";
-import Divider from '@mui/material/Divider';
+import { Avatar, Box, List, ListItem, ListItemAvatar, ListItemText, Typography, Skeleton, IconButton, Divider, Link, Paper } from "@mui/material";
+import { Edit, Print, DateRange } from "@mui/icons-material";
 import { useLocation } from "react-router-dom";
-import { useEvents, useUsers } from "../customHooks";
+import { useBackend, useEvents, useUsers } from "../customHooks";
 
-const EventDetails = ({project}) => {
-    console.log(project)
-    const {data:PM, isLoadingPM} = useUsers(project?.project_manager);
-    const {data:SS, isLoadingSS} = useUsers(project?.solutions_specialist);
+const EventDetails = ({event}) => {
     const [isEditing, setIsEditing] = useState(false);
+    const {data:users, isLoading:isLoadingUsers} = useBackend("user");
+    const [PM, setPM] = useState(null)
+    const [SS, setSS] = useState(null)
+
+    useEffect(() => {
+        if (!isLoadingUsers) {
+            setPM(users.find(element => element.id == event.project.project_manager))
+            setSS(users.find(element => element.id == event.project.solutions_specialist))
+        }
+    }, [isLoadingUsers])
+
+    const ProjectDetailDataStyles = {
+        marginTop: 1,
+        marginLeft: 2,
+        marginBottom: 1,
+        marginRight: 2,
+    }
 
     return(
-        <Box 
+        <Box
         className="ProjectDetails"
         sx={{
             maxWidth: 275,
             padding: 1,
         }}
         >
-            <Typography variant="projectDetailHeading" sx={{color: "primary.light"}}>Stakeholders</Typography>
+            <Box className="ProjectDetailsHeader">
+                <Typography variant="h5">{event.name ? event.name : <Skeleton variant="text"/>}</Typography>
+                <IconButton onClick={() => setIsEditing(!isEditing)}><Edit></Edit></IconButton>
+            </Box>
+            <Divider></Divider>
+            <Typography variant="projectDetailHeading" sx={{color: "primary.light"}}>Team</Typography>
             <List>
                 <ListItem>
                     <ListItemAvatar>
@@ -28,7 +47,7 @@ const EventDetails = ({project}) => {
                     </ListItemAvatar>
                     <ListItemText>
                         <Typography sx={{fontWeight: "bold", fontSize:18}} variant="body">Project Manager</Typography><br/>
-                        <Typography variant="body">{isLoadingPM ? <Skeleton variant="text"></Skeleton> : `${PM.first_name} ${PM.last_name}`}</Typography>
+                        <Typography variant="body">{PM ? `${PM.first_name} ${PM.last_name}` : <Skeleton variant="text"></Skeleton>}</Typography>
                     </ListItemText>
                 </ListItem>
                 <ListItem>
@@ -38,24 +57,69 @@ const EventDetails = ({project}) => {
                     </ListItemAvatar>
                     <ListItemText>
                         <Typography sx={{fontWeight: "bold", fontSize:18}} variant="body">Solutions Specialist</Typography><br/>
-                        <Typography variant="body">{isLoadingSS ? <Skeleton variant="text"></Skeleton> : `${SS.first_name} ${SS.last_name}`}</Typography>
+                        <Typography variant="body">{SS ? `${SS.first_name} ${SS.last_name}` : <Skeleton variant="text"></Skeleton>}</Typography>
                     </ListItemText>
                 </ListItem>
                 <Divider></Divider>
             </List>
             <Typography variant="projectDetailHeading" sx={{color: "primary.light"}}>Information</Typography>
+            <List className="ProjectDetailInfo">
+                <ListItem>
+                    <ListItemText>
+                    <Typography variant="ProjectDetailLabel"><Print/>Printer Type</Typography>
+                    <Typography sx={ProjectDetailDataStyles}>{"printer_type" in event.project ? event.project.printer_type : <Skeleton variant="text"></Skeleton>}</Typography>
+                    </ListItemText>
+                </ListItem>
+                <ListItem>
+                    <ListItemText>
+                    <Typography variant="ProjectDetailLabel"><DateRange/>Event Dates:</Typography>
+                    <Typography sx={ProjectDetailDataStyles}>
+                        {"start_date" in event ? event.start_date : <Skeleton variant="text"></Skeleton>} - {"end_date" in event ? event.end_date : <Skeleton variant="text"></Skeleton>}
+                    </Typography>
+                    </ListItemText>
+                </ListItem>
+                <ListItem>
+                    <ListItemText>
+                    <Typography variant="ProjectDetailLabel"><DateRange/>Travel Dates:</Typography>
+                    <Typography sx={ProjectDetailDataStyles}>
+                        {"travel_in_date" in event ? event.travel_in_date : <Skeleton variant="text"></Skeleton>} - {"travel_out_date" in event ? event.travel_out_date : <Skeleton variant="text"></Skeleton>}
+                    </Typography>
+                    </ListItemText>
+                </ListItem>
+                <ListItem>
+                    <ListItemText>
+                    <Typography variant="ProjectDetailLabel">Services:</Typography>
+                    <Box variant="ProjectDetailData" sx={{...ProjectDetailDataStyles, display: "flex", gap: 2}}>{"services" in event.project ? event.project.services.map(service => <Avatar alt={service.name} src={service.icon}></Avatar>) : <Skeleton variant="text"></Skeleton>}</Box>
+                    </ListItemText>
+                </ListItem>
+            </List>
+            <Box sx={{margin: 2}} className="ProjectDetailLinksContainer">
+                <Link rel="noopener" target="_blank" href={event.timetracking_url} disabled={event.timetracking_url ? false : true} >Timetracking</Link>
+                <Link rel="noopener" target="_blank" href={event.external_project_url} disabled={event.external_project_url ? false : true} >External Project</Link>
+                <Link rel="noopener" target="_blank" href={event.sharepoint_url} disabled={event.sharepoint_url ? false : true} >Sharepoint</Link>
+            </Box>
         </Box>
+    )
+}
+
+const TaskBreakdown = () => {
+
+    return(
+        <Paper className="TaskBreakdown" sx={{padding: 2}}>
+            
+        </Paper>
     )
 }
 
 const EventDetailView = (props) =>{
     const location = useLocation();
     const lookup = location.pathname.split('/').reverse()[1];
-    const {data:event, isLoading:isLoadingEvent} = useEvents(lookup);
+    const {data:event, isLoading:isLoadingEvent} = useBackend("event", lookup);
 
     return(
         <Box className="EventDetailView">
-            {isLoadingEvent ? <>Loading</> : <EventDetails project={event.project}></EventDetails> }
+            {isLoadingEvent ? <Skeleton variant="rectangular" width={260} height={800} /> : <EventDetails event={event} /> }
+            {isLoadingEvent ? <Skeleton variant="rectangular" width={500} height={800}/> : <TaskBreakdown event={event} /> }
         </Box>
     )
 }
