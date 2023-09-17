@@ -7,7 +7,9 @@ import { useBackend, useEvents, useUsers } from "../customHooks";
 
 const EventDetails = ({event}) => {
     const [isEditing, setIsEditing] = useState(false);
-    const {data:users, isLoading:isLoadingUsers} = useBackend("user");
+    const {data:users, isLoading:isLoadingUsers} = useBackend({model:"user"});
+    // const {data:services, isLoading:isLoadingServices} = useBackend("service");
+
     const [PM, setPM] = useState(null)
     const [SS, setSS] = useState(null)
 
@@ -30,7 +32,7 @@ const EventDetails = ({event}) => {
         className="ProjectDetails"
         sx={{
             maxWidth: 275,
-            padding: 1,
+            margin: 1,
         }}
         >
             <Box className="ProjectDetailsHeader">
@@ -38,7 +40,7 @@ const EventDetails = ({event}) => {
                 <IconButton onClick={() => setIsEditing(!isEditing)}><Edit></Edit></IconButton>
             </Box>
             <Divider></Divider>
-            <Typography variant="projectDetailHeading" sx={{color: "primary.light"}}>Team</Typography>
+            <Typography variant="projectDetailHeading" sx={{color: "primary.light", marginTop: 0.75}}>Team</Typography>
             <List>
                 <ListItem>
                     <ListItemAvatar>
@@ -89,7 +91,18 @@ const EventDetails = ({event}) => {
                 <ListItem>
                     <ListItemText>
                     <Typography variant="ProjectDetailLabel">Services:</Typography>
-                    <Box variant="ProjectDetailData" sx={{...ProjectDetailDataStyles, display: "flex", gap: 2}}>{"services" in event.project ? event.project.services.map(service => <Avatar alt={service.name} src={service.icon}></Avatar>) : <Skeleton variant="text"></Skeleton>}</Box>
+                    <Box 
+                    variant="ProjectDetailData"
+                    sx={{...ProjectDetailDataStyles, display: "flex", gap: 2}}
+                    >
+                        {/* {"services" in event.project && !(isLoadingServices) ? event.project.services.map(
+                            service => {
+                                const serviceData = services.results.find(element => element.id == service);
+
+                                return (<Avatar alt={serviceData.name} src={serviceData.icon}/>);
+                            }
+                        ) : <Skeleton variant="circular"/>} */}
+                    </Box>
                     </ListItemText>
                 </ListItem>
             </List>
@@ -102,11 +115,10 @@ const EventDetails = ({event}) => {
     )
 }
 
-const TaskBreakdown = () => {
+const TaskBreakdown = ({event}) => {
 
     return(
         <Paper className="TaskBreakdown" sx={{padding: 2}}>
-            
         </Paper>
     )
 }
@@ -114,7 +126,7 @@ const TaskBreakdown = () => {
 const EventDetailView = (props) =>{
     const location = useLocation();
     const lookup = location.pathname.split('/').reverse()[1];
-    const {data:event, isLoading:isLoadingEvent} = useBackend("event", lookup);
+    const {data:event, isLoading:isLoadingEvent} = useBackend({model:"event", id:lookup});
 
     return(
         <Box className="EventDetailView">

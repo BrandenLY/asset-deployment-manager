@@ -12,6 +12,7 @@ import EventDetailView from "./views/EventDetailView";
 import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
 
 // Data Classes
+const queryClient = new QueryClient()
 
 // Primary React Component
 const App = () => {
@@ -48,6 +49,7 @@ const App = () => {
         fontSize: "1.25rem",
       },
       ProjectDetailLabel: {
+        fontSize: "medium",
         fontWeight: "bold",
         display: "flex",
         alignItems: "center",
@@ -59,7 +61,6 @@ const App = () => {
     }
   });
 
-  const queryClient = new QueryClient()
   return (
     <React.StrictMode>
         <QueryClientProvider client={queryClient}>

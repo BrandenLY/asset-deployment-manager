@@ -1,0 +1,14 @@
+.HomeView{
+    display: flex;
+    gap: 15px
+}
+
+.EventList{
+    flex-grow: 1;
+}
+
+.WorkloadChart{
+    width: 100%;
+    max-width: 500px;
+    height: min-content;
+}

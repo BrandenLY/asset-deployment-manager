@@ -15,7 +15,7 @@ import Tooltip from "@mui/material/Tooltip";
 
 import { AccessTime, Launch, FolderOpen, Assignment, Groups, Checklist } from "@mui/icons-material";
 import { ExpandMore, ExpandLess } from "@mui/icons-material";
-import { Grid, Typography, Link as StyleLink, Avatar } from "@mui/material";
+import { Grid, Typography, Link as StyleLink, Avatar, Button, Pagination } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
 const ExpandedDataGrid = (props) => {
@@ -83,6 +83,17 @@ const ExpandableTableRow = (props) => {
   const [expanded, setExpanded] = useState(false);
   const navigate = useNavigate();
 
+  useEffect(() => {
+    setEvent({
+      ...props.event,
+      start_date : new Date(props.event.start_date),
+      end_date : new Date(props.event.end_date),
+      travel_in_date : new Date(props.event.travel_in_date),
+      travel_out_date : new Date(props.event.travel_out_date),
+      date_created : new Date(props.event.date_created),
+      last_modified : new Date(props.event.last_modified)
+    })
+  },[props.event])
 
   return (
     <>
@@ -99,15 +110,6 @@ const ExpandableTableRow = (props) => {
           </Tooltip>
         </TableCell>
         <TableCell sx={expanded?{borderBottom: "none !important"}:{}}>
-          <Tooltip title="Currently Onsite">
-              {
-                event.travel_in_date < Date.now() && 
-                event.travel_out_date > Date.now() ? 
-                <Groups color="warning"></Groups> : <></> 
-              }
-          </Tooltip>
-        </TableCell>
-        <TableCell sx={expanded?{borderBottom: "none !important"}:{}}>
           <StyleLink
             sx={{cursor: 'pointer', padding:2}}
             onClick={() => navigate(`/events/${event.id}/`)}
@@ -115,11 +117,18 @@ const ExpandableTableRow = (props) => {
             {event.id}
           </StyleLink>
         </TableCell>
-        <TableCell sx={expanded?{borderBottom: "none !important"}:{}}>{event.name}</TableCell>
+        <TableCell sx={expanded?{borderBottom: "none !important"}:{}}>
+          <Tooltip title="Currently Onsite">
+                {
+                  event.travel_in_date < Date.now() && 
+                  event.travel_out_date > Date.now() ? 
+                  <Groups color="warning"></Groups> : <></> 
+                }
+            </Tooltip>
+          {event.name}
+        </TableCell>
         <TableCell sx={expanded?{borderBottom: "none !important"}:{}}>{event.start_date.toLocaleDateString()} - {event.end_date.toLocaleDateString()}</TableCell>
         <TableCell sx={expanded?{borderBottom: "none !important"}:{}}>{event.travel_in_date.toLocaleDateString()} - {event.travel_out_date.toLocaleDateString()}</TableCell>
-        <TableCell sx={expanded?{borderBottom: "none !important"}:{}}>{event.date_created.toLocaleDateString()}</TableCell>
-        <TableCell sx={expanded?{borderBottom: "none !important"}:{}}>{event.last_modified.toLocaleDateString()}</TableCell>
         <TableCell sx={expanded?{borderBottom: "none !important"}:{}}>
           <ButtonGroup>
             <Tooltip title="Open Timetracking">
@@ -144,30 +153,39 @@ const ExpandableTableRow = (props) => {
     );
 };
 
-export const EventList = ({events}) => {
+export const EventList = ({events, eventsCount, isFetching, pagination}) => {
 
   return (
-    <Paper sx={{ padding: 2, maxWidth: '1000px', overflowX: 'auto'}} elevation={2}>
+    <Paper className='EventList' sx={{ padding: 2, overflowX: 'auto'}} elevation={2}>
       <Typography variant="h4">Events</Typography>
       <Table aria-label="events">
         <TableHead>
           <TableRow>
             <TableCell></TableCell>
-            <TableCell></TableCell>
             <TableCell>id</TableCell>
             <TableCell>name</TableCell>
             <TableCell>event dates</TableCell>
             <TableCell>travel dates</TableCell>
-            <TableCell>created</TableCell>
-            <TableCell>last modified</TableCell>
             <TableCell></TableCell>
           </TableRow>
         </TableHead>
         <TableBody sx={{position: "relative"}}>
-          {events ? events.map( (event) => <ExpandableTableRow event={event}/> )  : <></>}
+          { events.map( e => <ExpandableTableRow event={e} /> ) }
         </TableBody>
         <TableFooter>
-          <TableRow></TableRow>
+          <TableRow>
+            <TableCell 
+              colspan="9"
+              sx = {{
+                width: '100%',
+                borderBottom: 'none',
+              }}
+            >
+              <Box sx={{display: "flex", justifyContent: "center"}}>
+                <Pagination count={pagination.pageCount} page={pagination.currentPage} onChange={pagination.updatePage}/>
+              </Box>
+            </TableCell>
+          </TableRow>
         </TableFooter>
       </Table>
     </Paper>
