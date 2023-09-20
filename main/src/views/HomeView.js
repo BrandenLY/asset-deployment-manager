@@ -7,61 +7,64 @@ import { WorkloadChart } from "../components/WorkloadChart";
 
 const HomeView = props =>{
     const {
-        data,
-        fetchNextPage,
-        hasNextPage,
-        hasPreviousPage,
-        isFetching,
-        isLoading,
+        data:eventData,
+        fetchNextPage:fetchNextEventPage,
+        hasNextPage:eventDataHasNextPage,
+        hasPreviousPage:eventDataHasPreviouPage,
+        isFetching:isFetchingEventData,
+        isLoading:isLoadingEventData,
       } = useBackend({model:"event", id:null, makeInfinate:true});
 
     const [eventPages, setEventPages] = useState(null);
     const [totalEvents, setTotalEvents] = useState(0);
-    const [pageCount, setPageCount] = useState(1);
-    const [currentPage, setCurrentPage] = useState(1);
+    const [eventPageCount, seteventPageCount] = useState(1);
+    const [currentEventPage, setcurrentEventPage] = useState(1);
 
     useEffect(() => {
-        if (!isFetching){
+        if (!isFetchingEventData){
 
-            const pageCount = Math.ceil(data.pages[0].count / data.pages[0].results.length)
+            const eventPageCount = Math.ceil(eventData.pages[0].count / eventData.pages[0].results.length)
 
-            setEventPages(data.pages)
-            setTotalEvents(data.pages[0].count)
-            setPageCount(pageCount)
+            setEventPages(eventData.pages)
+            setTotalEvents(eventData.pages[0].count)
+            seteventPageCount(eventPageCount)
 
-            if ( hasNextPage ){
-                fetchNextPage()
+            if ( eventDataHasNextPage ){
+                fetchNextEventPage()
             }
 
         }
-    }, [isFetching]);
+    }, [isFetchingEventData]);
 
-    const updatePage = (event, value) => {
-        setCurrentPage(value);
+    const updateEventPage = (event, value) => {
+        setcurrentEventPage(value);
     }
 
     return(
         <Box className="HomeView">
-            {eventPages && eventPages[currentPage - 1] ? 
+            {eventPages && eventPages[currentEventPage - 1] ? 
                 <EventList 
-                events={eventPages[currentPage - 1].results}
+                events={eventPages[currentEventPage - 1].results}
                 eventsCount={totalEvents}
-                isFetching={isFetching}
+                isFetching={isFetchingEventData}
                 pagination={{
-                    currentPage, 
-                    pageCount,
-                    updatePage,
-                    hasNextPage,
-                    hasPreviousPage
+                    currentEventPage, 
+                    eventPageCount,
+                    updateEventPage,
+                    eventDataHasNextPage,
+                    eventDataHasPreviouPage
                 }}
                 /> : null
             }
 
-            { !isLoading ?  
+            { !isLoadingEventData ?  
                 <WorkloadChart 
                 className="WorkloadChart" 
                 data={eventPages?.map(p => p.results).flat().map(e => new Date(e.start_date).getMonth())}
-                /> : null}
+                /> : null
+            }
+
+
         </Box>
     )
 }

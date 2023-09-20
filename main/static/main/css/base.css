@@ -23,6 +23,11 @@ body{
     stroke-width: 0px;
 }
 
+.PrimaryNav{
+    background-color: rgb(2, 136, 209);
+    background: linear-gradient(9deg, rgba(66, 165, 245,1) 0%, rgba(2, 136, 209,1) 100%) !important;
+}
+
 .page{
     min-height: 100vh;
     display: grid;
@@ -61,3 +66,4 @@ body{
         padding-bottom: 1px;
     }
 }
+

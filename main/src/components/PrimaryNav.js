@@ -79,7 +79,8 @@ function PrimaryNav(props) {
 
   return (
     <>
-        <Paper 
+        <Paper
+            className="PrimaryNav"
             sx={{
                 gridArea: "nav", 
                 bgcolor: "primary.dark", 

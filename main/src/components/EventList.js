@@ -182,7 +182,7 @@ export const EventList = ({events, eventsCount, isFetching, pagination}) => {
               }}
             >
               <Box sx={{display: "flex", justifyContent: "center"}}>
-                <Pagination count={pagination.pageCount} page={pagination.currentPage} onChange={pagination.updatePage}/>
+                <Pagination count={pagination.eventPageCount} page={pagination.currentEventPage} onChange={pagination.updateEventPage}/>
               </Box>
             </TableCell>
           </TableRow>
