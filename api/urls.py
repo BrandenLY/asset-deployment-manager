@@ -23,12 +23,14 @@ from .views import UserView
 from .views import EventView
 from .views import MilestoneView
 from .views import ServiceView
+from .views import AssetView
 
 router = DefaultRouter()
 router.register(r"user", UserView)
 router.register(r"event", EventView)
 router.register(r"milestone", MilestoneView)
 router.register(r"service", ServiceView)
+router.register(r"asset", AssetView)
 
 urlpatterns = [
     path("", include(router.urls)),

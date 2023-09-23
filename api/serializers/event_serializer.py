@@ -1,8 +1,6 @@
 from rest_framework import serializers
 from main.models import Event
 from tasklist.models import Project
-from .service_serializer import ServiceSerializer
-from .remark_serializers import MilestoneSerializer
 
 class ProjectSerializer(serializers.ModelSerializer):
 

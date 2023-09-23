@@ -48,8 +48,18 @@ class EventAdmin(admin.ModelAdmin):
                     ("start_date", "end_date"),
                     ("travel_in_date", "travel_out_date")
                 ]
-            }
+            },
         ),
+        (
+            'Links',
+            {
+                "fields": [
+                    "timetracking_url", 
+                    "external_project_url", 
+                    "sharepoint_url" 
+                ]
+            },
+        )
     ]
 
 class UserAdmin(admin.ModelAdmin):
