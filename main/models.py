@@ -28,6 +28,9 @@ class Event(models.Model):
     external_project_url = models.URLField(_("External Project URL"), blank=True, null=True)
     sharepoint_url = models.URLField(_("Sharepoint URL"), blank=True, null=True)
 
+    class Meta:
+        ordering = ["travel_in_date"]
+
     def __str__(self):
         if hasattr(self, "project"):
             return f"[ {self.project.production_show_code} ] {self.name}, {self.start_date} - {self.end_date}"

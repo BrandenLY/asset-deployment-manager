@@ -1,15 +1,18 @@
 from rest_framework import viewsets
 from rest_framework import status
 from rest_framework import generics
+from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.settings import api_settings
 # App Related Imports : Assets
 from assets.models import Asset
 from assets.models import AssetModel
 from assets.models import Location
+from assets.models import Shipment
 from .serializers import AssetSerializer
 from .serializers import AssetModelSerializer
 from .serializers import LocationSerializer
+from .serializers import ShipmentSerializer
 # App Related Imports : Main
 from main.models import User
 from main.models import Event
@@ -53,11 +56,11 @@ class BaseView(viewsets.ViewSetMixin, generics.GenericAPIView):
         
     def retrieve(self, request, pk=None):
         try:
-            _Service = self.get_queryset().get(id=pk)
-            serializer = ServiceSerializer(_Service)
+            _model_instance = self.get_queryset().get(id=pk)
+            serializer = self.get_serializer_class()(_model_instance)
         
-        except Service.DoesNotExist as e:
-            return Response({"error" : f"{self.model.__name__} with ID '{pk}' does not exist."}, status=status.HTTP_404_NOT_FOUND)
+        except self.model.DoesNotExist as e:
+            return Response({"error" : f"{self.model.__name__} with id:{pk} does not exist."}, status=status.HTTP_404_NOT_FOUND)
         
         else:
             return Response(serializer.data, status=status.HTTP_200_OK)
@@ -92,6 +95,68 @@ class LocationView(BaseView):
     model = Location
     queryset = model.objects.all()
     serializer_class = LocationSerializer
+
+class ShipmentView(BaseView):
+    """
+    Simple Viewset for Viewing Shipment Information
+    """
+    model = Shipment
+    queryset = model.objects.all()
+    serializer_class = ShipmentSerializer
+
+    @action(methods=['get'], detail=True, url_path="mark-shipment-packed", url_name="mark_shipment_packed")
+    def mark_shipment_packed(self, request, pk=None):
+        shipment_id = pk
+
+        ## Check for shipment id in url.
+        shipment_id = pk
+        if not shipment_id:
+            return Response(
+                {
+                    "error": f"Unable to lock {self.model.__name__} with id:{shipment_id}"
+                },
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        try:
+            ## Retrieve Shipment instance.
+            shipment = self.get_queryset().get(id=shipment_id)
+
+            ## Serialize Shipment's current assets.
+            assets_serializer = AssetSerializer(shipment.assets, many=True)
+
+            ## Save serialized assets to 'Locked Assets' field.
+            shipment.locked_assets = assets_serializer.data
+
+            ## Progress Shipment's status to 'Packed'.
+            statuses = [ s[1] for s in shipment.STATUS_OPTIONS ]
+            shipment.status = statuses.index('Packed')
+            
+            try:
+                # Save and serialize the Shipment before returning it to the user.
+                shipment.save()
+                serializer = self.get_serializer_class()(shipment)
+                return Response(serializer.data)
+
+            except Exception as E:
+                raise(E)
+
+        except self.model.DoesNotExist:
+            return Response(
+                {
+                    "error": f"{self.model.__name__} with id:{shipment_id} does not exist."
+                },
+                status=status.HTTP_404_NOT_FOUND,
+            )
+
+        except Exception as E:
+            return Response(
+                {
+                    "error": f"Encountered an error locking shipment with id:{shipment_id}",
+                    "details": str(E),
+                },
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            )
 
 #    _____         _    _ _     _     _       _             __                     
 #   |_   _|_ _ ___| | _| (_)___| |_  (_)_ __ | |_ ___ _ __ / _| __ _  ___ ___  ___ 

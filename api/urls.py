@@ -15,7 +15,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 
-from django.urls import path
+from django.urls import path, re_path
 from django.urls import include
 from rest_framework.routers import DefaultRouter
 
@@ -24,6 +24,9 @@ from .views import EventView
 from .views import MilestoneView
 from .views import ServiceView
 from .views import AssetView
+from .views import AssetModelView
+from .views import LocationView
+from .views import ShipmentView
 
 router = DefaultRouter()
 router.register(r"user", UserView)
@@ -31,7 +34,10 @@ router.register(r"event", EventView)
 router.register(r"milestone", MilestoneView)
 router.register(r"service", ServiceView)
 router.register(r"asset", AssetView)
+router.register(r"assetModel", AssetModelView)
+router.register(r"location", LocationView)
+router.register(r"shipment", ShipmentView)
 
 urlpatterns = [
-    path("", include(router.urls)),
-] 
+    # re_path(r"^mark-shipment-packed", MarkShipmentPacked.as_view()),
+] + router.urls

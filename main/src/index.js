@@ -6,10 +6,12 @@ import {
 } from "react-router-dom";
 import { render } from "react-dom";
 import { createTheme, ThemeProvider, CssBaseline } from "@mui/material";
-import HomeView from "./views/HomeView";
+import TasklistView from "./views/TasklistView";
 import CustomPage from "./components/CustomPage";
 import EventDetailView from "./views/EventDetailView";
+import AssetsView from "./views/AssetsView";
 import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
+import ManageShipmentView from "./views/ManageShipmentView";
 
 // Data Classes
 const queryClient = new QueryClient()
@@ -70,12 +72,16 @@ const App = () => {
               <Routes>
                   <Route
                     path="/"
-                    element={<CustomPage view={HomeView} title="Homepage"/>}
+                    element={<CustomPage view={ManageShipmentView} title="Homepage"/>}
                   >
                   </Route>
                   <Route
                     path="/assets"
                     element={<CustomPage view={null}/>}>
+                  </Route>
+                  <Route
+                    path="/tasklist"
+                    element={<CustomPage view={TasklistView} title="Tasklist"/>}>
                   </Route>
                   <Route
                     path="/wiki"

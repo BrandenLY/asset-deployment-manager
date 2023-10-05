@@ -1,11 +1,11 @@
 import React, { useContext, useEffect, useState } from "react";
 
 import {EventList} from "../components/EventList";
-import {useBackend, useEvents} from "../customHooks";
+import {useBackend} from "../customHooks";
 import { Box, Button } from "@mui/material";
 import { WorkloadChart } from "../components/WorkloadChart";
 
-const HomeView = props =>{
+const TasklistView = props =>{
     const {
         data:eventData,
         fetchNextPage:fetchNextEventPage,
@@ -69,4 +69,4 @@ const HomeView = props =>{
     )
 }
 
-export default HomeView;
+export default TasklistView;

@@ -1,5 +1,15 @@
 from rest_framework import serializers
-from assets.models import Asset, AssetModel, Location
+from assets.models import Asset, AssetModel, Location, Shipment
+
+class LockedAssetsField(serializers.Field):
+    
+    # Should receive a
+    
+    def to_representation(self, value):
+        pass
+
+    def to_internal_value(self, data):
+        pass
 
 class AssetSerializer(serializers.ModelSerializer):
 
@@ -17,7 +27,10 @@ class AssetSerializer(serializers.ModelSerializer):
             "date_created",
             "created_by",
             "last_modified",
-            "modified_by"
+            "modified_by",
+            "location",
+            "current_shipment",
+            "is_container",
         ]
 
 class AssetModelSerializer(serializers.ModelSerializer):
@@ -46,6 +59,22 @@ class LocationSerializer(serializers.ModelSerializer):
             "state",
             "country",
             "zipcode",
-            "logntitude",
+            "longitude",
             "latitude"
+        ]
+
+class ShipmentSerializer(serializers.ModelSerializer):
+    assets = AssetSerializer(many=True)
+    class Meta:
+        model = Shipment
+        fields = [
+            "id",
+            "assets",
+            "origin",
+            "destination",
+            "carrier",
+            "status",
+            "departure_date",
+            "arrival_date",
+            "locked_assets",
         ]

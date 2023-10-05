@@ -2,6 +2,7 @@
 from .assets_serializers import AssetSerializer
 from .assets_serializers import AssetModelSerializer
 from .assets_serializers import LocationSerializer
+from .assets_serializers import ShipmentSerializer
 # App Related Imports : Main
 from .user_serializer import UserSerializer
 from .event_serializer import EventSerializer
