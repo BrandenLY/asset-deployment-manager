@@ -2,6 +2,7 @@
 /.inspo
 /db.sqlite3
 _pycache_/*
+migrations/*
 
 # dependencies
 node_modules/
