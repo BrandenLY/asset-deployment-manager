@@ -48,6 +48,9 @@ class AssetModel(models.Model):
     model_code = models.CharField(_("Model Code"), max_length=10)
     image = models.ImageField(_("Image"), blank=True, null=True, upload_to="assets/models")
 
+    class Meta:
+        ordering = ["name"]
+
     def __str__(self):
         return self.name
     
@@ -61,6 +64,9 @@ class Location(models.Model):
     zipcode = models.CharField(_("Zipcode"), max_length=20)
     longitude = models.DecimalField(_("Longitude"), max_digits=13, decimal_places=8, blank=True, null=True)
     latitude = models.DecimalField(_("Latitude"), max_digits=12, decimal_places=8, blank=True, null=True)
+
+    class Meta:
+        ordering = ["name"]
 
     def __str__(self):
         return self.name

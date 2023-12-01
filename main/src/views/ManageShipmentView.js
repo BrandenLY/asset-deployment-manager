@@ -1,6 +1,6 @@
 import React, {useEffect, useState, useRef} from "react";
 import { Box } from "@mui/material";
-import ShipmentGrid from "../components/ShipmentGrid";
+import SortingGrid from "../components/SortingGrid";
 import { useBackend } from "../customHooks";
 
 const SHIPMENT_STATUSES = {0:"Scheduled", 1:"In transit", 2:"Delivered", 3:"Canceled"}
@@ -45,7 +45,11 @@ const ManageShipmentView = props => {
 
     return (
         <Box className="ManageShipmentView">
-            <ShipmentGrid data={shipmentData?.pages.map(p => p.results).flat()} columns={["Id", "Origin", "Destination", "Event"]}/>
+            <SortingGrid 
+                name="Manage Shipments"
+                initialColumns={["Id", "Origin", "Destination", "Event"]}
+                data={shipmentData?.pages.map(p => p.results).flat()}
+            />
         </Box>
     )
 }
