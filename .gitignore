@@ -1,8 +1,9 @@
 /.venv
 /.inspo
 /db.sqlite3
-_pycache_/*
-migrations/*
+_pycache_/
+migrations/
+.pyc
 
 # dependencies
 node_modules/
