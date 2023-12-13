@@ -47,7 +47,8 @@ const ManageShipmentView = props => {
         <Box className="ManageShipmentView">
             <SortingGrid 
                 name="Manage Shipments"
-                initialColumns={["Id", "Origin", "Destination", "Event"]}
+                sortKey="Id"
+                initialColumns={["id", "origin", "destination", "event"]}
                 data={shipmentData?.pages.map(p => p.results).flat()}
             />
         </Box>
