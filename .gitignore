@@ -27,3 +27,10 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+main/__pycache__/forms.cpython-311.pyc
+api/serializers/__pycache__/event_serializer.cpython-311.pyc
+assets/__pycache__/models.cpython-311.pyc
+main/__pycache__/admin.cpython-311.pyc
+main/__pycache__/forms.cpython-311.pyc
+main/static/main/js/main.js.LICENSE.txt
+main/static/main/js/main.js
