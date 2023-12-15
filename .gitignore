@@ -1,7 +1,7 @@
 /.venv
 /.inspo
 /db.sqlite3
-_pycache_/
+_pycache_/*
 migrations/
 /*.pyc
 
