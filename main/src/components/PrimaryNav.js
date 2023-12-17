@@ -12,12 +12,9 @@ import ListItemText from '@mui/material/ListItemText';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import { Menu, LocalShipping, Assignment, Close, LibraryBooks } from '@mui/icons-material';
 import Typography from '@mui/material/Typography';
-import { useTheme } from '@mui/material/styles';
-import { SvgIcon } from '@mui/material';
 
 function PrimaryNav(props) {
 
-    const theme = useTheme();
     const [expanded, setExpanded] = useState(false);
     const drawerWidth = "300px";
     const navHeight = "70px";
@@ -75,7 +72,14 @@ function PrimaryNav(props) {
         </Drawer>
     );
 
-    const appIcon = (<Box sx={{height: "60px"}}><img src="/static/main/images/icons/AppIcon.svg" alt="brand logo" style={{height: "100%"}}/></Box>)
+    const appIcon = (
+        <Box sx={{height: "50px", marginLeft: "25px", display: "flex", alignItems: "center", gap:"2px"}}>
+            <img src="/static/main/images/icons/Logo-v2.svg" alt="brand logo" style={{height: "100%"}}/>
+            <Typography variant="h2" sx={{fontWeight:"bold", color:"#E6E7E8"}}>
+                onfigView
+            </Typography>
+        </Box>
+    )
 
   return (
     <>
@@ -87,15 +91,14 @@ function PrimaryNav(props) {
                 padding: 1, 
                 display: "flex", 
                 justifyContent: "space-between", 
+                alignItems: "center",
                 height: navHeight,
             }}
             color="primary"
         >
-            <Box sx={{display: "flex", alignItems: "center"}}>
-                {appIcon}
-            </Box>
-            <IconButton onClick={() => setExpanded(!expanded)}>
-                <Menu></Menu>
+            {appIcon}
+            <IconButton onClick={() => setExpanded(!expanded)} size="large">
+                <Menu fontSize="inherit"></Menu>
             </IconButton>
         </Paper> {drawer}
     </>
