@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from assets.models import Asset, AssetModel, Location, Shipment
+from api.serializers.event_serializer import EventSerializer
 
 class LockedAssetsField(serializers.Field):
     
@@ -65,6 +66,9 @@ class LocationSerializer(serializers.ModelSerializer):
 
 class ShipmentSerializer(serializers.ModelSerializer):
     assets = AssetSerializer(many=True)
+    origin = LocationSerializer()
+    destination = LocationSerializer()
+    event = EventSerializer()
     class Meta:
         model = Shipment
         fields = [
@@ -72,6 +76,7 @@ class ShipmentSerializer(serializers.ModelSerializer):
             "assets",
             "origin",
             "destination",
+            "event",
             "carrier",
             "status",
             "departure_date",
