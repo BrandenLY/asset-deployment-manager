@@ -13,7 +13,7 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import { Menu, LocalShipping, Assignment, Close, LibraryBooks } from '@mui/icons-material';
 import Typography from '@mui/material/Typography';
 
-function PrimaryNav(props) {
+const PrimaryNav = (props) => {
 
     const [expanded, setExpanded] = useState(false);
     const drawerWidth = "300px";
