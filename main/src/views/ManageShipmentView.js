@@ -21,33 +21,6 @@ const ManageShipmentView = props => {
         isLoading:isLoadingShipmentData,
     } = useBackend({model:"shipment", id:null, makeInfinate:true});
 
-    // Retrieve Location Data
-    // const {
-    //     data:locationData,
-    //     fetchNextPage: fetchNextLocationDataPage,
-    //     hasNextPage: locationDataHasNextPage,
-    //     hasPreviousPage: locationDataHasPreviousPage,
-    //     isFetching: isFetchingLocationData,
-    //     isLoading: isLoadingLocationData
-    // } = useBackend({model:"location", id:null, makeInfinate:true})
-
-    // Serialize Location Data
-    // useEffect(() => {
-    //     if (isFetchingLocationData){
-    //         return;
-    //     }
-    //     const dataResults = locationData.pages.map(p => p.results).flat();
-    //     locations.current += dataResults;
-    // },[isFetchingLocationData])
-
-    // useEffect(() => {
-    //     if (isFetchingShipmentData){
-    //         return;
-    //     }
-    //     const dataResults = shipmentData.pages.map(p => p.results).flat();
-    //     shipments.current += dataResults;
-    // }, [isFetchingShipmentData])
-
     const parseDataRow = data =>{
         return ({
             ...data,
