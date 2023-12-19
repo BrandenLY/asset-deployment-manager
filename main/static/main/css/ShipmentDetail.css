@@ -1,0 +1,7 @@
+.ShipmentDetailView{
+    display: grid;
+    grid-template-columns: 33% 66%;
+    min-height: 700px;
+    gap: 10px;
+}
+
