@@ -10,7 +10,7 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemIcon from '@mui/material/ListItemIcon';
-import { Menu, LocalShipping, Assignment, Close, LibraryBooks } from '@mui/icons-material';
+import { Menu, LocalShipping, Assignment, Close, LibraryBooks, Smartphone } from '@mui/icons-material';
 import Typography from '@mui/material/Typography';
 
 const PrimaryNav = (props) => {
@@ -50,19 +50,25 @@ const PrimaryNav = (props) => {
                     </ListItem>
                     <Divider></Divider>
                     <ListItem disablePadding>
+                        <ListItemButton onClick={() => navigate('/assets')}>
+                            <ListItemIcon><Smartphone /></ListItemIcon>
+                            <ListItemText primary="Assets" />
+                        </ListItemButton>
+                    </ListItem>
+                    <ListItem disablePadding>
+                        <ListItemButton onClick={() => navigate('/shipments')}>
+                            <ListItemIcon><LocalShipping /></ListItemIcon>
+                            <ListItemText primary="Shipments" />
+                        </ListItemButton>
+                    </ListItem>
+                    <ListItem disablePadding>
                         <ListItemButton onClick={() => navigate('/tasklist')}>
                             <ListItemIcon><Assignment /></ListItemIcon>
                             <ListItemText primary="Tasklists" />
                         </ListItemButton>
                     </ListItem>
                     <ListItem disablePadding>
-                        <ListItemButton onClick={() => navigate('/assets')}>
-                            <ListItemIcon><LocalShipping /></ListItemIcon>
-                            <ListItemText primary="Assets" />
-                        </ListItemButton>
-                    </ListItem>
-                    <ListItem disablePadding>
-                        <ListItemButton onClick={() => navigate('/wiki')}>
+                        <ListItemButton onClick={() => navigate('/wiki')} disabled>
                             <ListItemIcon><LibraryBooks /></ListItemIcon>
                             <ListItemText primary="Knowledge Base" />
                         </ListItemButton>
