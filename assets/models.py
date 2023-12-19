@@ -75,8 +75,9 @@ class Shipment(models.Model):
     STATUS_OPTIONS = (
         (0, "Scheduled"),
         (1, "Packed"),
-        (2, "Delivered"),
-        (3, "Canceled"),
+        (2, "In Transit"),
+        (3, "Delivered"),
+        (4, "Canceled"),
     )
     event = models.ForeignKey("main.Event", on_delete=models.CASCADE, blank=True, null=True)
     status = models.SmallIntegerField(_("Status"), choices=STATUS_OPTIONS, default=0)
