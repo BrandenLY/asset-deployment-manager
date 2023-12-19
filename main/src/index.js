@@ -12,6 +12,7 @@ import EventDetailView from "./views/EventDetailView";
 import AssetsView from "./views/AssetsView";
 import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
 import ManageShipmentView from "./views/ManageShipmentView";
+import ShipmentDetailView from "./views/ShipmentDetailView";
 
 // Data Classes
 const queryClient = new QueryClient()
@@ -73,6 +74,16 @@ const App = () => {
                   <Route
                     path="/"
                     element={<CustomPage view={ManageShipmentView} title="Homepage"/>}
+                  >
+                  </Route>
+                  <Route
+                    path="/shipments"
+                    element={<CustomPage view={ManageShipmentView} title="Manage Shipments"/>}
+                  >
+                  </Route>
+                  <Route
+                    path="/shipments/:id"
+                    element={<CustomPage view={ShipmentDetailView} title="Manage Shipment"/>}
                   >
                   </Route>
                   <Route
