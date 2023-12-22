@@ -26,7 +26,7 @@ const ShipmentDetailView = props =>{
 
     return (
         <Box className="ShipmentDetailView">
-            <ShipmentDetailPanel data={shipmentData} parseFn={parseShipment}/>
+            <ShipmentDetailPanel data={isLoadingShipment ? null : parseShipment(shipmentData)}/>
             <Box>
                 <p>{JSON.stringify(shipmentData)}</p>
             </Box>

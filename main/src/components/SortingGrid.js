@@ -105,7 +105,7 @@ const SortingGrid = props => {
 
                     {/* Add result rows */}
                     {props.data &&
-                        props.data.map( data => <SortingGridRow data={props.parseFn(data)} columns={activeColumns}/> )
+                        props.data.map( shipment => <SortingGridRow data={props.parseFn(shipment)} columns={activeColumns}/> )
                     }
 
                     {/* No results found */}

@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useState } from "react";
+import React, { useCallback, useRef, useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { Box, Paper, Typography, IconButton } from "@mui/material";
 import { Edit } from "@mui/icons-material";
@@ -18,15 +18,9 @@ export const DetailHeader = props => {
     )
 }
 
-export const ShipmentDetailPanel = ({data, parseFn}) =>{
+export const ShipmentDetailPanel = ({data:shipment}) =>{
 
     const [isEditing, setIsEditing] = useState(false);
-    const [shipment, setShipment] = useState(null);
-
-    useEffect(() => {
-        return;
-    }, [data])
-    
 
     const toggleEditMode = ({event}) =>{
         setIsEditing(!isEditing);
@@ -57,27 +51,27 @@ export const ShipmentDetailPanel = ({data, parseFn}) =>{
             >
                 <Box>
                     <DetailHeader>Carrier</DetailHeader>
-                    <Typography>{data?.carrier}</Typography>
+                    <Typography>{shipment?.carrier}</Typography>
                 </Box>
 
                 <Box>
                     <DetailHeader>Origin</DetailHeader>
-                    <Typography>{data?.origin}</Typography>
+                    <Typography>{shipment?.origin}</Typography>
                 </Box>
 
                 <Box>
                     <DetailHeader>Destination</DetailHeader>
-                    <Typography>{data?.destination}</Typography>
+                    <Typography>{shipment?.destination}</Typography>
                 </Box>
 
                 <Box>
                     <DetailHeader>Departure Date</DetailHeader>
-                    <Typography>{data?.departure_date}</Typography>
+                    <Typography>{shipment?.departure_date}</Typography>
                 </Box>
 
                 <Box>
                     <DetailHeader>Scheduled Arrival Date</DetailHeader>
-                    <Typography>{data?.arrival_date}</Typography>
+                    <Typography>{shipment?.arrival_date}</Typography>
                 </Box>
             </Box>
         </Paper>

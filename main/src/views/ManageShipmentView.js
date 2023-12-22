@@ -34,12 +34,13 @@ const ManageShipmentView = props => {
     } = useBackend({model:"shipment", id:null, makeInfinate:true});
 
     const parseDataRow = data =>{
+        console.log(data);
         return ({
             ...data,
             id: (<Link component={RouterLink} to={`/shipments/${data.id}`}>{data.id}</Link>),
-            origin: data.origin.name,
-            destination: data.destination.name,
-            event: data.event.name,
+            origin: data.origin?.name,
+            destination: data.destination?.name,
+            event: data.event?.name,
             status: SHIPMENT_STATUSES[data.status]
           })
     }
