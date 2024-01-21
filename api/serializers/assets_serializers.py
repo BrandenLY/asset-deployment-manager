@@ -1,18 +1,27 @@
+import json
+from django.db import transaction
+from django.contrib.contenttypes.models import ContentType
 from rest_framework import serializers
 from assets.models import Asset, AssetModel, Location, Shipment
 from api.serializers.event_serializer import EventSerializer
 
-class LockedAssetsField(serializers.Field):
-    
-    # Should receive a
-    
-    def to_representation(self, value):
-        pass
 
-    def to_internal_value(self, data):
-        pass
+class ContentAssetsField(serializers.ReadOnlyField):
+    """
+    Generic Foreign Key relations are serialized into an appropriate
+    JSON representation.
+    """
+
+    def get_attribute(self, instance):
+        return instance # Returning the entire instance rather than just one of its attributes.
+
+    def to_representation(self, value):
+        related_objects = value.assets.all()
+        return [AssetSerializer(object).data for object in related_objects]
 
 class AssetSerializer(serializers.ModelSerializer):
+    assets = ContentAssetsField()
+    parent_content_type = serializers.SerializerMethodField()
 
     class Meta:
         model = Asset
@@ -30,9 +39,17 @@ class AssetSerializer(serializers.ModelSerializer):
             "last_modified",
             "modified_by",
             "location",
-            "current_shipment",
             "is_container",
+            "parent_content_type",
+            "parent_object_id",
+            "assets",
         ]
+
+    def get_parent_content_type(self, obj):
+        return {
+            'id' : obj.parent_content_type.id,
+            'name' : obj.parent_content_type.model
+        }
 
 class AssetModelSerializer(serializers.ModelSerializer):
 
@@ -65,21 +82,53 @@ class LocationSerializer(serializers.ModelSerializer):
         ]
 
 class ShipmentSerializer(serializers.ModelSerializer):
-    assets = AssetSerializer(many=True)
-    origin = LocationSerializer()
-    destination = LocationSerializer()
-    event = EventSerializer()
+    
+    assets = ContentAssetsField()
+    packed_assets = serializers.SerializerMethodField()
+    asset_counts = serializers.SerializerMethodField()
+
     class Meta:
         model = Shipment
         fields = [
             "id",
-            "assets",
+            "status",
+            "carrier",
             "origin",
             "destination",
             "event",
-            "carrier",
-            "status",
             "departure_date",
             "arrival_date",
-            "locked_assets",
+            "asset_counts",
+            "assets",
+            "packed_assets",
         ]
+
+    def get_packed_assets(self, obj):
+
+        return json.loads(obj.packed_assets)
+    
+    def get_asset_counts(self, obj):
+        children=obj.assets.all()
+
+        direct_child_count = children.count()
+        extended_child_count = 0
+        for child in children:
+            extended_child_count+= child.assets.count()
+
+        return {
+            'total_assets' : direct_child_count + extended_child_count,
+            'direct_children' : direct_child_count,
+            'extended_children' : extended_child_count
+        }
+
+# [<QuerySet [<Asset: APL002 - Apple Iphone>]>, 
+#  <QuerySet [<Asset: BBS002 - Windows PC>]>, 
+#  <Asset: APL001 - Apple Iphone>, 
+#  <Asset: BBS001 - Windows PC>]
+
+# [
+#     [<Asset: APL002 - Apple Iphone>], 
+#     [<Asset: BBS002 - Windows PC>], 
+#     <Asset: APL001 - Apple Iphone>, 
+#     <Asset: BBS001 - Windows PC>
+# ]

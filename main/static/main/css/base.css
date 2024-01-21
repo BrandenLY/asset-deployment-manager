@@ -1,3 +1,8 @@
+html{
+    box-sizing: border-box;
+    color-scheme:dark;
+}
+
 body{
     margin: 0;
     padding: 0;
@@ -67,3 +72,12 @@ body{
     }
 }
 
+header img {
+    width: 75%;
+    margin: auto;
+    display: table;
+}
+header .container-fluid{
+    margin-top: 50px;
+    padding: 0;
+}

@@ -21,7 +21,7 @@ class ProjectSerializer(serializers.ModelSerializer):
         ]
 
 class EventSerializer(serializers.ModelSerializer):
-    project = ProjectSerializer()
+    project = ProjectSerializer(read_only=True)
     class Meta:
         model = Event
         fields = [

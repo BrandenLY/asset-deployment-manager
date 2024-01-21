@@ -99,6 +99,7 @@ const PrimaryNav = (props) => {
                 justifyContent: "space-between", 
                 alignItems: "center",
                 height: navHeight,
+                minWidth: '375px'
             }}
             color="primary"
         >

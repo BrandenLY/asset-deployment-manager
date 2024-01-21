@@ -5,6 +5,7 @@ import { Box, Breadcrumbs, Link, Typography } from '@mui/material';
 import {Home} from '@mui/icons-material';
 
 import PrimaryNav from './PrimaryNav'
+import { BackendContextProvider } from '../context';
 
 const CustomBreadcrumbs = props => {
     const location = useLocation()
@@ -38,18 +39,24 @@ const CustomBreadcrumbs = props => {
 }
 
 const CustomPage = ({ className, children, view: View, ...props }) => {
-  const classList = ['page', className];
-  const classNames = classList.join(' ');
+  const classNames = ['page', className].join(' ');
   
   return (
-    <Box className={classNames} sx={{padding:2}}>
-        <PrimaryNav></PrimaryNav>
-        <Box className="page-content" sx={{gridArea:"content",margin: 1.5}}>
-            <Typography variant="h2" sx={{margin: 1}}>{props.title}</Typography>
-            <Typography variant="subtitle1" sx={{margin: 1}}><CustomBreadcrumbs></CustomBreadcrumbs></Typography>
-            {View ? <View {...props}/> : ""}
+    <BackendContextProvider>
+
+        <Box className={classNames} sx={{padding:2}}>
+            <PrimaryNav></PrimaryNav>
+            <Box className="page-content" sx={{gridArea:"content", margin: 1.5}}>
+                {/* Page Title */}
+                <Typography variant="h2" sx={{margin: 1}}>{props.title}</Typography>
+                {/* Nav Breadcrumbs */}
+                <Typography variant="subtitle1" sx={{margin: 1}}> <CustomBreadcrumbs/> </Typography>
+                {/* Page Content */}
+                { View ? <View {...props}/> : "" }
+            </Box>
         </Box>
-    </Box>
+
+    </BackendContextProvider>
 
 )};
 

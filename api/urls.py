@@ -27,6 +27,7 @@ from .views import AssetView
 from .views import AssetModelView
 from .views import LocationView
 from .views import ShipmentView
+from .views import CurrentUserView
 
 router = DefaultRouter()
 router.register(r"user", UserView)
@@ -39,5 +40,5 @@ router.register(r"location", LocationView)
 router.register(r"shipment", ShipmentView)
 
 urlpatterns = [
-    # re_path(r"^mark-shipment-packed", MarkShipmentPacked.as_view()),
+    path('current-user/', CurrentUserView.as_view(), name='current-user'),
 ] + router.urls

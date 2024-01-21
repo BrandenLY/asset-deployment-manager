@@ -43,7 +43,7 @@ const ExpandedDataGrid = (props) => {
               <Box sx={{borderRight:"1px solid rgb(224, 224, 224)", minHeight:dataTileHeight}}>
                 <Typography variant="body1">Services</Typography>
                 <Box sx={{display: "grid", gridTemplateColumns: "1fr 1fr"}}>
-                {props.event.project.services.map(
+                {props.event.project?.services.map(
                   service => {
                     return (<Box sx={{display: "flex", flexDirection: "column", alignItems: "center", gap: "5px", margin: "15px 0", justifySelf: "center"}}>
                       <Avatar alt={service.name} src={service.icon ? service.icon : "/static/main/images/icons/generic-service.png"}/>
@@ -58,8 +58,8 @@ const ExpandedDataGrid = (props) => {
               <Box sx={{minHeight:dataTileHeight}}>
                 <Typography variant="body1">Tasks & Milestones</Typography>
                 <Box sx={dataTileSx}>
-                  <p>Milestones: {props.event.getMilestoneCount()}</p>
-                  <p>Tasks: {props.event.getTaskCount()}</p>
+                  <p>Milestones:</p>
+                  <p>Tasks:</p>
                 </Box>
               </Box>
             </Grid>

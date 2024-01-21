@@ -1,6 +1,7 @@
 from rest_framework import viewsets
 from rest_framework import status
 from rest_framework import generics
+from rest_framework import mixins
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.settings import api_settings
@@ -26,7 +27,8 @@ from .serializers import MilestoneSerializer
 from .serializers import ServiceSerializer
 
 # Standard Functionality for all views to share
-class BaseView(viewsets.ViewSetMixin, generics.GenericAPIView):
+class BaseView(viewsets.ViewSetMixin, generics.GenericAPIView, mixins.UpdateModelMixin):
+
     def list(self, request):
         queryset = self.filter_queryset(self.get_queryset())
 
@@ -173,7 +175,6 @@ class MilestoneView(BaseView):
     queryset = model.objects.all()
     serializer_class = MilestoneSerializer
 
-
 class ServiceView(BaseView):
     """
     Simple Viewset for Viewing Service Information
@@ -196,7 +197,6 @@ class UserView(BaseView):
     model = User
     queryset = model.objects.all()
     serializer_class = UserSerializer
-
         
 class EventView(BaseView):
     """
@@ -205,7 +205,32 @@ class EventView(BaseView):
     model = Event
     queryset = model.objects.all()
     serializer_class = EventSerializer
+
+class CurrentUserView(generics.GenericAPIView, mixins.RetrieveModelMixin):
+
+    serializer_class = UserSerializer
+    lookup_field = 'id'
+
+    def get_queryset(self):
+        """
+        This view should return the currently authenticated user.
+        """
+        user = self.request.user
+        return User.objects.filter(id = self.request.user.id)
+    
+    def get(self, request, id=None):
+        """
+        This view should return the currently authenticated user.
+        """
+        try:
+            _model_instance = self.get_queryset().get(id=request.user.id)
+            serializer = self.get_serializer_class()(_model_instance)
+            return Response(serializer.data, status=status.HTTP_200_OK)
         
+        except self.model.DoesNotExist as e:
+            return Response({"error" : f"{self.model.__name__} with id:{id} does not exist."}, status=status.HTTP_404_NOT_FOUND)
+        
+                
 #   __        ___ _    _   _       _             __                     
 #   \ \      / (_) | _(_) (_)_ __ | |_ ___ _ __ / _| __ _  ___ ___  ___ 
 #    \ \ /\ / /| | |/ / | | | '_ \| __/ _ \ '__| |_ / _` |/ __/ _ \/ __|

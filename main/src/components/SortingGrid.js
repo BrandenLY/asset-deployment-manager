@@ -9,7 +9,7 @@ const SortingGridColumnHeader = props => {
     const [popoverAnchor, setPopoverAnchor] = useState(null);
 
     const open = Boolean(popoverAnchor);
-    const id = open ? `${props.keyName}-options` : undefined;
+    const id = open ? `${props.column.name}-options` : undefined;
 
     const togglePopover = (event) => {
         if (Boolean(popoverAnchor)){
@@ -32,7 +32,7 @@ const SortingGridColumnHeader = props => {
             sx={{
                 fontWeight: "bold",
             }}>
-                {props.keyName}
+                {props.column.name}
             </Typography>
             <IconButton size="small" onClick={togglePopover}>
                 <MoreVert fontSize="inherit" />
@@ -75,10 +75,18 @@ const SortingGridColumnHeader = props => {
 }
 
 const SortingGridRow = ({data, columns}) => {
-
+    console.log(data)
+    const getDisplayValue = (column, data) =>{
+        if (!!column.getDisplay){
+            return column.getDisplay(data[column.name])
+        }
+        else{
+            return data[column.name]
+        }
+    }
     return (
         <TableRow key={data.id}>
-            {columns.map(cv => <TableCell>{data[cv]}</TableCell>)}
+            {columns.map(c => <TableCell>{getDisplayValue(c, data)}</TableCell>)}
         </TableRow>
     )
 }
@@ -98,14 +106,14 @@ const SortingGrid = props => {
                 <Table>
                     <TableHead>
                         <TableRow>
-                            { activeColumns.map(column => <SortingGridColumnHeader keyName={column} dataManipulation={{setActiveColumns: setActiveColumns, setSortDirection: setSortDirection}}/>) }
+                            { activeColumns.map(column => <SortingGridColumnHeader column={column} dataManipulation={{setActiveColumns: setActiveColumns, setSortDirection: setSortDirection}}/>) }
                         </TableRow>
                     </TableHead>
                     <TableBody>
 
                     {/* Add result rows */}
-                    {props.data &&
-                        props.data.map( shipment => <SortingGridRow data={props.parseFn(shipment)} columns={activeColumns}/> )
+                    { props.data &&
+                        props.data.map( shipment => <SortingGridRow data={shipment} columns={activeColumns}/> )
                     }
 
                     {/* No results found */}

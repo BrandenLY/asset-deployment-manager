@@ -1,34 +1,76 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext, useReducer, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import { Box, Paper, Typography, IconButton } from "@mui/material";
-import { Edit } from "@mui/icons-material";
-import {useBackend} from "../customHooks";
 import { ShipmentDetailPanel } from "../components/ShipmentDetailPanel";
+import { backendApiContext } from "../context";
+import { useQuery } from "@tanstack/react-query";
+import { useRichQuery } from "../customHooks";
+
+const initialState = {
+    // loading state
+
+    // shipment data
+
+    // related model data
+}
+
+const reducer = (state, action) => {
+    switch (action.type) {
+
+        case "LOAD-SHIPMENT" :
+            var newState = {
+                ...state,
+            }
+            return (newState);
+        
+        case "LOAD-RELATED" :
+            var newState = {
+                ...state,
+            }
+            return (newState);
+    }
+}
 
 const ShipmentDetailView = props =>{
+
     const locationParams = useParams();
+    const backendCtx = useContext(backendApiContext);
 
-    const {
-        data:shipmentData, 
-        isLoading:isLoadingShipment
-    } = useBackend({model:"shipment", id:locationParams.id});
+    const state = useRichQuery({
+        model: backendCtx.models.shipment, 
+        id: locationParams.id
+    });
 
-    const parseShipment = (s) =>{
-        console.log(s);
-        return({
-            ...s,
-            origin: `${s.origin.address_line_1}, ${s.origin.city}, ${s.origin.state} ${s.origin.zipcode}`,
-            destination: `${s.destination.address_line_1}, ${s.destination.city}, ${s.destination.state} ${s.destination.zipcode}`,
-            departure_date: new Date(s.departure_date).toLocaleDateString(),
-            arrival_date: new Date(s.arrival_date).toLocaleDateString()
-        })
+    // Callback Functions
+    // FIXME: This may require optimization
+    const updateShipment = e => {
+        const requestHeaders = new Headers();
+        requestHeaders.set('Content-Type', 'application/json');
+        requestHeaders.set('X-CSRFToken', backendCtx.csrftoken)
+
+        // fetch(
+        //     `${backendCtx.baseUrl}/shipment/`, 
+        //     {
+        //         method:"POST",
+        //         body: JSON.stringify({...state.data.shipment}),
+        //         headers : requestHeaders
+        //     }
+                
+        // )
+        // .then(res => res.json())
+        // .then(data => console.log(data))
+
+        console.log(e);
     }
 
     return (
         <Box className="ShipmentDetailView">
-            <ShipmentDetailPanel data={isLoadingShipment ? null : parseShipment(shipmentData)}/>
-            <Box>
-                <p>{JSON.stringify(shipmentData)}</p>
+            <ShipmentDetailPanel
+                shipment={state.value}
+                setShipment={updateShipment}
+            />
+            <Box sx={{textWrap: "wrap"}}>
+                {JSON.stringify(state.value,null,2)}
             </Box>
         </Box>
     );

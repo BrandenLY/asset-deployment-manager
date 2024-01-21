@@ -1,27 +1,18 @@
-import React, {useEffect, useState, useRef} from "react";
+import React, {useEffect, useState, useRef, useContext} from "react";
 import { Box, Button, Link, Fab} from "@mui/material";
 import { Add } from '@mui/icons-material';
 import SortingGrid from "../components/SortingGrid";
 import { useBackend } from "../customHooks";
 import {
     Link as RouterLink,
-    LinkProps as RouterLinkProps,
-    MemoryRouter,
   } from 'react-router-dom';
-
-const SHIPMENT_STATUSES = {
-    0:"Scheduled", 
-    1:"Packed", 
-    2:"In Transit", 
-    3:"Delivered",
-    4:"Canceled"
-}
+import { useQuery } from "@tanstack/react-query";
+import { backendApiContext } from "../context";
 
 const ManageShipmentView = props => {
 
-    // Setup State Variables
-    const locations = useRef([]);
-    const shipments = useRef([]);
+    // Context
+    const backendCtx = useContext(backendApiContext);
 
     // Retrieve Shipment Data
     const {
@@ -33,17 +24,31 @@ const ManageShipmentView = props => {
         isLoading:isLoadingShipmentData,
     } = useBackend({model:"shipment", id:null, makeInfinate:true});
 
-    const parseDataRow = data =>{
-        console.log(data);
-        return ({
-            ...data,
-            id: (<Link component={RouterLink} to={`/shipments/${data.id}`}>{data.id}</Link>),
-            origin: data.origin?.name,
-            destination: data.destination?.name,
-            event: data.event?.name,
-            status: SHIPMENT_STATUSES[data.status]
-          })
-    }
+    const initialColumns = [
+        {name:"id", type:"number", getDisplay: (object) => <Link component={RouterLink} to={`/shipments/${object}`}>{object}</Link>}, 
+        {name:"status", type:"text", getDisplay: (object) => backendCtx.models.shipment.meta.statuses[object]},
+        {name:"origin", type:"text", getDisplay: (object) => {
+            const {
+                data:originData,
+                isLoading:originIsLoading
+            } = useBackend({model:"location", id:object})
+            return !originIsLoading ? `${originData.address_line_1}, ${originData.city}, ${originData.state} ${originData.zipcode}` : 'unknown';
+        }}, 
+        {name:"destination", type:"text", getDisplay: (object) => {
+            const {
+                data:destinationData,
+                isLoading:destinationIsLoading,
+            } = useBackend({model:"location", id:object});
+            return !destinationIsLoading ? `${destinationData.address_line_1}, ${destinationData.city}, ${destinationData.state} ${destinationData.zipcode}` : 'unknown';
+        }}, 
+        {name:"event", type:"text", getDisplay: (object) => {
+            const {
+                data:eventData,
+                isLoading: eventIsLoading
+            } = useBackend({model:"event", id:object})
+            return !eventIsLoading ? eventData.name : "unknown";
+        }}
+    ]
 
     // Return JSX
     return (
@@ -61,16 +66,15 @@ const ManageShipmentView = props => {
                     size="small"
                     color="primary"
                 >
-                    <Add />
                     New shipment
+                    <Add />
                 </Fab>
             </Box>
             <SortingGrid 
                 name="Manage Shipments"
                 sortBy="Id"
-                initialColumns={["id", "status", "origin", "destination", "event"]}
+                initialColumns={initialColumns}
                 data={shipmentData?.pages.map(p => p.results).flat()}
-                parseFn = {parseDataRow}
             />
         </Box>
     )

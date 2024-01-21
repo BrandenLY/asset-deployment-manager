@@ -5,8 +5,52 @@
     align-items: stretch;
     gap: 10px;
 
-    .ShipmentDetailsColumn{
-        flex-shrink: initial;
-    }
+    --content-height: 720px;
 }
 
+.ShipmentDetailsColumn{
+    max-height: var(--content-height);
+    width: 316px;
+    display: flex;
+    flex-direction: column;
+}
+
+.shipment-detail-form{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-auto-rows: min-content;
+    gap: 16px;
+    margin-top: 16px;
+
+    #shipment-status{
+        grid-row: 2;
+    }
+
+    #shipment-carrier{
+        grid-row: 3;
+        grid-column: span 2;
+    }
+
+    #shipment-origin{
+        grid-row: 4;
+        grid-column: span 2;
+    }
+
+    #shipment-destination{
+        grid-row: 5;
+        grid-column: span 2;
+    }
+
+    #shipment-departure_date{
+        grid-row: 6;
+    }
+
+    #shipment-arrival_date{
+        grid-row: 6;
+    }
+
+    #shipment-event{
+        grid-row: 7;
+        grid-column: span 2;
+    }
+}

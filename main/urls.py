@@ -21,5 +21,5 @@ urlpatterns = [
     path('login/', LoginView, name="login"),
     path('logout/', LogoutView, name="logout"),
     path('',  HomePageView.as_view(), name="home"),
-    re_path(r'^.*/$', HomePageView.as_view(), name="home")
+    re_path(r'^.*/$', HomePageView.as_view())
 ] 

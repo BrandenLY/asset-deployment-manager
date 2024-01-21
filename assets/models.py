@@ -1,7 +1,11 @@
+import json
 from django.db import models, transaction, IntegrityError
 from django.contrib.auth import get_user_model
+from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
+from django.contrib.contenttypes.models import ContentType
 from django.core.validators import RegexValidator
 from django.utils.translation import gettext_lazy as _
+
 
 # Constants - Changing these values may affect the database schema. It's advised to run migrations after changing.
 SMALL_TEXT_FIELD_SIZE = 150
@@ -18,6 +22,8 @@ class Asset(models.Model):
         (4, "Working"),
         (5, "Faulty"),
     )
+    
+    assets = GenericRelation(to="Asset",content_type_field="parent_content_type",object_id_field="parent_object_id")
     model = models.ForeignKey("AssetModel", on_delete=models.PROTECT)
     code = models.CharField(_("Code"), max_length=25, validators=[ALPHANUMERIC_VALIDATOR,], unique=True)
     serial_number = models.CharField(_("Serial Number"), max_length=50, blank=True, null=True)
@@ -29,10 +35,11 @@ class Asset(models.Model):
     created_by = models.ForeignKey(get_user_model(), related_name="created_assets", on_delete=models.CASCADE, blank=True, null=True)
     last_modified = models.DateTimeField(_("Last Modified"), auto_now=True, blank=True, null=True)
     modified_by = models.ForeignKey(get_user_model(), related_name="modified_assets", on_delete=models.CASCADE, blank=True, null=True)
-    parent = models.ForeignKey("self", related_name="children", on_delete = models.PROTECT, blank=True, null=True)
     location = models.ForeignKey("Location", on_delete=models.CASCADE, blank=True, null=True)
-    current_shipment = models.ForeignKey("Shipment", related_name='assets', on_delete=models.CASCADE, blank=True, null=True )
     is_container = models.BooleanField(_("Is a Container"), default=False)
+    parent_content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE, blank=True, null=True)
+    parent_object_id = models.PositiveIntegerField(blank=True, null=True)
+    parent_object = GenericForeignKey('parent_content_type', 'parent_object_id')
     
     class Meta:
         ordering = ["code"]
@@ -79,12 +86,13 @@ class Shipment(models.Model):
         (3, "Delivered"),
         (4, "Canceled"),
     )
+    assets = GenericRelation(to=Asset,content_type_field="parent_content_type",object_id_field="parent_object_id")
     event = models.ForeignKey("main.Event", on_delete=models.CASCADE, blank=True, null=True)
     status = models.SmallIntegerField(_("Status"), choices=STATUS_OPTIONS, default=0)
     origin = models.ForeignKey(Location, on_delete=models.PROTECT, related_name="shipments_out")
     destination = models.ForeignKey(Location, on_delete=models.PROTECT, related_name="shipments_in")
     carrier = models.CharField(_("Carrier"), max_length=85)
-    locked_assets = models.JSONField(_("Assets"), blank=True, null=True)
+    packed_assets = models.JSONField(_("Packed Assets"), default=list)
     departure_date = models.DateTimeField(_("Departure Date"), blank=True, null=True)
     arrival_date = models.DateTimeField(_("Arrival Date"), blank=True, null=True)
     
@@ -92,15 +100,19 @@ class Shipment(models.Model):
         ordering = [ "status", "arrival_date" ]
         indexes = [ models.Index(fields=["departure_date", "arrival_date"]), ]
 
-    def lock_assets(self):
+    def mark_shipment_packed(self):
         try: 
-            assets = self.locked_assets.all()
+            assets = self.assets.all()
             print(f'Str: {str(assets)}, Repr: {repr(assets)}, Type: {type(assets)}')
             with transaction.atomic():
-                ## SAVE SNAPSHOT OF LOCKED ASSETS TO THIS INSTANCE'S 'ASSETS' FIELD
+                ## SAVE SNAPSHOT OF LOCKED ASSETS TO THIS INSTANCE'S 'PACKED ASSETS' FIELD
+                self.status = 1
                 pass
         
         except IntegrityError as e:
 
             print(e)
             raise(IntegrityError)
+        
+    def __str__(self):
+        return f"{self.carrier} SHIPMENT TO {self.destination}"
