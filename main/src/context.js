@@ -34,6 +34,8 @@ export const BackendContextProvider = ({children}) => {
     const models = {
         shipment : {
             modelName: 'shipment',
+            getLabelName : (obj) => `Shipment ${obj.id} to ${obj.destination}`,
+
             fields:[
                 {name: 'id', inputType: 'number', readOnly:true},
                 {name: 'status', inputType: 'number'},
@@ -43,6 +45,7 @@ export const BackendContextProvider = ({children}) => {
                 {name: 'departure_date', inputType: 'date', formatValue: toHtmlInputDate },
                 {name: 'arrival_date', inputType: 'date', formatValue: toHtmlInputDate },
                 {name: 'event', inputType: 'autoComplete', related: {modelName:'event', returnPropertyName: 'id'}},
+                {name: 'preceding_shipment', inputType: 'autoComplete', related: {modelName:'shipment', returnPropertyName: 'id'}},
             ],
 
             meta: {

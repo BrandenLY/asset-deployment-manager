@@ -85,6 +85,7 @@ export const ShipmentDetailsForm = (props) => {
   const [departureDate, setDepartureDate] = useState(null);
   const [arrivalDate, setArrivalDate] = useState(null);
   const [event, setEvent] = useState(null);
+  const [precedingShipment, setPreceding_shipment] = useState(null);
 
   // FIXME: It's 4am and I have no idea if I even have to do this but... i see no other choice.
   const stateMap = { 
@@ -95,39 +96,33 @@ export const ShipmentDetailsForm = (props) => {
     destination, setDestination,
     departure_date:departureDate, setDeparture_date:setDepartureDate,
     arrival_date:arrivalDate, setArrival_date:setArrivalDate,
-    event, setEvent
+    event, setEvent,
+    preceding_shipment:precedingShipment, setPreceding_shipment:setPreceding_shipment
   }
 
   // FIXME: It's 4am and I have no idea if I even have to do this but... i see no other choice.
   useEffect(() => {
     // test loading effect
     if (props.current){
-      
       models.shipment.fields.forEach(field => {
 
         // Get State Value and Setter-Function names
-        const valueVarName = field.name;
         const setterVarName = `set${field.name[0].toUpperCase()}${field.name.slice(1, field.name.length)}`;
-        
+
         // Set state variables for this field
         if (field.formatValue) {
-          console.log(field.formatValue(props.current[valueVarName]))
           stateMap[setterVarName](
-            field.formatValue(props.current[valueVarName])
+            field.formatValue(props.current[field.name])
           );
           return;
         }
 
-        else if (field.related){
+        else if (field.related && props.current[field.name]){
           
-          const displayValue = models[field.related.modelName].getLabelName(props.current[valueVarName])
+          const displayValue = models[field.related.modelName].getLabelName(props.current[field.name])
 
-          console.log({
-            ...props.current[valueVarName],
-            label: displayValue
-          });
           stateMap[setterVarName]({
-            ...props.current[valueVarName],
+            ...props.current[field.name],
             label: displayValue
           });
           return;
@@ -135,7 +130,7 @@ export const ShipmentDetailsForm = (props) => {
 
         else {
           stateMap[setterVarName](
-            props.current[valueVarName]
+            props.current[field.name]
           )
         }
 
@@ -151,8 +146,8 @@ export const ShipmentDetailsForm = (props) => {
   return (
     <form className="shipment-detail-form">
       {models.shipment.fields.map(field => {
+
         const htmlInputId = `shipment-${field.name}`;
-        const valueVarName = field.name;
         const setterVarName = `set${field.name[0].toUpperCase()}${field.name.slice(1, field.name.length)}`;
 
         if (field.inputType == 'autoComplete') {

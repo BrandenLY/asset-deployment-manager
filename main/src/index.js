@@ -16,6 +16,7 @@ import ShipmentDetailView from "./views/ShipmentDetailView";
 // React Query Configuration
 // Docs: https://tanstack.com/query/latest/docs/react/overview
 const defaultQueryFn = async ({queryKey}) =>{
+
   const formattedUrl = new URL(
       `${window.location.protocol}${window.location.host}/api/${queryKey[0]}/${!!queryKey.at(1) ? queryKey.at(1) + "/" : ""}`
     )

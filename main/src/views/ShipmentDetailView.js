@@ -3,41 +3,15 @@ import { useParams } from "react-router-dom";
 import { Box, Paper, Typography, IconButton } from "@mui/material";
 import { ShipmentDetailPanel } from "../components/ShipmentDetailPanel";
 import { backendApiContext } from "../context";
-import { useQuery } from "@tanstack/react-query";
 import { useRichQuery } from "../customHooks";
-
-const initialState = {
-    // loading state
-
-    // shipment data
-
-    // related model data
-}
-
-const reducer = (state, action) => {
-    switch (action.type) {
-
-        case "LOAD-SHIPMENT" :
-            var newState = {
-                ...state,
-            }
-            return (newState);
-        
-        case "LOAD-RELATED" :
-            var newState = {
-                ...state,
-            }
-            return (newState);
-    }
-}
 
 const ShipmentDetailView = props =>{
 
     const locationParams = useParams();
-    const backendCtx = useContext(backendApiContext);
+    const { models } = useContext(backendApiContext);
 
     const state = useRichQuery({
-        model: backendCtx.models.shipment, 
+        model: models.shipment, 
         id: locationParams.id
     });
 
