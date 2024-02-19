@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 
 const apiBaseUrl = "http://127.0.0.1:8000/api/";
@@ -40,35 +41,29 @@ export const useBackend = ({model, id=null, makeInfinate=false}) => {
 }
 
 export const useRichQuery = ({model,id}) => {
+
     // Queries on certain models may need more than one query to retrieve data for related models.
     // This hook returns an object containing the initial query as well as any related queries.
 
-    let initialQuery = {};
-
-    // Query initial data
-    Object.defineProperty(initialQuery, 'query', {
-        value: useQuery({
-            queryKey:[model.modelName,id],
-        }),
-        writable: true,
-        enumerable: true
+    // State vars
+    const [isLoading, setIsLoading] = useState(true);
+    const initialQuery = useQuery({
+        queryKey:[model.modelName,id],
     })
-
-    const initialQueryLoaded = !!initialQuery.query.data;
-
     let relatedQueries = {};
     
-    // Query related fields
+    // Instantiate related-model queries
     model.fields.forEach(field => {
-        if ( field.related ){ // This field requires an additional fetch.
+        if ( field.related?.modelName ){ // This field requires an additional fetch.
 
-            let relatedObjectId = initialQuery.query.data?.[field.name]
+            let relatedObjectId = initialQuery.data?.[field.name]
 
             Object.defineProperty(relatedQueries, field.name, {
                 value: useQuery({
                     queryKey : [field.related.modelName, relatedObjectId],
-                    enabled : initialQueryLoaded && !!relatedObjectId
+                    enabled : !!initialQuery.data && !!relatedObjectId
                 }),
+                configurable: true,
                 writable: true,
                 enumerable: true
             });
@@ -76,18 +71,29 @@ export const useRichQuery = ({model,id}) => {
         }
     })
 
-    // Get holistic loading status
-    const isLoading = [
-        initialQuery.query.isLoading, // Initial query's loading status.
-        ...(Object.values(relatedQueries).map(Q => Q.isLoading)) // Related query loading statuses.
-    ].includes(true)
+    // Update holistic loading status
+    useEffect(() => {
+
+        if (initialQuery.data){
+
+            setIsLoading([
+                initialQuery.isLoading, 
+                ...(Object.entries(relatedQueries).map(
+                    ([qName, qValue]) => qValue.isLoading && !!initialQuery.data[qName]
+                ))
+            ].includes(true))
+        
+        }
+
+    })
+    
 
     // Get drilled query data
-    let value = null;
+    let value = null
     if (!isLoading) {
-        value = Object.assign({}, initialQuery.query.data)
+        value = {...initialQuery.data}
         Object.entries(relatedQueries).forEach(([model, Q]) => {
-            value[model] = Q.data
+            value[model] = Q.data ? Q.data : null;
         })
     }
 
