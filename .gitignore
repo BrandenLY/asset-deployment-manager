@@ -31,10 +31,7 @@ main/static/main/js/main.js.LICENSE.txt
 main/static/main/js/main.js
 
 requirements.txt
-api/serializers/__pycache__/assets_serializers.cpython-311.pyc
 assets/__pycache__/models.cpython-311.pyc
 main/static/main/js/main.js.LICENSE.txt
 api/serializers/__pycache__/assets_serializers.cpython-311.pyc
-api/serializers/__pycache__/assets_serializers.cpython-311.pyc
-assets/__pycache__/models.cpython-311.pyc
-main/static/main/js/main.js.LICENSE.txt
+
