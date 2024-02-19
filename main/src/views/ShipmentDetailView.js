@@ -8,7 +8,7 @@ import { useRichQuery } from "../customHooks";
 const ShipmentDetailView = props =>{
 
     const locationParams = useParams();
-    const { models } = useContext(backendApiContext);
+    const { models, csrftoken } = useContext(backendApiContext);
 
     const state = useRichQuery({
         model: models.shipment, 
@@ -20,7 +20,7 @@ const ShipmentDetailView = props =>{
     const updateShipment = e => {
         const requestHeaders = new Headers();
         requestHeaders.set('Content-Type', 'application/json');
-        requestHeaders.set('X-CSRFToken', backendCtx.csrftoken)
+        requestHeaders.set('X-CSRFToken', csrftoken)
 
         // fetch(
         //     `${backendCtx.baseUrl}/shipment/`, 

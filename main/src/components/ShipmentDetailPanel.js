@@ -7,6 +7,7 @@ import {
   Box,
   Paper,
   Typography,
+  TextField,
   IconButton,
   Button,
   OutlinedInput,
@@ -16,7 +17,8 @@ import {
   Divider,
   List,
   ListItem,
-  ListItemText
+  ListItemText,
+  Autocomplete
 } from "@mui/material";
 import { Edit } from "@mui/icons-material";
 import { backendApiContext } from "../context";
@@ -108,6 +110,7 @@ export const ShipmentDetailsForm = (props) => {
 
         // Get State Value and Setter-Function names
         const setterVarName = `set${field.name[0].toUpperCase()}${field.name.slice(1, field.name.length)}`;
+        const fieldNotNull = !!props.current[field.name]
 
         // Set state variables for this field
         if (field.formatValue) {
@@ -117,7 +120,7 @@ export const ShipmentDetailsForm = (props) => {
           return;
         }
 
-        else if (field.related && props.current[field.name]){
+        else if (field.related && fieldNotNull){
           
           const displayValue = models[field.related.modelName].getLabelName(props.current[field.name])
 
@@ -126,6 +129,17 @@ export const ShipmentDetailsForm = (props) => {
             label: displayValue
           });
           return;
+        }
+
+        else if (field.options && fieldNotNull){
+
+          const displayValue = field.options[props.current[field.name]]
+
+          stateMap[setterVarName]({
+            id: props.current[field.name],
+            label: displayValue
+          })
+
         }
 
         else {
@@ -150,7 +164,7 @@ export const ShipmentDetailsForm = (props) => {
         const htmlInputId = `shipment-${field.name}`;
         const setterVarName = `set${field.name[0].toUpperCase()}${field.name.slice(1, field.name.length)}`;
 
-        if (field.inputType == 'autoComplete') {
+        if (field.inputType == 'autoComplete' && field.related) {
           return (
             <FormControl id={htmlInputId}>
               <ModelAutoComplete
@@ -166,6 +180,33 @@ export const ShipmentDetailsForm = (props) => {
               ) : null}
             </FormControl>
           );
+        } else if (field.inputType == 'autoComplete' && field.options) {
+
+          const dataOptions = field.options.map(
+            optionValue => {
+              return({
+                id: field.options.indexOf(optionValue),
+                label: optionValue
+              })
+            }
+          )
+
+          return(
+            <FormControl id={htmlInputId}>
+              <Autocomplete
+                id={htmlInputId}
+                options={dataOptions}
+                disabled={field.readOnly ? true : !props.isEditing}
+                renderInput={(params) => <TextField {...params} label={field.name} />}
+                value={stateMap[field.name]}
+                onChange={(e,v) => stateMap[setterVarName](v)}
+              />
+
+              {!!field.helpText ? (
+                <FormHelperText children={field.helpText} />
+              ) : null}
+            </FormControl>
+          )
         } else {
           return (
             <FormControl id={htmlInputId}>

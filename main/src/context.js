@@ -38,7 +38,7 @@ export const BackendContextProvider = ({children}) => {
 
             fields:[
                 {name: 'id', inputType: 'number', readOnly:true},
-                {name: 'status', inputType: 'number'},
+                {name: 'status', inputType: 'autoComplete', options: ["Scheduled", "Packed", "In Transit", "Delivered", "Canceled"]},
                 {name: 'carrier', inputType: 'text'},
                 {name: 'origin', inputType: 'autoComplete', related: {modelName:'location', returnPropertyName: 'id'}},
                 {name: 'destination', inputType: 'autoComplete', related: {modelName:'location', returnPropertyName: 'id'}},
