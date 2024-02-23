@@ -75,7 +75,6 @@ const SortingGridColumnHeader = props => {
 }
 
 const SortingGridRow = ({data, columns}) => {
-    console.log(data)
     const getDisplayValue = (column, data) =>{
         if (!!column.getDisplay){
             return column.getDisplay(data[column.name])
