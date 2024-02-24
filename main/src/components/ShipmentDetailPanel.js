@@ -38,7 +38,7 @@ export const ShipmentDetailPanel = (props) => {
   };
 
   return (
-    <Paper>
+    <Paper className="ShipmentDetailsColumn">
     <List className="ShipmentDetailsColumn" sx={{padding: 1, height: "100%"}} dense>
 
       <ListItem
@@ -55,21 +55,9 @@ export const ShipmentDetailPanel = (props) => {
       <Divider flexItem />
 
       <ListItem sx={{flexGrow: 1, alignItems:"flex-start"}} disableGutters>
-        <ShipmentDetailsForm isEditing={isEditing} current={props.shipment}/>
+        <ShipmentDetailsForm isEditing={isEditing} setIsEditing={setIsEditing} updateShipment={props.updateShipment} current={props.shipment}/>
       </ListItem>
 
-      {isEditing && (
-        <ListItem sx={{ justifyContent: "center"}}>
-          <Button
-            color="primary"
-            variant="contained"
-            onClick={props.setShipment
-            }
-          >
-            Save
-          </Button>
-        </ListItem>
-      )}
       </List>
     </Paper>
   );
@@ -154,11 +142,28 @@ export const ShipmentDetailsForm = (props) => {
 
     }
 
-  }, [props.current])
+  }, [props.current, props.isEditing])
+
+  const parseStateToShipment = () => {
+    let value = {id, status, carrier, origin, destination, departure_date:departureDate, arrival_date:arrivalDate, event, preceding_shipment:precedingShipment};
+
+    models.shipment.fields.forEach( f => {
+      // serialize values
+      if (f.related || f.options){
+        value[f.name] = stateMap[f.name]?.['id']
+      }
+      else if (f.inputType == 'date'){
+        value[f.name] = new Date(stateMap[f.name])
+      }
+    })
+
+    return value;
+  }
 
   // JSX
   return (
     <form className="shipment-detail-form">
+
       {models.shipment.fields.map(field => {
 
         const htmlInputId = `shipment-${field.name}`;
@@ -231,6 +236,26 @@ export const ShipmentDetailsForm = (props) => {
           );
         }
       })}
+      
+      {props.isEditing && (
+        <Box className="form-actions">
+          <Button
+            color="primary"
+            variant="contained"
+            onClick={() => props.updateShipment({model: models.shipment, data:
+              parseStateToShipment()})}
+          >
+            Save
+          </Button>
+          <Button
+            color="primary"
+            onClick={() => props.setIsEditing(false)}
+          >
+            Reset
+          </Button>
+        </Box>
+      )}
+
     </form>
   );
 };
