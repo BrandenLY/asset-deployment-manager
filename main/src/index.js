@@ -49,7 +49,7 @@ const defaultHasNextPageFn = (lastPage, pages) => new Boolean(lastPage.next);
 
 const defaultStaleTimeInHours = 1;
 
-const queryClient = new QueryClient({
+export const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       queryFn: defaultQueryFn,
