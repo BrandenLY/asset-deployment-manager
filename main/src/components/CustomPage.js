@@ -1,11 +1,13 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import { useLocation, Link as RouterLink } from 'react-router-dom';
 
-import { Box, Breadcrumbs, Link, Typography } from '@mui/material';
+import { Box, Breadcrumbs, Link, Typography, Snackbar, Alert } from '@mui/material';
 import {Home} from '@mui/icons-material';
 
 import PrimaryNav from './PrimaryNav'
 import { BackendContextProvider } from '../context';
+
+const notificationDisplayDuration = 3 * 1000;
 
 const CustomBreadcrumbs = props => {
     const location = useLocation()
@@ -39,8 +41,40 @@ const CustomBreadcrumbs = props => {
 }
 
 const CustomPage = ({ className, children, view: View, ...props }) => {
+
   const classNames = ['page', className].join(' ');
   
+  const notifications = useRef([]);
+  const [activeNotification, setActiveNotification] = useState(null);
+  const addNotification = notif => {
+    let notifElement = (
+        <Alert 
+            onClose = { closeActiveNotification }
+            severity = { notif.severity ? notif.severity : 'success' }
+            variant = { notif.variant ? notif.variant : 'filled'}
+        >
+            {notif.message}
+        </Alert>
+    );
+    notifications.current = [...notifications.current, notifElement];
+  }
+  const closeActiveNotification = (e, r) => {
+    if (r === 'clickaway'){
+        return;
+    }
+    setActiveNotification(null);
+  }
+  useEffect(() => {
+    const upcomingNotification = notifications.current.shift(); // Retrieve notification from queue
+
+    if (!activeNotification && !!upcomingNotification){
+        setActiveNotification(upcomingNotification);
+    } else if (!!upcomingNotification && activeNotification){
+        notifications.current.unshift(upcomingNotification); // Return the notification to the queue
+    }
+  },[activeNotification])
+
+
   return (
     <BackendContextProvider>
 
@@ -52,8 +86,16 @@ const CustomPage = ({ className, children, view: View, ...props }) => {
                 {/* Nav Breadcrumbs */}
                 <Typography variant="subtitle1" sx={{margin: 1}}> <CustomBreadcrumbs/> </Typography>
                 {/* Page Content */}
-                { View ? <View {...props}/> : "" }
+                { View ? <View addNotif={addNotification} remNotif={closeActiveNotification} {...props}/> : "" }
             </Box>
+            <Snackbar 
+                open={!!activeNotification}
+                autoHideDuration={notificationDisplayDuration}
+                onClose={closeActiveNotification}
+                anchorOrigin={{vertical:'bottom', horizontal:'right'}}
+            >
+                {activeNotification}
+            </Snackbar>
         </Box>
 
     </BackendContextProvider>
