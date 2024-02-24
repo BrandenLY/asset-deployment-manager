@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useContext, useReducer, useCallback } from "react";
 import { useParams } from "react-router-dom";
-import { Box, Paper, Typography, IconButton } from "@mui/material";
+import { Box, Paper, Typography, IconButton, Snackbar } from "@mui/material";
 import { ShipmentDetailPanel } from "../components/ShipmentDetailPanel";
 import { backendApiContext } from "../context";
 import { useRichQuery } from "../customHooks";
+import { useMutation } from "@tanstack/react-query";
 
 const ShipmentDetailView = props =>{
 
@@ -15,36 +16,20 @@ const ShipmentDetailView = props =>{
         id: locationParams.id
     });
 
-    // Callback Functions
-    // FIXME: This may require optimization
-    const updateShipment = e => {
-        const requestHeaders = new Headers();
-        requestHeaders.set('Content-Type', 'application/json');
-        requestHeaders.set('X-CSRFToken', csrftoken)
-
-        // fetch(
-        //     `${backendCtx.baseUrl}/shipment/`, 
-        //     {
-        //         method:"POST",
-        //         body: JSON.stringify({...state.data.shipment}),
-        //         headers : requestHeaders
-        //     }
-                
-        // )
-        // .then(res => res.json())
-        // .then(data => console.log(data))
-
-        console.log(e);
-    }
+    const { mutate } = useMutation({
+        onSettled: (data, error, variables) => {
+            console.log("settled", data, error, variables);
+        },
+    });
 
     return (
         <Box className="ShipmentDetailView">
             <ShipmentDetailPanel
                 shipment={state.value}
-                setShipment={updateShipment}
+                updateShipment={mutate}
             />
             <Box sx={{textWrap: "wrap"}}>
-                {JSON.stringify(state.value,null,2)}
+                
             </Box>
         </Box>
     );
