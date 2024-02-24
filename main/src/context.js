@@ -4,7 +4,7 @@ import { useBackend } from "./customHooks";
 import { useQuery } from '@tanstack/react-query';
 
 // Helper Functions
-const getCookie = (name) => {
+export const getCookie = (name) => {
     let cookieValue = null;
     if (document.cookie && document.cookie !== '') {
         const cookies = document.cookie.split(';');
