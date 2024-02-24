@@ -12,6 +12,7 @@ import CustomPage from "./components/CustomPage";
 import EventDetailView from "./views/EventDetailView";
 import ManageShipmentView from "./views/ManageShipmentView";
 import ShipmentDetailView from "./views/ShipmentDetailView";
+import { getCookie } from "./context";
 
 // React Query Configuration
 // Docs: https://tanstack.com/query/latest/docs/react/overview
@@ -24,6 +25,16 @@ const defaultQueryFn = async ({queryKey}) =>{
   const res = await fetch(formattedUrl);
   const data = await res.json();
   return data;
+}
+
+const defaultMutationFn = async ({model, data}) =>{
+
+  const updateUrl = new URL(`${window.location.protocol}${window.location.host}/api/${model.modelName}/${data.id}/`)
+  const requestHeaders = new Headers();
+  requestHeaders.set('Content-Type', 'application/json');
+  requestHeaders.set('X-CSRFToken', getCookie('csrftoken'))
+
+  return fetch( updateUrl, {method:"PUT", headers:requestHeaders, body:JSON.stringify(data)} )
 }
 
 const defaultGetNextPageFn = (lastPage, pages) => {
@@ -45,6 +56,9 @@ const queryClient = new QueryClient({
       getNextPageParam: defaultGetNextPageFn,
       hasNextPage: defaultHasNextPageFn,
       staleTime: defaultStaleTimeInHours * 60 * 60 * 1000
+    },
+    mutations: {
+      mutationFn: defaultMutationFn,
     }
   }
 })
