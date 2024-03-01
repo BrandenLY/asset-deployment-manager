@@ -9,7 +9,7 @@
 }
 
 .ShipmentDetailsColumn{
-    max-height: var(--content-height);
+    min-height: var(--content-height);
     width: 316px;
     display: flex;
     flex-direction: column;
