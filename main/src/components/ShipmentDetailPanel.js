@@ -76,6 +76,7 @@ export const ShipmentDetailsForm = (props) => {
   const [arrivalDate, setArrivalDate] = useState(null);
   const [event, setEvent] = useState(null);
   const [precedingShipment, setPreceding_shipment] = useState(null);
+  const [fieldErrors, setFieldErrors] = useState({});
 
   // FIXME: It's 4am and I have no idea if I even have to do this but... i see no other choice.
   const stateMap = { 
@@ -98,10 +99,10 @@ export const ShipmentDetailsForm = (props) => {
 
         // Get State Value and Setter-Function names
         const setterVarName = `set${field.name[0].toUpperCase()}${field.name.slice(1, field.name.length)}`;
-        const fieldNotNull = !!props.current[field.name]
+        const fieldNotNull = props.current[field.name] != null && props.current[field.name] != undefined
 
         // Set state variables for this field
-        if (field.formatValue) {
+        if (field.formatValue && fieldNotNull) {
           stateMap[setterVarName](
             field.formatValue(props.current[field.name])
           );
@@ -122,7 +123,6 @@ export const ShipmentDetailsForm = (props) => {
         else if (field.options && fieldNotNull){
 
           const displayValue = field.options[props.current[field.name]]
-
           stateMap[setterVarName]({
             id: props.current[field.name],
             label: displayValue
@@ -130,7 +130,7 @@ export const ShipmentDetailsForm = (props) => {
 
         }
 
-        else {
+        else if (fieldNotNull){
           stateMap[setterVarName](
             props.current[field.name]
           )
@@ -160,6 +160,10 @@ export const ShipmentDetailsForm = (props) => {
     return value;
   }
 
+  const addFieldErrors = errors =>{
+    setFieldErrors(current => ({...current, ...errors}));
+  }
+
   // JSX
   return (
     <form className="shipment-detail-form">
@@ -171,19 +175,16 @@ export const ShipmentDetailsForm = (props) => {
 
         if (field.inputType == 'autoComplete' && field.related) {
           return (
-            <FormControl id={htmlInputId}>
+            <CustomFormControl helpText={field.helpText} fieldError={fieldErrors[field.name]} id={htmlInputId}>
               <ModelAutoComplete
                 value={stateMap[field.name]}
                 field={field}
                 isEditing={props.isEditing}
                 inputId={htmlInputId}
                 onChange={(e, v) => stateMap[setterVarName](v)}
+                error={!!fieldErrors[field.name]}
               />
-
-              {!!field.helpText ? (
-                <FormHelperText children={field.helpText} />
-              ) : null}
-            </FormControl>
+            </CustomFormControl>
           );
         } else if (field.inputType == 'autoComplete' && field.options) {
 
@@ -197,42 +198,37 @@ export const ShipmentDetailsForm = (props) => {
           )
 
           return(
-            <FormControl id={htmlInputId}>
+            <CustomFormControl helpText={field.helpText} fieldError={fieldErrors[field.name]} id={htmlInputId}>
               <Autocomplete
                 id={htmlInputId}
                 options={dataOptions}
                 disabled={field.readOnly ? true : !props.isEditing}
-                renderInput={(params) => <TextField {...params} label={field.name} />}
+                renderInput={(params) => <TextField error={!!fieldErrors[field.name]} {...params} label={field.name} />}
                 value={stateMap[field.name]}
                 onChange={(e,v) => stateMap[setterVarName](v)}
-              />
-
-              {!!field.helpText ? (
-                <FormHelperText children={field.helpText} />
-              ) : null}
-            </FormControl>
+              />  
+            </CustomFormControl>
           )
         } else {
           return (
-            <FormControl id={htmlInputId}>
-              <InputLabel shrink variant="outlined">
-                {field.name}
-              </InputLabel>
+            <CustomFormControl helpText={field.helpText} fieldError={fieldErrors[field.name]} id={htmlInputId}>
+              <>
+                <InputLabel shrink variant="outlined" error={!!fieldErrors[field.name]}>
+                  {field.name}
+                </InputLabel>
 
-              <OutlinedInput
-                id={htmlInputId}
-                type={field.inputType}
-                disabled={field.readOnly ? true : !props.isEditing}
-                value={stateMap[field.name]}
-                label={field.name}
-                notched={true}
-                onChange={(e, v) => stateMap[setterVarName](e.target.value)}
-              />
-
-              {!!field.helpText ? (
-                <FormHelperText children={field.helpText} />
-              ) : null}
-            </FormControl>
+                <OutlinedInput
+                  id={htmlInputId}
+                  type={field.inputType}
+                  disabled={field.readOnly ? true : !props.isEditing}
+                  value={stateMap[field.name]}
+                  label={field.name}
+                  notched={true}
+                  onChange={(e, v) => stateMap[setterVarName](e.target.value)}
+                  error={!!fieldErrors[field.name]}
+                />
+              </>
+            </CustomFormControl>
           );
         }
       })}
@@ -243,13 +239,13 @@ export const ShipmentDetailsForm = (props) => {
             color="primary"
             variant="contained"
             onClick={() => props.updateShipment({model: models.shipment, data:
-              parseStateToShipment()})}
+              parseStateToShipment(), addFieldErrors})}
           >
             Save
           </Button>
           <Button
             color="primary"
-            onClick={() => props.setIsEditing(false)}
+            onClick={() => {setFieldErrors({}); props.setIsEditing(false)}}
           >
             Reset
           </Button>
@@ -258,4 +254,23 @@ export const ShipmentDetailsForm = (props) => {
 
     </form>
   );
+};
+
+export const CustomFormControl = (props) => {
+  
+  return(
+    <FormControl id={props.id}>
+
+    {props.children}
+
+    {!!props.helpText ? (
+      <FormHelperText children={props.helpText} />
+    ) : null}
+
+    
+    {!!props.fieldError ? (
+      <FormHelperText children={props.fieldError} sx={{color:"error.main"}}/>
+    ) : null}
+    </FormControl>
+  )
 };

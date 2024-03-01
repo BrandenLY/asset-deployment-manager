@@ -12,7 +12,9 @@ export const ModelAutoComplete = props => {
         enabled: props.isEditing
     })
 
-    const dataOptions = data.data?.pages.map(p => p.results).flat().map( result => backendCtx.models[props.field.related.modelName].getLabelName(result));
+    const dataOptions = data.data?.pages.map(p => p.results).flat().map( result => {
+        return({...result, label:backendCtx.models[props.field.related.modelName].getLabelName(result)})
+    });
 
     return (
         <>
@@ -20,7 +22,7 @@ export const ModelAutoComplete = props => {
                 id={props.inputId}
                 options={dataOptions}
                 disabled={props.field.readOnly ? true : !props.isEditing}
-                renderInput={(params) => <TextField {...params} label={props.field.name} />}
+                renderInput={(params) => <TextField error={props.error} {...params} label={props.field.name} />}
                 value={props.value}
                 onChange={props.onChange}
             />

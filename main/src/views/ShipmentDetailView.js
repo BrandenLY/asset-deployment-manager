@@ -5,6 +5,7 @@ import { ShipmentDetailPanel } from "../components/ShipmentDetailPanel";
 import { backendApiContext } from "../context";
 import { useRichQuery } from "../customHooks";
 import { useMutation } from "@tanstack/react-query";
+import { queryClient } from "../index"
 
 const ShipmentDetailView = props =>{
 
@@ -18,7 +19,20 @@ const ShipmentDetailView = props =>{
 
     const { mutate } = useMutation({
         onSettled: (data, error, variables) => {
-            console.log("settled", data, error, variables);
+            if (data.ok){
+                props.addNotif({message:'Successfully updated shipment'});
+                data.json().then(data => queryClient.setQueryData(['shipment', locationParams.id], data))
+            } else {
+                props.addNotif({message:'Failed to update shipment', severity:'error'})
+                data.json().then(data => {
+                    Object.entries(data).forEach( ([fieldName,fieldErrors]) => {
+                        fieldErrors.forEach(error => {
+                            console.log(fieldName,error)
+                            variables.addFieldErrors(Object.fromEntries(new Map([[fieldName,error]])))
+                        })
+                    })
+                })
+            }
         },
     });
 

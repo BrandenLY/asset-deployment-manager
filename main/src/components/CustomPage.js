@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useState, useEffect, useRef, useCallback} from 'react';
 import { useLocation, Link as RouterLink } from 'react-router-dom';
 
 import { Box, Breadcrumbs, Link, Typography, Snackbar, Alert } from '@mui/material';
@@ -46,7 +46,7 @@ const CustomPage = ({ className, children, view: View, ...props }) => {
   
   const notifications = useRef([]);
   const [activeNotification, setActiveNotification] = useState(null);
-  const addNotification = notif => {
+  const addNotification = useCallback(notif => {
     let notifElement = (
         <Alert 
             onClose = { closeActiveNotification }
@@ -57,13 +57,18 @@ const CustomPage = ({ className, children, view: View, ...props }) => {
         </Alert>
     );
     notifications.current = [...notifications.current, notifElement];
-  }
+    if (activeNotification == null){
+        setActiveNotification(notifications.current.shift())
+    }
+  }, [])
+
   const closeActiveNotification = (e, r) => {
     if (r === 'clickaway'){
         return;
     }
     setActiveNotification(null);
   }
+
   useEffect(() => {
     const upcomingNotification = notifications.current.shift(); // Retrieve notification from queue
 
@@ -72,7 +77,7 @@ const CustomPage = ({ className, children, view: View, ...props }) => {
     } else if (!!upcomingNotification && activeNotification){
         notifications.current.unshift(upcomingNotification); // Return the notification to the queue
     }
-  },[activeNotification])
+  })
 
 
   return (
@@ -102,4 +107,4 @@ const CustomPage = ({ className, children, view: View, ...props }) => {
 
 )};
 
-export default CustomPage;
+export default CustomPage;79470959
