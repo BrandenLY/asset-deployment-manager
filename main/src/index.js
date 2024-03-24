@@ -28,7 +28,7 @@ const defaultQueryFn = async ({queryKey}) =>{
 }
 const defaultMutationFn = async ({model, data}) =>{
 
-  const updateUrl = new URL(`${window.location.protocol}${window.location.host}/api/${model.modelName}/${data.id}/`)
+  const updateUrl = new URL(`${window.location.protocol}${window.location.host}/api/${model.modelName}/${data.id ? data.id + '/' : ''}`)
   const requestHeaders = new Headers();
   requestHeaders.set('Content-Type', 'application/json');
   requestHeaders.set('X-CSRFToken', getCookie('csrftoken'))
@@ -108,6 +108,9 @@ const App = () => {
         opacity: "75%",
         fontSize: "1.6rem",
         lineHeight: "40px"
+      },
+      formErrorText:{
+        color: "crimson",
       }
     }
   });
