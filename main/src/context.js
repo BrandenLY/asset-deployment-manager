@@ -45,7 +45,7 @@ export const BackendContextProvider = ({children}) => {
                 {name: 'departure_date', inputType: 'date', formatValue: toHtmlInputDate },
                 {name: 'arrival_date', inputType: 'date', formatValue: toHtmlInputDate },
                 {name: 'event', inputType: 'autoComplete', related: {modelName:'event', returnPropertyName: 'id'}},
-                {name: 'preceding_shipment', inputType: 'autoComplete', related: {modelName:'shipment', returnPropertyName: 'id'}},
+                {name: 'send_back_shipment', inputType: 'autoComplete', related: {modelName:'shipment', returnPropertyName: 'id'}},
             ],
 
             meta: {
