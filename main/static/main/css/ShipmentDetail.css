@@ -54,7 +54,7 @@
         grid-column: span 2;
     }
 
-    #shipment-preceding_shipment{
+    #shipment-send_back_shipment{
         grid-row: 8;
         grid-column: span 2;
     }
