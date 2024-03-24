@@ -1,9 +1,6 @@
-import json
-from django.db import transaction
-from django.contrib.contenttypes.models import ContentType
 from rest_framework import serializers
 from assets.models import Asset, AssetModel, Location, Shipment
-from api.serializers.event_serializer import EventSerializer
+from .base_serializers import CustomBaseSerializer
 
 
 class ContentAssetsField(serializers.ReadOnlyField):
@@ -19,7 +16,7 @@ class ContentAssetsField(serializers.ReadOnlyField):
         related_objects = value.assets.all()
         return [AssetSerializer(object).data for object in related_objects]
 
-class AssetSerializer(serializers.ModelSerializer):
+class AssetSerializer(CustomBaseSerializer):
     assets = ContentAssetsField()
     parent_content_type = serializers.SerializerMethodField()
 
@@ -27,6 +24,7 @@ class AssetSerializer(serializers.ModelSerializer):
         model = Asset
         fields = [
             "id",
+            "label",
             "model",
             "code",
             "serial_number",
@@ -51,12 +49,13 @@ class AssetSerializer(serializers.ModelSerializer):
             'name' : obj.parent_content_type.model
         }
 
-class AssetModelSerializer(serializers.ModelSerializer):
+class AssetModelSerializer(CustomBaseSerializer):
 
     class Meta:
         model = AssetModel
         fields = [
             "id",
+            "label",
             "name",
             "description",
             "manufacturer",
@@ -64,12 +63,13 @@ class AssetModelSerializer(serializers.ModelSerializer):
             "image"
         ]
 
-class LocationSerializer(serializers.ModelSerializer):
+class LocationSerializer(CustomBaseSerializer):
 
     class Meta:
         model = Location
         fields = [
             "id",
+            "label",
             "name",
             "address_line_1",
             "address_line_2",
@@ -81,7 +81,7 @@ class LocationSerializer(serializers.ModelSerializer):
             "latitude"
         ]
 
-class ShipmentSerializer(serializers.ModelSerializer):
+class ShipmentSerializer(CustomBaseSerializer):
     
     assets = ContentAssetsField()
     packed_assets = serializers.SerializerMethodField()
@@ -91,6 +91,7 @@ class ShipmentSerializer(serializers.ModelSerializer):
         model = Shipment
         fields = [
             "id",
+            "label",
             "status",
             "carrier",
             "origin",
@@ -101,11 +102,12 @@ class ShipmentSerializer(serializers.ModelSerializer):
             "asset_counts",
             "assets",
             "packed_assets",
+            "send_back_shipment",
         ]
 
     def get_packed_assets(self, obj):
 
-        return json.loads(obj.packed_assets)
+        return obj.packed_assets
     
     def get_asset_counts(self, obj):
         children=obj.assets.all()
@@ -121,14 +123,3 @@ class ShipmentSerializer(serializers.ModelSerializer):
             'extended_children' : extended_child_count
         }
 
-# [<QuerySet [<Asset: APL002 - Apple Iphone>]>, 
-#  <QuerySet [<Asset: BBS002 - Windows PC>]>, 
-#  <Asset: APL001 - Apple Iphone>, 
-#  <Asset: BBS001 - Windows PC>]
-
-# [
-#     [<Asset: APL002 - Apple Iphone>], 
-#     [<Asset: BBS002 - Windows PC>], 
-#     <Asset: APL001 - Apple Iphone>, 
-#     <Asset: BBS001 - Windows PC>
-# ]

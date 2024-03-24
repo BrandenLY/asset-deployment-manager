@@ -95,7 +95,7 @@ class Shipment(models.Model):
     packed_assets = models.JSONField(_("Packed Assets"), default=list)
     departure_date = models.DateTimeField(_("Departure Date"), blank=True, null=True)
     arrival_date = models.DateTimeField(_("Arrival Date"), blank=True, null=True)
-    preceding_shipment = models.ForeignKey("assets.Shipment", on_delete=models.CASCADE, blank=True, null=True)
+    send_back_shipment = models.ForeignKey("assets.Shipment", on_delete=models.CASCADE, blank=True, null=True)
     
     class Meta:
         ordering = [ "status", "arrival_date" ]
