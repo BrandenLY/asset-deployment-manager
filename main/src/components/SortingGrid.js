@@ -84,8 +84,8 @@ const SortingGridRow = ({data, columns}) => {
         }
     }
     return (
-        <TableRow key={data.id}>
-            {columns.map(c => <TableCell>{getDisplayValue(c, data)}</TableCell>)}
+        <TableRow key={data.id} sx={{height: "82px"}}>
+            {columns.map(c => <TableCell sx={{height: "inherit"}}><Typography variant="body2" noWrap>{getDisplayValue(c, data)}</Typography></TableCell>)}
         </TableRow>
     )
 }
@@ -97,7 +97,7 @@ const SortingGrid = props => {
     const [sortKey, setSortKey] = useState(props.sortBy ? props.sortBy : "Id"); // The datapoint to sort based on.
 
     return(
-        <Paper className="ShipmentGrid" sx={{padding:2, minHeight:"500px"}} elevation={2}>
+        <Paper className="ShipmentGrid" sx={{padding:2, minHeight:"500px"}}>
             <Box>
                 <Typography variant="h4">{props.name}</Typography>
             </Box>

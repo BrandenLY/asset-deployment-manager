@@ -23,13 +23,13 @@ const PrimaryNav = (props) => {
     const drawer = (
         <Drawer 
             sx={{
-                gridArea: "sidebar",
+                // gridArea: "sidebar",
                 flex: "unset",
                 width: expanded ? drawerWidth : "0",
                 height: "100%",
                 '& .MuiDrawer-paper': {
                     width: drawerWidth,
-                    padding: 1,
+                    padding: 2,
                 },
             }}
             anchor="right"
@@ -38,17 +38,7 @@ const PrimaryNav = (props) => {
             onClose={() => setExpanded(false)}
         >
             <nav>
-                <List>
-                    <ListItem 
-                        disablePadding
-                    >
-                        <ListItemButton onClick={() => setExpanded(false)} sx={{
-                            height: navHeight,
-                        }}>
-                            <ListItemIcon><Close /></ListItemIcon>
-                        </ListItemButton>
-                    </ListItem>
-                    <Divider></Divider>
+                <List sx={{paddingTop:2, marginTop:navHeight}} >
                     <ListItem disablePadding>
                         <ListItemButton onClick={() => navigate('/assets')}>
                             <ListItemIcon><Smartphone /></ListItemIcon>
@@ -99,13 +89,18 @@ const PrimaryNav = (props) => {
                 justifyContent: "space-between", 
                 alignItems: "center",
                 height: navHeight,
-                minWidth: '375px'
+                minWidth: '375px',
+                zIndex: 2000,
             }}
             color="primary"
         >
             {appIcon}
             <IconButton onClick={() => setExpanded(!expanded)} size="large">
+                {expanded ? 
+                <Close fontSize="inherit"></Close>
+                :
                 <Menu fontSize="inherit"></Menu>
+                }
             </IconButton>
         </Paper> {drawer}
     </>
