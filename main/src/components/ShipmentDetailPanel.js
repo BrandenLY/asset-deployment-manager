@@ -75,7 +75,7 @@ export const ShipmentDetailsForm = (props) => {
   const [departureDate, setDepartureDate] = useState(null);
   const [arrivalDate, setArrivalDate] = useState(null);
   const [event, setEvent] = useState(null);
-  const [precedingShipment, setPreceding_shipment] = useState(null);
+  const [sendBackShipment, setSendBackShipment] = useState(null);
   const [fieldErrors, setFieldErrors] = useState({});
 
   // FIXME: It's 4am and I have no idea if I even have to do this but... i see no other choice.
@@ -88,7 +88,7 @@ export const ShipmentDetailsForm = (props) => {
     departure_date:departureDate, setDeparture_date:setDepartureDate,
     arrival_date:arrivalDate, setArrival_date:setArrivalDate,
     event, setEvent,
-    preceding_shipment:precedingShipment, setPreceding_shipment:setPreceding_shipment
+    send_back_shipment:sendBackShipment, setSend_back_shipment:setSendBackShipment
   }
 
   // FIXME: It's 4am and I have no idea if I even have to do this but... i see no other choice.

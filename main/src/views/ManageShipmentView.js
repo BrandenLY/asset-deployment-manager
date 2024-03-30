@@ -2,11 +2,11 @@ import React, {useEffect, useState, useRef, useContext} from "react";
 import { Box, Button, Dialog, Link, Fab, Paper, Typography, Grid, IconButton, Divider, Container, List, ListItem} from "@mui/material";
 import { Add, Close } from '@mui/icons-material';
 import SortingGrid from "../components/SortingGrid";
-import { useBackend, useModelFormFields } from "../customHooks";
+import { useBackend, useModelFormFields, useModelOptions, useRichQuery } from "../customHooks";
 import {
     Link as RouterLink,
   } from 'react-router-dom';
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useMutation, useQuery } from "@tanstack/react-query";
 import { backendApiContext, getCookie } from "../context";
 
 
@@ -14,9 +14,14 @@ const ManageShipmentView = props => {
 
     // State
     const [displayCreateShipmentDialog, setDisplayCreateShipmentDialog] = useState(false);
-    const backendCtx = useContext(backendApiContext);
-    
-    // Retrieve Shipment Data
+    const [createReturnShipmentOnSubmit, setCreateReturnShipmentOnSubmit] = useState(false);
+    const shipmentOptions = useModelOptions('shipment');
+
+    // Retrieve Paginated Shipment Data
+    const shipments = useInfiniteQuery({
+        queryKey: ['shipment'],
+    });
+
     const {
         data:shipmentData,
         fetchNextPage:fetchNextShipmentDataPage,
@@ -26,31 +31,6 @@ const ManageShipmentView = props => {
         isLoading:isLoadingShipmentData,
     } = useBackend({model:"shipment", id:null, makeInfinate:true});
 
-    const initialColumns = [
-        {name:"id", type:"number", getDisplay: (object) => <Link component={RouterLink} to={`/shipments/${object}`}>{object}</Link>}, 
-        {name:"status", type:"text", getDisplay: (object) => backendCtx.models.shipment.meta.statuses[object]},
-        {name:"origin", type:"text", getDisplay: (object) => {
-            const {
-                data:originData,
-                isLoading:originIsLoading
-            } = useBackend({model:"location", id:object})
-            return !originIsLoading ? `${originData.address_line_1}, ${originData.city}, ${originData.state} ${originData.zipcode}` : 'unknown';
-        }}, 
-        {name:"destination", type:"text", getDisplay: (object) => {
-            const {
-                data:destinationData,
-                isLoading:destinationIsLoading,
-            } = useBackend({model:"location", id:object});
-            return !destinationIsLoading ? `${destinationData.address_line_1}, ${destinationData.city}, ${destinationData.state} ${destinationData.zipcode}` : 'unknown';
-        }}, 
-        {name:"event", type:"text", getDisplay: (object) => {
-            const {
-                data:eventData,
-                isLoading: eventIsLoading
-            } = useBackend({model:"event", id:object})
-            return !eventIsLoading ? eventData.name : "unknown";
-        }}
-    ]
 
     // Return JSX
     return (
@@ -74,9 +54,15 @@ const ManageShipmentView = props => {
                 </Fab>
             </Box>
             <SortingGrid 
-                name="Manage Shipments"
-                sortBy="Id"
-                initialColumns={initialColumns}
+                title="Manage Shipments"
+                sortBy="id"
+                initialColumns={["id", "label", "status", "origin", "destination", "departure_date", "arrival_date", "send_back_shipment"]}
+                dataModel='shipment'
+                actions={{
+                    'delete' : null,
+                    'open'   : null,
+                    'scan'   : null,
+                }}
                 data={shipmentData?.pages.map(p => p.results).flat()}
             />
             <CreateShipmentDialog open={displayCreateShipmentDialog} onClose={() => setDisplayCreateShipmentDialog(!displayCreateShipmentDialog)} addNotif={props.addNotif}/>
@@ -89,9 +75,8 @@ const mutationCreateFn = async ({model, data}) =>{
     const updateUrl = new URL(`${window.location.protocol}${window.location.host}/api/${model.modelName}/${data.id ? data.id + '/' : ''}`)
     const requestHeaders = new Headers();
     requestHeaders.set('Content-Type', 'application/json');
-    requestHeaders.set('X-CSRFToken', getCookie('csrftoken'))
+    requestHeaders.set('X-CSRFToken', getCookie('csrftoken'));
 
-    console.log(JSON.stringify(data))
     return fetch( updateUrl, {method:"POST", headers:requestHeaders, body:JSON.stringify(data)} )
 }
 
@@ -143,7 +128,7 @@ const CreateShipmentDialog = props =>{
     }
 
     return(
-        <Dialog onClose={onClose} open={open} maxWidth="sm" fullWidth> {console.log(fields)}
+        <Dialog onClose={onClose} open={open} maxWidth="sm" fullWidth>
             <Box sx={{padding:2, width:'100%'}}>
                 <Grid container spacing={2}>
                     <Grid item xs={12}>
