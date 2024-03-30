@@ -165,6 +165,23 @@ export const useModelFormFields = ({model, id=null, excludeReadOnly=false}) => {
     return {fields, addFieldErrors, clearErrors}
 };
 
+export const useModelOptions = (modelName) => {
+    return useQuery({
+        queryKey: [modelName, 'OPTIONS'],
+        staleTime: 'Infinity',
+        queryFn: async ({queryKey}) =>{
+
+            const formattedUrl = new URL(
+                `${window.location.protocol}${window.location.host}/api/${queryKey[0]}/`
+              )
+          
+            const res = await fetch(formattedUrl, {method:'OPTIONS'});
+            const data = await res.json();
+            return data;
+          }
+    })
+}
+
 export const CustomFormControl = (props) => {
   
     return(
