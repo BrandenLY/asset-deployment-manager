@@ -56,7 +56,7 @@ class AssetModel(models.Model):
     image = models.ImageField(_("Image"), blank=True, null=True, upload_to="assets/models")
 
     class Meta:
-        ordering = ["name"]
+        ordering = ["name", "id"]
 
     def __str__(self):
         return self.name
@@ -86,7 +86,7 @@ class Shipment(models.Model):
         (3, "Delivered"),
         (4, "Canceled"),
     )
-    assets = GenericRelation(to=Asset,content_type_field="parent_content_type",object_id_field="parent_object_id")
+    assets = GenericRelation(to=Asset, content_type_field="parent_content_type", object_id_field="parent_object_id")
     event = models.ForeignKey("main.Event", on_delete=models.CASCADE, blank=True, null=True)
     status = models.SmallIntegerField(_("Status"), choices=STATUS_OPTIONS, default=0)
     origin = models.ForeignKey(Location, on_delete=models.PROTECT, related_name="shipments_out")
@@ -98,7 +98,7 @@ class Shipment(models.Model):
     send_back_shipment = models.ForeignKey("assets.Shipment", on_delete=models.CASCADE, blank=True, null=True)
     
     class Meta:
-        ordering = [ "status", "arrival_date" ]
+        ordering = [ "status", "arrival_date", "id"]
         indexes = [ models.Index(fields=["departure_date", "arrival_date"]), ]
 
     def mark_shipment_packed(self):
