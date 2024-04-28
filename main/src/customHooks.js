@@ -4,9 +4,9 @@ import { FormControl, InputLabel, OutlinedInput, Autocomplete, TextField } from 
 import { ModelAutoComplete } from './components/ModelAutoComplete';
 
 
-const apiBaseUrl = "http://127.0.0.1:8000/api/";
-
+// CUSTOM HOOKS
 export const useBackend = ({model, id=null, makeInfinate=false}) => {
+    const apiBaseUrl = "http://127.0.0.1:8000/api/";
     const formattedUrl = new URL(`${apiBaseUrl}${model}/${id ? id + "/" : ""}`);
     const defaultStaleTime = 1000 * 60 * 15;
     const queryKey = [model, id];
@@ -201,6 +201,7 @@ export const CustomFormControl = (props) => {
     )
 };
 
+// HELPER FUNCTIONS
 const getHtmlInput = (field, state, updateFn) => {
     const htmlInputId = `shipment-${field.name}`;
 

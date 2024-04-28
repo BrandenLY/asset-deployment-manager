@@ -1,10 +1,11 @@
 import React, {useEffect, useRef, useState} from "react";
-import { Box, Paper, Typography, IconButton, Popover, List, ListItemButton, ListItemIcon, ListItemText, Link } from "@mui/material";
+import { Box, Paper, Typography, IconButton, Popover, List, ListItemButton, ListItemIcon, ListItemText, Link, Stack, Skeleton } from "@mui/material";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableFooter, TablePagination, TableRow } from "@mui/material";
 import { MoreVert, ArrowUpward, ArrowDownward, ViewColumn } from '@mui/icons-material';
-import { useModelOptions } from "../customHooks";
-import { useQuery } from "@tanstack/react-query";
+import { useQueries, useQuery } from "@tanstack/react-query";
 import { Link as RouterLink } from "react-router-dom";
+import { useModelOptions } from "../customHooks";
+import ActionButton from "./actionButton";
 
 
 const SortingGridColumnHeader = props => {
@@ -40,13 +41,13 @@ const SortingGridColumnHeader = props => {
 
         // Remove invalid column name
         dataManipulation.setActiveColumns(previous =>{
-            return previous.filter(columnName => columnName != column)
-        })
+            return previous.filter(columnName => columnName != column);
+        });
 
         // Return nothing
         return(
             <></>
-        )
+        );
     }
 
     return (
@@ -107,27 +108,32 @@ const SortingGridRow = props => {
 
     const {data, columns, actions, modelName} = props;
     const shipmentOptions = useModelOptions(modelName);
-    const queries = useRef({});
+    const fieldOptions = shipmentOptions.data?.model_fields
+    const queriesOrdering = useRef();
+    
+    queriesOrdering.current = [];
 
-    const fieldOptions = shipmentOptions.data.model_fields
+    const queries = useQueries({
+        queries: shipmentOptions.isFetched ?
+            columns.filter(columnName => {
+                if (fieldOptions[columnName]?.type == 'related object'){
+                    return true
+                }
+            }).map(columnName => {
+                queriesOrdering.current.push(columnName)
 
-    columns.filter(columnName => {
-        if (fieldOptions[columnName].type == 'related object'){
-            return true
-        }
-    }).forEach(columnName => {
-        let tmp = {
-            ...queries.current,
-        }
-        tmp[columnName] = useQuery({
-            queryKey:[fieldOptions[columnName].related_model_name, data[columnName]],
-            enabled: shipmentOptions.isFetched
-        })
-        queries.current = tmp
-    })
+                return ({
+                    queryKey:[fieldOptions[columnName].related_model_name, data[columnName]],
+                    enabled: !!fieldOptions
+                })
+            })
+        :
+            [] // If shipment options haven't loaded, an empty array will be returned instead.
+    });
 
-    const getDisplayValue = (column, data) =>{
-        const columnOptions = shipmentOptions.data.model_fields[column];
+    const getDisplayValue = (column) =>{
+
+        const columnOptions = shipmentOptions.data?.model_fields[column];
 
         switch(columnOptions.type){
             case 'date':
@@ -137,15 +143,17 @@ const SortingGridRow = props => {
             case 'choice':
                 return columnOptions.choices.find(o => o.value == data[column]).display_name
             case 'related object':
-                return queries.current[column].isFetched ? queries.current[column].data.label : '...';
+                let relObjQuery = queries[queriesOrdering.current.indexOf(column)]
+                return relObjQuery.isFetched ? relObjQuery.data.label : '...';
             default:
                 return new String(data[column]);
         }
     }
 
-    const triggerAction = () => {
-
+    const triggerAction = (actionText, event) => {
+        actions[actionText].callbackFn(data, event);
     }
+    
     return (
         <TableRow key={data.id} sx={{height: "82px"}}>
             {columns.map(c => {
@@ -153,16 +161,28 @@ const SortingGridRow = props => {
                     <TableCell sx={{height: "inherit"}}>
                         <Typography variant="body2" noWrap>
                         { c == 'id' ?
-                        <Link component={RouterLink} to={`/${modelName}s/${data.id}/`}>
-                            {getDisplayValue(c, data)}
-                        </Link>
+                            <Link component={RouterLink} to={`/${modelName}s/${data.id}/`}>
+                                { !!fieldOptions ? getDisplayValue(c) : null }
+                            </Link>
                         :
-                        getDisplayValue(c, data)
+                            !!fieldOptions ? getDisplayValue(c) : <Skeleton variant="text"/>
                         }
                         </Typography>
                     </TableCell>
                 )
             })}
+
+            {   actions ? 
+                <TableCell>
+                    <Typography variant="body2">
+                        <Stack direction="row">
+                           { Object.keys(actions).map(actionKey => <ActionButton actionObject={actions[actionKey]} actionText={actionKey} callbackFn={triggerAction}/>) }
+                           
+                        </Stack>
+                    </Typography>
+                </TableCell> : 
+                null
+            }
         </TableRow>
     )
 }
@@ -171,9 +191,8 @@ const SortingGrid = props => {
 
     const {title, sortBy, initialColumns, dataModel, actions:rowActions, data:shipmentData} = props;
     const [activeColumns, setActiveColumns] = useState(initialColumns);
-    const [sortDirection, setSortDirection] = useState(true); // true: sort ascending, false: sort descending.
     const [sortKey, setSortKey] = useState(sortBy ? sortBy : "id"); // The datapoint to sort based on.
-    const shipmentOptions = useModelOptions(dataModel);
+    const [sortDirection, setSortDirection] = useState(true); // true: sort ascending, false: sort descending.
 
     return(
         <Paper className="ShipmentGrid" sx={{padding:2, minHeight:"500px"}}>
@@ -184,7 +203,8 @@ const SortingGrid = props => {
                 <Table>
                     <TableHead>
                         <TableRow>
-                            { activeColumns.map(column => <SortingGridColumnHeader column={column} modelName={dataModel} dataManipulation={{setActiveColumns: setActiveColumns, setSortDirection: setSortDirection}}/>) }
+                            { activeColumns.map(column => <SortingGridColumnHeader column={column} modelName={dataModel} dataManipulation={{setActiveColumns, setSortDirection}}/>) }
+                            { rowActions ? <TableCell><Box sx={{display: "flex",gap: "5px",alignItems: "center",}}><Typography sx={{fontWeight: "bold",}}>Actions</Typography></Box></TableCell> : null}
                         </TableRow>
                     </TableHead>
                     <TableBody>

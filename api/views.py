@@ -78,6 +78,11 @@ class BaseView(viewsets.ViewSetMixin, generics.GenericAPIView, mixins.UpdateMode
         self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+    
+    def delete(self, request, pk, *args, **kwargs):
+        _model_instance = self.get_queryset().get(id=pk)
+        _model_instance.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT) 
 
     def perform_create(self, serializer):
         serializer.save()
