@@ -3,7 +3,7 @@ import { Box, Button, Checkbox, Container, Dialog, Fab, FormControl, FormControl
 import { Add, Close } from '@mui/icons-material';
 import { useMutation } from '@tanstack/react-query';
 import { useModelFormFields } from '../customHooks';
-import { backendApiContext } from '../context';
+import { backendApiContext, getCookie} from '../context';
 
 const CreateShipmentDialog = props =>{
 
@@ -19,7 +19,6 @@ const CreateShipmentDialog = props =>{
 
     const {mutate} = useMutation({
         mutationFn: async ({model, data}) =>{
-
             const updateUrl = new URL(`${window.location.protocol}${window.location.host}/api/${model.modelName}/${data.id ? data.id + '/' : ''}`)
             const requestHeaders = new Headers();
             requestHeaders.set('Content-Type', 'application/json');
@@ -28,9 +27,11 @@ const CreateShipmentDialog = props =>{
             return fetch( updateUrl, {method:"POST", headers:requestHeaders, body:JSON.stringify(data)} )
         },
         onSettled: (data, error, variables) => {
-            if (data.ok){
-                props.addNotif({message:'Successfully created shipment'});
-            } else {
+            if (!!error) {
+                props.addNotif({message:'Failed to create shipment', severity:'error'})
+                console.log(error);
+                return;
+            } else if (!data.ok) {
                 props.addNotif({message:'Failed to create shipment', severity:'error'})
                 data.json().then(data => {
                     Object.entries(data).forEach( ([fieldName,fieldErrors]) => {
@@ -39,13 +40,17 @@ const CreateShipmentDialog = props =>{
                         });
                     })
                 })
+                return;
             }
+            props.addNotif({message: 'Successfully created shipment'})
         }
     });
 
     const createNewShipment = () => {
+
         clearErrors()
         let payload = {};
+
         models.shipment.fields.forEach(f => {
 
             if (f.related){
@@ -61,8 +66,9 @@ const CreateShipmentDialog = props =>{
                 payload[f.name] = fields[f.name]?.currentValue
             }
 
+
         });
-        
+
         mutate({model: models.shipment, data:payload, addFieldErrors})
     }
 

@@ -13,7 +13,7 @@ const ManageShipmentView = props => {
     const queryClient = useQueryClient();
     const [selectedShipment, setSelectedShipment] = useState(null);
 
-    const mutation = useMutation({
+    const deleteShipmentMutation = useMutation({
         mutationFn: async (data) => {
             const updateUrl = new URL(`${window.location.protocol}${window.location.host}/api/shipment/${data.id}/`)
             const requestHeaders = new Headers();
@@ -48,7 +48,9 @@ const ManageShipmentView = props => {
     const deleteShipment = shipment => {
         const message = `Are you sure you would like to delete ${shipment.label}?`
         if (confirm(message) == true){
-            mutation.mutate(shipment);
+            const tmpmutation = deleteShipmentMutation.mutate(shipment);
+
+            console.log(tmpmutation)
         }
     }
 

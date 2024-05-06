@@ -122,7 +122,6 @@ export const useModelFormFields = ({model, id=null, excludeReadOnly=false}) => {
             Object.entries(tmp).forEach(([property,value]) => {
                 tmp[property] = {...value, errors:[]}
             })
-            console.log(tmp)
             return tmp
         })
     }
