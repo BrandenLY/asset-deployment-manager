@@ -109,8 +109,7 @@ const CreateShipmentDialog = props =>{
                 color="primary"
                 onClick={openDialog}
             >
-                New shipment
-                <Add />
+                <Add /> New shipment
             </Fab>
 
             <Dialog onClose={closeDialog} open={isOpen} maxWidth="sm" fullWidth>
@@ -119,8 +118,8 @@ const CreateShipmentDialog = props =>{
                         <Grid item xs={12}>
                             <Box sx={{display: 'flex', alignItems: 'center', gap:2, justifyContent:'space-between'}}>
                                 <Box>
-                                    <Typography variant='h6'>Create a shipment</Typography>
-                                    <Typography variant='subtitle2' sx={{fontWeight:400}}>Setup an outbound shipment.</Typography>
+                                    <Typography variant='h6'>Create shipment(s)</Typography>
+                                    <Typography variant='subtitle2' sx={{fontWeight:400}}>Setup and create new shipments.</Typography>
                                 </Box>
                                 <IconButton onClick={closeDialog}>
                                     <Close />
@@ -204,7 +203,11 @@ const CreateShipmentDialog = props =>{
 
                     </Grid>
                 </Box>
-
+                <Box sx={{padding:2}}>
+                    <Button onClick={undefined} variant="text">
+                        <Add /> Add shipment
+                    </Button>
+                </Box>
                 <Container sx={{width: "100%", display: "flex", justifyContent:"center", paddingBottom:2}}>
                     <Button variant="contained" onClick={createNewShipment}>
                         Submit

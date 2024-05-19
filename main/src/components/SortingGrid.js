@@ -1,5 +1,5 @@
 import React, {useEffect, useRef, useState} from "react";
-import { Box, Paper, Typography, IconButton, Popover, List, ListItemButton, ListItemIcon, ListItemText, Link, Stack, Skeleton } from "@mui/material";
+import { Box, Paper, Typography, IconButton, Popover, List, ListItemButton, ListItemIcon, ListItemText, Link, Stack, Skeleton, Autocomplete, Container, TextField } from "@mui/material";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableFooter, TablePagination, TableRow } from "@mui/material";
 import { MoreVert, ArrowUpward, ArrowDownward, ViewColumn } from '@mui/icons-material';
 import { useQueries, useQuery } from "@tanstack/react-query";
@@ -187,19 +187,29 @@ const SortingGridRow = props => {
     )
 }
 
+const SortingGridCardStyles = {
+    padding: 2,
+    minHeight:"500px",
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'stretch',
+    gap:1,
+};
+
 const SortingGrid = props => {
 
     const {title, sortBy, initialColumns, dataModel, actions:rowActions, data:shipmentData} = props;
     const [activeColumns, setActiveColumns] = useState(initialColumns);
     const [sortKey, setSortKey] = useState(sortBy ? sortBy : "id"); // The datapoint to sort based on.
     const [sortDirection, setSortDirection] = useState(true); // true: sort ascending, false: sort descending.
+    const [recordsPerPage, setRecordsPerPage] = useState(50);
 
     return(
-        <Paper className="ShipmentGrid" sx={{padding:2, minHeight:"500px"}}>
+        <Paper className="SortingGrid" sx={SortingGridCardStyles}>
             <Box>
                 <Typography variant="h4">{title}</Typography>
             </Box>
-            <TableContainer>
+            <TableContainer sx={{flexGrow: 1}}>
                 <Table>
                     <TableHead>
                         <TableRow>
@@ -210,15 +220,24 @@ const SortingGrid = props => {
                     <TableBody>
 
                     {/* Add result rows */}
-                    { shipmentData &&
+                    { shipmentData?.length > 0 &&
                         shipmentData.map( shipment => <SortingGridRow data={shipment} columns={activeColumns} modelName={dataModel} actions={rowActions}/> )
                     }
 
-                    {/* No results found */}
+                    {/* No Results */}
+                    { shipmentData?.length == 0 && 
+                        <TableRow>
+                            <TableCell sx={{textAlign: "center", paddingY:"200px"}} colspan={rowActions ? activeColumns.length + 1 : activeColumns.length}>
+                                No results found.
+                            </TableCell>
+                        </TableRow>
+                    }
+
+                    {/* Loading */}
                     { !shipmentData && 
                         <TableRow>
-                            <TableCell sx={{textAlign: "center", paddingY:"75px"}} colspan={activeColumns.length}>
-                                No results.
+                            <TableCell sx={{textAlign: "center", paddingY:"200px"}} colspan={rowActions ? activeColumns.length + 1 : activeColumns.length}>
+                                Loading results...
                             </TableCell>
                         </TableRow>
                     }
@@ -226,6 +245,16 @@ const SortingGrid = props => {
                     </TableBody>
                 </Table>
             </TableContainer>
+            <Box sx={{height: "56px", width: "100%", display: "flex", justifyContent: "space-between"}}>
+                <Autocomplete
+                    id={`${dataModel}-sg-records-per-page-input`}
+                    options={[25,50,150,250,500,1000,5000]}
+                    renderInput={(params) => <TextField {...params} label="# Records" />}
+                />
+                <Container>
+                    test - test
+                </Container>
+            </Box>
         </Paper>
     )
 }
