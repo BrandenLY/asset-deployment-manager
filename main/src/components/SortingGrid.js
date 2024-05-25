@@ -7,6 +7,16 @@ import { Link as RouterLink } from "react-router-dom";
 import { useModelOptions } from "../customHooks";
 import ActionButton from "./actionButton";
 
+const SortingGridCardStyles = {
+    padding: 2,
+    minHeight:"500px",
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'stretch',
+    gap:1,
+};
+
+const defaultRecordsPerPage = 25;
 
 const SortingGridColumnHeader = props => {
 
@@ -187,14 +197,6 @@ const SortingGridRow = props => {
     )
 }
 
-const SortingGridCardStyles = {
-    padding: 2,
-    minHeight:"500px",
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'stretch',
-    gap:1,
-};
 
 const SortingGrid = props => {
 
@@ -202,7 +204,7 @@ const SortingGrid = props => {
     const [activeColumns, setActiveColumns] = useState(initialColumns);
     const [sortKey, setSortKey] = useState(sortBy ? sortBy : "id"); // The datapoint to sort based on.
     const [sortDirection, setSortDirection] = useState(true); // true: sort ascending, false: sort descending.
-    const [recordsPerPage, setRecordsPerPage] = useState(50);
+    const [recordsPerPage, setRecordsPerPage] = useState(defaultRecordsPerPage);
 
     return(
         <Paper className="SortingGrid" sx={SortingGridCardStyles}>
@@ -245,15 +247,17 @@ const SortingGrid = props => {
                     </TableBody>
                 </Table>
             </TableContainer>
-            <Box sx={{height: "56px", width: "100%", display: "flex", justifyContent: "space-between"}}>
+            <Box sx={{ width: "100%", marginTop:1, display: "flex", justifyContent: "space-between"}}>
                 <Autocomplete
                     id={`${dataModel}-sg-records-per-page-input`}
+                    size="small"
                     options={[25,50,150,250,500,1000,5000]}
-                    renderInput={(params) => <TextField {...params} label="# Records" />}
+                    value={recordsPerPage}
+                    renderInput={(params) => <TextField {...params} />}
                 />
-                <Container>
+                <Box sx={{display: "flex", alignItems: "center"}}>
                     test - test
-                </Container>
+                </Box>
             </Box>
         </Paper>
     )
