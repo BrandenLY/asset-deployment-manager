@@ -1,5 +1,5 @@
 import React, {useEffect, useRef, useState} from "react";
-import { Box, Paper, Typography, IconButton, Popover, List, ListItemButton, ListItemIcon, ListItemText, Link, Stack, Skeleton, Autocomplete, Container, TextField } from "@mui/material";
+import { Box, Paper, Typography, IconButton, Popover, List, ListItemButton, ListItemIcon, ListItemText, Link, Stack, Skeleton, FormControl, FormHelperText, MenuItem, Select } from "@mui/material";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableFooter, TablePagination, TableRow } from "@mui/material";
 import { MoreVert, ArrowUpward, ArrowDownward, ViewColumn } from '@mui/icons-material';
 import { useQueries, useQuery } from "@tanstack/react-query";
@@ -9,14 +9,22 @@ import ActionButton from "./actionButton";
 
 const SortingGridCardStyles = {
     padding: 2,
-    minHeight:"500px",
+    minHeight:"460px",
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'stretch',
     gap:1,
 };
 
-const defaultRecordsPerPage = 25;
+const minimumRecordsPerPage = 25;
+const RecordsPerPageOptions = [
+    minimumRecordsPerPage,
+    minimumRecordsPerPage * 2,
+    minimumRecordsPerPage * 3,
+    minimumRecordsPerPage * 4,
+    minimumRecordsPerPage * 10,
+    minimumRecordsPerPage * 30,
+]
 
 const SortingGridColumnHeader = props => {
 
@@ -61,12 +69,12 @@ const SortingGridColumnHeader = props => {
     }
 
     return (
-        <TableCell>
+        <TableCell sx={{verticalAlign:"bottom"}}>
             <Box
             sx={{
                 display: "flex",
                 gap: "5px",
-                alignItems: "center",
+                alignItems: "flex-end",
             }}>
             <Typography
             sx={{
@@ -165,10 +173,10 @@ const SortingGridRow = props => {
     }
     
     return (
-        <TableRow key={data.id} sx={{height: "82px"}}>
+        <TableRow key={data.id}>
             {columns.map(c => {
                 return(
-                    <TableCell sx={{height: "inherit"}}>
+                    <TableCell sx={{paddingTop:0.5, paddingBottom: 0.5}}>
                         <Typography variant="body2" noWrap>
                         { c == 'id' ?
                             <Link component={RouterLink} to={`/${modelName}s/${data.id}/`}>
@@ -183,11 +191,10 @@ const SortingGridRow = props => {
             })}
 
             {   actions ? 
-                <TableCell>
+                <TableCell sx={{paddingTop:0.5, paddingBottom: 0.5}}>
                     <Typography variant="body2">
                         <Stack direction="row">
                            { Object.keys(actions).map(actionKey => <ActionButton actionObject={actions[actionKey]} actionText={actionKey} callbackFn={triggerAction}/>) }
-                           
                         </Stack>
                     </Typography>
                 </TableCell> : 
@@ -200,14 +207,15 @@ const SortingGridRow = props => {
 
 const SortingGrid = props => {
 
-    const {title, sortBy, initialColumns, dataModel, actions:rowActions, data:shipmentData} = props;
-    const [activeColumns, setActiveColumns] = useState(initialColumns);
-    const [sortKey, setSortKey] = useState(sortBy ? sortBy : "id"); // The datapoint to sort based on.
+    const {title, defaultSortKey="id", defaultColumns, dataModel, rowActions, data, count} = props;
+    const [activeColumns, setActiveColumns] = useState(defaultColumns);
+    const [sortKey, setSortKey] = useState(defaultSortKey); // The datapoint to sort based on.
     const [sortDirection, setSortDirection] = useState(true); // true: sort ascending, false: sort descending.
-    const [recordsPerPage, setRecordsPerPage] = useState(defaultRecordsPerPage);
+    const [recordsPerPage, setRecordsPerPage] = useState(minimumRecordsPerPage);
+    const [page, setPage] = useState(1);
 
     return(
-        <Paper className="SortingGrid" sx={SortingGridCardStyles}>
+        <Paper className="SortingGrid" sx={SortingGridCardStyles}> {console.log(data)}
             <Box>
                 <Typography variant="h4">{title}</Typography>
             </Box>
@@ -216,29 +224,29 @@ const SortingGrid = props => {
                     <TableHead>
                         <TableRow>
                             { activeColumns.map(column => <SortingGridColumnHeader column={column} modelName={dataModel} dataManipulation={{setActiveColumns, setSortDirection}}/>) }
-                            { rowActions ? <TableCell><Box sx={{display: "flex",gap: "5px",alignItems: "center",}}><Typography sx={{fontWeight: "bold",}}>Actions</Typography></Box></TableCell> : null}
+                            { rowActions ? <TableCell sx={{verticalAlign:"bottom"}}><Box sx={{display: "flex",gap: "5px",alignItems: "center",}}><Typography sx={{fontWeight: "bold",}}>Actions</Typography></Box></TableCell> : null}
                         </TableRow>
                     </TableHead>
                     <TableBody>
 
                     {/* Add result rows */}
-                    { shipmentData?.length > 0 &&
-                        shipmentData.map( shipment => <SortingGridRow data={shipment} columns={activeColumns} modelName={dataModel} actions={rowActions}/> )
+                    { data?.length > 0 &&
+                        data.map( shipment => <SortingGridRow data={shipment} columns={activeColumns} modelName={dataModel} actions={rowActions}/> )
                     }
 
                     {/* No Results */}
-                    { shipmentData?.length == 0 && 
+                    { data?.length == 0 && 
                         <TableRow>
-                            <TableCell sx={{textAlign: "center", paddingY:"200px"}} colspan={rowActions ? activeColumns.length + 1 : activeColumns.length}>
-                                No results found.
+                            <TableCell sx={{textAlign: "center", paddingTop:0.5, paddingBottom: 0.5}} colspan={rowActions ? activeColumns.length + 1 : activeColumns.length}>
+                                No results.
                             </TableCell>
                         </TableRow>
                     }
 
                     {/* Loading */}
-                    { !shipmentData && 
+                    { !data && 
                         <TableRow>
-                            <TableCell sx={{textAlign: "center", paddingY:"200px"}} colspan={rowActions ? activeColumns.length + 1 : activeColumns.length}>
+                            <TableCell sx={{textAlign: "center", paddingTop:0.5, paddingBottom: 0.5}} colspan={rowActions ? activeColumns.length + 1 : activeColumns.length}>
                                 Loading results...
                             </TableCell>
                         </TableRow>
@@ -247,16 +255,25 @@ const SortingGrid = props => {
                     </TableBody>
                 </Table>
             </TableContainer>
-            <Box sx={{ width: "100%", marginTop:1, display: "flex", justifyContent: "space-between"}}>
-                <Autocomplete
-                    id={`${dataModel}-sg-records-per-page-input`}
-                    size="small"
-                    options={[25,50,150,250,500,1000,5000]}
-                    value={recordsPerPage}
-                    renderInput={(params) => <TextField {...params} />}
-                />
+            <Box sx={{ maxWidth: "100%", display: "flex", justifyContent: "space-between", marginTop: 1, marginLeft:1, marginRight:1}}>
+                <FormControl sx={{flexDirection:"row", alignItems: "center", height: "min-content"}}>
+                    <Select
+                        size="small"
+                        value={recordsPerPage}
+                        onChange={e => {setRecordsPerPage(e.target.value)}}
+                        sx={{height: "21px"}}
+                    >
+                        {RecordsPerPageOptions.map(num => <MenuItem value={num}>{num}</MenuItem>)}
+                    </Select>
+                    <FormHelperText sx={{display:"flex", alignItems: "center"}}>
+                        Rows per page
+                    </FormHelperText>
+                </FormControl>
                 <Box sx={{display: "flex", alignItems: "center"}}>
-                    test - test
+                    <FormHelperText>
+                        {`${Math.max(recordsPerPage * page - recordsPerPage, 1)} - ${Math.min(recordsPerPage * page, count)} of ${count}`}
+                    </FormHelperText>
+
                 </Box>
             </Box>
         </Paper>

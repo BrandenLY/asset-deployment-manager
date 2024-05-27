@@ -64,10 +64,11 @@ const ManageShipmentView = props => {
 
     // Formatted Data
     const allLoadedShipments = shipments.data?.pages.map(p => p.results).flat();
+    const shipmentCount = shipments.data?.pages[0].count
 
     // JSX 
     return (
-        <Box className="ManageShipmentView">
+        <Box className="ManageShipmentView"> {console.log(shipmentCount)}
             <Box
                 sx={{
                     display: "flex",
@@ -79,15 +80,15 @@ const ManageShipmentView = props => {
             </Box>
             <SortingGrid 
                 title="Manage Shipments"
-                sortBy="id"
-                initialColumns={["id", "label", "status", "origin", "destination", "departure_date", "arrival_date"]}
+                defaultColumns={["id", "label", "status", "departure_date", "arrival_date"]}
                 dataModel={'shipment'}
-                actions={{
-                    'delete' : {'icon': Delete, 'callbackFn' : deleteShipment},
+                data={allLoadedShipments}
+                count={shipmentCount}
+                rowActions={{
                     'open'   : {'icon': OpenInNew, 'callbackFn' : openShipment},
                     'scan'   : {'icon': QrCodeScanner, 'callbackFn' : scanShipment},
+                    'delete' : {'icon': Delete, 'callbackFn' : deleteShipment}
                 }}
-                data={allLoadedShipments}
             />
         </Box>
     )
