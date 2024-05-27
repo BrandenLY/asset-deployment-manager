@@ -116,4 +116,4 @@ class Shipment(models.Model):
             raise(IntegrityError)
         
     def __str__(self):
-        return f"{self.carrier} SHIPMENT TO {self.destination}"
+        return f"{self.carrier} SHIPMENT FROM {self.origin} TO {self.destination}"
