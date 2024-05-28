@@ -1,7 +1,7 @@
 import React, {useEffect, useRef, useState} from "react";
 import { Box, Paper, Typography, IconButton, Popover, List, ListItemButton, ListItemIcon, ListItemText, Link, Stack, Skeleton, FormControl, FormHelperText, MenuItem, Select } from "@mui/material";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableFooter, TablePagination, TableRow } from "@mui/material";
-import { MoreVert, ArrowUpward, ArrowDownward, ViewColumn } from '@mui/icons-material';
+import { MoreVert, ArrowUpward, ArrowDownward, ViewColumn, FirstPage, LastPage, NavigateNext, NavigateBefore } from '@mui/icons-material';
 import { useQueries, useQuery } from "@tanstack/react-query";
 import { Link as RouterLink } from "react-router-dom";
 import { useModelOptions } from "../customHooks";
@@ -204,7 +204,6 @@ const SortingGridRow = props => {
     )
 }
 
-
 const SortingGrid = props => {
 
     const {title, defaultSortKey="id", defaultColumns, dataModel, rowActions, data, count} = props;
@@ -269,11 +268,29 @@ const SortingGrid = props => {
                         Rows per page
                     </FormHelperText>
                 </FormControl>
-                <Box sx={{display: "flex", alignItems: "center"}}>
+                <Box sx={{display: "flex", alignItems: "center", gap:2}}>
                     <FormHelperText>
                         {`${Math.max(recordsPerPage * page - recordsPerPage, 1)} - ${Math.min(recordsPerPage * page, count)} of ${count}`}
                     </FormHelperText>
-
+                    <Box sx={{display: "flex", alignItems: "center"}}>
+                        <IconButton size="small" sx={{padding:0}}>
+                            <FirstPage sx={{color:"rgba(255,255,255,0.7)"}}/>
+                        </IconButton>
+                        <IconButton size="small" sx={{padding:0}}>
+                            <NavigateBefore sx={{color:"rgba(255,255,255,0.7)"}}/>
+                        </IconButton>
+                        <Box>
+                            <FormHelperText>
+                                {page}
+                            </FormHelperText>
+                        </Box>
+                        <IconButton size="small" sx={{padding:0}}>
+                            <NavigateNext sx={{color:"rgba(255,255,255,0.7)"}}/>
+                        </IconButton>
+                        <IconButton size="small" sx={{padding:0}}>
+                            <LastPage sx={{color:"rgba(255,255,255,0.7)"}}/>
+                        </IconButton>
+                    </Box>
                 </Box>
             </Box>
         </Paper>
