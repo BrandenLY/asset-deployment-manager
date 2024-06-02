@@ -1,19 +1,27 @@
-import React, { Component, useState, useEffect } from "react";
+import React from "react";
+import { createRoot } from 'react-dom/client';
 import {
   BrowserRouter as Router,
   Routes,
   Route
 } from "react-router-dom";
-import { render } from "react-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { createTheme, ThemeProvider, CssBaseline } from "@mui/material";
-import { getCookie } from "./context";
+
+// Material UI
+import createTheme from "@mui/material";
+import CssBaseline from '@mui/material/CssBaseline';
+import ThemeProvider from "@mui/material";
+
+// Page Views
 import TasklistView from "./views/TasklistView";
 import CustomPage from "./components/CustomPage";
 import EventDetailView from "./views/EventDetailView";
 import ManageShipmentView from "./views/ManageShipmentView";
 import ShipmentDetailView from "./views/ShipmentDetailView";
 import primaryDarkTheme from "./themes/primary-dark";
+
+// Helper Functions
+import { getCookie } from "./context";
 
 // React Query Configuration
 // Docs: https://tanstack.com/query/latest/docs/react/overview
@@ -114,5 +122,5 @@ const App = () => {
   );
 };
 
-const appContainer = document.getElementById("main-content");
-render(<App />, appContainer);
+const root = createRoot(document.getElementById("main-content"));
+root.render(<App />);
