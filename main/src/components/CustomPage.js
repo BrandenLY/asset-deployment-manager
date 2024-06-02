@@ -1,6 +1,7 @@
 import React, {useState, useEffect, useRef, useCallback} from 'react';
 import { useLocation, Link as RouterLink } from 'react-router-dom';
 
+// Material UI
 import { Box, Breadcrumbs, Link, Typography, Snackbar, Alert } from '@mui/material';
 import {Home} from '@mui/icons-material';
 
@@ -40,10 +41,11 @@ const CustomBreadcrumbs = props => {
     );
 }
 
-const CustomPage = ({ className, children, view: View, ...props }) => {
-
+const CustomPage = props => {
+  const { className, children, view: View, } = props;
   const classNames = ['page', className].join(' ');
   
+  // Page Notifications
   const notifications = useRef([]);
   const [activeNotification, setActiveNotification] = useState(null);
   const addNotification = useCallback(notif => {
@@ -61,7 +63,6 @@ const CustomPage = ({ className, children, view: View, ...props }) => {
         setActiveNotification(notifications.current.shift())
     }
   }, [])
-
   const closeActiveNotification = (e, r) => {
     if (r === 'clickaway'){
         return;
@@ -107,4 +108,4 @@ const CustomPage = ({ className, children, view: View, ...props }) => {
 
 )};
 
-export default CustomPage;79470959
+export default CustomPage;
