@@ -23,7 +23,6 @@ const PrimaryNav = (props) => {
     const drawer = (
         <Drawer 
             sx={{
-                // gridArea: "sidebar",
                 flex: "unset",
                 width: expanded ? drawerWidth : "0",
                 height: "100%",
@@ -33,8 +32,9 @@ const PrimaryNav = (props) => {
                 },
             }}
             anchor="right"
+            elevation={3}
             open={expanded}
-            variant="persistent"
+            variant="temporary"
             onClose={() => setExpanded(false)}
         >
             <nav>
@@ -85,13 +85,14 @@ const PrimaryNav = (props) => {
                 gridArea: "nav", 
                 bgcolor: "primary.dark", 
                 padding: 1, 
-                display: "flex", 
+                display: "flex",
                 justifyContent: "space-between", 
                 alignItems: "center",
                 height: navHeight,
-                minWidth: '375px',
                 zIndex: 2000,
+                boxShadow: "none",
             }}
+            elevation={16}
             color="primary"
         >
             {appIcon}
@@ -102,7 +103,8 @@ const PrimaryNav = (props) => {
                 <Menu fontSize="inherit"></Menu>
                 }
             </IconButton>
-        </Paper> {drawer}
+        </Paper>
+        {drawer}
     </>
   );
 
