@@ -102,15 +102,15 @@ const CreateShipmentDialog = props =>{
 
     return(
         <>
-            <Fab 
-                aria-label="New shipment"
-                variant="extended"
-                size="small"
-                color="primary"
+            <Button
+                role={undefined}
+                variant="contained"
+                tabIndex={-1}
+                startIcon={<Add/>}
                 onClick={openDialog}
             >
-                <Add /> New shipment
-            </Fab>
+                New shipment
+            </Button>
 
             <Dialog onClose={closeDialog} open={isOpen} maxWidth="sm" fullWidth>
                 <Box sx={{padding:2, width:'100%'}}>
