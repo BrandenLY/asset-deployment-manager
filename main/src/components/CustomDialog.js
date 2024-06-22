@@ -15,14 +15,13 @@ import {
 } from "@mui/material";
 import { Close } from "@mui/icons-material";
 
-
 const CustomDialog = (props) => {
     // Props
-    const {openButtonText, openButtonIcon, title, subtitle="", children:innerContent, actions={}} = props;
-    
+    const {openDialogButtonText, openDialogButtonIcon, title, subtitle="", children:innerContent, actions={}} = props;
+
     // Hooks
     const theme = useTheme();
-    const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
+    const clientIsMobile = useMediaQuery(theme.breakpoints.down('sm'));
     
     // State
     const [isOpen, setIsOpen] = useState(false);
@@ -41,17 +40,19 @@ const CustomDialog = (props) => {
         {/* OPEN DIALOG BUTTON */}
         <Button
             variant="contained"
-            startIcon={openButtonIcon ? openButtonIcon : undefined}
+            startIcon={openDialogButtonIcon ? openDialogButtonIcon : undefined}
             onClick={openDialog}
         >
-            {openButtonText}
+            {openDialogButtonText}
         </Button>
 
 
         {/* DIALOG COMPONENT */}
         <Dialog
             open={isOpen}
-            PaperProps={{sx:{padding:1, margin:1}}}
+            fullWidth={true}
+            maxWidth={!clientIsMobile ? 'md' : false}
+            PaperProps={{sx:{padding:2}}}
         >
             <Box sx={{display: 'flex', alignItems: 'center', gap:2, justifyContent:'space-between'}}>
                 <Box sx={{padding:1}}>
@@ -68,7 +69,7 @@ const CustomDialog = (props) => {
             </DialogContent>
             <DialogActions>
                 { Object.entries(actions).map(([name,data]) => {
-                    return(<Button onClick={data.callbackFn}>{name}</Button>)
+                    return(<Button onClick={data.callbackFn} variant="contained">{name}</Button>)
                 }) }
             </DialogActions>
         </Dialog>

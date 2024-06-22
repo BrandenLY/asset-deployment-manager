@@ -214,7 +214,7 @@ const SortingGrid = props => {
     const [page, setPage] = useState(1);
 
     return(
-        <Paper className="SortingGrid" sx={SortingGridCardStyles}> {console.log(data)}
+        <Paper className="SortingGrid" sx={SortingGridCardStyles}>
             <Box>
                 <Typography variant="h4">{title}</Typography>
             </Box>

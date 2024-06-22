@@ -1,7 +1,8 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useContext } from 'react';
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { FormControl, InputLabel, OutlinedInput, Autocomplete, TextField } from '@mui/material';
 import { ModelAutoComplete } from './components/ModelAutoComplete';
+import { backendApiContext } from './context';
 
 
 // CUSTOM HOOKS
@@ -104,11 +105,12 @@ export const useRichQuery = ({model,id}) => {
     return {value, isLoading, initialQuery, relatedQueries};
 };
 
-export const useModelFormFields = ({model, id=null, excludeReadOnly=false}) => {
+export const useModelFormFields = ({modelOptions, id=null, excludeReadOnly=false}) => {
     // State
     const [fields, setFields] = useState({});
 
-    const updateFn = useCallback((fieldName, newValue) => {
+    // Callback Functions
+    const updateFieldData = useCallback((fieldName, newValue) => {
         setFields((previous) => {
             const tmp = {...previous}
             tmp[fieldName] = {...previous[fieldName], currentValue:newValue}
@@ -116,52 +118,57 @@ export const useModelFormFields = ({model, id=null, excludeReadOnly=false}) => {
         })
     })
 
-    const clearErrors = () => {
+    const updateFieldErrors = (fieldName, errorMessage) => {
         setFields(previous => {
+
+            let tmp = {...previous}
+            tmp[fieldName].errors.push(errorMessage);
+            return tmp
+
+        })
+    };
+
+    const clearFieldErrors = () => {
+        setFields( previous => {
             const tmp = {...previous};
-            Object.entries(tmp).forEach(([property,value]) => {
+            Object.entries(tmp).forEach( ([property,value]) => {
+
                 tmp[property] = {...value, errors:[]}
+
             })
             return tmp
         })
     }
 
-    const addFieldErrors = (fieldName, message) => {
-        setFields(previous => {
-            let tmp = {...previous}
-            tmp[fieldName].errors.push(message);
-
-            return tmp
-        })
-    }
-
     useEffect(() => {
-        // Dynamic state variables
-        model.fields.forEach( field => {
+        
+        if(modelOptions.isLoading){
+            return;
+        }
 
-            if (!(excludeReadOnly && field.readOnly)){
-                setFields(previous => {
-
-                    const tmp = {
-                        ...previous
-                    }
-    
-                    tmp[field.name] = {
-                        currentValue: null,
-                        errors: [],
-                        component: (
-                            getHtmlInput(field, fields, updateFn)
-                        ),
-                    }
-    
-                    return tmp
-                })
+        const newFieldObjects = {}
+        Object.entries(modelOptions.data.model_fields).forEach( ([fieldName, fieldDetails], index) => {
+            
+            if(fieldDetails.readOnly && excludeReadOnly){
+                return;
             }
 
-        })
-    },[])
+            const newFieldData = {
+                current: null,
+                errors:[],
+                inputComponent: (
+                    getHtmlInput(fieldName, fieldDetails)   
+                )
+            }
 
-    return {fields, addFieldErrors, clearErrors}
+            newFieldObjects[fieldName] = newFieldData;
+        })
+
+        setFields(newFieldObjects);
+
+    },[modelOptions.isLoading])
+
+    return {fields, updateFieldData, updateFieldErrors, clearFieldErrors}
 };
 
 export const useModelOptions = (modelName) => {
@@ -212,7 +219,6 @@ const getHtmlInput = (field, state, updateFn) => {
             isEditing={true}
             inputId={htmlInputId}
             onChange={(e, v) => updateFn(field.name, v)}
-            error={state?.[field.name]?.errors.length > 0}
             />
         );
     } 
@@ -235,7 +241,7 @@ const getHtmlInput = (field, state, updateFn) => {
             id={htmlInputId}
             options={dataOptions}
             disabled={field.readOnly}
-            renderInput={(params) => <TextField inputProps={{sx:{width:"100%"}}} sx={{flexGrow:"2"}} error={state?.[field.name]?.errors.length > 0} {...params} label={field.name} />}
+            renderInput={(params) => <TextField inputProps={{sx:{width:"100%"}}} sx={{flexGrow:"2"}} {...params} label={field.name} />}
             value={state?.[field.name]}
             onChange={(e, v) => updateFn(field.name, v)}
             />  

@@ -1,18 +1,25 @@
-import React, {useState} from "react";
-import { Box } from "@mui/material";
+import React, {useState, useEffect, useRef} from "react";
+import { Box, Button } from "@mui/material";
 import { Add, Delete, OpenInNew, QrCodeScanner } from '@mui/icons-material';
 import SortingGrid from "../components/SortingGrid";
-import { useModelOptions } from "../customHooks";
+import { useModelOptions, useModelFormFields } from "../customHooks";
 import { useInfiniteQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import CreateShipmentDialog from "../components/CreateShipmentDialog";
+import CustomDialog from "../components/CustomDialog";
+import CreateShipmentForm from "../forms/CreateShipmentForm";
 
 
 const ManageShipmentView = props => {
 
+    // Model Meta Data
+    const shipmentOptions = useModelOptions('shipment');
+
     // State
     const queryClient = useQueryClient();
+    const [numExtraShipmentCreationForms, setNumExtraShipmentCreationForms] = useState(0);
     const [selectedShipment, setSelectedShipment] = useState(null);
 
+    // Mutations
     const deleteShipmentMutation = useMutation({
         mutationFn: async (data) => {
             const updateUrl = new URL(`${window.location.protocol}${window.location.host}/api/shipment/${data.id}/`)
@@ -35,9 +42,6 @@ const ManageShipmentView = props => {
             }
         }
     })
-
-    // Model Meta Data
-    const shipmentOptions = useModelOptions('shipment');
 
     // Retrieve Paginated Shipment Data
     const shipments = useInfiniteQuery({
@@ -62,21 +66,53 @@ const ManageShipmentView = props => {
         setSelectedShipment(shipment)
     }
 
+    const createNewShipments = shipmentsData => {
+        console.log(shipmentsData);
+    }
+
+    // Display Additional Shipment Creation Forms
+    const getExtraShipmentCreationForms = () => {
+        
+        if(numExtraShipmentCreationForms < 1){
+            return;
+        }
+
+        let formComponents = []
+        for(let i=1;i<=numExtraShipmentCreationForms;i++){
+            formComponents.push(<CreateShipmentForm key={i}/>);
+        }
+
+        return formComponents;
+    }
     // Formatted Data
     const allLoadedShipments = shipments.data?.pages.map(p => p.results).flat();
     const shipmentCount = shipments.data?.pages[0].count
 
     // JSX 
     return (
-        <Box className="ManageShipmentView"> {console.log(shipmentCount)}
+        <Box className="ManageShipmentView">
             <Box
                 sx={{
                     display: "flex",
                     justifyContent: "flex-end",
                     transform: "translateY(-18px)",
                 }}
-            >
-                <CreateShipmentDialog addNotif={props.addNotif}/>
+            > 
+                <CustomDialog
+                    title="Create shipment(s)"
+                    subtitle="Setup and create new shipments"
+                    openDialogButtonText="New Shipment"
+                    openDialogButtonIcon={<Add/>}
+                    actions={{
+                        'submit' : {'callbackFn' : createNewShipments}
+                    }}
+                >
+                    <CreateShipmentForm key={0}/>
+                    {getExtraShipmentCreationForms()}
+                    <Box sx={{marginY:1}}>
+                        <Button startIcon={<Add/>} color={'success'} onClick={increaseFormFieldComponents}>Add shipment</Button>
+                    </Box>
+                </CustomDialog>
             </Box>
             <SortingGrid 
                 title="Manage Shipments"
