@@ -3,6 +3,7 @@ import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { FormControl, InputLabel, OutlinedInput, Autocomplete, TextField } from '@mui/material';
 import { ModelAutoComplete } from './components/ModelAutoComplete';
 import { backendApiContext } from './context';
+import DynamicInput from './components/DynamicInput';
 
 
 // CUSTOM HOOKS
@@ -149,6 +150,9 @@ export const useModelFormFields = ({modelOptions, id=null, excludeReadOnly=false
         const newFieldObjects = {}
         Object.entries(modelOptions.data.model_fields).forEach( ([fieldName, fieldDetails], index) => {
             
+            //!FIXME: Does not generate unique input id's when multiple forms for the same model are loaded.
+            const htmlInputId = `${modelOptions.model}-${fieldName}-${index}-input`;
+            
             if(fieldDetails.readOnly && excludeReadOnly){
                 return;
             }
@@ -157,7 +161,7 @@ export const useModelFormFields = ({modelOptions, id=null, excludeReadOnly=false
                 current: null,
                 errors:[],
                 inputComponent: (
-                    getHtmlInput(fieldName, fieldDetails)   
+                    <DynamicInput {...{fieldName, fieldDetails, updateFieldData, htmlInputId}}/> 
                 )
             }
 
@@ -187,88 +191,3 @@ export const useModelOptions = (modelName) => {
           }
     })
 }
-
-export const CustomFormControl = (props) => {
-  
-    return(
-      <FormControl id={props.id} fullWidth>
-  
-      {props.children}
-  
-      {!!props.helpText ? (
-        <FormHelperText children={props.helpText} />
-      ) : null}
-  
-      
-      {!!props.fieldError ? (
-        <FormHelperText children={props.fieldError} sx={{color:"error.main"}}/>
-      ) : null}
-      </FormControl>
-    )
-};
-
-// HELPER FUNCTIONS
-const getHtmlInput = (field, state, updateFn) => {
-    const htmlInputId = `shipment-${field.name}`;
-
-    if (field.inputType == 'autoComplete' && field.related) {
-        return (
-            <ModelAutoComplete
-            value={state?.[field.name]}
-            field={field}
-            isEditing={true}
-            inputId={htmlInputId}
-            onChange={(e, v) => updateFn(field.name, v)}
-            />
-        );
-    } 
-    
-    
-    else if (field.inputType == 'autoComplete' && field.options) {
-    
-        const dataOptions = field.options.map(
-            optionValue => {
-            return({
-                id: field.options.indexOf(optionValue),
-                label: optionValue
-            })
-            }
-        )
-    
-        return(
-            <Autocomplete
-            sx={{width:"100%"}}
-            id={htmlInputId}
-            options={dataOptions}
-            disabled={field.readOnly}
-            renderInput={(params) => <TextField inputProps={{sx:{width:"100%"}}} sx={{flexGrow:"2"}} {...params} label={field.name} />}
-            value={state?.[field.name]}
-            onChange={(e, v) => updateFn(field.name, v)}
-            />  
-        );
-    } 
-    
-    
-    
-    else {
-        return (
-            <CustomFormControl fieldError={state?.[field.name]?.errors.length > 0} sx={{width:"100%"}}>
-            <InputLabel shrink variant="outlined" error={!!state?.[field.name]?.errors}>
-                {field.name}
-            </InputLabel>
-    
-            <OutlinedInput
-                id={htmlInputId}
-                type={field.inputType}
-                disabled={field.readOnly}
-                value={state?.[field.name]}
-                label={field.name}
-                notched={true}
-                onChange={(e, v) => updateFn(field.name, e.target.value)}
-                error={state?.[field.name]?.errors.length > 0}
-            />
-            </CustomFormControl>
-        );
-    }
-}
-
