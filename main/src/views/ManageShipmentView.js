@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useRef} from "react";
-import { Box, Button } from "@mui/material";
+import { Box, Button, Paper, Typography } from "@mui/material";
 import { Add, Delete, OpenInNew, QrCodeScanner } from '@mui/icons-material';
 import SortingGrid from "../components/SortingGrid";
 import { useModelOptions, useModelFormFields } from "../customHooks";
@@ -79,11 +79,23 @@ const ManageShipmentView = props => {
 
         let formComponents = []
         for(let i=1;i<=numExtraShipmentCreationForms;i++){
-            formComponents.push(<CreateShipmentForm key={i}/>);
+            formComponents.push(
+            <Paper sx={{padding: 1,boxSizing:'border-box'}}><Typography>Shipment {i+1}</Typography><CreateShipmentForm key={i}/></Paper>
+        );
         }
 
+        console.log(formComponents);
         return formComponents;
     }
+
+    // Increase Qty of Shipment Creation Forms Displayed
+    const increaseFormFieldComponents = () => {
+        setNumExtraShipmentCreationForms(previous => {
+            console.log(previous, previous++)
+            return previous++;
+        })
+    }
+
     // Formatted Data
     const allLoadedShipments = shipments.data?.pages.map(p => p.results).flat();
     const shipmentCount = shipments.data?.pages[0].count
@@ -103,11 +115,13 @@ const ManageShipmentView = props => {
                     subtitle="Setup and create new shipments"
                     openDialogButtonText="New Shipment"
                     openDialogButtonIcon={<Add/>}
-                    actions={{
-                        'submit' : {'callbackFn' : createNewShipments}
-                    }}
+                    actions={[
+                        [numExtraShipmentCreationForms ? `Submit ${numExtraShipmentCreationForms+1} records` : 'Submit', {'callbackFn' : createNewShipments}]
+                    ]}
                 >
-                    <CreateShipmentForm key={0}/>
+                    <Paper sx={{background:"none", boxShadow: "none", padding: 1,boxSizing:'border-box'}}><Typography>Shipment{numExtraShipmentCreationForms > 0 ? " " + "1" : null}</Typography>
+                        <CreateShipmentForm key={0}/>
+                    </Paper>
                     {getExtraShipmentCreationForms()}
                     <Box sx={{marginY:1}}>
                         <Button startIcon={<Add/>} color={'success'} onClick={increaseFormFieldComponents}>Add shipment</Button>
