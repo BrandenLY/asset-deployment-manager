@@ -14,9 +14,9 @@ const CreateShipmentForm = props => {
   })
 
   return (
-    <Grid container spacing={2} sx={{padding:1}}>
+    <Grid container spacing={2} sx={{padding:0, margin:0, maxWidth: "100%"}}>
 
-      <Grid item xs={3}>{formFields.fields["id"]?.inputComponent}</Grid>
+      <Grid item xs={6}>{formFields.fields["id"]?.inputComponent}</Grid><Grid item xs={6} />
 
       <Grid item xs={6}>{formFields.fields["departure_date"]?.inputComponent}</Grid>
       <Grid item xs={6}>{formFields.fields["arrival_date"]?.inputComponent}</Grid>
