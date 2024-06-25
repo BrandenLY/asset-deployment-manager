@@ -5,8 +5,6 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
-  DialogContentText,
-  DialogTitle,
   Divider,
   IconButton,
   Typography,
@@ -52,9 +50,10 @@ const CustomDialog = (props) => {
             open={isOpen}
             fullWidth={true}
             maxWidth={!clientIsMobile ? 'md' : false}
-            PaperProps={{sx:{padding:2}}}
+            maxHeight
+            PaperProps={{sx:{padding:2, maxHeight: "80vh"}}}
         >
-            <Box sx={{display: 'flex', alignItems: 'center', gap:2, justifyContent:'space-between'}}>
+            <Box sx={{display: 'flex', alignItems: 'center', gap:3, justifyContent:'space-between'}}>
                 <Box sx={{padding:1}}>
                     <Typography variant='h6'>{title}</Typography>
                     <Typography variant='subtitle2' sx={{fontWeight:400}}>{subtitle}</Typography>
@@ -64,12 +63,12 @@ const CustomDialog = (props) => {
                 </IconButton>
             </Box>
             <Divider></Divider>
-            <DialogContent>
+            <DialogContent sx={{padding:1, display: "flex", flexDirection:"column", gap:2}}>
                 {innerContent}
             </DialogContent>
             <DialogActions>
-                { Object.entries(actions).map(([name,data]) => {
-                    return(<Button onClick={data.callbackFn} variant="contained">{name}</Button>)
+                { actions.map(([actionName, actionDetails]) => {
+                    return(<Button onClick={actionDetails.callbackFn} variant="contained">{actionName}</Button>)
                 }) }
             </DialogActions>
         </Dialog>
