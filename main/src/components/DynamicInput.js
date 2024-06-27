@@ -31,7 +31,7 @@ const DynamicInput = props => {
 
     const updateValues = (onChangeEvent, newValue) => {
         setValue(newValue);
-        updateFieldData(fieldName, newValue)
+        updateFieldData(fieldName, newValue);
     };
 
     switch(fieldDetails.type){
