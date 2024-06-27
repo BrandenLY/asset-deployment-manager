@@ -18,6 +18,7 @@ const ManageShipmentView = props => {
     const queryClient = useQueryClient();
     const [numExtraShipmentCreationForms, setNumExtraShipmentCreationForms] = useState(0);
     const [selectedShipment, setSelectedShipment] = useState(null);
+    const shipmentFormData = useRef([]);
 
     // Mutations
     const deleteShipmentMutation = useMutation({
@@ -66,8 +67,8 @@ const ManageShipmentView = props => {
         setSelectedShipment(shipment)
     }
 
-    const createNewShipments = shipmentsData => {
-        console.log(shipmentsData);
+    const createNewShipments = e => {
+        console.log('save shipments')
     }
 
     // Display Additional Shipment Creation Forms
@@ -77,23 +78,37 @@ const ManageShipmentView = props => {
             return;
         }
 
+        function isOdd(num) { return num % 2;}
+
         let formComponents = []
         for(let i=1;i<=numExtraShipmentCreationForms;i++){
             formComponents.push(
-            <Paper sx={{padding: 1,boxSizing:'border-box'}}><Typography>Shipment {i+1}</Typography><CreateShipmentForm key={i}/></Paper>
+            <Paper sx={{
+                padding: 1, 
+                paddingBottom:2,
+                boxSizing:'border-box', 
+                background: isOdd(i) ? null : "none", 
+                boxShadow: isOdd(i) ? null : "none"}}
+            >
+                <Typography>Shipment {i+1}</Typography>
+                <CreateShipmentForm onChange={updateShipmentFormsData} key={i} index={i}/>
+            </Paper>
         );
         }
 
-        console.log(formComponents);
         return formComponents;
     }
 
     // Increase Qty of Shipment Creation Forms Displayed
     const increaseFormFieldComponents = () => {
         setNumExtraShipmentCreationForms(previous => {
-            console.log(previous, previous++)
             return previous++;
         })
+    }
+
+    // Update Shipment Form Data
+    const updateShipmentFormsData = (key, data) => {
+        shipmentFormData.current[key] = data;
     }
 
     // Formatted Data
@@ -120,7 +135,7 @@ const ManageShipmentView = props => {
                     ]}
                 >
                     <Paper sx={{background:"none", boxShadow: "none", padding: 1,boxSizing:'border-box'}}><Typography>Shipment{numExtraShipmentCreationForms > 0 ? " " + "1" : null}</Typography>
-                        <CreateShipmentForm key={0}/>
+                        <CreateShipmentForm onChange={updateShipmentFormsData} key={0} index={0}/>
                     </Paper>
                     {getExtraShipmentCreationForms()}
                     <Box sx={{marginY:1}}>
