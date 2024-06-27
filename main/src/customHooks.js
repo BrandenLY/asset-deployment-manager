@@ -114,7 +114,7 @@ export const useModelFormFields = ({modelOptions, id=null, excludeReadOnly=false
     const updateFieldData = useCallback((fieldName, newValue) => {
         setFields((previous) => {
             const tmp = {...previous}
-            tmp[fieldName] = {...previous[fieldName], currentValue:newValue}
+            tmp[fieldName] = {...previous[fieldName], current:newValue}
             return tmp
         })
     })
@@ -153,7 +153,7 @@ export const useModelFormFields = ({modelOptions, id=null, excludeReadOnly=false
             //!FIXME: Does not generate unique input id's when multiple forms for the same model are loaded.
             const htmlInputId = `${modelOptions.model}-${fieldName}-${index}-input`;
             
-            if(fieldDetails.readOnly && excludeReadOnly){
+            if(fieldDetails.read_only && excludeReadOnly){
                 return;
             }
 
