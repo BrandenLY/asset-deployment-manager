@@ -111,19 +111,22 @@ export const useModelFormFields = ({modelOptions, id=null, excludeReadOnly=false
     const [fields, setFields] = useState({});
 
     // Callback Functions
-    const updateFieldData = useCallback((fieldName, newValue) => {
+    const updateFieldData = useCallback((fName, newValue) => {
         setFields((previous) => {
             const tmp = {...previous}
-            tmp[fieldName] = {...previous[fieldName], current:newValue}
+            tmp[fName] = {...previous[fName], current:newValue}
             return tmp
         })
     })
 
-    const updateFieldErrors = (fieldName, errorMessage) => {
+    const updateFieldErrors = (fieldErrors) => {
         setFields(previous => {
 
-            let tmp = {...previous}
-            tmp[fieldName].errors.push(errorMessage);
+            const tmp = {...previous}
+            Object.entries(fieldErrors).forEach(([fName, fErrors], index) => {
+                tmp[fName].errors = fErrors;
+            })
+            
             return tmp
 
         })
