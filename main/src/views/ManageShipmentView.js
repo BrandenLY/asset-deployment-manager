@@ -7,6 +7,7 @@ import { useInfiniteQuery, useMutation, useQueryClient } from "@tanstack/react-q
 import CreateShipmentDialog from "../components/CreateShipmentDialog";
 import CustomDialog from "../components/CustomDialog";
 import CreateShipmentForm from "../forms/CreateShipmentForm";
+import { getCookie } from "../context";
 
 
 const ManageShipmentView = props => {
@@ -23,7 +24,7 @@ const ManageShipmentView = props => {
     // Mutations
     const deleteShipmentMutation = useMutation({
         mutationFn: async (data) => {
-            const updateUrl = new URL(`${window.location.protocol}${window.location.host}/api/shipment/${data.id}/`)
+            const updateUrl = new URL(`${window.location.protocol}${window.location.host}/api/shipment/${data.id}/`);
             const requestHeaders = new Headers();
             requestHeaders.set('Content-Type', 'application/json');
             requestHeaders.set('X-CSRFToken', getCookie('csrftoken'));
@@ -40,6 +41,45 @@ const ManageShipmentView = props => {
             }
             else {
                 props.addNotif({message:'Failed to delete shipment', severity:'error'})
+            }
+        }
+    })
+
+    const addShipmentMutation = useMutation({
+        mutationFn: async (data) => {
+            const updateUrl = new URL(`${window.location.protocol}${window.location.host}/api/shipment/`);
+            const requestHeaders = new Headers();
+            requestHeaders.set('Content-Type', 'application/json');
+            requestHeaders.set('X-CSRFToken', getCookie('csrftoken'));
+
+            return fetch( updateUrl, {method:"POST", headers:requestHeaders})
+        },
+        onSettled: async (res, error, formIndex, context) => {
+
+            if (res.ok) {
+                props.addNotif({message: `Succesfully created shipment #${formIndex}`, severity:'success'})
+            }
+            else {
+
+                if (res.status == 400){ // Problem with form data
+                    props.addNotif({message: `Failed to create Shipment #${formIndex}`, severity:'error'})
+
+                    let fieldErrors = []
+                    res.json().then(
+                        responseData => {
+                            shipmentFormData.current[formIndex].updateFieldErrors(responseData);
+                        }
+                    )
+
+                    let form = shipmentFormData.current[formIndex]
+                    console.log(form);
+                    return;
+                    
+                }
+
+                props.addNotif({message: 'An unknown error occurred while creating shipment(s).', severity:'error'})
+
+
             }
         }
     })
@@ -67,8 +107,14 @@ const ManageShipmentView = props => {
         setSelectedShipment(shipment)
     }
 
-    const createNewShipments = e => {
-        console.log('save shipments')
+    const createNewShipments = async e => {
+
+        let mutations = []
+        shipmentFormData.current.forEach( (shipmentFormObj, i) => {
+            mutations[i] = addShipmentMutation.mutate(i, shipmentFormObj);
+        });
+
+        console.log(mutations)
     }
 
     // Display Additional Shipment Creation Forms
@@ -101,9 +147,11 @@ const ManageShipmentView = props => {
 
     // Increase Qty of Shipment Creation Forms Displayed
     const increaseFormFieldComponents = () => {
+        // Increment state value
         setNumExtraShipmentCreationForms(previous => {
-            return previous++;
-        })
+            previous++
+            return(previous);
+        });
     }
 
     // Update Shipment Form Data
@@ -113,7 +161,7 @@ const ManageShipmentView = props => {
 
     // Formatted Data
     const allLoadedShipments = shipments.data?.pages.map(p => p.results).flat();
-    const shipmentCount = shipments.data?.pages[0].count
+    const shipmentCount = shipments.data?.pages[0].count;
 
     // JSX 
     return (
