@@ -15,7 +15,7 @@ import { Close } from "@mui/icons-material";
 
 const CustomDialog = (props) => {
     // Props
-    const {openDialogButtonText, openDialogButtonIcon, title, subtitle="", children:innerContent, actions={}} = props;
+    const {openDialogButtonText, openDialogButtonIcon, title, subtitle="", children:innerContent, onClose:externalOnClose, actions={}} = props;
 
     // Hooks
     const theme = useTheme();
@@ -31,6 +31,7 @@ const CustomDialog = (props) => {
 
     const closeDialog = e => {
         setIsOpen(false);
+        externalOnClose();
     }
 
   return (
@@ -51,7 +52,7 @@ const CustomDialog = (props) => {
             fullWidth={true}
             maxWidth={!clientIsMobile ? 'md' : false}
             maxHeight
-            PaperProps={{sx:{padding:2, maxHeight: "80vh"}}}
+            PaperProps={{sx:{padding:2, maxHeight: "78vh"}}}
         >
             <Box sx={{display: 'flex', alignItems: 'center', gap:3, justifyContent:'space-between'}}>
                 <Box sx={{padding:1}}>

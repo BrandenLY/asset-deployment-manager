@@ -1,13 +1,12 @@
-import React, {useState, useEffect, useRef} from "react";
-import { Box, Button, Paper, Typography } from "@mui/material";
-import { Add, Delete, OpenInNew, QrCodeScanner } from '@mui/icons-material';
+import React, {useState, useEffect} from "react";
+import { Box, Button, IconButton, Paper, Typography } from "@mui/material";
+import { Add, Close, Delete, OpenInNew, QrCodeScanner } from '@mui/icons-material';
 import SortingGrid from "../components/SortingGrid";
-import { useModelOptions, useModelFormFields } from "../customHooks";
+import { useModelOptions} from "../customHooks";
 import { useInfiniteQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import CreateShipmentDialog from "../components/CreateShipmentDialog";
 import CustomDialog from "../components/CustomDialog";
-import CreateShipmentForm from "../forms/CreateShipmentForm";
 import { getCookie } from "../context";
+import ModelForm from "../components/ModelForm";
 
 
 const ManageShipmentView = props => {
@@ -19,7 +18,7 @@ const ManageShipmentView = props => {
     const queryClient = useQueryClient();
     const [numExtraShipmentCreationForms, setNumExtraShipmentCreationForms] = useState(0);
     const [selectedShipment, setSelectedShipment] = useState(null);
-    const shipmentFormData = useRef([]);
+    const [forms, setForms] = useState([]);
 
     // Mutations
     const deleteShipmentMutation = useMutation({
@@ -58,21 +57,29 @@ const ManageShipmentView = props => {
 
             if (res.ok) {
                 props.addNotif({message: `Succesfully created shipment #${formIndex}`, severity:'success'})
+                setNumExtraShipmentCreationForms(0);
+                setForms([]);
             }
             else {
 
                 if (res.status == 400){ // Problem with form data
                     props.addNotif({message: `Failed to create Shipment #${formIndex}`, severity:'error'})
 
-                    let fieldErrors = []
                     res.json().then(
                         responseData => {
-                            shipmentFormData.current[formIndex].updateFieldErrors(responseData);
+                            Object.entries(responseData).forEach(([fieldName, fieldErrors], index) => {
+
+                                setForms(previous => {
+                                    let tmp = [...previous];
+                                    tmp[formIndex][fieldName]['errors'] = fieldErrors;
+                                    return(tmp);
+                                })
+                            })
                         }
                     )
 
-                    let form = shipmentFormData.current[formIndex]
-                    console.log(form);
+                    // let form = shipmentFormData.current[formIndex]
+                    // console.log(form);
                     return;
                     
                 }
@@ -110,39 +117,9 @@ const ManageShipmentView = props => {
     const createNewShipments = async e => {
 
         let mutations = []
-        shipmentFormData.current.forEach( (shipmentFormObj, i) => {
+        forms.forEach( (shipmentFormObj, i) => {
             mutations[i] = addShipmentMutation.mutate(i, shipmentFormObj);
         });
-
-        console.log(mutations)
-    }
-
-    // Display Additional Shipment Creation Forms
-    const getExtraShipmentCreationForms = () => {
-        
-        if(numExtraShipmentCreationForms < 1){
-            return;
-        }
-
-        function isOdd(num) { return num % 2;}
-
-        let formComponents = []
-        for(let i=1;i<=numExtraShipmentCreationForms;i++){
-            formComponents.push(
-            <Paper sx={{
-                padding: 1, 
-                paddingBottom:2,
-                boxSizing:'border-box', 
-                background: isOdd(i) ? null : "none", 
-                boxShadow: isOdd(i) ? null : "none"}}
-            >
-                <Typography>Shipment {i+1}</Typography>
-                <CreateShipmentForm onChange={updateShipmentFormsData} key={i} index={i}/>
-            </Paper>
-        );
-        }
-
-        return formComponents;
     }
 
     // Increase Qty of Shipment Creation Forms Displayed
@@ -155,13 +132,36 @@ const ManageShipmentView = props => {
     }
 
     // Update Shipment Form Data
-    const updateShipmentFormsData = (key, data) => {
-        shipmentFormData.current[key] = data;
+    const updateShipmentFormsData = (formIndex, data, fieldName=null) => {
+         
+        if(fieldName === null){
+            setForms( previous => {
+                let tmp = [...previous];
+                tmp[formIndex] = {
+                    ...data
+                }
+                return tmp;
+            });
+        } else {
+            setForms( previous => {
+                let tmp = [...previous];
+                tmp[formIndex][fieldName].current = data;
+                return tmp;
+            });
+        }
     }
 
     // Formatted Data
     const allLoadedShipments = shipments.data?.pages.map(p => p.results).flat();
     const shipmentCount = shipments.data?.pages[0].count;
+    const createShipmentsFormLayout = [
+        ['status', null],
+        ['carrier', null],
+        ['origin', 'destination'],
+        ['arrival_date', 'departure_date'],
+        // ['event', null],
+        // ['send_back_shipment', null]
+    ]
 
     // JSX 
     return (
@@ -178,14 +178,41 @@ const ManageShipmentView = props => {
                     subtitle="Setup and create new shipments"
                     openDialogButtonText="New Shipment"
                     openDialogButtonIcon={<Add/>}
+                    onClose = {() => {setNumExtraShipmentCreationForms(0); setForms([]);}}
                     actions={[
                         [numExtraShipmentCreationForms ? `Submit ${numExtraShipmentCreationForms+1} records` : 'Submit', {'callbackFn' : createNewShipments}]
                     ]}
                 >
-                    <Paper sx={{background:"none", boxShadow: "none", padding: 1,boxSizing:'border-box'}}><Typography>Shipment{numExtraShipmentCreationForms > 0 ? " " + "1" : null}</Typography>
-                        <CreateShipmentForm onChange={updateShipmentFormsData} key={0} index={0}/>
+                    <Paper sx={{background:"none", boxShadow:"none", padding:1, paddingLeft:0, boxSizing:'border-box'}}>
+                        <Box sx={{display: "flex", justifyContent:"space-between", paddingX:1}}>
+                            <Typography>Shipment {numExtraShipmentCreationForms > 0 ? "1" : null}</Typography>
+                            <IconButton disabled={true} size={'small'}><Close/></IconButton>
+                        </Box>
+                        <ModelForm index={0} modelOptions={shipmentOptions} onChange={updateShipmentFormsData} formState={forms} layout={createShipmentsFormLayout} excludeReadOnly/>
                     </Paper>
-                    {getExtraShipmentCreationForms()}
+                    { 
+                        [...Array(numExtraShipmentCreationForms)].map((_, i) =>{
+                            const formRequiresBackground = (i+1) % 2;
+                            return(
+                                <Paper sx={{background:formRequiresBackground ? null : "none", boxShadow:"none", padding:1, paddingLeft:0, boxSizing:'border-box'}}>
+                                    <Box sx={{display: "flex", justifyContent:"space-between", paddingX:1}}>
+                                        <Typography>Shipment {i+2}</Typography>
+                                        <IconButton size={'small'} onClick={() => {
+                                            setForms( previous => {
+                                                const tmp = [...previous];
+                                                tmp.splice(i+1, 1);
+                                                return tmp;
+                                            })
+                                            setNumExtraShipmentCreationForms( previous => {
+                                                return previous - 1;
+                                            })
+                                        }}><Close/></IconButton>
+                                    </Box>
+                                    <ModelForm index={i+1} modelOptions={shipmentOptions} onChange={updateShipmentFormsData} formState={forms} layout={createShipmentsFormLayout} excludeReadOnly/>
+                                </Paper>
+                            )
+                        })
+                    }
                     <Box sx={{marginY:1}}>
                         <Button startIcon={<Add/>} color={'success'} onClick={increaseFormFieldComponents}>Add shipment</Button>
                     </Box>

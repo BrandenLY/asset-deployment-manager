@@ -1,14 +1,14 @@
 import { Autocomplete, FormControl, FormHelperText, InputLabel, OutlinedInput, TextField } from '@mui/material';
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { ModelAutoComplete } from './ModelAutoComplete';
 
 
 const CustomFormControl = (props) => {
     
-    const {id,helpText,fieldError} = props;
+    const {helpText,fieldError} = props;
 
     return(
-      <FormControl id={props.id} fullWidth>
+      <FormControl fullWidth>
   
       {props.children}
   
@@ -26,11 +26,11 @@ const CustomFormControl = (props) => {
 
 const DynamicInput = props => {
 
-    const {initialFieldValue, fieldName, fieldDetails, updateFieldData, htmlInputId} = props;
-    const [value, setValue] = useState(initialFieldValue ? initialFieldValue : null);
+    const {fieldName, fieldDetails, updateFieldData, htmlInputId} = props;
+    const fieldError = fieldDetails.errors.length > 0;
+
 
     const updateValues = (onChangeEvent, newValue) => {
-        setValue(newValue);
         updateFieldData(fieldName, newValue);
     };
 
@@ -43,18 +43,21 @@ const DynamicInput = props => {
                 options={fieldDetails.choices}
                 disabled={fieldDetails.read_only}
                 required={fieldDetails.required}
+                error={fieldError}
                 getOptionLabel={option => option.display_name}
-                renderInput={(params) => <TextField inputProps={{sx:{width:"100%"}}} sx={{flexGrow:"2"}} {...params} label={fieldName} />}
-                value={value}
+                renderInput={(params) => <TextField inputProps={{sx:{width:"100%"}}} sx={{flexGrow:"2"}} {...params} label={fieldName} helperText={fieldDetails.errors.toString()} FormHelperTextProps={{error:fieldError}}/>}
+                value={fieldDetails.current}
                 onChange={updateValues}
                 />  
             );
         case 'computed value':
-            <TextField inputProps={{sx:{width:"100%"}}} sx={{flexGrow:"2"}} {...params} label={fieldName} />
+            return(
+                <TextField disabled={fieldDetails.read_only} inputProps={{sx:{width:"100%"}}} sx={{flexGrow:"2"}} label={fieldName} />
+            )
         case 'datetime':
             return(
-                <CustomFormControl fieldError={value?.errors.length > 0} sx={{width:"100%"}}>
-                <InputLabel shrink variant="outlined" error={!!value?.errors} for={htmlInputId}>
+                <CustomFormControl  fieldError={fieldDetails.errors.toString()} helpText={fieldDetails.help_text}>
+                <InputLabel shrink variant="outlined" error={fieldError} for={htmlInputId}>
                     {fieldName}
                 </InputLabel>
         
@@ -62,11 +65,12 @@ const DynamicInput = props => {
                     id={htmlInputId}
                     type="datetime-local"
                     disabled={fieldDetails.read_only}
-                    value={value}
+                    value={fieldDetails.current}
                     label={fieldName}
                     notched={true}
                     onChange={updateValues}
-                    error={value?.errors.length > 0}
+                    error={fieldError}
+                    required={fieldDetails.required}
                     sx={{appearance:"none"}}
                 />
                 </CustomFormControl>
@@ -75,18 +79,20 @@ const DynamicInput = props => {
             // Autocomplete/Select Style Input.
             return(
                 <ModelAutoComplete
-                value={value}
+                value={fieldDetails.current}
                 field={{fieldName,...fieldDetails}}
                 isEditing={true}
                 inputId={htmlInputId}
                 onChange={updateValues}
+                error={fieldError}
+                helpText={fieldDetails.errors.toString()}
                 />
             );
         default:
             // Standard HTML Input w/ Specified 'Type'
             return(
-                <CustomFormControl fieldError={value?.errors.length > 0} sx={{width:"100%"}}>
-                <InputLabel variant="outlined" error={!!value?.errors} for={htmlInputId}>
+                <CustomFormControl fieldError={fieldDetails.errors.toString()} helpText={fieldDetails.help_text}>
+                <InputLabel variant="outlined" error={fieldError} for={htmlInputId}>
                     {fieldName}
                 </InputLabel>
         
@@ -94,10 +100,11 @@ const DynamicInput = props => {
                     id={htmlInputId}
                     type={fieldDetails.type}
                     disabled={fieldDetails.read_only}
-                    value={value}
+                    value={fieldDetails.current}
                     label={fieldName}
                     onChange={updateValues}
-                    error={value?.errors.length > 0}
+                    error={fieldError}
+                    required={fieldDetails.required}
                 />
                 </CustomFormControl>
             );
