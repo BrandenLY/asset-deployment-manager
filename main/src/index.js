@@ -74,13 +74,11 @@ export const queryClient = new QueryClient({
 
 // Primary React Component
 const App = () => {
-  // Load Data
-  const theme = createTheme(primaryDarkTheme);
 
   return (
     <React.StrictMode>
       <QueryClientProvider client={queryClient}>
-        <ThemeProvider theme={theme}>
+        <ThemeProvider theme={primaryDarkTheme}>
           <CssBaseline />
           <Router>
             <Routes>
