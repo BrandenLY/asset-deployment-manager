@@ -132,50 +132,58 @@ export const useModelFormFields = ({modelOptions, id=null, excludeReadOnly=false
         })
     };
 
-    const clearFieldErrors = () => {
-        setFields( previous => {
-            const tmp = {...previous};
-            Object.entries(tmp).forEach( ([property,value]) => {
 
-                tmp[property] = {...value, errors:[]}
-
-            })
-            return tmp
-        })
-    }
 
     useEffect(() => {
         
+        // Effect : Update 'fields' state object to have have proper keys, and add initial data if required.
+                
         if(modelOptions.isLoading){
+            // We do not want to run this effect if we have not received the model options from the backend. 
+            // have not received the model options from the backend.
             return;
         }
 
-        const newFieldObjects = {}
         Object.entries(modelOptions.data.model_fields).forEach( ([fieldName, fieldDetails], index) => {
-            
-            //!FIXME: Does not generate unique input id's when multiple forms for the same model are loaded.
-            const htmlInputId = `${modelOptions.model}-${fieldName}-${index}-input`;
-            
+
+            // Skip read-only fields
             if(fieldDetails.read_only && excludeReadOnly){
                 return;
             }
 
-            const newFieldData = {
-                current: null,
-                errors:[],
-                inputComponent: (
-                    <DynamicInput {...{fieldName, fieldDetails, updateFieldData, htmlInputId}}/> 
-                )
-            }
+            //!FIXME: Does not generate unique input id's when multiple forms for the same model are loaded.
+            const htmlInputId = `${modelOptions.model}-${fieldName}-${index}-input`;
 
-            newFieldObjects[fieldName] = newFieldData;
+            // Update 'fields' state
+            setFields(previous => {
+                const tmp = {...previous};
+                tmp[fieldName] = {
+                    current: null,
+                    errors: new Array(),
+                    inputComponent: (
+                        <DynamicInput fields={fields} {...{fieldName, fieldDetails, updateFieldData, htmlInputId}} />
+                    )
+                }
+                return tmp;
+            })
+
+            // // Construct Field object
+            // const newFieldData = {
+            //     current: null,
+            //     errors: new Array(),
+            //     inputComponent: (
+            //         <DynamicInput fields={fields} {...{fieldName, fieldDetails, updateFieldData, htmlInputId}}/> 
+            //     )
+            // }
+
+            // newFieldObjects[fieldName] = newFieldData;
         })
 
-        setFields(newFieldObjects);
+        // setFields(newFieldObjects);
 
     },[modelOptions.isLoading])
 
-    return {fields, updateFieldData, updateFieldErrors, clearFieldErrors}
+    return {fields, updateFieldData, updateFieldErrors}
 };
 
 export const useModelOptions = (modelName) => {
