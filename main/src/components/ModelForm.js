@@ -5,19 +5,21 @@ import { Box, Grid, Typography } from '@mui/material';
 const ModelForm = props => {
     
     // State Variables
-    const {index, modelOptions, onChange:externalOnChange, layout, formState, excludeReadOnly} = props;
+    const {index, modelOptions, onChange:externalOnChange, layout, formState, initialValue, excludeReadOnly} = props;
 
     // Effects
     useEffect(() => { // Configure initial data based on model options.
 
-        if(modelOptions.isLoading || formState[index]){
+        if(modelOptions.isLoading || formStateExists){
             // We do not want to run this effect if we
-            // have not received the model options from the backend.
+            // have not received the model options from the backend or,
+            // the initial data is already loaded.
             return;
         }
 
         // Instantiate initial values
         const initialFieldValues = {};
+
         Object.entries(modelOptions.data.model_fields)
             .forEach(
             ([fieldName, fieldDetails], index) => {
@@ -28,7 +30,7 @@ const ModelForm = props => {
                 }
 
                 // Add initial field values
-                initialFieldValues[fieldName] = {...fieldDetails, current:null, errors:[]}
+                initialFieldValues[fieldName] = {...fieldDetails, errors:[], current:(initialValue ? initialValue[fieldName] : null)}
             }
         )
 
@@ -44,8 +46,16 @@ const ModelForm = props => {
     } 
 
     // Formatted Data
-    const formStateExists = typeof formState[index] != 'undefined';
-    const erroneousFormFields = formStateExists ? Object.entries(formState[index]).filter(([fieldName, fieldData]) => fieldData.errors.length > 0) : [];
+    const formStateExists = (
+        typeof index == 'number' ? 
+        typeof formState[index] != 'undefined' && formState.length > 0 : 
+        typeof formState != 'undefined'
+    );
+
+    let formData = {};
+    if(formStateExists){
+        formData = typeof index == 'number' ? formState[index] : formState;
+    }
 
     if(layout != undefined){
         return(
@@ -60,7 +70,7 @@ const ModelForm = props => {
                             }
 
                             else{
-                                const _field = formState[index][cell];
+                                const _field = formData[cell];
                                 const htmlInputId = `${modelOptions.data.model}-form-${index}-field-${cell}`;
                                 return(
                                     <Grid item xs={colSpan}> 
@@ -78,8 +88,10 @@ const ModelForm = props => {
     else{
         return (
             <Grid container spacing={2} sx={{padding:0, margin:0, maxWidth: "100%"}}>
+                {console.log(formStateExists, formState, formData)}
                 {formStateExists &&
-                    Object.entries(formState[index]).map(([fieldName, fieldInfo], fieldIndex) => {
+                    Object.entries(formData).map(([fieldName, fieldInfo], fieldIndex) => {
+
                         const htmlInputId = `${modelOptions.data.model}-form-${index}-field-${fieldName}`;
                         return(
                             <Grid item xs={6}> 

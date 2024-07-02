@@ -26,6 +26,7 @@ const CustomFormControl = (props) => {
 
 const DynamicInput = props => {
 
+    // console.log(props);
     const {fieldName, fieldDetails, updateFieldData, htmlInputId} = props;
     const fieldError = fieldDetails.errors.length > 0;
 
@@ -45,9 +46,9 @@ const DynamicInput = props => {
                 required={fieldDetails.required}
                 error={fieldError}
                 getOptionLabel={option => option.display_name}
-                renderInput={(params) => <TextField inputProps={{sx:{width:"100%"}}} sx={{flexGrow:"2"}} {...params} label={fieldName} helperText={fieldDetails.errors.toString()} FormHelperTextProps={{error:fieldError}}/>}
+                renderInput={(params) => <TextField inputProps={{sx:{width:"100%"}}} sx={{flexGrow:"2"}} {...params} label={fieldDetails.label} helperText={fieldDetails.errors.toString()} FormHelperTextProps={{error:fieldError}}/>}
                 value={fieldDetails.current}
-                onChange={updateValues}
+                onChange={(_e, newValue) => {updateValues(_e, newValue)}}
                 />  
             );
         case 'computed value':
@@ -55,10 +56,11 @@ const DynamicInput = props => {
                 <TextField disabled={fieldDetails.read_only} inputProps={{sx:{width:"100%"}}} sx={{flexGrow:"2"}} label={fieldName} />
             )
         case 'datetime':
+            // Const datetime input type with customized label styling.
             return(
                 <CustomFormControl  fieldError={fieldDetails.errors.toString()} helpText={fieldDetails.help_text}>
                 <InputLabel shrink variant="outlined" error={fieldError} for={htmlInputId}>
-                    {fieldName}
+                    {fieldDetails.label}
                 </InputLabel>
         
                 <OutlinedInput
@@ -66,9 +68,9 @@ const DynamicInput = props => {
                     type="datetime-local"
                     disabled={fieldDetails.read_only}
                     value={fieldDetails.current}
-                    label={fieldName}
+                    label={fieldDetails.label}
                     notched={true}
-                    onChange={updateValues}
+                    onChange={(_e, newValue) => {updateValues(_e, _e.target.value)}}
                     error={fieldError}
                     required={fieldDetails.required}
                     sx={{appearance:"none"}}
@@ -79,13 +81,10 @@ const DynamicInput = props => {
             // Autocomplete/Select Style Input.
             return(
                 <ModelAutoComplete
-                value={fieldDetails.current}
                 field={{fieldName,...fieldDetails}}
                 isEditing={true}
                 inputId={htmlInputId}
                 onChange={updateValues}
-                error={fieldError}
-                helpText={fieldDetails.errors.toString()}
                 />
             );
         default:
@@ -93,7 +92,7 @@ const DynamicInput = props => {
             return(
                 <CustomFormControl fieldError={fieldDetails.errors.toString()} helpText={fieldDetails.help_text}>
                 <InputLabel variant="outlined" error={fieldError} for={htmlInputId}>
-                    {fieldName}
+                    {fieldDetails.label}
                 </InputLabel>
         
                 <OutlinedInput
@@ -101,8 +100,8 @@ const DynamicInput = props => {
                     type={fieldDetails.type}
                     disabled={fieldDetails.read_only}
                     value={fieldDetails.current}
-                    label={fieldName}
-                    onChange={updateValues}
+                    label={fieldDetails.label}
+                    onChange={(_e, newValue) => {updateValues(_e, _e.target.value)}}
                     error={fieldError}
                     required={fieldDetails.required}
                 />
