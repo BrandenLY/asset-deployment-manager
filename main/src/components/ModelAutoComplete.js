@@ -5,7 +5,7 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 
 export const ModelAutoComplete = props => {
 
-    const {value, field, isEditing, inputId, onChange, error, helpText} = props;
+    const {field, isEditing, inputId, onChange, helpText} = props;
     const backendCtx = useContext(backendApiContext);
 
     const data = useInfiniteQuery({
@@ -17,17 +17,19 @@ export const ModelAutoComplete = props => {
         return({...result, label:backendCtx.models[field.related_model_name].getLabelName(result)})
     });
 
+    // Formatted Data
+    const error = field.errors.length > 0;
+    const errors = field.errors.toString();
     return (
-        <>
-            <Autocomplete
-                id={inputId}
-                options={dataOptions}
-                disabled={field.readOnly ? true : !isEditing}
-                renderInput={(params) => <TextField error={error} {...params} label={field.fieldName} helperText={helpText} FormHelperTextProps={{error:error}}/>}
-                value={value}
-                onChange={onChange}
-                error={error}
-            />
-        </>
+        <Autocomplete
+            id={inputId}
+            options={dataOptions}
+            disabled={field.readOnly ? true : !isEditing}
+            renderInput={(params) => <TextField error={error} {...params} label={field.label} helperText={error ? errors : field.help_text} FormHelperTextProps={{error:error}}/>}
+            value={field.current}
+            onChange={onChange}
+            error={error}
+            label={field.label}
+        />
     );
 };
