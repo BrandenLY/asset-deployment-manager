@@ -26,7 +26,6 @@ const CustomFormControl = (props) => {
 
 const DynamicInput = props => {
 
-    // console.log(props);
     const {fieldName, fieldDetails, updateFieldData, htmlInputId} = props;
     const fieldError = fieldDetails.errors.length > 0;
 
