@@ -45,30 +45,36 @@ const ManageShipmentView = props => {
     })
 
     const addShipmentMutation = useMutation({
-        mutationFn: async (data) => {
+        mutationFn: async (variables) => {
             const updateUrl = new URL(`${window.location.protocol}${window.location.host}/api/shipment/`);
             const requestHeaders = new Headers();
             requestHeaders.set('Content-Type', 'application/json');
             requestHeaders.set('X-CSRFToken', getCookie('csrftoken'));
-
-            return fetch( updateUrl, {method:"POST", headers:requestHeaders})
+   
+            return fetch( updateUrl, {method:"POST", body:JSON.stringify(variables.postData), headers:requestHeaders})
         },
-        onSettled: async (res, error, formIndex, context) => {
+        onSettled: async (res, error, variables, context) => {
+            
+            const {formIndex, postData} = variables;
 
-            if (res.ok) {
-                props.addNotif({message: `Succesfully created shipment #${formIndex}`, severity:'success'})
-                setNumExtraShipmentCreationForms(0);
-                setForms([]);
+            // Frontend mutation error
+            if (error != undefined){
+                props.addNotif({message: `Failed to create shipment: unknown error.`, severity:'error'})
+                // KEEP THIS CONSOLE LOG IN DEBUG MODE.
+                console.log(error);
+                return;
             }
-            else {
 
-                if (res.status == 400){ // Problem with form data
-                    props.addNotif({message: `Failed to create Shipment #${formIndex}`, severity:'error'})
+            // Backend Mutation error
+            if (!res.ok) {
 
+                // Improper POST data
+                if (res.status == 400){ 
+
+                    props.addNotif({message: `Failed to create shipment: invalid POST data`, severity:'error'})
                     res.json().then(
                         responseData => {
                             Object.entries(responseData).forEach(([fieldName, fieldErrors], index) => {
-
                                 setForms(previous => {
                                     let tmp = [...previous];
                                     tmp[formIndex][fieldName]['errors'] = fieldErrors;
@@ -77,16 +83,26 @@ const ManageShipmentView = props => {
                             })
                         }
                     )
-
-                    // let form = shipmentFormData.current[formIndex]
-                    // console.log(form);
                     return;
-                    
                 }
 
-                props.addNotif({message: 'An unknown error occurred while creating shipment(s).', severity:'error'})
+                props.addNotif({message: `Failed to create shipment: unknown error.`, severity:'error'})
+            }
+            
+            // Successful mutation
+            else {
 
-
+                props.addNotif({message: `Succesfully created shipment #${formIndex}`, severity:'success'})
+                setNumExtraShipmentCreationForms(0);
+                setForms([]);
+                res.json().then(
+                    responseData => {
+                        queryClient.setQueryData(['shipment'], oldQueryData => {
+                            oldQueryData['pages'][oldQueryData.pages.length] = {results:[responseData]}
+                            return(oldQueryData);
+                        })
+                    }
+                )
             }
         }
     })
@@ -118,8 +134,26 @@ const ManageShipmentView = props => {
 
         let mutations = []
         forms.forEach( (shipmentFormObj, i) => {
-            mutations[i] = addShipmentMutation.mutate(i, shipmentFormObj);
+            // Parse state data into proper POST data.
+            let postData = {};
+
+            Object.entries(shipmentFormObj).forEach( ([fieldName,fieldData], _index) => {
+
+                if ( fieldData.type == 'choice' ){
+                    postData[fieldName] = fieldData.current?.value;
+                }
+                else if ( fieldData.type == 'related object'){
+                    postData[fieldName] = fieldData.current?.id;
+                }
+                else{
+                    postData[fieldName] = fieldData.current;
+                }
+            })
+
+            mutations[i] = addShipmentMutation.mutate({formIndex:i, postData});
         });
+
+
     }
 
     // Increase Qty of Shipment Creation Forms Displayed
@@ -133,27 +167,27 @@ const ManageShipmentView = props => {
 
     // Update Shipment Form Data
     const updateShipmentFormsData = (formIndex, data, fieldName=null) => {
-         
-        if(fieldName === null){
-            setForms( previous => {
-                let tmp = [...previous];
-                tmp[formIndex] = {
-                    ...data
-                }
-                return tmp;
-            });
-        } else {
-            setForms( previous => {
-                let tmp = [...previous];
+        setForms( previous => {
+            let tmp = [...previous];
+            if(fieldName === null){
+
+                tmp[formIndex] = {...data}
+    
+            } else {
+    
                 tmp[formIndex][fieldName].current = data;
-                return tmp;
-            });
-        }
+                tmp[formIndex][fieldName].errors = [];
+    
+            }
+
+            console.log('updating form state', tmp);
+            return tmp;
+        })
     }
 
     // Formatted Data
     const allLoadedShipments = shipments.data?.pages.map(p => p.results).flat();
-    const shipmentCount = shipments.data?.pages[0].count;
+    const shipmentCount = shipments.data?.pages.reduce((count, page) => count + page.results.length, 0);
     const createShipmentsFormLayout = [
         ['status', null],
         ['carrier', null],
