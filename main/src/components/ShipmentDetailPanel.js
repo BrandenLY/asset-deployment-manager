@@ -23,19 +23,36 @@ import {
 import { Edit } from "@mui/icons-material";
 import { backendApiContext } from "../context";
 import { ModelAutoComplete } from "./ModelAutoComplete";
+import ModelForm from "./ModelForm";
+import { useModelOptions } from "../customHooks";
 
 // Primary Component
 
 export const ShipmentDetailPanel = (props) => {
 
+  const {shipment, updateShipment:externalUpdateShipmentFn} = props;
+
   // State Hooks
-  const { user, models } = useContext(backendApiContext);
+  const shipmentOptions = useModelOptions('shipment');
+  const { user } = useContext(backendApiContext);
   const [isEditing, setIsEditing] = useState(false);
+  const [shipmentForm, setShipmentForm] = useState();
 
   // Helper Functions
   const toggleEditMode = ({ event }) => {
     setIsEditing(!isEditing);
   };
+
+  const updateShipment = (_index, data, fieldName=null) => {
+    setShipmentForm(previous => {
+      if (fieldName){
+        return {...previous}[fieldName] = data;
+      }
+      else{
+        return data;
+      }
+    })
+  }
 
   return (
     <Paper className="ShipmentDetailsColumn">
@@ -55,7 +72,20 @@ export const ShipmentDetailPanel = (props) => {
       <Divider flexItem />
 
       <ListItem sx={{flexGrow: 1, alignItems:"flex-start"}} disableGutters>
-        <ShipmentDetailsForm isEditing={isEditing} setIsEditing={setIsEditing} updateShipment={props.updateShipment} current={props.shipment}/>
+        {shipment && <ModelForm 
+          modelOptions={shipmentOptions}
+          formState={shipmentForm}
+          onChange={updateShipment}
+          initialValue={shipment}
+          layout={[
+            ['id', null],
+            ['status', null],
+            ['carrier'],
+            ['origin', 'destination'],
+            ['event'],
+            ['departure_date', 'arrival_date']
+          ]}
+        />}
       </ListItem>
 
       </List>
