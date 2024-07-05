@@ -18,9 +18,10 @@ import {
   List,
   ListItem,
   ListItemText,
-  Autocomplete
+  Autocomplete,
+  Container
 } from "@mui/material";
-import { Edit } from "@mui/icons-material";
+import { Edit, Save } from "@mui/icons-material";
 import { backendApiContext } from "../context";
 import { ModelAutoComplete } from "./ModelAutoComplete";
 import ModelForm from "./ModelForm";
@@ -44,14 +45,60 @@ export const ShipmentDetailPanel = (props) => {
   };
 
   const updateShipment = (_index, data, fieldName=null) => {
+
     setShipmentForm(previous => {
-      if (fieldName){
-        return {...previous}[fieldName] = data;
+      
+      let tmp = {...previous};
+
+      if (fieldName == null){
+        // Expecting a fully formed form state object
+        tmp = data;
       }
+
       else{
-        return data;
+        // Expecting a partial update to the form state object
+        tmp[fieldName].current = data;
       }
-    })
+
+      return tmp;
+    });
+
+  }
+
+  const resetForm = () => {
+    setShipmentForm(undefined);
+  }
+
+  const saveShipment = () => {
+    let payload = {};
+
+    Object.entries(shipmentForm).forEach(([fieldName, data]) => {
+      
+      // Empty values can be ignored
+      if(data.current == null){
+        return null;
+      }
+
+      // Certain data types will need to be handled differently
+      switch(data.type){
+
+        case 'computed value':
+          return;
+
+        case 'related object':
+          return payload[fieldName] = data.current.id;
+
+        case 'choice':
+          return payload[fieldName] = data.current.value;
+
+      }
+
+      // Other data types can be saved directly
+      return payload[fieldName] = data.current;
+
+    });
+
+    externalUpdateShipmentFn(payload);
   }
 
   return (
@@ -72,235 +119,34 @@ export const ShipmentDetailPanel = (props) => {
       <Divider flexItem />
 
       <ListItem sx={{flexGrow: 1, alignItems:"flex-start"}} disableGutters>
-        {shipment && <ModelForm 
-          modelOptions={shipmentOptions}
-          formState={shipmentForm}
-          onChange={updateShipment}
-          initialValue={shipment}
-          layout={[
-            ['id', null],
-            ['status', null],
-            ['carrier'],
-            ['origin', 'destination'],
-            ['event'],
-            ['departure_date', 'arrival_date']
-          ]}
-        />}
-      </ListItem>
 
+        { shipment && // Wait for shipment to load before displaying the Model Form Component
+          <ModelForm 
+            disabled={!isEditing}
+            formState={shipmentForm}
+            initialValue={shipment}
+            onChange={updateShipment}
+            modelOptions={shipmentOptions}
+            layout={[
+              ['id', null],
+              ['status'],
+              ['carrier'],
+              ['origin'],
+              ['destination'],
+              ['event'],
+              ['departure_date', 'arrival_date']
+            ]}
+          />
+        }
+
+      </ListItem>
+      {isEditing && 
+        <ListItem sx={{position: 'relative', bottom:0, justifyContent: 'center', gap:2}}>
+            <Button variant="text" onClick={resetForm}>Reset</Button>
+            <Button variant="contained" startIcon={<Save/>} onClick={saveShipment}>Save</Button>
+        </ListItem>
+      }
       </List>
     </Paper>
   );
-};
-
-export const ShipmentDetailsForm = (props) => {
-  // State Hooks
-  const { user, models } = useContext(backendApiContext);
-
-  const [id, setId] = useState(props.current?.id);
-  const [status, setStatus] = useState(0);
-  const [carrier, setCarrier] = useState("");
-  const [origin, setOrigin] = useState(null);
-  const [destination, setDestination] = useState(null);
-  const [departureDate, setDepartureDate] = useState(null);
-  const [arrivalDate, setArrivalDate] = useState(null);
-  const [event, setEvent] = useState(null);
-  const [sendBackShipment, setSendBackShipment] = useState(null);
-  const [fieldErrors, setFieldErrors] = useState({});
-
-  // FIXME: It's 4am and I have no idea if I even have to do this but... i see no other choice.
-  const stateMap = { 
-    id, setId,
-    status, setStatus,
-    carrier, setCarrier,
-    origin, setOrigin,
-    destination, setDestination,
-    departure_date:departureDate, setDeparture_date:setDepartureDate,
-    arrival_date:arrivalDate, setArrival_date:setArrivalDate,
-    event, setEvent,
-    send_back_shipment:sendBackShipment, setSend_back_shipment:setSendBackShipment
-  }
-
-  // FIXME: It's 4am and I have no idea if I even have to do this but... i see no other choice.
-  useEffect(() => {
-    // test loading effect
-    if (props.current){
-      models.shipment.fields.forEach(field => {
-
-        // Get State Value and Setter-Function names
-        const setterVarName = `set${field.name[0].toUpperCase()}${field.name.slice(1, field.name.length)}`;
-        const fieldNotNull = props.current[field.name] != null && props.current[field.name] != undefined
-
-        // Set state variables for this field
-        if (field.formatValue && fieldNotNull) {
-          stateMap[setterVarName](
-            field.formatValue(props.current[field.name])
-          );
-          return;
-        }
-
-        else if (field.related && fieldNotNull){
-          
-          const displayValue = models[field.related.modelName].getLabelName(props.current[field.name])
-
-          stateMap[setterVarName]({
-            ...props.current[field.name],
-            label: displayValue
-          });
-          return;
-        }
-
-        else if (field.options && fieldNotNull){
-
-          const displayValue = field.options[props.current[field.name]]
-          stateMap[setterVarName]({
-            id: props.current[field.name],
-            label: displayValue
-          })
-
-        }
-
-        else if (fieldNotNull){
-          stateMap[setterVarName](
-            props.current[field.name]
-          )
-        }
-
-      
-      })
-
-
-    }
-
-  }, [props.current, props.isEditing])
-
-  const parseStateToShipment = () => {
-    let value = {id, status, carrier, origin, destination, departure_date:departureDate, arrival_date:arrivalDate, event, preceding_shipment:precedingShipment};
-
-    models.shipment.fields.forEach( f => {
-      // serialize values
-      if (f.related || f.options){
-        value[f.name] = stateMap[f.name]?.['id']
-      }
-      else if (f.inputType == 'date'){
-        value[f.name] = new Date(stateMap[f.name])
-      }
-    })
-
-    return value;
-  }
-
-  const addFieldErrors = errors =>{
-    setFieldErrors(current => ({...current, ...errors}));
-  }
-
-  // JSX
-  return (
-    <form className="shipment-detail-form">
-
-      {models.shipment.fields.map(field => {
-
-        const htmlInputId = `shipment-${field.name}`;
-        const setterVarName = `set${field.name[0].toUpperCase()}${field.name.slice(1, field.name.length)}`;
-
-        if (field.inputType == 'autoComplete' && field.related) {
-          return (
-            <CustomFormControl helpText={field.helpText} fieldError={fieldErrors[field.name]} id={htmlInputId}>
-              <ModelAutoComplete
-                value={stateMap[field.name]}
-                field={field}
-                isEditing={props.isEditing}
-                inputId={htmlInputId}
-                onChange={(e, v) => stateMap[setterVarName](v)}
-                error={!!fieldErrors[field.name]}
-              />
-            </CustomFormControl>
-          );
-        } else if (field.inputType == 'autoComplete' && field.options) {
-
-          const dataOptions = field.options.map(
-            optionValue => {
-              return({
-                id: field.options.indexOf(optionValue),
-                label: optionValue
-              })
-            }
-          )
-
-          return(
-            <CustomFormControl helpText={field.helpText} fieldError={fieldErrors[field.name]} id={htmlInputId}>
-              <Autocomplete
-                id={htmlInputId}
-                options={dataOptions}
-                disabled={field.readOnly ? true : !props.isEditing}
-                renderInput={(params) => <TextField error={!!fieldErrors[field.name]} {...params} label={field.name} />}
-                value={stateMap[field.name]}
-                onChange={(e,v) => stateMap[setterVarName](v)}
-              />  
-            </CustomFormControl>
-          )
-        } else {
-          return (
-            <CustomFormControl helpText={field.helpText} fieldError={fieldErrors[field.name]} id={htmlInputId}>
-              <>
-                <InputLabel shrink variant="outlined" error={!!fieldErrors[field.name]}>
-                  {field.name}
-                </InputLabel>
-
-                <OutlinedInput
-                  id={htmlInputId}
-                  type={field.inputType}
-                  disabled={field.readOnly ? true : !props.isEditing}
-                  value={stateMap[field.name]}
-                  label={field.name}
-                  notched={true}
-                  onChange={(e, v) => stateMap[setterVarName](e.target.value)}
-                  error={!!fieldErrors[field.name]}
-                />
-              </>
-            </CustomFormControl>
-          );
-        }
-      })}
-      
-      {props.isEditing && (
-        <Box className="form-actions">
-          <Button
-            color="primary"
-            variant="contained"
-            onClick={() => props.updateShipment({model: models.shipment, data:
-              parseStateToShipment(), addFieldErrors})}
-          >
-            Save
-          </Button>
-          <Button
-            color="primary"
-            onClick={() => {setFieldErrors({}); props.setIsEditing(false)}}
-          >
-            Reset
-          </Button>
-        </Box>
-      )}
-
-    </form>
-  );
-};
-
-export const CustomFormControl = (props) => {
-  
-  return(
-    <FormControl id={props.id}>
-
-    {props.children}
-
-    {!!props.helpText ? (
-      <FormHelperText children={props.helpText} />
-    ) : null}
-
-    
-    {!!props.fieldError ? (
-      <FormHelperText children={props.fieldError} sx={{color:"error.main"}}/>
-    ) : null}
-    </FormControl>
-  )
 };
