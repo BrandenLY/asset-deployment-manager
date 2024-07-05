@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback, useContext } from 'react';
-import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useQuery, useQueries } from "@tanstack/react-query";
 import { FormControl, InputLabel, OutlinedInput, Autocomplete, TextField } from '@mui/material';
 import { ModelAutoComplete } from './components/ModelAutoComplete';
 import { backendApiContext } from './context';
@@ -45,65 +45,78 @@ export const useBackend = ({model, id=null, makeInfinate=false}) => {
     })
 };
 
-export const useRichQuery = ({model,id}) => {
+export const useRichQuery = props => {
 
     // Queries on certain models may need more than one query to retrieve data for related models.
     // This hook returns an object containing the initial query as well as any related queries.
+    const {modelOptions, id} = props;
 
     // State vars
-    const [isLoading, setIsLoading] = useState(true);
+    const [allQueriesLoaded, setAllQueriesLoaded] = useState(false);
+
     const initialQuery = useQuery({
-        queryKey:[model.modelName,id],
+        enabled: modelOptions.data != undefined,
+        queryKey:[modelOptions.data?.model, id],
     })
-    let relatedQueries = {};
-    
+
     // Instantiate related-model queries
-    model.fields.forEach(field => {
-        if ( field.related?.modelName ){ // This field requires an additional fetch.
+    let relatedQueries = useQueries({
+        queries: !modelOptions.isLoading && !initialQuery.isLoading ?
+            Object.entries(modelOptions.data.model_fields)
+            .filter( ([_, fieldDetails]) => fieldDetails.type == 'related object' )
+            .filter( ([fieldName, _]) => initialQuery.data[fieldName] != null)
+            .map( ([fieldName, fieldDetails], _ ) => {
 
-            let relatedObjectId = initialQuery.data?.[field.name]
+                let relatedObjectId = initialQuery.data?.[fieldName];
+                return({
+                    meta : {fieldName},
+                    queryKey : [fieldDetails.related_model_name, relatedObjectId],
+                    queryFn: async ({ queryKey, meta }) => {
+                        const formattedUrl = new URL(
+                          `${window.location.protocol}${window.location.host}/api/${queryKey[0]}/${
+                            !!queryKey.at(1) ? queryKey.at(1) + "/" : ""
+                          }`
+                        );
+                      
+                        const res = await fetch(formattedUrl);
+                        const data = await res.json();
+                        return {...data, ...meta}
+                      }
+                })
 
-            Object.defineProperty(relatedQueries, field.name, {
-                value: useQuery({
-                    queryKey : [field.related.modelName, relatedObjectId],
-                    enabled : !!initialQuery.data && !!relatedObjectId
-                }),
-                configurable: true,
-                writable: true,
-                enumerable: true
-            });
+            }) : [],
+    });
 
-        }
-    })
 
     // Update holistic loading status
     useEffect(() => {
 
-        if (initialQuery.data){
+        const additionalQueriesStatuses = [...Object.values(relatedQueries).map(query => query.isLoading)];
+        const additionalQueriesLoading = additionalQueriesStatuses.includes(true);
 
-            setIsLoading([
-                initialQuery.isLoading, 
-                ...(Object.entries(relatedQueries).map(
-                    ([qName, qValue]) => qValue.isLoading && !!initialQuery.data[qName]
-                ))
-            ].includes(true))
-        
+        const _allQueriesLoaded = !initialQuery.isLoading && !additionalQueriesLoading;
+        if (_allQueriesLoaded) {
+            setAllQueriesLoaded(true);
         }
 
-    })
-    
+        // Execute every time one of the queries loading statuses is updated.
+    }, [initialQuery.isLoading, ...Object.values(relatedQueries).map(query => query.isLoading)])
 
     // Get drilled query data
     let value = null
-    if (!isLoading) {
+
+    if (allQueriesLoaded) {
         value = {...initialQuery.data}
-        Object.entries(relatedQueries).forEach(([model, Q]) => {
-            value[model] = Q.data ? Q.data : null;
-        })
+        console.log(value);
+        relatedQueries.forEach(q => value[q.data.fieldName] = {...q.data, fieldName:undefined});
+        console.log(value);
+        // Object.entries(relatedQueries).forEach(([relatedFieldName, Q], index) => {
+        //     value[relatedFieldName] = Q.data;
+        // })
     }
 
     // Return initial query reponse, related query reponses, and holistic loading state.
-    return {value, isLoading, initialQuery, relatedQueries};
+    return {value, isLoading:!allQueriesLoaded, initialQuery, relatedQueries};
 };
 
 export const useModelFormFields = ({modelOptions, id=null, excludeReadOnly=false}) => {
