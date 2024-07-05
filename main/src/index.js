@@ -31,6 +31,7 @@ const defaultQueryFn = async ({ queryKey }) => {
   const data = await res.json();
   return data;
 };
+
 const defaultMutationFn = async ({ model, data }) => {
   const updateUrl = new URL(
     `${window.location.protocol}${window.location.host}/api/${
@@ -47,6 +48,7 @@ const defaultMutationFn = async ({ model, data }) => {
     body: JSON.stringify(data),
   });
 };
+
 const defaultGetNextPageFn = (lastPage, pages) => {
   if (!lastPage.next) {
     return undefined;
@@ -54,6 +56,7 @@ const defaultGetNextPageFn = (lastPage, pages) => {
   const nextPage = new URL(lastPage.next);
   return nextPage.searchParams.get("page");
 };
+
 const defaultHasNextPageFn = (lastPage, pages) => new Boolean(lastPage.next);
 
 const defaultStaleTimeInHours = 1;
