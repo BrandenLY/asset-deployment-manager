@@ -26,34 +26,52 @@ const CustomFormControl = (props) => {
 
 const DynamicInput = props => {
 
-    const {fieldName, fieldDetails, updateFieldData, htmlInputId} = props;
-    const fieldError = fieldDetails.errors.length > 0;
+    const {disabled, fieldName, fieldDetails, updateFieldData, htmlInputId} = props;
+    const fieldError =  false;
 
+    const updateValues = (onChangeEvent, newValue=undefined) => {
+        console.log(fieldName, onChangeEvent, newValue);
+        if(newValue == null){
+            updateFieldData(fieldName, onChangeEvent.target.value);
+            return;
+        }
 
-    const updateValues = (onChangeEvent, newValue) => {
         updateFieldData(fieldName, newValue);
     };
 
+    // Formatted Data
+    const fieldIsDisabled = disabled ? true : fieldDetails.read_only;
+
     switch(fieldDetails.type){
         case 'choice':
+            // Autocomplete/Select Style Input.
             return(
                 <Autocomplete
-                sx={{width:"100%"}}
                 id={htmlInputId}
                 options={fieldDetails.choices}
-                disabled={fieldDetails.read_only}
+                disabled={fieldIsDisabled}
                 required={fieldDetails.required}
                 error={fieldError}
                 getOptionLabel={option => option.display_name}
-                renderInput={(params) => <TextField inputProps={{sx:{width:"100%"}}} sx={{flexGrow:"2"}} {...params} label={fieldDetails.label} helperText={fieldDetails.errors.toString()} FormHelperTextProps={{error:fieldError}}/>}
+                renderInput={ (params) => (
+                    <TextField
+                        {...params}
+                        sx={{flexGrow:"2"}} 
+                        label={fieldDetails.label}
+                        helperText={fieldDetails.errors.toString()}
+                        FormHelperTextProps={{error:fieldError}}
+                    />
+                )}
                 value={fieldDetails.current}
                 onChange={(_e, newValue) => {updateValues(_e, newValue)}}
-                />  
+                /> 
             );
+
         case 'computed value':
+            // Standard HTML Datetime Input w/ notched label.
             return(
-                <TextField disabled={fieldDetails.read_only} inputProps={{sx:{width:"100%"}}} sx={{flexGrow:"2"}} label={fieldName} />
-            )
+                <TextField disabled={fieldIsDisabled} inputProps={{sx:{width:"100%"}}} sx={{flexGrow:"2"}} label={fieldName} />
+            );
         case 'datetime':
             // Const datetime input type with customized label styling.
             return(
@@ -65,7 +83,7 @@ const DynamicInput = props => {
                 <OutlinedInput
                     id={htmlInputId}
                     type="datetime-local"
-                    disabled={fieldDetails.read_only}
+                    disabled={fieldIsDisabled}
                     value={fieldDetails.current}
                     label={fieldDetails.label}
                     notched={true}
@@ -81,7 +99,7 @@ const DynamicInput = props => {
             return(
                 <ModelAutoComplete
                 field={{fieldName,...fieldDetails}}
-                isEditing={true}
+                disabled={fieldIsDisabled}
                 inputId={htmlInputId}
                 onChange={updateValues}
                 />
@@ -97,7 +115,7 @@ const DynamicInput = props => {
                 <OutlinedInput
                     id={htmlInputId}
                     type={fieldDetails.type}
-                    disabled={fieldDetails.read_only}
+                    disabled={fieldIsDisabled}
                     value={fieldDetails.current}
                     label={fieldDetails.label}
                     onChange={(_e, newValue) => {updateValues(_e, _e.target.value)}}
