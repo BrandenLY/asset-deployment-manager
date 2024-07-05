@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from "react";
+import { useNavigate } from "react-router-dom";
 import { Box, Button, IconButton, Paper, Typography } from "@mui/material";
 import { Add, Close, Delete, OpenInNew, QrCodeScanner } from '@mui/icons-material';
 import SortingGrid from "../components/SortingGrid";
@@ -14,8 +15,11 @@ const ManageShipmentView = props => {
     // Model Meta Data
     const shipmentOptions = useModelOptions('shipment');
 
-    // State
+    // Hooks
     const queryClient = useQueryClient();
+    const navigate = useNavigate();
+
+    // State
     const [numExtraShipmentCreationForms, setNumExtraShipmentCreationForms] = useState(0);
     const [selectedShipment, setSelectedShipment] = useState(null);
     const [forms, setForms] = useState([]);
@@ -107,10 +111,39 @@ const ManageShipmentView = props => {
         }
     })
 
-    // Retrieve Paginated Shipment Data
+    // Queries
     const shipments = useInfiniteQuery({
         queryKey: ['shipment'],
     });
+
+    // Increase Qty of Shipment Creation Forms Displayed
+    const increaseFormFieldComponents = () => {
+        // Increment state value
+        setNumExtraShipmentCreationForms(previous => {
+            previous++
+            return(previous);
+        });
+    }
+
+    // Update Shipment Form Data
+    const updateShipmentFormsData = (formIndex, data, fieldName=null) => {
+        setForms( previous => {
+            let tmp = [...previous];
+            if(fieldName === null){
+
+                tmp[formIndex] = {...data}
+    
+            } else {
+    
+                tmp[formIndex][fieldName].current = data;
+                tmp[formIndex][fieldName].errors = [];
+    
+            }
+
+            console.log('updating form state', tmp);
+            return tmp;
+        })
+    }
 
     // Shipment Row Action Callback Functions
     const deleteShipment = shipment => {
@@ -123,7 +156,7 @@ const ManageShipmentView = props => {
     }
 
     const openShipment = shipment => {
-        window.open(`shipments/${shipment.id}`)
+        navigate(`/shipments/${shipment.id}`);
     }
 
     const scanShipment = shipment => {
@@ -154,35 +187,6 @@ const ManageShipmentView = props => {
         });
 
 
-    }
-
-    // Increase Qty of Shipment Creation Forms Displayed
-    const increaseFormFieldComponents = () => {
-        // Increment state value
-        setNumExtraShipmentCreationForms(previous => {
-            previous++
-            return(previous);
-        });
-    }
-
-    // Update Shipment Form Data
-    const updateShipmentFormsData = (formIndex, data, fieldName=null) => {
-        setForms( previous => {
-            let tmp = [...previous];
-            if(fieldName === null){
-
-                tmp[formIndex] = {...data}
-    
-            } else {
-    
-                tmp[formIndex][fieldName].current = data;
-                tmp[formIndex][fieldName].errors = [];
-    
-            }
-
-            console.log('updating form state', tmp);
-            return tmp;
-        })
     }
 
     // Formatted Data
@@ -217,7 +221,7 @@ const ManageShipmentView = props => {
                         [numExtraShipmentCreationForms ? `Submit ${numExtraShipmentCreationForms+1} records` : 'Submit', {'callbackFn' : createNewShipments}]
                     ]}
                 >
-                    <Paper sx={{background:"none", boxShadow:"none", padding:1, paddingLeft:0, boxSizing:'border-box'}}>
+                    <Paper sx={{background:"none", boxShadow:"none", padding:1, boxSizing:'border-box'}}>
                         <Box sx={{display: "flex", justifyContent:"space-between", paddingX:1}}>
                             <Typography>Shipment {numExtraShipmentCreationForms > 0 ? "1" : null}</Typography>
                             <IconButton disabled={true} size={'small'}><Close/></IconButton>
@@ -228,7 +232,7 @@ const ManageShipmentView = props => {
                         [...Array(numExtraShipmentCreationForms)].map((_, i) =>{
                             const formRequiresBackground = (i+1) % 2;
                             return(
-                                <Paper sx={{background:formRequiresBackground ? null : "none", boxShadow:"none", padding:1, paddingLeft:0, boxSizing:'border-box'}}>
+                                <Paper sx={{background:formRequiresBackground ? null : "none", boxShadow:"none", padding:1, boxSizing:'border-box'}}>
                                     <Box sx={{display: "flex", justifyContent:"space-between", paddingX:1}}>
                                         <Typography>Shipment {i+2}</Typography>
                                         <IconButton size={'small'} onClick={() => {
