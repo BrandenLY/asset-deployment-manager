@@ -5,12 +5,12 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 
 export const ModelAutoComplete = props => {
 
-    const {field, isEditing, inputId, onChange, helpText} = props;
+    const {field, disabled, inputId, onChange, helpText} = props;
     const backendCtx = useContext(backendApiContext);
 
     const data = useInfiniteQuery({
         queryKey: [field.related_model_name],
-        enabled: isEditing
+        enabled: !disabled
     })
 
     const dataOptions = data.data?.pages.map(p => p.results).flat().map( result => {
@@ -24,7 +24,7 @@ export const ModelAutoComplete = props => {
         <Autocomplete
             id={inputId}
             options={dataOptions}
-            disabled={field.readOnly ? true : !isEditing}
+            disabled={disabled}
             renderInput={(params) => <TextField error={error} {...params} label={field.label} helperText={error ? errors : field.help_text} FormHelperTextProps={{error:error}}/>}
             value={field.current}
             onChange={onChange}
