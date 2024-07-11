@@ -1,49 +1,93 @@
 import React, {
   useState,
-  useEffect,
   useContext,
 } from "react";
 import {
-  Box,
   Paper,
-  Typography,
-  TextField,
   IconButton,
   Button,
-  OutlinedInput,
-  InputLabel,
-  FormControl,
-  FormHelperText,
   Divider,
   List,
   ListItem,
   ListItemText,
-  Autocomplete,
-  Container
 } from "@mui/material";
 import { Edit, Save } from "@mui/icons-material";
 import { backendApiContext } from "../context";
-import { ModelAutoComplete } from "./ModelAutoComplete";
 import ModelForm from "./ModelForm";
 import { useModelOptions } from "../customHooks";
+import { queryClient } from "../index"
+import { useMutation } from "@tanstack/react-query";
 
 // Primary Component
 
 export const ShipmentDetailPanel = (props) => {
 
-  const {shipment, updateShipment:externalUpdateShipmentFn} = props;
+  const {shipment, shipmentId} = props;
 
   // State Hooks
   const shipmentOptions = useModelOptions('shipment');
-  const { user } = useContext(backendApiContext);
+  const { user, csrftoken } = useContext(backendApiContext);
   const [isEditing, setIsEditing] = useState(false);
   const [shipmentForm, setShipmentForm] = useState();
+
+  // Mutations
+  const { mutate } = useMutation({
+    mutationFn: async data => {
+        const updateUrl = new URL(
+          `${window.location.protocol}${window.location.host}/api/${shipmentOptions.data.model}/${shipmentId}/`
+        );
+        const requestHeaders = new Headers();
+        requestHeaders.set("Content-Type", "application/json");
+        requestHeaders.set("X-CSRFToken", csrftoken);
+      
+        return fetch(updateUrl, {
+          method: "PUT",
+          headers: requestHeaders,
+          body: JSON.stringify(data),
+        });
+      },
+    onSettled: (res, error, variables) => {
+
+      // Frontend mutation error
+      if (error != undefined){
+        props.addNotif({message: `Failed to update shipment: unknown error.`, severity:'error'})
+        // KEEP THIS CONSOLE LOG IN DEBUG MODE.
+        console.log(error);
+        return;
+      }
+
+      // Backend mutation error
+      if (!res.ok){
+        // Improper POST/PUT data
+        if (res.status == 400){
+          props.addNotif({message: `Failed to update shipment: invalid data`, severity:'error'})
+          setShipmentForm(previous =>{
+            
+            let newValue = {...previous};
+            res.json().then(data => {
+              Object.entries(data).forEach(([fieldName, fieldErrors], index) => {
+                newValue[fieldName].errors = fieldErrors;
+              })
+            })
+            
+            return newValue;
+          
+          })
+          return;
+        }
+      }
+
+        props.addNotif({message:'Successfully updated shipment'});
+        res.json().then(data => queryClient.setQueryData(['shipment', shipmentId], data))
+    },
+});
 
   // Helper Functions
   const toggleEditMode = ({ event }) => {
     setIsEditing(!isEditing);
   };
 
+  // Updates 'shipmentForm' state values.
   const updateShipment = (_index, data, fieldName=null) => {
 
     setShipmentForm(previous => {
@@ -65,10 +109,13 @@ export const ShipmentDetailPanel = (props) => {
 
   }
 
+  // Clears form state, causing the form to reset and re-render.
   const resetForm = () => {
     setShipmentForm(undefined);
+    setIsEditing(false);
   }
 
+  // Save the shipment form data to the database.
   const saveShipment = () => {
     let payload = {};
 
@@ -98,7 +145,7 @@ export const ShipmentDetailPanel = (props) => {
 
     });
 
-    externalUpdateShipmentFn(payload);
+    mutate(payload);
   }
 
   return (
@@ -113,7 +160,7 @@ export const ShipmentDetailPanel = (props) => {
         )}
         disableGutters
       >
-        <ListItemText primary="Edit Details" primaryTypographyProps={{variant:"formHeader"}}/>
+        <ListItemText primary="Details" primaryTypographyProps={{variant:"h5"}}/>
       </ListItem>
 
       <Divider flexItem />

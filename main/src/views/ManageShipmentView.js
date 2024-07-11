@@ -75,7 +75,7 @@ const ManageShipmentView = props => {
                 // Improper POST data
                 if (res.status == 400){ 
 
-                    props.addNotif({message: `Failed to create shipment: invalid POST data`, severity:'error'})
+                    props.addNotif({message: `Failed to create shipment: invalid data`, severity:'error'})
                     res.json().then(
                         responseData => {
                             Object.entries(responseData).forEach(([fieldName, fieldErrors], index) => {

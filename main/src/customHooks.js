@@ -70,7 +70,7 @@ export const useRichQuery = props => {
                 let relatedObjectId = initialQuery.data?.[fieldName];
                 return({
                     meta : {fieldName},
-                    queryKey : [fieldDetails.related_model_name, relatedObjectId],
+                    queryKey : [fieldDetails.related_model_name, relatedObjectId, {fieldName}],
                     queryFn: async ({ queryKey, meta }) => {
                         const formattedUrl = new URL(
                           `${window.location.protocol}${window.location.host}/api/${queryKey[0]}/${
@@ -107,12 +107,7 @@ export const useRichQuery = props => {
 
     if (allQueriesLoaded) {
         value = {...initialQuery.data}
-        console.log(value);
         relatedQueries.forEach(q => value[q.data.fieldName] = {...q.data, fieldName:undefined});
-        console.log(value);
-        // Object.entries(relatedQueries).forEach(([relatedFieldName, Q], index) => {
-        //     value[relatedFieldName] = Q.data;
-        // })
     }
 
     // Return initial query reponse, related query reponses, and holistic loading state.

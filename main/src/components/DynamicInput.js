@@ -27,15 +27,13 @@ const CustomFormControl = (props) => {
 const DynamicInput = props => {
 
     const {disabled, fieldName, fieldDetails, updateFieldData, htmlInputId} = props;
-    const fieldError =  false;
+    const fieldError =  fieldDetails.errors.length > 0;
 
     const updateValues = (onChangeEvent, newValue=undefined) => {
-        console.log(fieldName, onChangeEvent, newValue);
         if(newValue == null){
             updateFieldData(fieldName, onChangeEvent.target.value);
             return;
         }
-
         updateFieldData(fieldName, newValue);
     };
 
