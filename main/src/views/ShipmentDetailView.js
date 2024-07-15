@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { Box, Button, Paper, Typography, IconButton, Snackbar, Card } from "@mui/material";
 import { ShipmentDetailPanel } from "../components/ShipmentDetailPanel";
 import { useModelOptions, useRichQuery } from "../customHooks";
+import AssetDetailsCard from "../components/AssetDetailsCard";
 
 const ShipmentDetailView = props =>{
 
@@ -21,21 +22,21 @@ const ShipmentDetailView = props =>{
                 addNotif={props.addNotif}
                 shipment={state.value}
             />
-            <Box sx={{width:"100%"}}>
+            <Box className="ShipmentDetailContent" sx={{display:"inline-block"}}>
                 <Box sx={{padding:1}}>
                     <Typography variant="h5" color="primary.dark">{state.value?.label}</Typography>
                     <Box sx={{display: "flex", justifyContent: "flex-end"}}><Button variant="contained">Mark Shipment Packed</Button></Box>
                 </Box>
                 <Paper sx={{marginX:1, padding:1}}> {console.log(state.value)}
                     <Typography variant="subtitle2">Assets ({state.value?.asset_counts.total_assets})</Typography>
-                    <Box>
+                    <Box sx={{display: "flex", gap: 1, flexWrap: 'wrap'}}>
                         {state.value &&
                             state.value.assets.map(asset => {
                                 if(asset.is_container){
-                                    return(<Card elevation={4} variant='outlined' sx={{padding:2, width: "min-content"}}></Card>)
+                                    return(<AssetDetailsCard asset={asset} variant='outlined' paperProps={{sx:{padding:2}}}/>)
                                 }
                                 else{
-                                    return(<Card elevation={4} sx={{padding:2, width: "min-content"}}>{asset.label}</Card>)
+                                    return(<AssetDetailsCard asset={asset} paperProps={{sx:{padding:2}}}/>)
                                 }
                             })
                         }

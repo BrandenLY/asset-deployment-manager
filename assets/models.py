@@ -54,9 +54,17 @@ class AssetModel(models.Model):
     manufacturer = models.CharField(_("Manufacturer"), max_length=SMALL_TEXT_FIELD_SIZE)
     model_code = models.CharField(_("Model Code"), max_length=10)
     image = models.ImageField(_("Image"), blank=True, null=True, upload_to="assets/models")
-
+    icon = models.ForeignKey("AssetIcon", on_delete=models.PROTECT, blank=True, null=True)
+    
     class Meta:
         ordering = ["name", "id"]
+
+    def __str__(self):
+        return self.name
+    
+class AssetIcon(models.Model):
+    name = models.CharField(_("Name"), max_length=SMALL_TEXT_FIELD_SIZE)
+    source_name = models.CharField(_("Source Name"), max_length=SMALL_TEXT_FIELD_SIZE)
 
     def __str__(self):
         return self.name

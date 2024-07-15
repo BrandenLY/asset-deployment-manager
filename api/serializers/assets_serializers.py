@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from assets.models import Asset, AssetModel, Location, Shipment
+from assets.models import Asset, AssetModel, AssetIcon, Location, Shipment
 from .base_serializers import CustomBaseSerializer
 
 
@@ -49,8 +49,19 @@ class AssetSerializer(CustomBaseSerializer):
             'name' : obj.parent_content_type.model
         }
 
+class AssetIconSerializer(CustomBaseSerializer):
+
+    class Meta:
+        model = AssetIcon
+        fields = [
+            "name",
+            "source_name"
+        ]
+
+
 class AssetModelSerializer(CustomBaseSerializer):
 
+    icon = AssetIconSerializer()
     class Meta:
         model = AssetModel
         fields = [
@@ -60,7 +71,8 @@ class AssetModelSerializer(CustomBaseSerializer):
             "description",
             "manufacturer",
             "model_code",
-            "image"
+            "image",
+            "icon",
         ]
 
 class LocationSerializer(CustomBaseSerializer):
