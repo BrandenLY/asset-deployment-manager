@@ -48,25 +48,6 @@ const SwipeButton = props => {
         touchStartX.current = touch_event.clientX;
         touchStartY.current = touch_event.clientY;
 
-        // Display Touch
-        const dotRepr = document.createElement("div");
-        const dotSize = 22; // unit: pixels
-
-        dotRepr.style.maxWidth = `${dotSize}px`;
-        dotRepr.style.maxHeight = `${dotSize}px`;
-        dotRepr.style.width = `${dotSize}px`;
-        dotRepr.style.height = `${dotSize}px`;
-        dotRepr.style.borderRadius = `${dotSize}px`;
-        dotRepr.style.top = `${touch_event.clientY - (dotSize/2)}px`;
-        dotRepr.style.left = `${touch_event.clientX - (dotSize/2)}px`;
-
-        dotRepr.style.backgroundColor = 'red';
-        dotRepr.style.position = 'fixed';
-        dotRepr.style.zIndex = 500000;
-        dotRepr.id = `swipe-dotrepr-${touch.current}`;
-
-        document.body.append(dotRepr);
-
         // Prevent default behaviors & propagation.
         e.preventDefault();
     }
@@ -100,18 +81,6 @@ const SwipeButton = props => {
                 break;
         }
 
-        // Display Touch
-        const dotRepr = document.getElementById(`swipe-dotrepr-${touch.current}`);
-        const dotSize = 24; // unit: pixels
-
-        dotRepr.style.maxWidth = `${dotSize}px`;
-        dotRepr.style.maxHeight = `${dotSize}px`;
-        dotRepr.style.width = `${dotSize}px`;
-        dotRepr.style.height = `${dotSize}px`;
-        dotRepr.style.borderRadius = `${dotSize}px`;
-        dotRepr.style.top = `${touch_event.clientY - (dotSize/2)}px`;
-        dotRepr.style.left = `${touch_event.clientX - (dotSize/2)}px`;
-
         // Prevent default behaviors & propagation.
         e.preventDefault();
     }
@@ -120,15 +89,6 @@ const SwipeButton = props => {
         const parent = e.target.parentElement;
         const endX = touch_event.clientX, endY = touch_event.clientY;
         const startX = touchStartX.current, startY = touchStartY.current;
-
-        parent.style.border = null;
-        parent.style.position = 'static';
-        parent.style.left = null;
-        parent.style.right = null;
-        
-        // Display Touch
-        const dotRepr = document.getElementById(`swipe-dotrepr-${touch.current}`);
-        dotRepr.remove(); // Remove from document.
 
         // Call External Handlers
         switch( getMovementDirection([startX, startY],[endX, endY]) ){
