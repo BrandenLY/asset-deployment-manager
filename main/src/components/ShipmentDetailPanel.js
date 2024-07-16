@@ -168,7 +168,7 @@ export const ShipmentDetailPanel = (props) => {
 
   return (
     <Paper className="ShipmentDetailsColumn"
-      sx={{width: userDeviceIsMobile ? "auto" : "305px", flexShrink:1}}
+      sx={{ flexShrink:4, maxWidth: userDeviceIsMobile ? 'none' : "340px"}}
     >
       <Collapse in={!isCollapsed} orientation="horizontal">
         <Paper elevation={2} ref={formContainer} sx={{minHeight:"100%"}}>
@@ -225,6 +225,7 @@ export const ShipmentDetailPanel = (props) => {
         containerProps={{sx:{minWidth: "24px"}}}
         onSwipeLeft={collapseSelf}
         onSwipeRight={expandSelf}
+        onClick={() => {setIsCollapsed(prev => !prev)}}
       />
     </Paper>
   );
