@@ -1,6 +1,7 @@
 import React, {
   useState,
   useContext,
+  useRef,
 } from "react";
 import {
   Paper,
@@ -10,6 +11,9 @@ import {
   List,
   ListItem,
   ListItemText,
+  useMediaQuery,
+  useTheme,
+  Collapse,
 } from "@mui/material";
 import { Edit, Save } from "@mui/icons-material";
 import { backendApiContext } from "../context";
@@ -17,6 +21,7 @@ import ModelForm from "./ModelForm";
 import { useModelOptions } from "../customHooks";
 import { queryClient } from "../index"
 import { useMutation } from "@tanstack/react-query";
+import SwipeButton from "./SwipeButton";
 
 // Primary Component
 
@@ -25,10 +30,15 @@ export const ShipmentDetailPanel = (props) => {
   const {shipment, shipmentId} = props;
 
   // State Hooks
+  const theme = useTheme();
+  const userDeviceIsMobile = useMediaQuery("(max-width:1010px)");
+
   const shipmentOptions = useModelOptions('shipment');
   const { user, csrftoken } = useContext(backendApiContext);
   const [isEditing, setIsEditing] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(false);
   const [shipmentForm, setShipmentForm] = useState();
+  const formContainer = useRef(null);
 
   // Mutations
   const { mutate } = useMutation({
@@ -148,52 +158,74 @@ export const ShipmentDetailPanel = (props) => {
     mutate(payload);
   }
 
+  // Collapse menu
+  const collapseSelf = () => {
+    setIsCollapsed(true);
+  }
+  const expandSelf = () => {
+    setIsCollapsed(false);
+  }
+
   return (
-    <Paper className="ShipmentDetailsColumn">
-    <List className="ShipmentDetailsColumn" sx={{padding: 1, height: "100%"}} dense>
+    <Paper className="ShipmentDetailsColumn"
+      sx={{width: userDeviceIsMobile ? "auto" : "305px", flexShrink:1}}
+    >
+      <Collapse in={!isCollapsed} orientation="horizontal">
+        <Paper elevation={2} ref={formContainer} sx={{minHeight:"100%"}}>
+          <List sx={{padding: 1, display: "flex", flexDirection:"column", minHeight:"100%"}} dense>
 
-      <ListItem
-        secondaryAction={user?.is_staff && (
-          <IconButton size="small" onClick={toggleEditMode}>
-            <Edit />
-          </IconButton>
-        )}
-        disableGutters
-      >
-        <ListItemText primary="Details" primaryTypographyProps={{variant:"h5"}}/>
-      </ListItem>
+            <ListItem
+              secondaryAction={user?.is_staff && (
+                <IconButton size="small" onClick={toggleEditMode}>
+                  <Edit />
+                </IconButton>
+              )}
+              disableGutters
+            >
+              <ListItemText primary="Details" primaryTypographyProps={{variant:"h5"}}/>
+            </ListItem>
 
-      <Divider flexItem />
+            <Divider flexItem />
 
-      <ListItem sx={{flexGrow: 1, alignItems:"flex-start"}} disableGutters>
+            <ListItem sx={{flexGrow: 1, alignItems:"flex-start"}} disableGutters>
 
-        { shipment && // Wait for shipment to load before displaying the Model Form Component
-          <ModelForm 
-            disabled={!isEditing}
-            formState={shipmentForm}
-            initialValue={shipment}
-            onChange={updateShipment}
-            modelOptions={shipmentOptions}
-            layout={[
-              ['id', null],
-              ['status'],
-              ['carrier'],
-              ['origin'],
-              ['destination'],
-              ['event'],
-              ['departure_date', 'arrival_date']
-            ]}
-          />
-        }
+              { shipment && // Wait for shipment to load before displaying the Model Form Component
+                <ModelForm 
+                  disabled={!isEditing}
+                  formState={shipmentForm}
+                  initialValue={shipment}
+                  onChange={updateShipment}
+                  modelOptions={shipmentOptions}
+                  layout={[
+                    ['id', null],
+                    ['status'],
+                    ['carrier'],
+                    ['origin'],
+                    ['destination'],
+                    ['event'],
+                    ['departure_date', 'arrival_date']
+                  ]}
+                />
+              }
 
-      </ListItem>
-      {isEditing && 
-        <ListItem sx={{position: 'relative', bottom:0, justifyContent: 'center', gap:2}}>
-            <Button variant="text" onClick={resetForm}>Reset</Button>
-            <Button variant="contained" startIcon={<Save/>} onClick={saveShipment}>Save</Button>
-        </ListItem>
-      }
-      </List>
+            </ListItem>
+
+            {isEditing && 
+              <ListItem sx={{position: 'relative', bottom:0, justifyContent: 'center', gap:2}}>
+                  <Button variant="text" onClick={resetForm}>Reset</Button>
+                  <Button variant="contained" startIcon={<Save/>} onClick={saveShipment}>Save</Button>
+              </ListItem>
+            }
+
+          </List>
+        </Paper>
+      </Collapse>
+
+      <SwipeButton 
+        containerProps={{sx:{minWidth: "24px"}}}
+        onSwipeLeft={collapseSelf}
+        onSwipeRight={expandSelf}
+      />
     </Paper>
   );
 };

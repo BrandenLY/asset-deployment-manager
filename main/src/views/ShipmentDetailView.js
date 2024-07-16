@@ -27,7 +27,7 @@ const ShipmentDetailView = props =>{
                     <Typography variant="h5" color="primary.dark">{state.value?.label}</Typography>
                     <Box sx={{display: "flex", justifyContent: "flex-end"}}><Button variant="contained">Mark Shipment Packed</Button></Box>
                 </Box>
-                <Paper sx={{marginX:1, padding:1}}> {console.log(state.value)}
+                <Paper sx={{marginX:1, padding:1}}>
                     <Typography variant="subtitle2">Assets ({state.value?.asset_counts.total_assets})</Typography>
                     <Box sx={{display: "flex", gap: 1, flexWrap: 'wrap'}}>
                         {state.value &&
