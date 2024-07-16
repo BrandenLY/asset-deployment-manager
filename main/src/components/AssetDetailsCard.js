@@ -43,7 +43,6 @@ const AssetDetailsCard = props => {
     }
 
     // Formatted Data
-    console.log(model);
     const modelName = model.isSuccess ? model.data.label : model.status;
 
     return (
@@ -53,7 +52,7 @@ const AssetDetailsCard = props => {
             sx={{
                 ...paperProps.sx,
                 maxWidth:"433px",
-                minWidth:"300px",
+                minWidth:"280px",
                 padding:1,
                 flexGrow:1,
             }}
