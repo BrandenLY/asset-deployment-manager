@@ -1,6 +1,4 @@
 from typing import Any, Dict
-import random
-import json
 from django.db import transaction
 from django.forms import modelformset_factory
 from django.http import HttpResponse
@@ -15,15 +13,14 @@ from django.views.generic.base import TemplateView
 from django.views.generic.detail import DetailView
 
 from .forms import LoginForm
-
 user_model = get_user_model()
-
 
 class HomePageView(LoginRequiredMixin, TemplateView):
     login_url = "/login/"
     template_name = "home.html"
 
     def get(self, request, **kwargs):
+        print(request.user.user_permissions)
         ctx = self.get_context_data(request=request)
         return render(request, self.template_name, context=ctx)
 
