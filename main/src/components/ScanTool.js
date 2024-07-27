@@ -2,6 +2,7 @@ import { Button, Box, Paper, Typography, TextField } from "@mui/material";
 import React, { useEffect, useRef, useState } from "react";
 import { ModelAutoComplete } from "./ModelAutoComplete";
 import { useModelOptions } from "../customHooks";
+import { getCookie } from "../context";
 
 const ShipmentSelector = props => {
 
@@ -79,12 +80,28 @@ const ShipmentSelector = props => {
 }
 
 const ScanTool = (props) => {
+  
+  // Props Destructuring
   const { shipmentId, variant = "block" } = props;
+  
+  // State Hooks
   const [ scanDestinationId, setScanDestinationId ] = useState(null); // Individual 'shipment' or 'asset' ID
   const [ destinationContentType, setDestinationContentType ] = useState('shipment'); // Either 'shipment' or 'asset'
   const [ assetCode, setAssetCode ] = useState("");
-
   const assetCodeInput = useRef(null);
+
+  // Mutations
+  const assetScans = useMutation({
+    mutationFn: async (data) => {
+        
+        const updateUrl = new URL(`${window.location.protocol}${window.location.host}/api/shipment/${data.id}/`);
+        const requestHeaders = new Headers();
+        requestHeaders.set('Content-Type', 'application/json');
+        requestHeaders.set('X-CSRFToken', getCookie('csrftoken'));
+    
+        return fetch( updateUrl, {method:"DELETE", headers:requestHeaders} )
+    },
+  })
   
   // Setup event handlers
   useEffect(() => {
@@ -100,6 +117,7 @@ const ScanTool = (props) => {
             assetCodeInput.current.removeEventListener("keydown", e => { if(e.key == 'Enter'){submitAssetCode(e)} });
         }
     })
+
   },[assetCodeInput.current])
 
   // Update component state when props are updated

@@ -13,10 +13,8 @@ import ScanTool from "../components/ScanTool";
 
 const ManageShipmentView = props => {
 
-    // Model Meta Data
+// Hooks
     const shipmentOptions = useModelOptions('shipment');
-
-    // Hooks
     const queryClient = useQueryClient();
     const navigate = useNavigate();
 
@@ -117,17 +115,17 @@ const ManageShipmentView = props => {
         queryKey: ['shipment'],
     });
 
-    // Increase Qty of Shipment Creation Forms Displayed
+    // Callback Functions
     const increaseFormFieldComponents = () => {
-        // Increment state value
+        // Increase Qty of Shipment Creation Forms Displayed
         setNumExtraShipmentCreationForms(previous => {
             previous++
             return(previous);
         });
     }
 
-    // Update Shipment Form Data
     const updateShipmentFormsData = (formIndex, data, fieldName=null) => {
+        // Update Shipment Form Data
         setForms( previous => {
             let tmp = [...previous];
             if(fieldName === null){
@@ -146,7 +144,7 @@ const ManageShipmentView = props => {
         })
     }
 
-    // Shipment Row Action Callback Functions
+    // Shipment Row Actions
     const deleteShipment = shipment => {
         const message = `Are you sure you would like to delete ${shipment.label}?`
         if (confirm(message) == true){

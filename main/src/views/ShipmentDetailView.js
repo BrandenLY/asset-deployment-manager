@@ -1,6 +1,6 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import { Box, Button, Paper, Typography, IconButton, Snackbar, Card } from "@mui/material";
+import { Box, Button, Paper, Typography } from "@mui/material";
 import { ShipmentDetailPanel } from "../components/ShipmentDetailPanel";
 import { useModelOptions, useRichQuery } from "../customHooks";
 import AssetDetailsCard from "../components/AssetDetailsCard";

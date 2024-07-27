@@ -19,8 +19,7 @@ import { Edit, Save } from "@mui/icons-material";
 import { backendApiContext } from "../context";
 import ModelForm from "./ModelForm";
 import { useModelOptions } from "../customHooks";
-import { queryClient } from "../index"
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import SwipeButton from "./SwipeButton";
 
 // Primary Component
@@ -31,6 +30,8 @@ export const ShipmentDetailPanel = (props) => {
 
   // State Hooks
   const theme = useTheme();
+  const queryClient = useQueryClient();
+
   const userDeviceIsMobile = useMediaQuery("(max-width:1010px)");
 
   const shipmentOptions = useModelOptions('shipment');
