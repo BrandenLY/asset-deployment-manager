@@ -1,27 +1,26 @@
-import React , {useContext} from "react";
-import { Autocomplete, InputLabel, TextField } from "@mui/material";
-import { backendApiContext } from "../context";
+import React from "react";
+import { Autocomplete, TextField } from "@mui/material";
 import { useInfiniteQuery } from "@tanstack/react-query";
 
 export const ModelAutoComplete = props => {
 
-    const {field, disabled, inputId, onChange, helpText} = props;
-    const backendCtx = useContext(backendApiContext);
+    const {field, dataModel, disabled, inputId, onChange, helpText, inputProps={}} = props;
 
+    // fetch
     const data = useInfiniteQuery({
-        queryKey: [field.related_model_name],
+        queryKey: [dataModel],
         enabled: !disabled
     })
 
-    const dataOptions = data.data?.pages.map(p => p.results).flat().map( result => {
-        return({...result, label:backendCtx.models[field.related_model_name].getLabelName(result)})
-    });
+    const dataOptions = data.data?.pages.map(p => p.results).flat().map( result => result);
 
     // Formatted Data
     const error = field.errors.length > 0;
     const errors = field.errors.toString();
+
     return (
         <Autocomplete
+            {...inputProps}
             id={inputId}
             options={dataOptions}
             disabled={disabled}

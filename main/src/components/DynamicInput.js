@@ -74,22 +74,22 @@ const DynamicInput = props => {
             // Const datetime input type with customized label styling.
             return(
                 <CustomFormControl  fieldError={fieldDetails.errors.toString()} helpText={fieldDetails.help_text}>
-                <InputLabel shrink variant="outlined" error={fieldError} for={htmlInputId}>
-                    {fieldDetails.label}
-                </InputLabel>
-        
-                <OutlinedInput
-                    id={htmlInputId}
-                    type="datetime-local"
-                    disabled={fieldIsDisabled}
-                    value={fieldDetails.current}
-                    label={fieldDetails.label}
-                    notched={true}
-                    onChange={(_e, newValue) => {updateValues(_e, _e.target.value)}}
-                    error={fieldError}
-                    required={fieldDetails.required}
-                    sx={{appearance:"none"}}
-                />
+                    <InputLabel shrink variant="outlined" error={fieldError} for={htmlInputId}>
+                        {fieldDetails.label}
+                    </InputLabel>
+                    
+                    <OutlinedInput
+                        id={htmlInputId}
+                        type="datetime-local"
+                        disabled={fieldIsDisabled}
+                        value={fieldDetails.current}
+                        label={fieldDetails.label}
+                        notched={true}
+                        onChange={(_e, newValue) => {updateValues(_e, _e.target.value)}}
+                        error={fieldError}
+                        required={fieldDetails.required}
+                        sx={{appearance:"none"}}
+                    />
                 </CustomFormControl>
             );
         case 'related object':
@@ -97,6 +97,7 @@ const DynamicInput = props => {
             return(
                 <ModelAutoComplete
                 field={{fieldName,...fieldDetails}}
+                dataModel={fieldDetails.related_model_name}
                 disabled={fieldIsDisabled}
                 inputId={htmlInputId}
                 onChange={updateValues}
