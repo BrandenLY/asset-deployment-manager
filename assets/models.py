@@ -1,5 +1,6 @@
 import json
 from django.db import models, transaction, IntegrityError
+from django.core.exceptions import ValidationError
 from django.contrib.auth import get_user_model
 from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
 from django.contrib.contenttypes.models import ContentType
@@ -47,6 +48,26 @@ class Asset(models.Model):
 
     def __str__(self):
         return f"{self.code} - {self.model}"
+
+    def clean(self):
+
+        # Verify the Asset Code starts with the Model Code
+        if not self.code.startswith(self.model.model_code):
+            raise ValidationError("Asset Codes must start with their Model's model_code.")
+
+        # Verify any parent elements are containers or shipments.
+        if self.parent_content_type.model == "asset":
+            if not self.parent_object.is_container:
+                raise ValidationError("Only container assets can contain other assets.")
+        
+        elif not self.parent_content_type.model == "shipment":
+                raise ValidationError("Assets can only exist within shipments or container assets.")
+        
+
+    def save(self, *args, **kwargs):
+        # Call clean method to perform validation
+        self.clean()
+        super().save(*args, **kwargs)
     
 class AssetModel(models.Model):
     name = models.CharField(_("Name"), max_length=SMALL_TEXT_FIELD_SIZE)
