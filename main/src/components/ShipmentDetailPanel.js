@@ -166,16 +166,19 @@ export const ShipmentDetailPanel = (props) => {
     setIsCollapsed(false);
   }
 
+  // Formatted Data
+  const userCanModifyShipments = user?.user_permissions?.find(p => p.codename == "change_shipment")
+
   return (
     <Paper className="ShipmentDetailsColumn"
       sx={{ flexShrink:4, maxWidth: userDeviceIsMobile ? 'none' : "340px"}}
     >
       <Collapse in={!isCollapsed} orientation="horizontal">
         <Paper elevation={2} ref={formContainer} sx={{minHeight:"100%"}}>
-          <List sx={{padding: 1, display: "flex", flexDirection:"column", minHeight:"100%"}} dense>
+          <List sx={{padding: 1, display: "flex", flexDirection:"column", minHeight:"100%", height:"100%"}} dense>
 
             <ListItem
-              secondaryAction={user?.is_staff && (
+              secondaryAction={userCanModifyShipments && (
                 <IconButton size="small" onClick={toggleEditMode}>
                   <Edit />
                 </IconButton>

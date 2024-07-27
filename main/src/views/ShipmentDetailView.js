@@ -33,10 +33,10 @@ const ShipmentDetailView = props =>{
                         {state.value &&
                             state.value.assets.map(asset => {
                                 if(asset.is_container){
-                                    return(<AssetDetailsCard asset={asset} variant='outlined' paperProps={{sx:{padding:2}}}/>)
+                                    return(<AssetDetailsCard asset={asset} paperProps={{sx:{padding:2}}}/>)
                                 }
                                 else{
-                                    return(<AssetDetailsCard asset={asset} paperProps={{sx:{padding:2}}}/>)
+                                    return(<AssetDetailsCard asset={asset} paperProps={{sx:{padding:2}, variant:"outlined"}}/>)
                                 }
                             })
                         }

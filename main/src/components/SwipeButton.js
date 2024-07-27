@@ -1,5 +1,5 @@
 import { Box } from '@mui/material';
-import React, { useRef, useEffect, useState } from 'react'
+import React, { useRef, useEffect } from 'react'
 const SwipeButton = props => {
     const {
         onSwipeLeft=(()=>{}), 
@@ -19,18 +19,23 @@ const SwipeButton = props => {
 
     // Register event listeners
     useEffect(() => {
-        ButtonElement.current.addEventListener('touchstart', handleTouchStart);
-        ButtonElement.current.addEventListener('touchmove', handleTouchMove);
-        ButtonElement.current.addEventListener('touchend', handleTouchEnd);
-        ButtonElement.current.addEventListener('click', onClick);
+        const element = ButtonElement.current;
+
+        if (element){
+            element.addEventListener('touchstart', handleTouchStart);
+            element.addEventListener('touchmove', handleTouchMove);
+            element.addEventListener('touchend', handleTouchEnd);
+            element.addEventListener('click', onClick);
+        }
 
         return(() => {
             // Cleanup Function
-            // FIXME: ButtonElement.current = null;
-            ButtonElement.current.removeEventListener('touchstart', handleTouchStart);
-            ButtonElement.current.removeEventListener('touchmove', handleTouchMove);
-            ButtonElement.current.removeEventListener('touchend', handleTouchEnd);
-            ButtonElement.current.removeEventListener('click', onClick);
+            if (element){
+                element.removeEventListener('touchstart', handleTouchStart);
+                element.removeEventListener('touchmove', handleTouchMove);
+                element.removeEventListener('touchend', handleTouchEnd);
+                element.removeEventListener('click', onClick);
+            }
         })
 
     },[])

@@ -129,7 +129,6 @@ export const useModelFormFields = ({modelOptions, id=null, excludeReadOnly=false
 
     const updateFieldErrors = (fieldErrors) => {
         setFields(previous => {
-
             const tmp = {...previous}
             Object.entries(fieldErrors).forEach(([fName, fErrors], index) => {
                 tmp[fName].errors = fErrors;

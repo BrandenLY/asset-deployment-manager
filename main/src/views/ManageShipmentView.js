@@ -8,6 +8,7 @@ import { useInfiniteQuery, useMutation, useQueryClient } from "@tanstack/react-q
 import CustomDialog from "../components/CustomDialog";
 import { getCookie } from "../context";
 import ModelForm from "../components/ModelForm";
+import ScanTool from "../components/ScanTool";
 
 
 const ManageShipmentView = props => {
@@ -256,6 +257,11 @@ const ManageShipmentView = props => {
                     </Box>
                 </CustomDialog>
             </Box>
+            {selectedShipment&&
+
+                <ScanTool shipmentId={selectedShipment.id}/>
+            
+            }
             <SortingGrid 
                 title="Manage Shipments"
                 defaultColumns={["id", "label", "status", "departure_date", "arrival_date"]}

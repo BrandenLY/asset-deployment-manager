@@ -51,6 +51,18 @@ const primaryDarkTheme = createTheme({
     formErrorText: {
       color: baseTheme.palette.error.dark,
     },
+    moreInfoIcon: {
+      display: "block",
+      fontSize: "8px",
+      fontWeight: baseTheme.typography.fontWeightBold,
+      width: "14px",
+      height: "14px",
+      borderRadius: "14px",
+      lineHeight: "14px",
+      backgroundColor: "RGBA(08,08,08,0.46)",
+      textAlign: "center",
+      cursor: "pointer"
+    }
   },
 });
 

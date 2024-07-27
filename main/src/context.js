@@ -1,5 +1,5 @@
 import React from 'react';
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 import { useBackend } from "./customHooks";
 import { useQuery } from '@tanstack/react-query';
 
@@ -67,10 +67,29 @@ export const BackendContextProvider = ({children}) => {
             getLabelName: (obj) => `${obj.address_line_1}, ${obj.city}, ${obj.state} ${obj.zipcode}`,
         }
     }
-    const { data:authUser, isLoading:isLoadingAuthUser } = useQuery({
+    const { data:authUser, isLoading:isLoadingAuthUser, isSuccess:isSuccessAuthUser, isFetching } = useQuery({
         queryKey: ['current-user']
     });
 
+    useEffect(() => {
+        if (!isLoadingAuthUser && isSuccessAuthUser) {
+
+            const has_perm = function(codename) {
+                const _hasPermission = this.data.user_permissions.find( perm => perm.codename == codename );
+                if(_hasPermission){
+                    return true;
+                }
+
+                return false;
+            }
+
+            authUser.hasPerm = has_perm;
+        }
+
+    }, [isLoadingAuthUser, isSuccessAuthUser, isFetching])
+
+    // Formatted Data
+    
     return (
         <backendApiContext.Provider value={{baseUrl:baseUrl, csrftoken:csrftoken, user:authUser, models:models }}>
             {children} 
