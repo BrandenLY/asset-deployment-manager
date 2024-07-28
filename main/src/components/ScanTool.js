@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { ModelAutoComplete } from "./ModelAutoComplete";
 import { useModelOptions } from "../customHooks";
 import { getCookie } from "../context";
+import { useMutation } from "@tanstack/react-query";
 
 const ShipmentSelector = props => {
 
@@ -94,7 +95,8 @@ const ScanTool = (props) => {
   const assetScans = useMutation({
     mutationFn: async (data) => {
         
-        const updateUrl = new URL(`${window.location.protocol}${window.location.host}/api/shipment/${data.id}/`);
+        // Scanning logic is handled primarily by the backend, we will just pass back the shipment id and asset code.
+        const updateUrl = new URL(`${window.location.protocol}${window.location.host}/api/scan/`);
         const requestHeaders = new Headers();
         requestHeaders.set('Content-Type', 'application/json');
         requestHeaders.set('X-CSRFToken', getCookie('csrftoken'));

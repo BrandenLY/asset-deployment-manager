@@ -3,8 +3,8 @@ import { createRoot } from "react-dom/client";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 // Material UI
-import {ThemeProvider} from "@mui/material";
-import CssBaseline from "@mui/material/CssBaseline";
+import {ThemeProvider, CssBaseline} from "@mui/material";
+import primaryDarkTheme from "./themes/primary-dark";
 
 // Tanstack Query
 import CustomQueryClientProvider from "./queryConfig";
@@ -15,7 +15,6 @@ import CustomPage from "./components/CustomPage";
 import EventDetailView from "./views/EventDetailView";
 import ManageShipmentView from "./views/ManageShipmentView";
 import ShipmentDetailView from "./views/ShipmentDetailView";
-import primaryDarkTheme from "./themes/primary-dark";
 
 // Primary React Component
 const App = () => {
@@ -27,43 +26,56 @@ const App = () => {
           <CssBaseline />
           <Router>
             <Routes>
+              {/* Model related list views */}
               <Route
                 path="/"
                 element={
                   <CustomPage view={ManageShipmentView} title="Homepage" />
                 }
-              ></Route>
+              />
+
+              {/* Shipment Related Views */}
               <Route
                 path="/shipments"
                 element={
-                  <CustomPage
-                    view={ManageShipmentView}
-                    title="Manage Shipments"
-                  />
+                  <CustomPage view={ManageShipmentView} title="Manage Shipments" />
                 }
-              ></Route>
+              />
               <Route
                 path="/shipments/:id"
                 element={
-                  <CustomPage
-                    view={ShipmentDetailView}
-                    title="Manage Shipment"
-                  />
+                  <CustomPage view={ShipmentDetailView} title="Shipment Details" />
                 }
-              ></Route>
+              />
+
+              {/* Asset Related Views */}
               <Route
                 path="/assets"
-                element={<CustomPage view={null} />}
-              ></Route>
+                element={
+                  <CustomPage view={null} title="Manage Assets" />
+                }
+              />
               <Route
-                path="/tasklist"
-                element={<CustomPage view={TasklistView} title="Tasklist" />}
-              ></Route>
-              <Route path="/wiki" element={<CustomPage view={null} />}></Route>
+                path="/assets/:id"
+                element={
+                  <CustomPage view={null} title="Asset Details"/>
+                }
+              />
+
+              {/* Location Related Views */}
               <Route
-                path="/events/:id"
-                element={<CustomPage view={EventDetailView} />}
-              ></Route>
+                path="/locations"
+                element={
+                  <CustomPage view={null} title="Manage Locations" />
+                }
+              />
+              <Route
+                path="/locations/:id"
+                element={
+                  <CustomPage view={null} title="Location Details"/>
+                }
+              />
+
             </Routes>
           </Router>
         </ThemeProvider>
@@ -72,5 +84,6 @@ const App = () => {
   );
 };
 
+// Entry Point
 const root = createRoot(document.getElementById("main-content"));
 root.render(<App />);
