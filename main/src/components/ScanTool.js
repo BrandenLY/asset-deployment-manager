@@ -3,15 +3,208 @@ import React, { useEffect, useRef, useState } from "react";
 import { ModelAutoComplete } from "./ModelAutoComplete";
 import { useModelOptions } from "../customHooks";
 import { getCookie } from "../context";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import ScanLog from "./ScanLog";
 
+const ScanTool = (props) => {
+  
+  // Props Destructuring
+  const { shipment, variant = "block" } = props;
+  
+  // State Hooks
+  const [ destinationId, setDestinationId ] = useState(shipment.id); // Individual 'shipment' or 'asset' Id
+  const [ destinationContentType, setDestinationContentType ] = useState("shipment"); // Either 'shipment' or 'asset'
+  const [ assetCode, setAssetCode ] = useState(""); // The code to be entered
+  const [ scanLog, setScanLog ] = useState({}); // Log of Scans Sent to Backend.
+  
+  const queryClient = useQueryClient();
+  const assetCodeInput = useRef(null);
+
+  // Mutations
+  const assetScans = useMutation({
+    mutationFn: async (vars) => {
+        
+        // Scanning logic is handled primarily by the backend, we will just pass back the shipment id and asset code.
+        const scanUrl = new URL(`${window.location.protocol}${window.location.host}/api/scan/`);
+        const requestHeaders = new Headers();
+        requestHeaders.set('Content-Type', 'application/json');
+        requestHeaders.set('X-CSRFToken', getCookie('csrftoken'));
+    
+        // Format Payload
+        const payload = {
+            destination_content_type: destinationContentType,
+            destination_object_id: destinationId,
+            asset_code: vars
+        }
+
+        return await fetch( scanUrl, {method:"POST", headers:requestHeaders, body:JSON.stringify(payload)})
+    },
+    onMutate: vars => {
+        setScanLog(prev=>{
+            let data = {...prev};
+            data[vars] = null;
+            return data;
+        })
+    },
+    onSettled: async (data, error, vars, context) => {
+        
+        if (data.ok){
+            const _data = await data.json();
+            setScanLog(prev => {
+                let data = {...prev}
+                data[vars] = {data:_data, error};
+                return data;
+            })
+
+            if (_data.is_container){
+                setDestinationId(_data.id);
+                setDestinationContentType('asset');
+            }
+
+        }
+        else{
+            const _data = await data.json();
+            setScanLog(prev => {
+                let data = {...prev}
+                data[vars] = {data:null, error:_data['detail']};
+                return data;
+            })
+        }
+
+    }
+  })
+  
+  // Setup event handlers
+  useEffect(() => {
+
+    // Trigger: Submitting via 'Enter' keypress
+    if (assetCodeInput.current != null){
+        assetCodeInput.current.addEventListener("keydown", e => { if(e.key == 'Enter'){submitAssetCode(e)} });
+    }
+    
+    // Cleanup event handlers
+    return(() => {
+        if (assetCodeInput.current != null){
+            assetCodeInput.current.removeEventListener("keydown", e => { if(e.key == 'Enter'){submitAssetCode(e)} });
+        }
+    })
+
+  },[assetCodeInput.current])
+
+  // Update component state when props are updated
+  useEffect(() => {
+
+    // Set Defaults
+    setDestinationContentType("shipment");
+    setDestinationId(shipment.id);
+
+    // Clear Scan data
+    setScanLog({});
+    
+  }, [shipment])
+
+  // Re-focus the input field when state changes
+  if (assetCodeInput.current != null){
+    assetCodeInput.current.scrollIntoView({behavior: 'smooth', block: 'center'});
+    assetCodeInput.current.focus();
+  }
+
+  // Call Back Functions
+  const updateDestinationId = ID => {
+    setDestinationId(ID);
+  }
+  const updateAssetCode = e => {
+    setAssetCode(e.target.value);
+  }
+  const submitAssetCode = e => {
+
+    // Ignore blank values
+    if (assetCode == "" && e.target.value == ""){
+        return false;
+    }
+
+    // Do scan logic
+    if(e.type == "keydown"){
+        assetScans.mutate(e.target.value, destinationId, destinationContentType)
+    }
+    
+    if(e.type == "click"){
+        assetScans.mutate(assetCode)
+    }
+    
+    // Clear State
+    setAssetCode("");
+    e.preventDefault();
+  }
+
+  // Formatted Data
+  let paperStyles = {
+    marginY:1,
+    padding:1,
+    gap:1,
+    display:'flex',
+    minHeight: '30vh',
+  }
+  if(variant == 'block'){
+    paperStyles['flexDirection'] = "column";
+  }
+  if(variant == 'in-line'){
+    paperStyles["alignItems"] = "center";
+  }
+  const boxStyles = {textAlign:"center", flexGrow:1, display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", width:"100%"};
+  
+
+  // CONSOLE LOGS
+  console.log(scanLog);
+
+  // Requires Shipment Selection
+  if(destinationId == null){
+    return(<ShipmentSelector onSelect={updateDestinationId} variant={variant}/>)
+  }
+  
+  // Render primary form
+  return(
+    <Paper sx={paperStyles}>
+        <Box sx={boxStyles}>
+            <Typography variant="h5" sx={{marginX:1}}>Scan an asset tag</Typography>
+            <Typography variant="subtitle2" sx={{marginX:1}}>or, enter an asset code</Typography>
+        </Box>
+        <Box sx={boxStyles}>
+            <TextField value={assetCode} onChange={updateAssetCode} label="Asset Code" inputProps={{ref:assetCodeInput}} autoFocus/>
+            <ScanLog data={scanLog}></ScanLog>
+        </Box>
+        <Box sx={boxStyles}>
+            <Typography variant="caption">
+                Currently scanning into<br /> 
+                <Typography component='code' variant='code'>{shipment.label}</Typography>
+            </Typography>
+
+            {destinationContentType == 'asset' &&
+            <Typography variant="caption">
+                Container<br />
+                <Typography component='code' variant='code'>{shipment.label}</Typography>
+            </Typography>
+            }
+
+            <Button onClick={submitAssetCode}>
+                Submit
+            </Button>
+        </Box>
+    </Paper>
+  )
+};
+
+// This component wasn't designed to be used outside of the ScanTool component.
 const ShipmentSelector = props => {
 
+    // Props Destructuring
     const {onSelect, variant} = props;
+
+    // Hooks
     const [selectedShipment, setSelectedShipment] = useState(null);
     const [shipmentFieldErrors, setShipmentFieldErrors] = useState([]);
 
-
+    // Call Back Functions
     const updateSelectedShipment = (_, shipment) => {
         setShipmentFieldErrors([]);
         setSelectedShipment(shipment);
@@ -80,124 +273,5 @@ const ShipmentSelector = props => {
     </Paper>
 }
 
-const ScanTool = (props) => {
-  
-  // Props Destructuring
-  const { shipmentId, variant = "block" } = props;
-  
-  // State Hooks
-  const [ scanDestinationId, setScanDestinationId ] = useState(null); // Individual 'shipment' or 'asset' ID
-  const [ destinationContentType, setDestinationContentType ] = useState('shipment'); // Either 'shipment' or 'asset'
-  const [ assetCode, setAssetCode ] = useState("");
-  const assetCodeInput = useRef(null);
-
-  // Mutations
-  const assetScans = useMutation({
-    mutationFn: async (data) => {
-        
-        // Scanning logic is handled primarily by the backend, we will just pass back the shipment id and asset code.
-        const updateUrl = new URL(`${window.location.protocol}${window.location.host}/api/scan/`);
-        const requestHeaders = new Headers();
-        requestHeaders.set('Content-Type', 'application/json');
-        requestHeaders.set('X-CSRFToken', getCookie('csrftoken'));
-    
-        return fetch( updateUrl, {method:"DELETE", headers:requestHeaders} )
-    },
-  })
-  
-  // Setup event handlers
-  useEffect(() => {
-
-    // Trigger: Submitting via 'Enter' keypress
-    if (assetCodeInput.current != null){
-        assetCodeInput.current.addEventListener("keydown", e => { if(e.key == 'Enter'){submitAssetCode(e)} });
-    }
-    
-    // Cleanup event handlers
-    return(() => {
-        if (assetCodeInput.current != null){
-            assetCodeInput.current.removeEventListener("keydown", e => { if(e.key == 'Enter'){submitAssetCode(e)} });
-        }
-    })
-
-  },[assetCodeInput.current])
-
-  // Update component state when props are updated
-  useEffect(() => {
-    setScanDestinationId(shipmentId);
-  }, [shipmentId])
-
-  // Re-focus the input field when state changes
-  useEffect(() => {
-    if (assetCodeInput.current != null){
-        assetCodeInput.current.focus()
-    }
-  })
-
-  // Call Back Functions
-  const updateDestinationId = ID => {
-    setScanDestinationId(ID);
-  }
-
-  const updateAssetCode = e => {
-    setAssetCode(e.target.value);
-  }
-
-  const submitAssetCode = e => {
-
-    // Do scan logic
-    if(e.type == "keydown"){
-        console.log(e.target.value);
-    }
-    
-    if(e.type == "click"){
-        console.log(assetCode);
-    }
-
-    // Clear State
-    setAssetCode("");
-    e.preventDefault();
-  }
-
-  // Formatted Data
-  let paperStyles = {
-    marginY:1,
-    padding:1,
-    gap:1,
-    display:'flex',
-    minHeight: '30vh',
-  }
-  if(variant == 'block'){
-    paperStyles['flexDirection'] = "column";
-  }
-  if(variant == 'in-line'){
-    paperStyles["alignItems"] = "center";
-  }
-  const boxStyles = {textAlign:"center", flexGrow:1, display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", width:"100%"};
-  
-  // Requires Shipment Selection
-  if(scanDestinationId == null){
-    return(<ShipmentSelector onSelect={updateDestinationId} variant={variant}/>)
-  }
-  
-  // Render primary form
-  return(
-    <Paper sx={paperStyles}>
-        <Box sx={boxStyles}>
-            <Typography variant="h5" sx={{marginX:1}}>Scan an asset tag</Typography>
-            <Typography variant="subtitle2" sx={{marginX:1}}>or, enter an asset code</Typography>
-        </Box>
-        <Box sx={boxStyles}>
-            <TextField value={assetCode} onChange={updateAssetCode} label="Asset Code" inputProps={{ref:assetCodeInput}} autoFocus/>
-        </Box>
-        <Box sx={boxStyles}>
-            <Button onClick={submitAssetCode}>
-                Submit
-            </Button>
-            <Typography variant="caption">Currently scanning into {destinationContentType == "asset" ? "container" : "shipment"} #{scanDestinationId}</Typography>
-        </Box>
-    </Paper>
-  )
-};
 
 export default ScanTool;
