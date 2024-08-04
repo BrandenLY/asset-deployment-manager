@@ -45,30 +45,62 @@ class Asset(models.Model):
     class Meta:
         ordering = ["code"]
         indexes  = [models.Index(fields=["code", "model"])]
+        permissions = [
+            ("scan_to_parent", "Can move this asset via Scan API")
+        ]
 
     def __str__(self):
         return f"{self.code} - {self.model}"
 
     def clean(self):
 
-        # Verify the Asset Code starts with the Model Code
+        # Verify the Asset Code starts with the Model Code.
         if not self.code.startswith(self.model.model_code):
             raise ValidationError("Asset Codes must start with their Model's model_code.")
 
+        parent_content_type = getattr(self.parent_content_type, "model", None)
+        print(parent_content_type)
+        
         # Verify any parent elements are containers or shipments.
-        if self.parent_content_type.model == "asset":
+        if parent_content_type == "asset":
+            # Verify the Parent Asset is a container
             if not self.parent_object.is_container:
                 raise ValidationError("Only container assets can contain other assets.")
         
-        elif not self.parent_content_type.model == "shipment":
+        # Verify parent is valid (either a shipment or blank)
+        elif parent_content_type != "shipment" and parent_content_type is not None:
                 raise ValidationError("Assets can only exist within shipments or container assets.")
         
+        # Enforce maximum recursion depth.
+        try:
+            if self.parent_object:
+                parent_level = self.parent_object.parent_object
+                if parent_level:
+                    grandparent_level = parent_level.parent_object
+                    if grandparent_level:
+                        raise ValidationError("Maximum recursion depth of 2 exceeded.")
+                    
+        except AttributeError:
+            pass # If we run into an attribute error before reaching grandparent_level then we are
+                 # good to go since the only attribute we're accessing is 'parent_object'.
 
+
+        
     def save(self, *args, **kwargs):
         # Call clean method to perform validation
         self.clean()
         super().save(*args, **kwargs)
     
+    def can_accept_scan_entries(self):
+        
+        # Asset must exist within a shipment to be able to accept other assets as contents.
+        if not self.parent_content_type.model == 'shipment':
+            return False
+        
+        # The Shipment must also be accepting contents
+        return self.parent_object.can_accept_scan_entries()
+
+
 class AssetModel(models.Model):
     name = models.CharField(_("Name"), max_length=SMALL_TEXT_FIELD_SIZE)
     description = models.CharField(_("Description"), max_length=LARGE_TEXT_FIELD_SIZE, blank=True, null=True)
@@ -129,6 +161,9 @@ class Shipment(models.Model):
     class Meta:
         ordering = [ "status", "arrival_date", "id"]
         indexes = [ models.Index(fields=["departure_date", "arrival_date"]), ]
+        permissions = [
+            ("receive", "Can receive shipments"),
+        ]
 
     def mark_shipment_packed(self):
         try: 
@@ -141,8 +176,15 @@ class Shipment(models.Model):
         
         except IntegrityError as e:
 
-            print(e)
             raise(IntegrityError)
+    
+    def can_accept_scan_entries(self):
         
+        # Shipment must be in an initial status to accept contents.
+        if not self.status == 0:
+            return False
+        
+        return True
+    
     def __str__(self):
         return f"{self.carrier} SHIPMENT FROM {self.origin} TO {self.destination}"

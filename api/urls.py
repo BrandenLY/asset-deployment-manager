@@ -21,19 +21,20 @@ from rest_framework.routers import DefaultRouter
 
 from .views import UserView
 from .views import EventView
-from .views import MilestoneView
-from .views import ServiceView
+# from .views import MilestoneView
+# from .views import ServiceView
 from .views import AssetView
 from .views import AssetModelView
 from .views import LocationView
 from .views import ShipmentView
 from .views import CurrentUserView
+from .views import ScanView
 
 router = DefaultRouter()
 router.register(r"user", UserView)
 router.register(r"event", EventView)
-router.register(r"milestone", MilestoneView)
-router.register(r"service", ServiceView)
+# router.register(r"milestone", MilestoneView)
+# router.register(r"service", ServiceView)
 router.register(r"asset", AssetView)
 router.register(r"assetModel", AssetModelView)
 router.register(r"location", LocationView)
@@ -41,4 +42,5 @@ router.register(r"shipment", ShipmentView)
 
 urlpatterns = [
     path('current-user/', CurrentUserView.as_view(), name='current-user'),
+    path('scan/', ScanView.as_view(), name='scan-api'),
 ] + router.urls

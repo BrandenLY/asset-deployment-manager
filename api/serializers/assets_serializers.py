@@ -52,7 +52,6 @@ class AssetIconSerializer(CustomBaseSerializer):
             "source_name"
         ]
 
-
 class AssetModelSerializer(CustomBaseSerializer):
 
     icon = AssetIconSerializer()

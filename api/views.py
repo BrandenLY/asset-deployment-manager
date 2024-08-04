@@ -1,5 +1,8 @@
 from django.utils.encoding import force_str
+from django.core.exceptions import ObjectDoesNotExist, ValidationError
+from django.contrib.auth.models import Permission
 from rest_framework import viewsets
+from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework import generics
 from rest_framework import mixins
@@ -8,6 +11,7 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.settings import api_settings
 from rest_framework.utils.field_mapping import ClassLookupDict
+from rest_framework.permissions import IsAuthenticated
 # App Related Imports : Assets
 from assets.models import Asset
 from assets.models import AssetModel
@@ -24,14 +28,17 @@ from main.models import Event
 from .serializers import UserSerializer
 from .serializers import EventSerializer
 # App Related Imports : Tasklist
-from tasklist.models import Milestone
-from tasklist.models import Service
-from tasklist.models import Task
-from .serializers import MilestoneSerializer
-from .serializers import ServiceSerializer
+# from tasklist.models import Milestone
+# from tasklist.models import Service
+# from tasklist.models import Task
+# from .serializers import MilestoneSerializer
+# from .serializers import ServiceSerializer
+# Custom Permissions
+from .permissions import ScanToolPermission
+from .exceptions import InvalidData
 
 # Standard Functionality for all views to share
-class BaseView(viewsets.ViewSetMixin, generics.GenericAPIView, mixins.UpdateModelMixin):
+class BaseView(viewsets.GenericViewSet, mixins.UpdateModelMixin):
     serializer_field_label_lookup = ClassLookupDict({
         serializers.Field: 'field',
         serializers.BooleanField: 'boolean',
@@ -159,8 +166,12 @@ class BaseView(viewsets.ViewSetMixin, generics.GenericAPIView, mixins.UpdateMode
 
         if getattr(field, 'child', None):
             field_info['child'] = self.get_field_info(field.child)
-        elif getattr(field, 'fields', None):
-            field_info['children'] = self.get_serializer_info(field)
+
+        ## FIXME: I Removed this because it wasn't working and I didn't know what it did. Was causing issues with option requests to /api/assets.
+        # elif getattr(field, 'fields', None):
+        #     print(field)
+        #     print(getattr(field, 'fields', None))
+        #     field_info['children'] = self.get_serializer_info(field)
 
         if (not field_info.get('read_only') and
             not isinstance(field, (serializers.RelatedField, serializers.ManyRelatedField)) and
@@ -267,6 +278,81 @@ class ShipmentView(BaseView):
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR,
             )
 
+## This view is used to scan assets into shipments.
+class ScanView(APIView):
+    """
+    Simple View for entering assets into shipments/container assets.
+    """
+    permission_classes = [IsAuthenticated, ScanToolPermission]
+    models_that_can_contain_assets = {
+        'shipment' : Shipment,
+        'asset' : Asset
+    }
+    model_serializer_map = {
+        'shipment' : ShipmentSerializer,
+        'asset' : AssetSerializer
+    }
+
+    def post(self, request):
+
+        # Validate request data
+        try:
+            assert 'destination_content_type' in request.data
+            assert 'destination_object_id' in request.data
+            assert 'asset_code' in request.data
+        except AssertionError:
+            raise InvalidData()
+        
+        # Perform 'Scan'
+        if request.data['destination_content_type'] in self.models_that_can_contain_assets:
+            
+            destination_model = self.models_that_can_contain_assets[request.data['destination_content_type']]
+            destination_id = request.data['destination_object_id']
+            entry_asset_code = request.data['asset_code']
+            
+            # Retrieve Destination Object
+            try:
+                destination_object = destination_model.objects.get(id=destination_id)
+            except ObjectDoesNotExist:
+                raise InvalidData(f"A scan destination of type '{destination_model.__name__}' with id '{destination_id}' does not exist.")
+            
+            # Retrieve Entry Object
+            try:
+                entry = Asset.objects.get(code=entry_asset_code)
+            except Asset.DoesNotExist:
+                raise InvalidData(f"An asset with code '{entry_asset_code}' does not exist.")
+
+            # Verify Entry Parent is Blank
+            if entry.parent_object != None:
+                raise InvalidData(f"This asset is already locked to '{entry.parent_object}'.")
+            # Update the Entry Object
+            if destination_object.can_accept_scan_entries():
+                entry.parent_object = destination_object
+
+                try:
+                    entry.clean() # Perform Model Validation
+
+                    try:
+                        entry.save() # Perform Save
+                        serializer = AssetSerializer(entry)
+
+                        return Response(serializer.data)
+                    
+                    except Exception as e:
+                        raise InvalidData(e)
+                    
+                except ValidationError as e:
+                    raise InvalidData(e)
+            
+            else:
+                raise InvalidData(f"{destination_object} cannot accept scan entries.")
+            
+        else:
+            # Unknown Destination Content Type
+            raise InvalidData("The provided destination content-type is not permitted.")
+
+        return Response({'request': str(request.data)})
+
 #    _____         _    _ _     _     _       _             __                     
 #   |_   _|_ _ ___| | _| (_)___| |_  (_)_ __ | |_ ___ _ __ / _| __ _  ___ ___  ___ 
 #     | |/ _` / __| |/ / | / __| __| | | '_ \| __/ _ \ '__| |_ / _` |/ __/ _ \/ __|
@@ -274,21 +360,21 @@ class ShipmentView(BaseView):
 #     |_|\__,_|___/_|\_\_|_|___/\__| |_|_| |_|\__\___|_|  |_|  \__,_|\___\___||___/
 #                                                                                  
 
-class MilestoneView(BaseView):
-    """
-    Simple Viewset for Viewing Milestone Information
-    """
-    model = Milestone
-    queryset = model.objects.all()
-    serializer_class = MilestoneSerializer
+# class MilestoneView(BaseView):
+#     """
+#     Simple Viewset for Viewing Milestone Information
+#     """
+#     model = Milestone
+#     queryset = model.objects.all()
+#     serializer_class = MilestoneSerializer
 
-class ServiceView(BaseView):
-    """
-    Simple Viewset for Viewing Service Information
-    """
-    model = Service
-    queryset = model.objects.all()
-    serializer_class = ServiceSerializer
+# class ServiceView(BaseView):
+#     """
+#     Simple Viewset for Viewing Service Information
+#     """
+#     model = Service
+#     queryset = model.objects.all()
+#     serializer_class = ServiceSerializer
 
 #    __  __       _         _       _             __                     
 #   |  \/  | __ _(_)_ __   (_)_ __ | |_ ___ _ __ / _| __ _  ___ ___  ___ 
