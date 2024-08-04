@@ -13,7 +13,7 @@ import ScanTool from "../components/ScanTool";
 
 const ManageShipmentView = props => {
 
-// Hooks
+    // Hooks 
     const shipmentOptions = useModelOptions('shipment');
     const queryClient = useQueryClient();
     const navigate = useNavigate();
@@ -257,7 +257,7 @@ const ManageShipmentView = props => {
             </Box>
             {selectedShipment&&
 
-                <ScanTool shipmentId={selectedShipment.id}/>
+                <ScanTool shipment={selectedShipment}/>
             
             }
             <SortingGrid 

@@ -1,11 +1,47 @@
 import React from "react";
 import { Box } from "@mui/material";
+import { useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
+import { useModelOptions } from "../customHooks";
+import { useNavigate } from "react-router-dom";
+import { OpenInNew } from "@mui/icons-material";
+import SortingGrid from "../components/SortingGrid";
 
 const AssetsView = props =>{
+    // Hooks
+    const queryClient = useQueryClient();
+    const navigate = useNavigate();
 
+    // State
+
+    // Mutations
+
+    // Queries
+    const assets = useInfiniteQuery({
+        queryKey: ['asset'],
+    });
+
+    // Callback Functions
+    
+    // Asset Row Actions
+    const openAsset = asset => {
+        navigate(`/assets/${asset.id}`);
+    }
+
+    // Formatted Data
+    const allLoadedAssets = assets.data?.pages.map(p => p.results).flat();
+    const assetCount = assets.data?.pages.reduce((count, page) => count + page.results.length, 0);
     return (
         <Box className="AssetsView">
-            
+            <SortingGrid 
+                title="Manage Assets"
+                defaultColumns={["id", "label", "code"]}
+                dataModel={'asset'}
+                data={allLoadedAssets}
+                count={assetCount}
+                rowActions={{
+                    'open'   : {'icon': OpenInNew, 'callbackFn' : openAsset},
+                }}
+            />
         </Box>
     );
 };
