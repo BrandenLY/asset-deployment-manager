@@ -15,6 +15,9 @@ import CustomPage from "./components/CustomPage";
 import EventDetailView from "./views/EventDetailView";
 import ManageShipmentView from "./views/ManageShipmentView";
 import ShipmentDetailView from "./views/ShipmentDetailView";
+import PageNotFound from "./views/PageNotFound"
+import AssetsView from "./views/AssetsView";
+import LocationView from "./views/LocationView";
 
 // Primary React Component
 const App = () => {
@@ -52,7 +55,7 @@ const App = () => {
               <Route
                 path="/assets"
                 element={
-                  <CustomPage view={null} title="Manage Assets" />
+                  <CustomPage view={AssetsView} title="Manage Assets" />
                 }
               />
               <Route
@@ -66,7 +69,7 @@ const App = () => {
               <Route
                 path="/locations"
                 element={
-                  <CustomPage view={null} title="Manage Locations" />
+                  <CustomPage view={LocationView} title="Manage Locations" />
                 }
               />
               <Route
@@ -76,6 +79,13 @@ const App = () => {
                 }
               />
 
+              {/* Fallback / 404 Err Page */}
+              <Route
+                path="*"
+                element={
+                  <CustomPage view={PageNotFound} title={null}/>
+                }
+              />
             </Routes>
           </Router>
         </ThemeProvider>
