@@ -42,10 +42,11 @@ INSTALLED_APPS = [
     'rest_framework',
     # Non-default apps
     'main.apps.MainConfig',
-    'tasklist.apps.TasklistConfig',
     'assets.apps.AssetsConfig',
+    'staffing.apps.StaffingConfig',
     'wiki.apps.WikiConfig',
-    'api.apps.ApiConfig'
+    'api.apps.ApiConfig',
+    'tasklist.apps.TasklistConfig',
 ]
 
 MIDDLEWARE = [
