@@ -58,7 +58,6 @@ class Asset(models.Model):
             raise ValidationError("Asset Codes must start with their Model's model_code.")
 
         parent_content_type = getattr(self.parent_content_type, "model", None)
-        print(parent_content_type)
         
         # Verify any parent elements are containers or shipments.
         if parent_content_type == "asset":
@@ -167,7 +166,6 @@ class Shipment(models.Model):
     def mark_shipment_packed(self):
         try: 
             assets = self.assets.all()
-            print(f'Str: {str(assets)}, Repr: {repr(assets)}, Type: {type(assets)}')
             with transaction.atomic():
                 ## SAVE SNAPSHOT OF LOCKED ASSETS TO THIS INSTANCE'S 'PACKED ASSETS' FIELD
                 self.status = 1

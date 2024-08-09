@@ -138,8 +138,6 @@ class BaseView(viewsets.GenericViewSet, mixins.UpdateModelMixin):
             if field.related_model and field.name in data['model_fields']:
                 data['model_fields'][field.name] = {**data['model_fields'][field.name], 'related_model_name': field.related_model.__name__.lower() }
 
-            print("\n\n")
-
         return Response(data=data, status=status.HTTP_200_OK)
     
     def get_field_info(self, field):

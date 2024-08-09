@@ -20,7 +20,6 @@ class HomePageView(LoginRequiredMixin, TemplateView):
     template_name = "home.html"
 
     def get(self, request, **kwargs):
-        print(request.user.user_permissions)
         ctx = self.get_context_data(request=request)
         return render(request, self.template_name, context=ctx)
 
