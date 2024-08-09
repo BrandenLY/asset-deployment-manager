@@ -179,11 +179,11 @@ export const ShipmentDetailPanel = (props) => {
           <List sx={{padding: 1, display: "flex", flexDirection:"column", minHeight:"100%", height:"100%"}} dense>
 
             <ListItem
-              secondaryAction={userCanModifyShipments && (
+              secondaryAction={userCanModifyShipments ? (
                 <IconButton size="small" onClick={toggleEditMode}>
                   <Edit />
                 </IconButton>
-              )}
+              ) : null}
               disableGutters
             >
               <ListItemText primary="Details" primaryTypographyProps={{variant:"h5"}}/>
