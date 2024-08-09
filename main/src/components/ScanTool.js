@@ -14,15 +14,15 @@ const ScanTool = (props) => {
   // State Hooks
   const [ destinationId, setDestinationId ] = useState(shipment.id); // Individual 'shipment' or 'asset' Id
   const [ destinationContentType, setDestinationContentType ] = useState("shipment"); // Either 'shipment' or 'asset'
-  const [ destinationName, setDestinationName ] = useState("");
+  const [ destinationName, setDestinationName ] = useState(""); // For display purposes only
   const [ assetCode, setAssetCode ] = useState(""); // The code to be entered
-  const [ scanLog, setScanLog ] = useState({}); // Log of Scans Sent to Backend.
+  const [ scanLog, setScanLog ] = useState({}); // Log of Scans Sent to Backend
   
   const queryClient = useQueryClient();
   const assetCodeInput = useRef(null);
-
+  // Queries
   // Mutations
-  const assetScans = useMutation({
+  const scanAssetMutation = useMutation({
     mutationFn: async (vars) => {
         
         // Scanning logic is handled primarily by the backend, we will just pass back the shipment id and asset code.
@@ -72,10 +72,20 @@ const ScanTool = (props) => {
 
             // Update Query Cache for Shipment
             queryClient.setQueryData(
-                ['shipment', shipment.id],
-                prev => {
-                    console.log("UPDATE QUERY", ['shipment', shipment.id]);
-                    console.log(prev);
+                ['shipment'],
+                prevData => {
+                    let newData = {...prevData}
+                    newData.pages = prevData.pages.map( page => {
+                        const newPageResults = page.results.map( result => {
+                            if(result.id == shipment.id){
+                                return _data;
+                            }
+                            return result;
+                        })
+                        return {...page, results:newPageResults};
+                    })
+                    console.log('new data', newData);
+                    return {prevData}
                 }
             )
 
@@ -91,6 +101,14 @@ const ScanTool = (props) => {
         }
 
     }
+  })
+
+  // Focus Input
+  useEffect(() => {
+    if (assetCodeInput.current != null){
+        assetCodeInput.current.scrollIntoView({behavior: 'smooth', block: 'center'});
+        assetCodeInput.current.focus();
+      }
   })
   
   // Setup event handlers
@@ -122,12 +140,6 @@ const ScanTool = (props) => {
     
   }, [shipment])
 
-  // Re-focus the input field when state changes
-  if (assetCodeInput.current != null){
-    assetCodeInput.current.scrollIntoView({behavior: 'smooth', block: 'center'});
-    assetCodeInput.current.focus();
-  }
-
   // Call Back Functions
   const updateDestinationId = ID => {
     setDestinationId(ID);
@@ -144,11 +156,11 @@ const ScanTool = (props) => {
 
     // Do scan logic
     if(e.type == "keydown"){
-        assetScans.mutate(e.target.value, destinationId, destinationContentType)
+        scanAssetMutation.mutate(e.target.value, destinationId, destinationContentType)
     }
     
     if(e.type == "click"){
-        assetScans.mutate(assetCode)
+        scanAssetMutation.mutate(assetCode)
     }
     
     // Clear State
@@ -174,43 +186,52 @@ const ScanTool = (props) => {
   
 
   // CONSOLE LOGS
-  console.log(scanLog);
+  // console.log(scanLog);
 
-  // Requires Shipment Selection
+
+  // Render
   if(destinationId == null){
+    // Requires Shipment Selection
     return(<ShipmentSelector onSelect={updateDestinationId} variant={variant}/>)
+  }else{
+    // Render primary form
+    return(
+        <Paper sx={paperStyles}>
+            <Box sx={boxStyles}>
+                <Typography variant="h5" sx={{marginX:1}}>Scan an asset tag</Typography>
+                <Typography variant="subtitle2" sx={{marginX:1}}>or, enter an asset code</Typography>
+            </Box>
+            <Box sx={boxStyles}>
+                <TextField value={assetCode} onChange={updateAssetCode} label="Asset Code" inputProps={{ref:assetCodeInput}} autoFocus/>
+                <Button onClick={submitAssetCode}>
+                    Submit
+                </Button>
+                <ScanLog data={scanLog}></ScanLog>
+            </Box>
+            <Box sx={boxStyles}>
+                {shipment.asset_counts.total_assets > 0 ? 
+                <Typography variant="h4">
+                    {shipment.asset_counts.total_assets}<br/>
+                    assets
+                </Typography>
+                : null}
+
+                <Typography variant="caption">
+                    Currently scanning into<br /> 
+                    <Typography component='code' variant='code'>{shipment.label}</Typography>
+                </Typography>
+
+                {destinationContentType == 'asset' &&
+                <Typography variant="caption">
+                    Container<br />
+                    <Typography component='code' variant='code'>{destinationName}</Typography>
+                </Typography>
+                }
+
+            </Box>
+        </Paper>
+    )
   }
-  
-  // Render primary form
-  return(
-    <Paper sx={paperStyles}>
-        <Box sx={boxStyles}>
-            <Typography variant="h5" sx={{marginX:1}}>Scan an asset tag</Typography>
-            <Typography variant="subtitle2" sx={{marginX:1}}>or, enter an asset code</Typography>
-        </Box>
-        <Box sx={boxStyles}>
-            <TextField value={assetCode} onChange={updateAssetCode} label="Asset Code" inputProps={{ref:assetCodeInput}} autoFocus/>
-            <ScanLog data={scanLog}></ScanLog>
-        </Box>
-        <Box sx={boxStyles}>
-            <Typography variant="caption">
-                Currently scanning into<br /> 
-                <Typography component='code' variant='code'>{shipment.label}</Typography>
-            </Typography>
-
-            {destinationContentType == 'asset' &&
-            <Typography variant="caption">
-                Container<br />
-                <Typography component='code' variant='code'>{destinationName}</Typography>
-            </Typography>
-            }
-
-            <Button onClick={submitAssetCode}>
-                Submit
-            </Button>
-        </Box>
-    </Paper>
-  )
 };
 
 // This component wasn't designed to be used outside of the ScanTool component.

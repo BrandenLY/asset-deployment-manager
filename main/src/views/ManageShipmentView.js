@@ -149,8 +149,6 @@ const ManageShipmentView = props => {
         const message = `Are you sure you would like to delete ${shipment.label}?`
         if (confirm(message) == true){
             const tmpmutation = deleteShipmentMutation.mutate(shipment);
-
-            console.log(tmpmutation)
         }
     }
 
