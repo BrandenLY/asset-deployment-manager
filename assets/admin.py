@@ -5,24 +5,31 @@ from .models import AssetIcon
 from .models import Location
 from .models import Shipment
 # Register your models here.
-@admin.display(description="Name")
-def name(obj):
-    return str(obj)
 
 class AssetAdmin(admin.ModelAdmin):
+    @admin.display(description="Name")
+    def name(obj):
+        return str(obj)
+    
     list_display = [
         name,
         "code",
+        "model",
         "parent_object",
         "location"
     ]
 
-    @admin.display(description="Name")
-    def name(obj):
-        return str(obj)
+class AssetModelAdmin(admin.ModelAdmin):
+    
+    list_display = [
+        "name",
+        "manufacturer",
+        "model_code",
+    ]
+
 
 admin.site.register(Asset, AssetAdmin)
-admin.site.register(AssetModel)
+admin.site.register(AssetModel, AssetModelAdmin)
 admin.site.register(AssetIcon)
 admin.site.register(Location)
 admin.site.register(Shipment)
