@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # Third-party apps
     'rest_framework',
-    # Non-default apps
+    # Custom apps
     'main.apps.MainConfig',
     'assets.apps.AssetsConfig',
     'staffing.apps.StaffingConfig',
