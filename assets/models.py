@@ -16,15 +16,12 @@ ALPHANUMERIC_VALIDATOR = RegexValidator("^[A-Za-z0-9]*$", "Enter an alphanumeric
 # Create your models here.
 class Asset(models.Model):
     CONDITION_OPTIONS = (
-        (0, "Damaged"),
-        (1, "Lost"),
-        (2, "Needs Label"),
-        (3, "Requires Testing"),
-        (4, "Working"),
-        (5, "Faulty"),
+        (0, "Working"),
+        (1, "Damaged"),
+        (2, "Faulty"),
+        (3, "Lost"),
     )
     
-    assets = GenericRelation(to="Asset",content_type_field="parent_content_type",object_id_field="parent_object_id")
     model = models.ForeignKey("AssetModel", on_delete=models.PROTECT)
     code = models.CharField(_("Code"), max_length=25, validators=[ALPHANUMERIC_VALIDATOR,], unique=True)
     serial_number = models.CharField(_("Serial Number"), max_length=50, blank=True, null=True)
@@ -37,11 +34,13 @@ class Asset(models.Model):
     last_modified = models.DateTimeField(_("Last Modified"), auto_now=True, blank=True, null=True)
     modified_by = models.ForeignKey(get_user_model(), related_name="modified_assets", on_delete=models.CASCADE, blank=True, null=True)
     location = models.ForeignKey("Location", on_delete=models.CASCADE, blank=True, null=True)
+    condition = models.PositiveSmallIntegerField(_("Condition"), default=0, choices=CONDITION_OPTIONS)
     is_container = models.BooleanField(_("Is a Container"), default=False)
     parent_content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE, blank=True, null=True)
     parent_object_id = models.PositiveIntegerField(blank=True, null=True)
     parent_object = GenericForeignKey('parent_content_type', 'parent_object_id')
-    
+    assets = GenericRelation(to="Asset",content_type_field="parent_content_type",object_id_field="parent_object_id")
+
     class Meta:
         ordering = ["code"]
         indexes  = [models.Index(fields=["code", "model"])]
