@@ -14,6 +14,7 @@ const ScanTool = (props) => {
   // State Hooks
   const [ destinationId, setDestinationId ] = useState(shipment.id); // Individual 'shipment' or 'asset' Id
   const [ destinationContentType, setDestinationContentType ] = useState("shipment"); // Either 'shipment' or 'asset'
+  const [ destinationName, setDestinationName ] = useState("");
   const [ assetCode, setAssetCode ] = useState(""); // The code to be entered
   const [ scanLog, setScanLog ] = useState({}); // Log of Scans Sent to Backend.
   
@@ -34,7 +35,8 @@ const ScanTool = (props) => {
         const payload = {
             destination_content_type: destinationContentType,
             destination_object_id: destinationId,
-            asset_code: vars
+            asset_code: vars,
+            shipment: shipment.id,
         }
 
         return await fetch( scanUrl, {method:"POST", headers:requestHeaders, body:JSON.stringify(payload)})
@@ -48,20 +50,37 @@ const ScanTool = (props) => {
     },
     onSettled: async (data, error, vars, context) => {
         
+        // Backend has returned a http 200 response status
         if (data.ok){
+
+            // Parse data
             const _data = await data.json();
+
+            // Update State
             setScanLog(prev => {
                 let data = {...prev}
                 data[vars] = {data:_data, error};
                 return data;
             })
-
+            
+            // Update Scan Destination
             if (_data.is_container){
                 setDestinationId(_data.id);
                 setDestinationContentType('asset');
+                setDestinationName(_data.label);
             }
 
+            // Update Query Cache for Shipment
+            queryClient.setQueryData(
+                ['shipment', shipment.id],
+                prev => {
+                    console.log("UPDATE QUERY", ['shipment', shipment.id]);
+                    console.log(prev);
+                }
+            )
+
         }
+        // Backend has returned an error (400/500) response status.
         else{
             const _data = await data.json();
             setScanLog(prev => {
@@ -182,7 +201,7 @@ const ScanTool = (props) => {
             {destinationContentType == 'asset' &&
             <Typography variant="caption">
                 Container<br />
-                <Typography component='code' variant='code'>{shipment.label}</Typography>
+                <Typography component='code' variant='code'>{destinationName}</Typography>
             </Typography>
             }
 

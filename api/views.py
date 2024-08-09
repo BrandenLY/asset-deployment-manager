@@ -278,7 +278,6 @@ class ShipmentView(BaseView):
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR,
             )
 
-## This view is used to scan assets into shipments.
 class ScanView(APIView):
     """
     Simple View for entering assets into shipments/container assets.
@@ -300,6 +299,7 @@ class ScanView(APIView):
             assert 'destination_content_type' in request.data
             assert 'destination_object_id' in request.data
             assert 'asset_code' in request.data
+            assert 'shipment' in request.data
         except AssertionError:
             raise InvalidData()
         
@@ -309,6 +309,7 @@ class ScanView(APIView):
             destination_model = self.models_that_can_contain_assets[request.data['destination_content_type']]
             destination_id = request.data['destination_object_id']
             entry_asset_code = request.data['asset_code']
+            shipment = Shipment.objects.get(id=request.data['shipment'])
             
             # Retrieve Destination Object
             try:
@@ -325,6 +326,12 @@ class ScanView(APIView):
             # Verify Entry Parent is Blank
             if entry.parent_object != None:
                 raise InvalidData(f"This asset is already locked to '{entry.parent_object}'.")
+            
+            # Verify Entry and Destination are NOT both containers.
+            if getattr(destination_object, 'is_container', False) and getattr(entry, 'is_container', False):
+               # Silently scan the entry object into the shipment rather than the provided destination
+               destination_object = shipment;
+            
             # Update the Entry Object
             if destination_object.can_accept_scan_entries():
                 entry.parent_object = destination_object
