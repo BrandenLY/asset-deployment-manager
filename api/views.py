@@ -321,14 +321,18 @@ class ScanView(APIView):
             except Asset.DoesNotExist:
                 raise InvalidData(f"An asset with code '{entry_asset_code}' does not exist.")
 
+
             # Verify Entry Parent is Blank
             if entry.parent_object != None:
-                raise InvalidData(f"This asset is already locked to '{entry.parent_object}'.")
+
+                # Allow users to re-select container objects if they already exist within the shipment
+                if not ( getattr(entry, 'is_container', False) and entry.parent_object == shipment ):
+                    raise InvalidData(f"This asset is already locked to '{entry.parent_object}'.")
             
             # Verify Entry and Destination are NOT both containers.
             if getattr(destination_object, 'is_container', False) and getattr(entry, 'is_container', False):
                # Silently scan the entry object into the shipment rather than the provided destination
-               destination_object = shipment;
+               destination_object = shipment
             
             # Update the Entry Object
             if destination_object.can_accept_scan_entries():

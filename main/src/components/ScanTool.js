@@ -3,25 +3,75 @@ import React, { useEffect, useRef, useState } from "react";
 import { ModelAutoComplete } from "./ModelAutoComplete";
 import { useModelOptions } from "../customHooks";
 import { getCookie } from "../context";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import ScanLog from "./ScanLog";
 
 const ScanTool = (props) => {
   
-  // Props Destructuring
-  const { shipment, variant = "block" } = props;
+  // PROPS
+  const { shipment:initialShipmentData, variant = "block" } = props;
   
-  // State Hooks
-  const [ destinationId, setDestinationId ] = useState(shipment.id); // Individual 'shipment' or 'asset' Id
+  // STATE
+  const [ destinationId, setDestinationId ] = useState(initialShipmentData.id); // Individual 'shipment' or 'asset' Id
   const [ destinationContentType, setDestinationContentType ] = useState("shipment"); // Either 'shipment' or 'asset'
   const [ destinationName, setDestinationName ] = useState(""); // For display purposes only
   const [ assetCode, setAssetCode ] = useState(""); // The code to be entered
   const [ scanLog, setScanLog ] = useState({}); // Log of Scans Sent to Backend
   
+  // HOOKS
   const queryClient = useQueryClient();
   const assetCodeInput = useRef(null);
-  // Queries
-  // Mutations
+
+    useEffect(() => {
+        return () => {
+            if (scanLog.length > 0){
+                queryClient.invalidateQueries({queryKey:['shipment']})
+            }
+        }
+    },[]) // Provide cleanup function
+
+    useEffect(() => {
+        if (assetCodeInput.current != null){
+            assetCodeInput.current.scrollIntoView({behavior: 'smooth', block: 'center'});
+            assetCodeInput.current.focus();
+        }
+    }) // Focus input on page load
+        
+    useEffect(() => {
+
+    // Trigger: Submitting via 'Enter' keypress
+    if (assetCodeInput.current != null){
+        assetCodeInput.current.addEventListener("keydown", e => { if(e.key == 'Enter'){submitAssetCode(e)} });
+    }
+
+    // Cleanup event handlers
+    return(() => {
+        if (assetCodeInput.current != null){
+            assetCodeInput.current.removeEventListener("keydown", e => { if(e.key == 'Enter'){submitAssetCode(e)} });
+        }
+    })
+
+    },[assetCodeInput.current]) // Focus input after submitting asset code
+
+    useEffect(() => {
+
+    // Set Defaults
+    setDestinationContentType("shipment");
+    setDestinationId(shipment.id);
+
+    // Clear State
+    setScanLog({});
+
+    }, [initialShipmentData]) // Reset component defaults
+    
+
+  // QUERIES
+  const {data: shipment} = useQuery({
+    queryKey: ['shipment', initialShipmentData.id],
+    initialData: initialShipmentData,
+  })
+
+  // MUTATIONS
   const scanAssetMutation = useMutation({
     mutationFn: async (vars) => {
         
@@ -72,20 +122,30 @@ const ScanTool = (props) => {
 
             // Update Query Cache for Shipment
             queryClient.setQueryData(
-                ['shipment'],
+                ['shipment', initialShipmentData.id],
                 prevData => {
-                    let newData = {...prevData}
-                    newData.pages = prevData.pages.map( page => {
-                        const newPageResults = page.results.map( result => {
-                            if(result.id == shipment.id){
-                                return _data;
-                            }
-                            return result;
-                        })
-                        return {...page, results:newPageResults};
-                    })
-                    console.log('new data', newData);
-                    return {prevData}
+                    // Update asset_counts property of the shipment
+                    const newTotalAssets = prevData.asset_counts.total_assets + 1;
+                    let newDirectChildren = prevData.asset_counts.direct_children;
+                    let newExtendedChildren = prevData.asset_counts.extended_children;
+
+                    if (_data.parent_content_type.model == 'shipment' && _data.parent_object_id == shipment.id){
+                        newDirectChildren++
+                    }else{
+                        newExtendedChildren++
+                    }
+
+                    // Create new shipment data object
+                    return {
+                        ...prevData,
+                        asset_counts:{
+                            total_assets: newTotalAssets,
+                            direct_children: newDirectChildren,
+                            extended_children: newExtendedChildren
+                        },
+                        assets:[...prevData.assets, _data]
+                    }
+                    
                 }
             )
 
@@ -103,44 +163,7 @@ const ScanTool = (props) => {
     }
   })
 
-  // Focus Input
-  useEffect(() => {
-    if (assetCodeInput.current != null){
-        assetCodeInput.current.scrollIntoView({behavior: 'smooth', block: 'center'});
-        assetCodeInput.current.focus();
-      }
-  })
-  
-  // Setup event handlers
-  useEffect(() => {
-
-    // Trigger: Submitting via 'Enter' keypress
-    if (assetCodeInput.current != null){
-        assetCodeInput.current.addEventListener("keydown", e => { if(e.key == 'Enter'){submitAssetCode(e)} });
-    }
-    
-    // Cleanup event handlers
-    return(() => {
-        if (assetCodeInput.current != null){
-            assetCodeInput.current.removeEventListener("keydown", e => { if(e.key == 'Enter'){submitAssetCode(e)} });
-        }
-    })
-
-  },[assetCodeInput.current])
-
-  // Update component state when props are updated
-  useEffect(() => {
-
-    // Set Defaults
-    setDestinationContentType("shipment");
-    setDestinationId(shipment.id);
-
-    // Clear Scan data
-    setScanLog({});
-    
-  }, [shipment])
-
-  // Call Back Functions
+  // CALLBACKS
   const updateDestinationId = ID => {
     setDestinationId(ID);
   }
@@ -168,7 +191,7 @@ const ScanTool = (props) => {
     e.preventDefault();
   }
 
-  // Formatted Data
+  // FORMATTED DATA
   let paperStyles = {
     marginY:1,
     padding:1,
@@ -183,13 +206,9 @@ const ScanTool = (props) => {
     paperStyles["alignItems"] = "center";
   }
   const boxStyles = {textAlign:"center", flexGrow:1, display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", width:"100%"};
-  
+  console.log(shipment);
 
-  // CONSOLE LOGS
-  // console.log(scanLog);
-
-
-  // Render
+  // RENDER
   if(destinationId == null){
     // Requires Shipment Selection
     return(<ShipmentSelector onSelect={updateDestinationId} variant={variant}/>)
@@ -210,7 +229,7 @@ const ScanTool = (props) => {
             </Box>
             <Box sx={boxStyles}>
                 {shipment.asset_counts.total_assets > 0 ? 
-                <Typography variant="h4">
+                <Typography variant="h4" sx={{marginY:3, fontWeight: "bold"}}>
                     {shipment.asset_counts.total_assets}<br/>
                     assets
                 </Typography>
@@ -222,7 +241,7 @@ const ScanTool = (props) => {
                 </Typography>
 
                 {destinationContentType == 'asset' &&
-                <Typography variant="caption">
+                <Typography variant="caption" sx={{marginTop:1}}>
                     Container<br />
                     <Typography component='code' variant='code'>{destinationName}</Typography>
                 </Typography>

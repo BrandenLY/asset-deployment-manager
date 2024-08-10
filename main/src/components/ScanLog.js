@@ -1,7 +1,7 @@
-import { Box, List, ListItem, ListItemAvatar, ListItemIcon, ListItemText, Popover, Typography } from '@mui/material';
+import { Box, List, ListItem, ListItemAvatar, ListItemIcon, ListItemText, ListSubheader, Paper, Popover, Typography } from '@mui/material';
 import { CheckCircle, Error, Pending } from '@mui/icons-material'
-import React, {useState} from 'react'
-import DictInfo from './DictInfo';
+import React, {useEffect, useRef, useState} from 'react'
+
 const LogRow = props => {
 
     // Props
@@ -32,10 +32,9 @@ const LogRow = props => {
     if(isSuccess){ logColor = 'success'; }
     if(isError){ logColor = 'error'; }
     const open = Boolean(anchor);
-    const scanInfoFields = [];
 
     return(
-        <ListItem disablePadding>
+        <ListItem disablePadding sx={{padding:1}}>
             <ListItemIcon>
                 {/* Status Icons */}
                 {isLoading&& <Pending />}
@@ -93,16 +92,29 @@ const ScanLog = props => {
     // Destructuring Props
     const {data} = props;
 
-    // State
+    // HOOKS
+    const scanList = useRef(null);
     
+    useEffect(() => {
+        if (scanList.current != null){
+            scanList.current.scrollTop = scanList.current.scrollHeight
+        }
+    }) // Ensure ScanLog always shows The latest result (bottom)
+
     // Formatted Data
     const LogEntries = Object.entries(data);
   return (
-    <List dense={true} subheader="scans">
-        {LogEntries.map(
-            ([logName, logData]) => <LogRow logName={logName} log={logData}/>
-        )}
-    </List>
+    <>
+        {LogEntries.length > 0 &&
+           <Paper elevation={3}>
+                <List ref={scanList} dense={true} subheader={<ListSubheader>Scans ({LogEntries.length})</ListSubheader>} sx={{minWidth: "225px", maxHeight: 32*4+48+12, overflowY: "scroll"}} color="inherit">
+                    {LogEntries.map(
+                        ([logName, logData]) => <LogRow logName={logName} log={logData}/>
+                    )}
+                </List>
+            </Paper> 
+        }
+    </>
   )
 }
 
