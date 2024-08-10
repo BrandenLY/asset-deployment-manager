@@ -1,23 +1,36 @@
+// REACT
 import React from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
-// Material UI
+// MATERIAL UI
 import {ThemeProvider, CssBaseline} from "@mui/material";
 import primaryDarkTheme from "./themes/primary-dark";
 
-// Tanstack Query
+// TANSTACK QUERY
 import CustomQueryClientProvider from "./queryConfig";
 
-// Page Views
-import TasklistView from "./views/TasklistView";
+// PAGE VIEWS
+// import TasklistView from "./views/TasklistView";
+// import EventDetailView from "./views/EventDetailView";
 import CustomPage from "./components/CustomPage";
-import EventDetailView from "./views/EventDetailView";
 import ManageShipmentView from "./views/ManageShipmentView";
 import ShipmentDetailView from "./views/ShipmentDetailView";
 import PageNotFound from "./views/PageNotFound"
 import AssetsView from "./views/AssetsView";
 import LocationView from "./views/LocationView";
+
+const applicationRoutes = [
+  // [ PATH: String, VIEW: React Component, TITLE: String ]
+  ['/', ManageShipmentView, 'Homepage'],
+  ['/shipments', ManageShipmentView, 'Manage Shipments'],
+  ['/shipments/:id', ShipmentDetailView, 'Shipment Details'],
+  ['/assets', AssetsView, 'Manage Assets'],
+  ['/assets/:id', null, 'Asset Details'],
+  ['/locations', LocationView, 'Manage Locations'],
+  ['/locations/:id', null, 'Location Details'],
+  ['*', PageNotFound, null] // Fallback/Default Route.
+]
 
 // Primary React Component
 const App = () => {
@@ -29,63 +42,21 @@ const App = () => {
           <CssBaseline />
           <Router>
             <Routes>
-              {/* Model related list views */}
-              <Route
-                path="/"
-                element={
-                  <CustomPage view={ManageShipmentView} title="Homepage" />
-                }
-              />
 
-              {/* Shipment Related Views */}
-              <Route
-                path="/shipments"
-                element={
-                  <CustomPage view={ManageShipmentView} title="Manage Shipments" />
-                }
-              />
-              <Route
-                path="/shipments/:id"
-                element={
-                  <CustomPage view={ShipmentDetailView} title="Shipment Details" />
-                }
-              />
+              {/* Display Routes */}
+              {applicationRoutes.map(([path, view, title]) => {
+                return(
+                  <Route 
+                    path={path}
+                    element={
+                      <CustomPage view={view} title={title}/>
+                    }
+                  />
+                )
+              })}
+              
+              {/*  */}
 
-              {/* Asset Related Views */}
-              <Route
-                path="/assets"
-                element={
-                  <CustomPage view={AssetsView} title="Manage Assets" />
-                }
-              />
-              <Route
-                path="/assets/:id"
-                element={
-                  <CustomPage view={null} title="Asset Details"/>
-                }
-              />
-
-              {/* Location Related Views */}
-              <Route
-                path="/locations"
-                element={
-                  <CustomPage view={LocationView} title="Manage Locations" />
-                }
-              />
-              <Route
-                path="/locations/:id"
-                element={
-                  <CustomPage view={null} title="Location Details"/>
-                }
-              />
-
-              {/* Fallback / 404 Err Page */}
-              <Route
-                path="*"
-                element={
-                  <CustomPage view={PageNotFound} title={null}/>
-                }
-              />
             </Routes>
           </Router>
         </ThemeProvider>
