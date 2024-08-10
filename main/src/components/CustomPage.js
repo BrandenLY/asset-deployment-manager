@@ -1,12 +1,13 @@
 import React, {useState, useEffect, useRef, useCallback} from 'react';
-import { useLocation, Link as RouterLink } from 'react-router-dom';
+import { useLocation, useNavigate, Link as RouterLink } from 'react-router-dom';
 
 // Material UI
-import { Box, Breadcrumbs, Link, Typography, Snackbar, Alert } from '@mui/material';
+import { Box, Button, Breadcrumbs, Link, Typography, Snackbar, Alert } from '@mui/material';
 import {Home} from '@mui/icons-material';
 
 import PrimaryNav from './PrimaryNav'
 import { BackendContextProvider } from '../context';
+import { ErrorBoundary } from './ErrorBoundary';
 
 const notificationDisplayDuration = 3 * 1000;
 
@@ -41,13 +42,31 @@ const CustomBreadcrumbs = props => {
     );
 }
 
+const PageError = props => {
+
+    const {message} = props;
+    const navigate = useNavigate()
+
+    return (
+        <Box
+        sx={{height:"100%", display:"flex", justifyContent:"center", alignItems:"center", flexDirection:"column", gap:2, marginY:"auto"}}>
+            <Typography sx={{fontSize:75}}>OOPS!</Typography>
+            <Typography sx={{fontSize:100}}>{"(סּ︵סּ)"}</Typography>
+            <Typography sx={{fontSize:25}}>An unknown error occurred.</Typography>
+            <Button onClick={e => navigate("/")}>Return Home</Button>
+        </Box>
+    )
+}
+
 const CustomPage = props => {
+  // PROPS
   const { className, children, view: View, } = props;
-  const classNames = ['page', className].join(' ');
   
-  // Page Notifications
+  // NOTIFICATION STATE
   const notifications = useRef([]);
   const [activeNotification, setActiveNotification] = useState(null);
+  
+  // CALLBACK FUNCTIONS
   const addNotification = useCallback(notif => {
     let notifElement = (
         <Alert 
@@ -70,6 +89,7 @@ const CustomPage = props => {
     setActiveNotification(null);
   }
 
+  // HOOKS
   useEffect(() => {
     const upcomingNotification = notifications.current.shift(); // Retrieve notification from queue
 
@@ -80,7 +100,9 @@ const CustomPage = props => {
     }
   })
 
-
+  // FORMATTED DATA
+  const classNames = ['page', className].join(' ');
+  
   return (
     <BackendContextProvider>
 
@@ -92,7 +114,9 @@ const CustomPage = props => {
                 {/* Nav Breadcrumbs */}
                 <Typography variant="subtitle1" sx={{margin: 1}}> <CustomBreadcrumbs/> </Typography>
                 {/* Page Content */}
-                { View ? <View addNotif={addNotification} remNotif={closeActiveNotification} {...props}/> : "" }
+                <ErrorBoundary fallback={<PageError/>} >
+                    { View ? <View addNotif={addNotification} remNotif={closeActiveNotification} {...props}/> : "" }
+                </ErrorBoundary>
             </Box>
             <Snackbar 
                 open={!!activeNotification}
