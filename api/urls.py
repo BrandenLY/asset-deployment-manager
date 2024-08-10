@@ -36,7 +36,7 @@ router.register(r"event", EventView)
 # router.register(r"milestone", MilestoneView)
 # router.register(r"service", ServiceView)
 router.register(r"asset", AssetView)
-router.register(r"assetModel", AssetModelView)
+router.register(r"model", AssetModelView)
 router.register(r"location", LocationView)
 router.register(r"shipment", ShipmentView)
 
