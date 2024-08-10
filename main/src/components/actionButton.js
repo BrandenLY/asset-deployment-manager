@@ -15,6 +15,7 @@ const ActionButton = props => {
     };
 
     const handleActionButtonClick = event => {
+        setAnchorEl(null);
         callbackFn(actionText, event);
         event.preventDefault();
     }
