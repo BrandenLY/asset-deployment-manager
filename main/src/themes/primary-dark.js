@@ -62,6 +62,12 @@ const primaryDarkTheme = createTheme({
       backgroundColor: "RGBA(08,08,08,0.46)",
       textAlign: "center",
       cursor: "pointer"
+    },
+    code: {
+      backgroundColor: "rgb(18, 18, 18)",
+      borderRadius: 2,
+      padding: 1,
+      display: "inline-block"
     }
   },
 });
