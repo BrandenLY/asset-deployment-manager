@@ -2,6 +2,10 @@ import { Autocomplete, FormControl, FormHelperText, InputLabel, OutlinedInput, T
 import React, { useState, useEffect } from 'react'
 import { ModelAutoComplete } from './ModelAutoComplete';
 
+const toHtmlInputDate = date => {
+    const _date = new Date(date);
+    return `${_date.getFullYear()}-${String(_date.getMonth() + 1).padStart(2, '0')}-${String(_date.getDate()).padStart(2, '0')}T${String(_date.getHours()).padStart(2,'0')}:${String(_date.getMinutes()).padStart(2, '0')}`
+}
 
 const CustomFormControl = (props) => {
     
@@ -72,6 +76,10 @@ const DynamicInput = props => {
             );
         case 'datetime':
             // Const datetime input type with customized label styling.
+            let _formattedValue = null;
+            if (fieldDetails.current != null){
+                _formattedValue = toHtmlInputDate(fieldDetails.current) 
+            }
             return(
                 <CustomFormControl  fieldError={fieldDetails.errors.toString()} helpText={fieldDetails.help_text}>
                     <InputLabel shrink variant="outlined" error={fieldError} for={htmlInputId}>
@@ -82,7 +90,7 @@ const DynamicInput = props => {
                         id={htmlInputId}
                         type="datetime-local"
                         disabled={fieldIsDisabled}
-                        value={fieldDetails.current}
+                        value={_formattedValue}
                         label={fieldDetails.label}
                         notched={true}
                         onChange={(_e, newValue) => {updateValues(_e, _e.target.value)}}
