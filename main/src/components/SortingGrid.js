@@ -7,15 +7,6 @@ import { Link as RouterLink } from "react-router-dom";
 import { useModelOptions } from "../customHooks";
 import ActionButton from "./actionButton";
 
-const SortingGridCardStyles = {
-    padding: 2,
-    minHeight:"460px",
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'stretch',
-    gap:1,
-};
-
 const minimumRecordsPerPage = 25;
 const RecordsPerPageOptions = [
     minimumRecordsPerPage,
@@ -204,9 +195,27 @@ const SortingGridRow = props => {
     )
 }
 
+const sortingGridPaperStyles = {
+    display: "flex",
+    gap:1,
+    padding: 2,
+    minHeight:"460px",
+    flexDirection: 'column',
+    alignItems: 'stretch',
+}
+
 const SortingGrid = props => {
 
-    const {title, defaultSortKey="id", defaultColumns, dataModel, rowActions, data, count} = props;
+    const {
+        title,
+        defaultSortKey="id",
+        defaultColumns=[],
+        dataModel,
+        rowActions,
+        data,
+        count
+    } = props;
+
     const [activeColumns, setActiveColumns] = useState(defaultColumns);
     const [sortKey, setSortKey] = useState(defaultSortKey); // The datapoint to sort based on.
     const [sortDirection, setSortDirection] = useState(true); // true: sort ascending, false: sort descending.
@@ -214,7 +223,10 @@ const SortingGrid = props => {
     const [page, setPage] = useState(1);
 
     return(
-        <Paper className="SortingGrid" sx={SortingGridCardStyles}>
+        <Paper 
+            className="SortingGrid"
+            sx={sortingGridPaperStyles}
+        >
             <Box>
                 <Typography variant="h4">{title}</Typography>
             </Box>
@@ -236,7 +248,7 @@ const SortingGrid = props => {
                     {/* No Results */}
                     { data?.length == 0 && 
                         <TableRow>
-                            <TableCell sx={{textAlign: "center", paddingTop:0.5, paddingBottom: 0.5}} colspan={rowActions ? activeColumns.length + 1 : activeColumns.length}>
+                            <TableCell textAlign="center" sx={{ paddingTop:0.5, paddingBottom: 0.5}} colspan={rowActions ? activeColumns.length + 1 : activeColumns.length}>
                                 No results.
                             </TableCell>
                         </TableRow>

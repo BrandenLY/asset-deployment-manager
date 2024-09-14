@@ -1,19 +1,39 @@
-import React from "react";
+import React, { useState } from "react";
 import { useParams } from "react-router-dom";
-import { Box, Button, Paper, Typography } from "@mui/material";
+import { Box, Button, Paper, Typography, useTheme } from "@mui/material";
 import { ShipmentDetailPanel } from "../components/ShipmentDetailPanel";
 import { useModelOptions, useRichQuery } from "../customHooks";
-import AssetDetailsCard from "../components/AssetDetailsCard";
+import ScanTool from "../components/ScanTool";
+import ProgressStatusAction from "../components/ProgressStatusAction";
+import AssetGrid from "../components/AssetGrid";
+import SortingGrid from "../components/SortingGrid";
+import Section from "../components/Section";
+import { Close, Delete } from "@mui/icons-material";
 
 const ShipmentDetailView = props =>{
 
+    const { addNotif, removeNotif } = props;
+
     const locationParams = useParams();
     const modelOptions = useModelOptions('shipment');
-    
+    const [displayScanTool, setDisplayScanTool] = useState(false);
+    const theme = useTheme();
+
     const state = useRichQuery({
-        modelOptions, 
+        modelOptions,
         id: locationParams.id
     });
+
+    const refetchState = _ => {
+        state.initialQuery.refetch()
+    }
+
+    // CALLBACK FUNCTIONS
+    const toggleScanTool = e => {
+        setDisplayScanTool(prev => {
+            return(!prev);
+        });
+    }
 
     return (
         <Box className="ShipmentDetailView">
@@ -22,26 +42,38 @@ const ShipmentDetailView = props =>{
                 addNotif={props.addNotif}
                 shipment={state.value}
             />
-            <Box className="ShipmentDetailContent" sx={{display:"inline-block"}}>
-                <Box sx={{padding:1}}>
-                    <Typography variant="h5" color="primary.dark">{state.value?.label}</Typography>
-                    <Box sx={{display: "flex", justifyContent: "flex-end"}}><Button variant="contained">Mark Shipment Packed</Button></Box>
-                </Box>
-                <Paper sx={{marginX:1, padding:1}}>
-                    <Typography variant="subtitle2">Assets ({state.value?.asset_counts.total_assets})</Typography>
-                    <Box sx={{display: "flex", gap: 1, flexWrap: 'wrap'}}>
-                        {state.value &&
-                            state.value.assets.map(asset => {
-                                if(asset.is_container){
-                                    return(<AssetDetailsCard asset={asset} paperProps={{sx:{padding:2}}}/>)
-                                }
-                                else{
-                                    return(<AssetDetailsCard asset={asset} paperProps={{sx:{padding:2}, variant:"outlined"}}/>)
-                                }
-                            })
-                        }
+            <Box className="ShipmentDetailContent">
+                <Box padding={1}>
+                    <Typography variant="h3">{state.value?.label}</Typography>
+                    <Box sx={{display: "flex", justifyContent: "flex-end", gap:1}}>
+                        <ProgressStatusAction model="shipment" object={state.value} actions={{}}/>
+                        <Button color="error" startIcon={<Delete/>}>Delete</Button>
                     </Box>
-                </Paper>
+                </Box>
+
+                <Section
+                    title={`Assets (${state.value?.asset_counts.total_assets})`}
+                    actions={[
+                        <Button startIcon={displayScanTool ? <Close/> : undefined } color={displayScanTool ? 'error' : 'primary'} onClick={toggleScanTool}>Scan</Button>
+                    ]}
+                    defaultExpanded={true}
+                >
+                    {state.value &&
+                        <ScanTool visible={displayScanTool} variant="in-line" elevation={4} shipment={state.value} onSuccessfulScan={refetchState}/>
+                    }
+
+                    {state.value &&
+                        <AssetGrid fromQuery={state.initialQuery} assets={state.value.assets} addNotif={addNotif}/>
+                    }
+
+                </Section>
+
+                <Section
+                    title={`History`}
+                >
+                    <SortingGrid></SortingGrid>
+                </Section>
+
             </Box>
         </Box>
     );

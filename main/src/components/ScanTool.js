@@ -212,8 +212,8 @@ const ScanTool = (props) => {
     return(
         <Paper sx={paperStyles} elevation={elevation}>
             <Box sx={{...boxStyles, flexDirection:'column', minWidth: variant=="in-line" ? "200px" : "unset"}}>
-                <Typography variant="h6" sx={{marginX:1, textAlign: variant == 'block' ? 'center' : 'left'}}>Scan an asset tag</Typography>
-                <Typography variant="subtitle2" sx={{marginX:1}}>or, enter an asset code</Typography>
+                <Typography variant="body1" sx={{marginX:1, textAlign: variant == 'block' ? 'center' : 'left'}}>Scan an asset tag</Typography>
+                <Typography variant="body2" sx={{marginX:1}}>or, enter an asset code</Typography>
             </Box>
 
             { variant == 'block' ? 

@@ -11,6 +11,7 @@ import ListItemText from '@mui/material/ListItemText';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import { Menu, LocalShipping, Assignment, Close, LibraryBooks, Place, DevicesOther } from '@mui/icons-material';
 import Typography from '@mui/material/Typography';
+import { Divider, useTheme } from '@mui/material';
 
 const PrimaryNav = props => {
 
@@ -68,58 +69,58 @@ const NavDrawer = props =>{
     
     // Hooks
     const navigate = useNavigate();
+    const theme = useTheme();
 
     return (
         <Drawer 
             sx={{
-                flex: "unset",
-                width: expanded ? drawerWidth : "0",
-                height: "100%",
                 '& .MuiDrawer-paper': {
                     width: drawerWidth,
                     padding: 2,
                 },
             }}
+            width={expanded ? drawerWidth : 0}
+            height="100%"
             anchor="right"
             elevation={3}
             open={expanded}
             variant="temporary"
             onClose={onClose}
         >
-            <nav>
-                <List sx={{paddingTop:2, marginTop:navHeight}} >
-                    <ListItem disablePadding>
-                        <ListItemButton onClick={() => navigate('/shipments')}>
-                            <ListItemIcon><LocalShipping /></ListItemIcon>
-                            <ListItemText primary="Shipments" />
-                        </ListItemButton>
-                    </ListItem>
-                    <ListItem disablePadding>
-                        <ListItemButton onClick={() => navigate('/assets')}>
-                            <ListItemIcon><DevicesOther/></ListItemIcon>
-                            <ListItemText primary="Assets" />
-                        </ListItemButton>
-                    </ListItem>
-                    <ListItem disablePadding>
-                        <ListItemButton onClick={() => navigate('/locations')}>
-                            <ListItemIcon><Place /></ListItemIcon>
-                            <ListItemText primary="Locations" />
-                        </ListItemButton>
-                    </ListItem>
-                    <ListItem disablePadding>
-                        <ListItemButton onClick={() => navigate('/tasklist')} disabled>
-                            <ListItemIcon><Assignment /></ListItemIcon>
-                            <ListItemText primary="Tasklists" />
-                        </ListItemButton>
-                    </ListItem>
-                    <ListItem disablePadding>
-                        <ListItemButton onClick={() => navigate('/wiki')} disabled>
-                            <ListItemIcon><LibraryBooks /></ListItemIcon>
-                            <ListItemText primary="Knowledge Base" />
-                        </ListItemButton>
-                    </ListItem>
-                </List>
-            </nav>
+            <Box width="100%" height="100%" position="relative" paddingTop={navHeight}>
+                <Box display="flex" justifyContent="center" padding={1} borderBottom={`${theme.spacing(0.25)} solid ${theme.palette.divider}`}>
+                    <Typography variant="h5" textTransform="uppercase">Pages</Typography>
+                </Box>
+                <Box component="nav">
+                    <List>
+
+                        <ListItem disablePadding>
+                            <ListItemButton onClick={() => navigate('/shipments')}>
+                                <ListItemIcon><LocalShipping /></ListItemIcon>
+                                <ListItemText primary="Shipments" />
+                            </ListItemButton>
+                        </ListItem>
+
+                        <ListItem disablePadding>
+                            <ListItemButton onClick={() => navigate('/assets')}>
+                                <ListItemIcon><DevicesOther/></ListItemIcon>
+                                <ListItemText primary="Assets" />
+                            </ListItemButton>
+                        </ListItem>
+
+                        <ListItem disablePadding>
+                            <ListItemButton onClick={() => navigate('/locations')}>
+                                <ListItemIcon><Place /></ListItemIcon>
+                                <ListItemText primary="Locations" />
+                            </ListItemButton>
+                        </ListItem>
+
+                    </List>
+                </Box>
+                <Box position="absolute" bottom={0} width="100%" border="1px solid red">
+                    <Typography>Test</Typography>
+                </Box>
+            </Box>
         </Drawer>
     );
 }

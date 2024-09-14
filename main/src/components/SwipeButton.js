@@ -1,5 +1,6 @@
-import { Box } from '@mui/material';
+import { Box, useTheme } from '@mui/material';
 import React, { useRef, useEffect } from 'react'
+
 const SwipeButton = props => {
     const {
         onSwipeLeft=(()=>{}), 
@@ -16,7 +17,7 @@ const SwipeButton = props => {
     const touch = useRef(null);
     const touchStartX = useRef(null);
     const touchStartY = useRef(null);
-
+    const theme = useTheme();
     // Register event listeners
     useEffect(() => {
         const element = ButtonElement.current;
@@ -135,6 +136,21 @@ const SwipeButton = props => {
     }
 
     // Formatted Data
+    let mode = null;
+    let buttonRect = null;
+
+    if( ButtonElement.current != null) {
+
+        buttonRect = ButtonElement.current.getBoundingClientRect();
+
+        if(buttonRect.width > buttonRect.height){
+            mode = "horizontal"
+        }else{
+            mode = "vertical"
+        }
+
+    }   
+
 
     return (
         <Box
@@ -143,8 +159,21 @@ const SwipeButton = props => {
             sx={{
                 ...containerProps.sx,
             }}
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
         >
+            <Box 
+                bgcolor={theme.palette.common.black}
+                width={ mode == 'horizontal' ? '66%' : theme.spacing(0.5)}
+                height={ mode == 'vertical' ? '66%' : theme.spacing(0.5)}
+                borderRadius={theme.spacing(0.25)}
+                sx={{pointerEvents: 'none', opacity:"33%"}}
+                boxShadow={theme.shadows[3]}
+            >
+            </Box>
         </Box>
     )
 }
-export default SwipeButton
+
+export default SwipeButton;

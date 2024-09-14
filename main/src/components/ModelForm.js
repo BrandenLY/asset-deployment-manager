@@ -6,13 +6,13 @@ const ModelForm = props => {
     
     // State Variables
     const {
-        disabled,
-        excludeReadOnly,
-        onChange:externalOnChange,
+        disabled, // Whether or not the form should be editable.
+        excludeReadOnly, // Whether 'Read Only' fields should be excluded.
+        onChange:externalOnChange, // A function to call whenever the internal form data is changed.
         formState,
         index,
         initialValue,
-        layout,
+        layout, // If provided, will determine the structure of the html input fields.
         modelOptions
     } = props;
 
@@ -31,7 +31,7 @@ const ModelForm = props => {
 
         Object.entries(modelOptions.data.model_fields)
             .forEach(
-            ([fieldName, fieldDetails], index) => {
+            ([fieldName, fieldDetails], _) => {
 
                 // Skip non required fields
                 if(fieldDetails.read_only && excludeReadOnly){
