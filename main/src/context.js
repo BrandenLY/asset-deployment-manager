@@ -96,3 +96,31 @@ export const BackendContextProvider = ({children}) => {
         </backendApiContext.Provider>
     )
 }
+
+export const sessionContext = createContext(null);
+export const SessionContextProvider = props => {
+    
+    // PROPS DESTRUCTURING
+    const {children} = props;
+    
+    // HOOKS
+
+    // FORMATTED DATA
+    let api = {
+        baseUrl: `${window.location.protocol}${window.location.host}/api`,
+        models: null,
+    }
+    
+    let auth = {
+        user: null,
+        csrfToken: getCookie('csrftoken')
+    }
+
+    let ctx = {api, auth};
+
+    return(
+        <sessionContext.Provider value={ctx}>
+            {children}
+        </sessionContext.Provider>
+    )
+}
