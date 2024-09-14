@@ -1,6 +1,9 @@
+from django.db import transaction
 from django.utils.encoding import force_str
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from django.contrib.auth.models import Permission
+from django.contrib.admin.models import ADDITION, CHANGE, DELETION, LogEntryManager, LogEntry
+from django.contrib.contenttypes.models import ContentType
 from rest_framework import viewsets
 from rest_framework.views import APIView
 from rest_framework import status
@@ -38,7 +41,20 @@ from .permissions import ScanToolPermission
 from .exceptions import InvalidData
 
 # Standard Functionality for all views to share
-class BaseView(viewsets.GenericViewSet, mixins.UpdateModelMixin):
+class BaseView(viewsets.GenericViewSet, 
+    mixins.CreateModelMixin,
+    mixins.ListModelMixin,
+    mixins.RetrieveModelMixin,
+    mixins.UpdateModelMixin,
+    mixins.DestroyModelMixin
+    ):
+    
+    def __init__(self, *args, **kwargs):
+        
+        self.AdminLog = LogEntryManager()
+
+        super().__init__(*args, **kwargs)
+
     serializer_field_label_lookup = ClassLookupDict({
         serializers.Field: 'field',
         serializers.BooleanField: 'boolean',
@@ -67,39 +83,100 @@ class BaseView(viewsets.GenericViewSet, mixins.UpdateModelMixin):
         serializers.SerializerMethodField: 'computed value',
         ContentAssetsField: 'computed value',
     })
-
-    def list(self, request):
-        queryset = self.filter_queryset(self.get_queryset())
-
-        page = self.paginate_queryset(queryset)
-        if page is not None:
-            serializer = self.get_serializer(page, many=True)
-            return self.get_paginated_response(serializer.data)
-
-        serializer = self.get_serializer(queryset, many=True)
-        return Response(serializer.data)
     
     def create(self, request, *args, **kwargs):
+
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        self.perform_create(serializer)
+
+        self.perform_create(serializer, request)
+    
         headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
     
-    def delete(self, request, pk, *args, **kwargs):
-        _model_instance = self.get_queryset().get(id=pk)
-        _model_instance.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT) 
+    def perform_create(self, serializer, request):
 
-    def perform_create(self, serializer):
-        serializer.save()
+        with transaction.atomic():
 
-    def get_success_headers(self, data):
-        try:
-            return {'Location': str(data[api_settings.URL_FIELD_NAME])}
-        except (TypeError, KeyError):
-            return {}
+            instance = serializer.save(created_by=request.user, modified_by=None)
+            instance_content_type = ContentType.objects.get(model=instance.__class__.__name__.lower())
+
+            # FIXME: Deprecated, use LogEntryManager.log_actions()
+            LogEntry.objects.log_action(
+                request.user.id,
+                instance_content_type.id,
+                instance.id,
+                repr(instance),
+                ADDITION, 
+                change_message=[{"added": {}}]
+            )
+
+    def update(self, request, *args, **kwargs):
+        partial = kwargs.pop('partial', False)
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)
+        serializer.is_valid(raise_exception=True)
         
+        self.perform_update(serializer, request)
+
+        if getattr(instance, '_prefetched_objects_cache', None):
+            # If 'prefetch_related' has been applied to a queryset, we need to
+            # forcibly invalidate the prefetch cache on the instance.
+            instance._prefetched_objects_cache = {}
+
+        return Response(serializer.data)
+      
+    def perform_update(self, serializer, request):
+        
+        with transaction.atomic():
+            
+            change_map = {} 
+
+            for field in serializer.instance.__class__._meta.get_fields():
+                change_map[field.name] = (getattr(serializer.instance, field.name, None), )
+
+            instance = serializer.save(modified_by=request.user)
+            instance_content_type = ContentType.objects.get(model=instance.__class__.__name__.lower())
+
+            for field in instance.__class__._meta.get_fields():
+                change_map[field.name] = (change_map[field.name][0], getattr(instance, field.name, None))
+            
+            changed_fields = [field for field, changes in change_map.items() if changes[0] != changes[1]]
+
+            # FIXME: Deprecated, use LogEntryManager.log_actions()
+            LogEntry.objects.log_action(
+                request.user.id,
+                instance_content_type.id,
+                instance.id,
+                repr(instance),
+                CHANGE, 
+                change_message=[{"changed": {"fields" : changed_fields}}]
+            )
+
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        self.perform_destroy(instance, request)
+
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+    def perform_destroy(self, instance, request):
+
+        with transaction.atomic():
+            
+            instance_content_type = ContentType.objects.get(model=instance.__class__.__name__.lower())
+            
+            # FIXME: Deprecated, use LogEntryManager.log_actions()
+            LogEntry.objects.log_action(
+                request.user.id,
+                instance_content_type.id,
+                instance.id,
+                repr(instance),
+                DELETION,
+            )
+            
+            instance.delete()
+
+
     def retrieve(self, request, pk=None):
         try:
             _model_instance = self.get_queryset().get(id=pk)

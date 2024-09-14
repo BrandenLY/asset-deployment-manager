@@ -13,8 +13,18 @@ SMALL_TEXT_FIELD_SIZE = 150
 LARGE_TEXT_FIELD_SIZE = 300
 ALPHANUMERIC_VALIDATOR = RegexValidator("^[A-Za-z0-9]*$", "Enter an alphanumeric value")
 
+# Base Models
+class TrackedModel(models.Model):
+    date_created = models.DateTimeField(_("Date Created"), auto_now_add=True)
+    last_modified = models.DateTimeField(_("Last Modified"), auto_now=True)
+    created_by = models.ForeignKey(get_user_model(), related_name="%(app_label)s_%(class)s_created", on_delete=models.CASCADE, null=True, editable=False)
+    modified_by = models.ForeignKey(get_user_model(), related_name="%(app_label)s_%(class)s_modified", on_delete=models.CASCADE, null=True)
+
+    class Meta:
+        abstract=True
+
 # Create your models here.
-class Asset(models.Model):
+class Asset(TrackedModel):
     CONDITION_OPTIONS = (
         (0, "Working"),
         (1, "Damaged"),
@@ -29,14 +39,10 @@ class Asset(models.Model):
     imei = models.CharField(_("IMEI"), max_length=15, blank=True, null=True)
     knox_id = models.CharField(_("Knox ID"), max_length=20, blank=True, null=True)
     note = models.TextField(_("Note"), blank=True, null=True)
-    date_created = models.DateTimeField(_("Date Created"), auto_now_add=True, blank=True, null=True)
-    created_by = models.ForeignKey(get_user_model(), related_name="created_assets", on_delete=models.CASCADE, blank=True, null=True)
-    last_modified = models.DateTimeField(_("Last Modified"), auto_now=True, blank=True, null=True)
-    modified_by = models.ForeignKey(get_user_model(), related_name="modified_assets", on_delete=models.CASCADE, blank=True, null=True)
     location = models.ForeignKey("Location", on_delete=models.CASCADE, blank=True, null=True)
     condition = models.PositiveSmallIntegerField(_("Condition"), default=0, choices=CONDITION_OPTIONS)
     is_container = models.BooleanField(_("Is a Container"), default=False)
-    parent_content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE, blank=True, null=True)
+    parent_content_type = models.ForeignKey(ContentType, on_delete=models.SET_NULL, blank=True, null=True)
     parent_object_id = models.PositiveIntegerField(blank=True, null=True)
     parent_object = GenericForeignKey('parent_content_type', 'parent_object_id')
     assets = GenericRelation(to="Asset",content_type_field="parent_content_type",object_id_field="parent_object_id")
@@ -50,7 +56,10 @@ class Asset(models.Model):
 
     def __str__(self):
         return f"{self.code} - {self.model}"
-
+    
+    def __repr__(self):
+        return str(self)
+    
     def clean(self):
 
         # Verify the Asset Code starts with the Model Code.
@@ -81,8 +90,6 @@ class Asset(models.Model):
         except AttributeError:
             pass # If we run into an attribute error before reaching grandparent_level then we are
                  # good to go since the only attribute we're accessing is 'parent_object'.
-
-
         
     def save(self, *args, **kwargs):
         # Call clean method to perform validation
@@ -98,7 +105,6 @@ class Asset(models.Model):
         # The Shipment must also be accepting contents
         return self.parent_object.can_accept_scan_entries()
 
-
 class AssetModel(models.Model):
     name = models.CharField(_("Name"), max_length=SMALL_TEXT_FIELD_SIZE)
     description = models.CharField(_("Description"), max_length=LARGE_TEXT_FIELD_SIZE, blank=True, null=True)
@@ -113,12 +119,18 @@ class AssetModel(models.Model):
     def __str__(self):
         return self.name
     
+    def __repr__(self):
+        return str(self)
+    
 class AssetIcon(models.Model):
     name = models.CharField(_("Name"), max_length=SMALL_TEXT_FIELD_SIZE)
     source_name = models.CharField(_("Source Name"), max_length=SMALL_TEXT_FIELD_SIZE)
 
     def __str__(self):
         return self.name
+    
+    def __repr__(self):
+        return str(self)
     
 class Location(models.Model):
     name = models.CharField(_("Name"), max_length=SMALL_TEXT_FIELD_SIZE)
@@ -137,7 +149,10 @@ class Location(models.Model):
     def __str__(self):
         return self.name
     
-class Shipment(models.Model):
+    def __repr__(self):
+        return str(self)
+    
+class Shipment(TrackedModel):
     STATUS_OPTIONS = (
         (0, "Scheduled"),
         (1, "Packed"),
@@ -161,6 +176,7 @@ class Shipment(models.Model):
         indexes = [ models.Index(fields=["departure_date", "arrival_date"]), ]
         permissions = [
             ("receive", "Can receive shipments"),
+            ("progress", "Can progress a shipment's status"),
         ]
 
     def mark_shipment_packed(self):
@@ -184,4 +200,7 @@ class Shipment(models.Model):
         return True
     
     def __str__(self):
-        return f"{self.carrier} SHIPMENT FROM {self.origin} TO {self.destination}"
+        return f"{self.carrier} | {self.origin} → {self.destination}"
+    
+    def __repr__(self):
+        return str(self)
