@@ -91,12 +91,9 @@ const CustomPage = props => {
 
   // HOOKS
   useEffect(() => {
-    const upcomingNotification = notifications.current.shift(); // Retrieve notification from queue
-
-    if (!activeNotification && !!upcomingNotification){
+    const upcomingNotification = notifications.current[notifications.current.length - 1]; // Retrieve notification from queue
+    if (activeNotification != null && !!upcomingNotification){
         setActiveNotification(upcomingNotification);
-    } else if (!!upcomingNotification && activeNotification){
-        notifications.current.unshift(upcomingNotification); // Return the notification to the queue
     }
   })
 
