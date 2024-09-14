@@ -8,7 +8,7 @@ class CustomBaseSerializer(serializers.ModelSerializer):
     def get_label(self, obj):
         return str(obj)
     
-class ContentTypeSerialzer(CustomBaseSerializer):
+class ContentTypeSerializer(CustomBaseSerializer):
 
     class Meta:
         model=ContentType
