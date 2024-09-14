@@ -5,6 +5,24 @@ let baseTheme = createTheme({});
 const primaryDarkTheme = createTheme({
   palette: {
     mode: "dark",
+    conditions : {
+      working: {
+        main: baseTheme.palette.success.dark,
+        contrastText: baseTheme.palette.success.contrastText 
+      },
+      damaged: {
+        main: baseTheme.palette.error.dark,
+        contrastText: baseTheme.palette.error.contrastText
+      },
+      faulty: {
+        main: baseTheme.palette.warning.dark,
+        contrastText: baseTheme.palette.warning.contrastText
+      },
+      lost: {
+        main: baseTheme.palette.error.dark,
+        contrastText: baseTheme.palette.error.contrastText
+      },
+    }
   },
   typography: {
     h1: {
@@ -66,7 +84,9 @@ const primaryDarkTheme = createTheme({
     code: {
       backgroundColor: "rgb(18, 18, 18)",
       borderRadius: 2,
-      padding: 1,
+      padding: baseTheme.spacing(1),
+      paddingTop: 0,
+      paddingBottom: 0,
       display: "inline-block"
     }
   },
