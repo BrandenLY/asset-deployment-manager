@@ -9,7 +9,7 @@ import ScanLog from "./ScanLog";
 const ScanTool = (props) => {
   
   // PROPS
-  const { shipment:initialShipmentData, variant = "block" } = props;
+  const { shipment:initialShipmentData, onSuccessfulScan = () => {}, variant = "block", elevation = 1, visible = true} = props;
   
   // STATE
   const [ destinationId, setDestinationId ] = useState(initialShipmentData.id); // Individual 'shipment' or 'asset' Id
@@ -54,15 +54,15 @@ const ScanTool = (props) => {
     },[assetCodeInput.current]) // Focus input after submitting asset code
 
     useEffect(() => {
+    
+        // Set Defaults
+        setDestinationContentType("shipment");
+        setDestinationId(shipment.id);
 
-    // Set Defaults
-    setDestinationContentType("shipment");
-    setDestinationId(shipment.id);
+        // Clear State
+        setScanLog({});
 
-    // Clear State
-    setScanLog({});
-
-    }, [initialShipmentData]) // Reset component defaults
+    }, [initialShipmentData.id]) // Reset component defaults
     
 
   // QUERIES
@@ -120,34 +120,8 @@ const ScanTool = (props) => {
                 setDestinationName(_data.label);
             }
 
-            // Update Query Cache for Shipment
-            queryClient.setQueryData(
-                ['shipment', initialShipmentData.id],
-                prevData => {
-                    // Update asset_counts property of the shipment
-                    const newTotalAssets = prevData.asset_counts.total_assets + 1;
-                    let newDirectChildren = prevData.asset_counts.direct_children;
-                    let newExtendedChildren = prevData.asset_counts.extended_children;
-
-                    if (_data.parent_content_type.model == 'shipment' && _data.parent_object_id == shipment.id){
-                        newDirectChildren++
-                    }else{
-                        newExtendedChildren++
-                    }
-
-                    // Create new shipment data object
-                    return {
-                        ...prevData,
-                        asset_counts:{
-                            total_assets: newTotalAssets,
-                            direct_children: newDirectChildren,
-                            extended_children: newExtendedChildren
-                        },
-                        assets:[...prevData.assets, _data]
-                    }
-                    
-                }
-            )
+            // Execute callback
+            onSuccessfulScan();
 
         }
         // Backend has returned an error (400/500) response status.
@@ -196,17 +170,38 @@ const ScanTool = (props) => {
     marginY:1,
     padding:1,
     gap:1,
-    display:'flex',
-    minHeight: '30vh',
+    display: visible ? 'flex' : 'none',
+    flexGrow: 1,
   }
-  if(variant == 'block'){
-    paperStyles['flexDirection'] = "column";
-  }
-  if(variant == 'in-line'){
-    paperStyles["alignItems"] = "center";
-  }
-  const boxStyles = {textAlign:"center", flexGrow:1, display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", width:"100%"};
-  console.log(shipment);
+  let boxStyles = {
+    display:"flex",
+    justifyContent:"center",
+    alignItems:"center"
+  };
+
+  switch(variant){
+    case 'block':
+        // Update paper styles
+        paperStyles['flexDirection'] = "column";
+        paperStyles['minHeight'] = '30vh';
+
+        // Update box/segment styles
+        boxStyles['flexDirection'] = 'column'
+        boxStyles['flexGrow'] = 1
+        boxStyles['alignItems'] = 'center'
+        boxStyles['textAlign'] = 'center'
+        boxStyles['width'] = '100%'
+        boxStyles['rowGap'] = 1;
+    case 'in-line':
+        // Update paper styles1
+        paperStyles["alignItems"] = "center";
+        paperStyles["justifyContent"] = "space-between";
+        paperStyles['maxHeight'] = 'min-content';
+        paperStyles['marginY'] = 1;
+
+        // Update box/segment styles
+        boxStyles['columnGap'] = 1;
+  };
 
   // RENDER
   if(destinationId == null){
@@ -215,39 +210,43 @@ const ScanTool = (props) => {
   }else{
     // Render primary form
     return(
-        <Paper sx={paperStyles}>
-            <Box sx={boxStyles}>
-                <Typography variant="h5" sx={{marginX:1}}>Scan an asset tag</Typography>
+        <Paper sx={paperStyles} elevation={elevation}>
+            <Box sx={{...boxStyles, flexDirection:'column', minWidth: variant=="in-line" ? "200px" : "unset"}}>
+                <Typography variant="h6" sx={{marginX:1, textAlign: variant == 'block' ? 'center' : 'left'}}>Scan an asset tag</Typography>
                 <Typography variant="subtitle2" sx={{marginX:1}}>or, enter an asset code</Typography>
             </Box>
-            <Box sx={boxStyles}>
-                <TextField value={assetCode} onChange={updateAssetCode} label="Asset Code" inputProps={{ref:assetCodeInput}} autoFocus/>
-                <Button onClick={submitAssetCode}>
-                    Submit
-                </Button>
-                <ScanLog data={scanLog}></ScanLog>
-            </Box>
-            <Box sx={boxStyles}>
-                {shipment.asset_counts.total_assets > 0 ? 
-                <Typography variant="h4" sx={{marginY:3, fontWeight: "bold"}}>
-                    {shipment.asset_counts.total_assets}<br/>
-                    assets
-                </Typography>
-                : null}
 
-                <Typography variant="caption">
-                    Currently scanning into<br /> 
-                    <Typography component='code' variant='code'>{shipment.label}</Typography>
-                </Typography>
+            { variant == 'block' ? 
+            <ScanToolControls 
+                boxStyles={boxStyles}
+                assetCode={assetCode}
+                inputOnChange={updateAssetCode}
+                inputProps={{ref:assetCodeInput}}
+                btnOnClick={submitAssetCode}
+                scanLog={scanLog}
+                scanLogRows={3}
+            /> 
+            : null }
 
-                {destinationContentType == 'asset' &&
-                <Typography variant="caption" sx={{marginTop:1}}>
-                    Container<br />
-                    <Typography component='code' variant='code'>{destinationName}</Typography>
-                </Typography>
-                }
+            { variant == 'block' ? 
+            <ScanToolDestinationDetails 
+                {...{boxStyles, shipment, destinationContentType, destinationName, variant}}
+            /> 
+            : null }
 
-            </Box>
+            { variant == 'in-line' ? 
+            <ScanToolControls 
+                boxStyles={boxStyles}
+                assetCode={assetCode}
+                inputOnChange={updateAssetCode}
+                inputProps={{ref:assetCodeInput}}
+                helpText={destinationName ? `Currently scanning into ${destinationName}` : 'Currently scanning into shipment'}
+                btnOnClick={submitAssetCode}
+                scanLog={scanLog}
+                scanLogRows={1}
+            /> 
+            : null }
+
         </Paper>
     )
   }
@@ -332,5 +331,48 @@ const ShipmentSelector = props => {
     </Paper>
 }
 
+const ScanToolControls = props => {
+    const {boxStyles, assetCode, inputOnChange, inputProps, btnOnClick, scanLog, scanLogRows, helpText} = props;
 
+    return (
+        <Box sx={{...boxStyles}}>
+            <TextField value={assetCode} onChange={inputOnChange} label="Asset Code" inputProps={inputProps} helperText={helpText} autoFocus/>
+            <Button onClick={btnOnClick} sx={{alignSelf:"center", flexShrink:0}}>
+                Submit
+            </Button>
+            <ScanLog data={scanLog} scanLogRows={scanLogRows}></ScanLog>
+        </Box>
+    )
+}
+
+const ScanToolDestinationDetails = props => {
+
+    const {boxStyles, shipment, destinationContentType, destinationName, variant} = props;
+
+    return (
+        <Box sx={boxStyles}>
+            {shipment.asset_counts.total_assets > 0 ? 
+            <Typography variant="h4" sx={{marginY:3, fontWeight: "bold"}}>
+                {shipment.asset_counts.total_assets}<br/>
+                assets
+            </Typography>
+            : null}
+
+            { variant == "block" && // Only display shipment full block scan tool variant
+            <Typography variant="caption">
+                Currently scanning into<br /> 
+                <Typography component='code' variant='code'>{shipment.label}</Typography>
+            </Typography>
+            }
+
+            {destinationContentType == 'asset' &&
+            <Typography variant="caption" sx={{marginTop:1}}>
+                Container<br />
+                <Typography component='code' variant='code'>{destinationName}</Typography>
+            </Typography>
+            }
+
+        </Box>
+    );
+}
 export default ScanTool;
