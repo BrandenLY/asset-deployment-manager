@@ -29,9 +29,11 @@ from .views import LocationView
 from .views import ShipmentView
 from .views import CurrentUserView
 from .views import ScanView
+from .views import LogEntryView
 
 router = DefaultRouter()
 router.register(r"user", UserView)
+router.register(r"logentry", LogEntryView)
 router.register(r"event", EventView)
 # router.register(r"milestone", MilestoneView)
 # router.register(r"service", ServiceView)

@@ -25,6 +25,7 @@ from .serializers import AssetModelSerializer
 from .serializers import LocationSerializer
 from .serializers import ShipmentSerializer
 from .serializers import ContentAssetsField
+from .serializers import LogEntrySerializer
 # App Related Imports : Main
 from main.models import User
 from main.models import Event
@@ -260,6 +261,62 @@ class BaseView(viewsets.GenericViewSet,
             ]
 
         return field_info
+
+#    __  __       _         _       _             __                     
+#   |  \/  | __ _(_)_ __   (_)_ __ | |_ ___ _ __ / _| __ _  ___ ___  ___ 
+#   | |\/| |/ _` | | '_ \  | | '_ \| __/ _ \ '__| |_ / _` |/ __/ _ \/ __|
+#   | |  | | (_| | | | | | | | | | | ||  __/ |  |  _| (_| | (_|  __/\__ \
+#   |_|  |_|\__,_|_|_| |_| |_|_| |_|\__\___|_|  |_|  \__,_|\___\___||___/
+#                                                                        
+
+class UserView(BaseView):
+    """
+    Simple Viewset for Viewing User Information
+    """
+    model = User
+    queryset = model.objects.all()
+    serializer_class = UserSerializer
+        
+class EventView(BaseView):
+    """
+    Simple Viewset for Viewing Event & Project Information
+    """
+    model = Event
+    queryset = model.objects.all()
+    serializer_class = EventSerializer
+
+class CurrentUserView(generics.GenericAPIView, mixins.RetrieveModelMixin):
+
+    serializer_class = UserSerializer
+    lookup_field = 'id'
+
+    def get_queryset(self):
+        """
+        This view should return the currently authenticated user.
+        """
+        user = self.request.user
+        return User.objects.filter(id = self.request.user.id)
+    
+    def get(self, request, id=None):
+        """
+        This view should return the currently authenticated user.
+        """
+        try:
+            _model_instance = self.get_queryset().get(id=request.user.id)
+            serializer = self.get_serializer_class()(_model_instance)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        
+        except self.model.DoesNotExist as e:
+            return Response({"error" : f"{self.model.__name__} with id:{id} does not exist."}, status=status.HTTP_404_NOT_FOUND)
+
+class LogEntryView(viewsets.GenericViewSet, mixins.ListModelMixin, mixins.RetrieveModelMixin):
+    """
+    Simple Viewset for Viewing Log Entries
+    """
+    model = LogEntry
+    queryset = model.objects.all()
+    serializer_class = LogEntrySerializer
+
 #       _                 _         _       _             __                     
 #      / \   ___ ___  ___| |_ ___  (_)_ __ | |_ ___ _ __ / _| __ _  ___ ___  ___ 
 #     / _ \ / __/ __|/ _ \ __/ __| | | '_ \| __/ _ \ '__| |_ / _` |/ __/ _ \/ __|
@@ -460,55 +517,7 @@ class ScanView(APIView):
 #     """
 #     model = Service
 #     queryset = model.objects.all()
-#     serializer_class = ServiceSerializer
-
-#    __  __       _         _       _             __                     
-#   |  \/  | __ _(_)_ __   (_)_ __ | |_ ___ _ __ / _| __ _  ___ ___  ___ 
-#   | |\/| |/ _` | | '_ \  | | '_ \| __/ _ \ '__| |_ / _` |/ __/ _ \/ __|
-#   | |  | | (_| | | | | | | | | | | ||  __/ |  |  _| (_| | (_|  __/\__ \
-#   |_|  |_|\__,_|_|_| |_| |_|_| |_|\__\___|_|  |_|  \__,_|\___\___||___/
-#                                                                        
-
-class UserView(BaseView):
-    """
-    Simple Viewset for Viewing User Information
-    """
-    model = User
-    queryset = model.objects.all()
-    serializer_class = UserSerializer
-        
-class EventView(BaseView):
-    """
-    Simple Viewset for Viewing Event & Project Information
-    """
-    model = Event
-    queryset = model.objects.all()
-    serializer_class = EventSerializer
-
-class CurrentUserView(generics.GenericAPIView, mixins.RetrieveModelMixin):
-
-    serializer_class = UserSerializer
-    lookup_field = 'id'
-
-    def get_queryset(self):
-        """
-        This view should return the currently authenticated user.
-        """
-        user = self.request.user
-        return User.objects.filter(id = self.request.user.id)
-    
-    def get(self, request, id=None):
-        """
-        This view should return the currently authenticated user.
-        """
-        try:
-            _model_instance = self.get_queryset().get(id=request.user.id)
-            serializer = self.get_serializer_class()(_model_instance)
-            return Response(serializer.data, status=status.HTTP_200_OK)
-        
-        except self.model.DoesNotExist as e:
-            return Response({"error" : f"{self.model.__name__} with id:{id} does not exist."}, status=status.HTTP_404_NOT_FOUND)
-        
+#     serializer_class = ServiceSerializer        
                 
 #   __        ___ _    _   _       _             __                     
 #   \ \      / (_) | _(_) (_)_ __ | |_ ___ _ __ / _| __ _  ___ ___  ___ 
