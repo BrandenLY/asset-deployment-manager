@@ -5,6 +5,7 @@ from .assets_serializers import LocationSerializer
 from .assets_serializers import ShipmentSerializer
 from .assets_serializers import ContentAssetsField
 # App Related Imports : Main
+from .base_serializers import LogEntrySerializer
 from .user_serializer import UserSerializer
 from .event_serializer import EventSerializer
 # App Related Imports : Tasklist
