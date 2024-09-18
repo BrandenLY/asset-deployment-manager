@@ -25,6 +25,7 @@ class LogEntrySerializer(CustomBaseSerializer):
         model=LogEntry
         fields=[
             "id",
+            "label",
             "object_id",
             "object_repr",
             "action_flag",

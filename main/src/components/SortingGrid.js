@@ -6,6 +6,7 @@ import { useQueries, useQuery } from "@tanstack/react-query";
 import { Link as RouterLink } from "react-router-dom";
 import { useModelOptions } from "../customHooks";
 import ActionButton from "./actionButton";
+import { ErrorBoundary } from "./ErrorBoundary";
 
 const minimumRecordsPerPage = 25;
 const RecordsPerPageOptions = [
@@ -16,12 +17,20 @@ const RecordsPerPageOptions = [
     minimumRecordsPerPage * 10,
     minimumRecordsPerPage * 30,
 ]
+const sortingGridPaperStyles = {
+    display: "flex",
+    gap:1,
+    padding: 2,
+    minHeight:"460px",
+    flexDirection: 'column',
+    alignItems: 'stretch',
+}
 
 const SortingGridColumnHeader = props => {
 
     const {column, modelName, dataManipulation} = props;
 
-    const shipmentOptions = useModelOptions(modelName);
+    const modelOptions = useModelOptions(modelName);
     const [popoverAnchor, setPopoverAnchor] = useState(null);
 
     const togglePopover = (event) => {
@@ -37,7 +46,7 @@ const SortingGridColumnHeader = props => {
     const id = open ? `${column}-options` : undefined;
     
     try { 
-        modelField = shipmentOptions.data?.model_fields[column];
+        modelField = modelOptions.data?.model_fields[column];
     } catch (e) {
         if (e instanceof ReferenceError){
             console.error('SortingGridColumnHeader', `'${column}' is not a valid property of '${modelName}'.`);
@@ -46,17 +55,43 @@ const SortingGridColumnHeader = props => {
         }
     }
 
-    if(shipmentOptions.isFetched && !modelField){ 
+    // if(modelOptions.isFetched && !modelField){ 
 
-        // Remove invalid column name
-        dataManipulation.setActiveColumns(previous =>{
-            return previous.filter(columnName => columnName != column);
-        });
+    //     // Remove invalid column name
+    //     dataManipulation.setActiveColumns(previous =>{
+    //         return previous.filter(columnName => columnName != column);
+    //     });
 
-        // Return nothing
-        return(
-            <></>
-        );
+    //     // Return nothing
+    //     return(
+    //         <></>
+    //     );
+    // }
+    // THE ABOVE WAS REMOVED BECAUSE THERE ARE SITUATIONS IN WHICH WE CAN STILL RENDER 
+
+    if (!modelOptions.isFetched){
+        return <Skeleton variant="text" />
+    }
+
+    if (modelOptions.isFetched && !modelField){
+        return (
+            <TableCell sx={{verticalAlign:"bottom"}}>
+                <Box
+                sx={{
+                    display: "flex",
+                    gap: "5px",
+                    alignItems: "flex-end",
+                }}>
+                    <Typography
+                    sx={{
+                        fontWeight: "bold",
+                        textTransform: "capitalize",
+                    }}>
+                        {modelField ? modelField.label : column}
+                    </Typography>
+                </Box>
+            </TableCell>
+        )  
     }
 
     return (
@@ -70,6 +105,7 @@ const SortingGridColumnHeader = props => {
             <Typography
             sx={{
                 fontWeight: "bold",
+                textTransform: "capitalize",
             }}>
                 {modelField ? modelField.label : column}
             </Typography>
@@ -116,14 +152,14 @@ const SortingGridColumnHeader = props => {
 const SortingGridRow = props => {
 
     const {data, columns, actions, modelName} = props;
-    const shipmentOptions = useModelOptions(modelName);
-    const fieldOptions = shipmentOptions.data?.model_fields
+    const modelOptions = useModelOptions(modelName);
+    const fieldOptions = modelOptions.data?.model_fields
     const queriesOrdering = useRef();
     
     queriesOrdering.current = [];
 
     const queries = useQueries({
-        queries: shipmentOptions.isFetched ?
+        queries: modelOptions.isFetched ?
             columns.filter(columnName => {
                 if (fieldOptions[columnName]?.type == 'related object'){
                     return true
@@ -142,7 +178,7 @@ const SortingGridRow = props => {
 
     const getDisplayValue = (column) =>{
 
-        const columnOptions = shipmentOptions.data?.model_fields[column];
+        const columnOptions = modelOptions.data?.model_fields[column];
 
         switch(columnOptions.type){
             case 'date':
@@ -195,77 +231,89 @@ const SortingGridRow = props => {
     )
 }
 
-const sortingGridPaperStyles = {
-    display: "flex",
-    gap:1,
-    padding: 2,
-    minHeight:"460px",
-    flexDirection: 'column',
-    alignItems: 'stretch',
-}
-
 const SortingGrid = props => {
 
     const {
         title,
-        defaultSortKey="id",
-        defaultColumns=[],
-        dataModel,
-        rowActions,
         data,
-        count
+        modelName,
+        count,
+        rowActions,
+        defaultSortKey="id",
+        initialColumns=["id", "label"],
+        paperProps={},
+        RowComponent=SortingGridRow,
     } = props;
 
-    const [activeColumns, setActiveColumns] = useState(defaultColumns);
-    const [sortKey, setSortKey] = useState(defaultSortKey); // The datapoint to sort based on.
+    // Validation
+    if ( !modelName == undefined || !data == undefined){
+        throw new Error("Sorting grid missing required prop(s).")
+    }
+
+    const [activeColumns, setActiveColumns] = useState(initialColumns);
+    const [sortKey, setSortKey] = useState(defaultSortKey); // The datapoint to sort based on.  
     const [sortDirection, setSortDirection] = useState(true); // true: sort ascending, false: sort descending.
     const [recordsPerPage, setRecordsPerPage] = useState(minimumRecordsPerPage);
     const [page, setPage] = useState(1);
 
+
+    // Formmatted Data
+    const columnCount = rowActions ? activeColumns.length + 1 : activeColumns.length;
+
     return(
         <Paper 
             className="SortingGrid"
-            sx={sortingGridPaperStyles}
+            {...paperProps}
+            sx={{...sortingGridPaperStyles, ...paperProps.sx}}
         >
             <Box>
                 <Typography variant="h4">{title}</Typography>
             </Box>
+
             <TableContainer sx={{flexGrow: 1}}>
                 <Table>
+
                     <TableHead>
                         <TableRow>
-                            { activeColumns.map(column => <SortingGridColumnHeader column={column} modelName={dataModel} dataManipulation={{setActiveColumns, setSortDirection}}/>) }
+
+                            { activeColumns.map( column => <SortingGridColumnHeader 
+                                column={column}
+                                modelName={modelName}
+                                dataManipulation={{setActiveColumns, setSortDirection}}
+                            /> ) }
+
                             { rowActions ? <TableCell sx={{verticalAlign:"bottom"}}><Box sx={{display: "flex",gap: "5px",alignItems: "center",}}><Typography sx={{fontWeight: "bold",}}>Actions</Typography></Box></TableCell> : null}
                         </TableRow>
                     </TableHead>
+
                     <TableBody>
+                        {/* Add result rows */}
+                        { data?.length > 0 &&
+                            data.map( rowObject => <RowComponent data={rowObject} columns={activeColumns} modelName={modelName} actions={rowActions}/> )
+                        }
 
-                    {/* Add result rows */}
-                    { data?.length > 0 &&
-                        data.map( shipment => <SortingGridRow data={shipment} columns={activeColumns} modelName={dataModel} actions={rowActions}/> )
-                    }
+                        {/* No Results */}
+                        { data?.length == 0 && 
+                            <TableRow>
+                                <TableCell minHeight="300px" sx={{ textAlign:"center", paddingTop:0.5, paddingBottom: 0.5}} colspan={columnCount}>
+                                    No results.
+                                </TableCell>
+                            </TableRow>
+                        }
 
-                    {/* No Results */}
-                    { data?.length == 0 && 
-                        <TableRow>
-                            <TableCell textAlign="center" sx={{ paddingTop:0.5, paddingBottom: 0.5}} colspan={rowActions ? activeColumns.length + 1 : activeColumns.length}>
-                                No results.
-                            </TableCell>
-                        </TableRow>
-                    }
-
-                    {/* Loading */}
-                    { !data && 
-                        <TableRow>
-                            <TableCell sx={{textAlign: "center", paddingTop:0.5, paddingBottom: 0.5}} colspan={rowActions ? activeColumns.length + 1 : activeColumns.length}>
-                                Loading results...
-                            </TableCell>
-                        </TableRow>
-                    }
-
+                        {/* Loading */}
+                        { !data && 
+                            <TableRow>
+                                <TableCell minHeight="300px" sx={{ textAlign:"center", paddingTop:0.5, paddingBottom: 0.5}} colspan={columnCount}>
+                                    ...
+                                </TableCell>
+                            </TableRow>
+                        }
                     </TableBody>
+
                 </Table>
             </TableContainer>
+            
             <Box sx={{ maxWidth: "100%", display: "flex", justifyContent: "space-between", marginTop: 1, marginLeft:1, marginRight:1}}>
                 <FormControl sx={{flexDirection:"row", alignItems: "center", height: "min-content"}}>
                     <Select

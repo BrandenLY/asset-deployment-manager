@@ -42,7 +42,7 @@ const CustomBreadcrumbs = props => {
     );
 }
 
-const PageError = props => {
+export const PageError = props => {
 
     const {message} = props;
     const navigate = useNavigate()

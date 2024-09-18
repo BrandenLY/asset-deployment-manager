@@ -194,6 +194,11 @@ export const useModelFormFields = ({modelOptions, id=null, excludeReadOnly=false
 };
 
 export const useModelOptions = (modelName) => {
+
+    if (modelName == undefined || modelName == null){
+        throw new Error("Custom hook 'useModelOptions' requires a modelName.")
+    }
+    
     return useQuery({
         queryKey: [modelName, 'OPTIONS'],
         staleTime: 'Infinity',

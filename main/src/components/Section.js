@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import {Box, Paper, IconButton, useTheme, Typography, Divider} from '@mui/material'
 import {ExpandLess, ExpandMore} from '@mui/icons-material'
+import { ErrorBoundary } from './ErrorBoundary';
+import { PageError } from './CustomPage';
 
 const Section = props => {
     
@@ -37,10 +39,12 @@ const Section = props => {
         </Box>
 
         <Divider sx={{marginBottom: theme.spacing(1)}}></Divider>
+        <ErrorBoundary fallback={<PageError/>}>
+            <Box className="section-content" padding={theme.spacing(1)}>
+                { expanded ? children : null}
+            </Box>
+        </ErrorBoundary>
 
-        <Box classNam="section-content" padding={theme.spacing(1)}>
-            { expanded ? children : null}
-        </Box>
     </Paper>
   )
 }

@@ -17,7 +17,7 @@ Including another URLconf
 
 from django.urls import path, re_path
 from django.urls import include
-from rest_framework.routers import DefaultRouter
+from rest_framework.routers import DefaultRouter, Route
 
 from .views import UserView
 from .views import EventView
@@ -30,8 +30,10 @@ from .views import ShipmentView
 from .views import CurrentUserView
 from .views import ScanView
 from .views import LogEntryView
+from .views import ObjectAdminLogEntries
 
 router = DefaultRouter()
+
 router.register(r"user", UserView)
 router.register(r"logentry", LogEntryView)
 router.register(r"event", EventView)
@@ -45,4 +47,5 @@ router.register(r"shipment", ShipmentView)
 urlpatterns = [
     path('current-user/', CurrentUserView.as_view(), name='current-user'),
     path('scan/', ScanView.as_view(), name='scan-api'),
+    path('logs/<int:object_contenttype_id>/<int:object_id>/', ObjectAdminLogEntries.as_view(), name='object-admin-log-entries')
 ] + router.urls

@@ -89,7 +89,10 @@ export const ShipmentDetailPanel = (props) => {
       }
 
         props.addNotif({message:'Successfully updated shipment'});
-        res.json().then(data => queryClient.setQueryData(['shipment', shipmentId], data))
+        res.json().then(data => {
+          console.log(data)
+          queryClient.invalidateQueries({queryKey:['shipment', shipmentId]})
+        })
     },
 });
 

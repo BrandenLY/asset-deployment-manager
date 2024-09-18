@@ -14,7 +14,7 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.settings import api_settings
 from rest_framework.utils.field_mapping import ClassLookupDict
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
 # App Related Imports : Assets
 from assets.models import Asset
 from assets.models import AssetModel
@@ -142,7 +142,7 @@ class BaseView(viewsets.GenericViewSet,
             for field in instance.__class__._meta.get_fields():
                 change_map[field.name] = (change_map[field.name][0], getattr(instance, field.name, None))
             
-            changed_fields = [field for field, changes in change_map.items() if changes[0] != changes[1]]
+            changed_fields = [field for field, changes in change_map.items() if changes[0] != changes[1] and field is not 'last_modified' and field is not 'modified_by']
 
             # FIXME: Deprecated, use LogEntryManager.log_actions()
             LogEntry.objects.log_action(
@@ -177,7 +177,6 @@ class BaseView(viewsets.GenericViewSet,
             
             instance.delete()
 
-
     def retrieve(self, request, pk=None):
         try:
             _model_instance = self.get_queryset().get(id=pk)
@@ -195,6 +194,7 @@ class BaseView(viewsets.GenericViewSet,
         """
         data = self.metadata_class().determine_metadata(request, self)
         data['model'] = self.model.__name__.lower()
+        data['contenttype_id'] = ContentType.objects.get(model=data['model']).id
         data['actions'] = None
 
         _fields = self.model._meta.get_fields()
@@ -285,6 +285,7 @@ class EventView(BaseView):
     queryset = model.objects.all()
     serializer_class = EventSerializer
 
+## FIXME: Setup as a custom action under the user view.
 class CurrentUserView(generics.GenericAPIView, mixins.RetrieveModelMixin):
 
     serializer_class = UserSerializer
@@ -309,14 +310,36 @@ class CurrentUserView(generics.GenericAPIView, mixins.RetrieveModelMixin):
         except self.model.DoesNotExist as e:
             return Response({"error" : f"{self.model.__name__} with id:{id} does not exist."}, status=status.HTTP_404_NOT_FOUND)
 
-class LogEntryView(viewsets.GenericViewSet, mixins.ListModelMixin, mixins.RetrieveModelMixin):
+class LogEntryView(BaseView):
     """
     Simple Viewset for Viewing Log Entries
     """
     model = LogEntry
     queryset = model.objects.all()
     serializer_class = LogEntrySerializer
+    permission_classes = [IsAdminUser]
 
+class ObjectAdminLogEntries(APIView):
+    """
+    Simple View for retrieving admin logs for a specific object.
+    """
+    permission_classes = [IsAuthenticated]
+    def get(self, request, object_contenttype_id, object_id):
+
+        # try:
+        #     object_contenttype = ContentType.objects.get(id=object_contenttype_id)
+        #     object = object_contenttype.get_object_for_this_type(id=object_id)
+        # except ContentType.DoesNotExist:
+        #     raise InvalidData(f"'{object_contenttype_id}' is not a valid contenttype id.")
+        # except ObjectDoesNotExist:
+        #     raise InvalidData(f"Could not locate a '{object_contenttype.name}' object with id '{object_id}'. ")
+        
+        queryset = LogEntry.objects.filter(object_id=object_id, content_type_id=object_contenttype_id)
+        payload =  LogEntrySerializer(queryset, many=True)
+
+        return Response(payload.data)
+
+        
 #       _                 _         _       _             __                     
 #      / \   ___ ___  ___| |_ ___  (_)_ __ | |_ ___ _ __ / _| __ _  ___ ___  ___ 
 #     / _ \ / __/ __|/ _ \ __/ __| | | '_ \| __/ _ \ '__| |_ / _` |/ __/ _ \/ __|

@@ -115,6 +115,13 @@ const NavDrawer = props =>{
                             </ListItemButton>
                         </ListItem>
 
+                        <ListItem disablePadding>
+                            <ListItemButton onClick={() => navigate('/staffing')}>
+                                <ListItemIcon><Place /></ListItemIcon>
+                                <ListItemText primary="Staffing" />
+                            </ListItemButton>
+                        </ListItem>
+
                     </List>
                 </Box>
                 <Box position="absolute" bottom={0} width="100%" border="1px solid red">

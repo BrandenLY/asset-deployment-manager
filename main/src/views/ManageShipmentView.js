@@ -260,8 +260,8 @@ const ManageShipmentView = props => {
             }
             <SortingGrid 
                 title="Manage Shipments"
-                defaultColumns={["id", "label", "status", "departure_date", "arrival_date"]}
-                dataModel={'shipment'}
+                initialColumns={["id", "label", "status", "departure_date", "arrival_date"]}
+                modelName='shipment'
                 data={allLoadedShipments}
                 count={shipmentCount}
                 rowActions={{

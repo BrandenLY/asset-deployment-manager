@@ -115,7 +115,7 @@ const AssetGrid = props => {
 
   // RENDER
   return(
-    <Paper elevation={3} sx={{padding: 2, width:"100%"}} flex>
+    <Paper elevation={2} sx={{padding: 2, width:"100%"}} flex>
 
       {assets.length > 0 &&
         <Box width="100%" minHeight="20vh" border={`1px dashed ${theme.palette.grey[700]}`} display="flex" gap={2} flexWrap="wrap" padding={3}>
