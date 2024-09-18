@@ -7,7 +7,7 @@ import { Add, Delete, Edit } from '@mui/icons-material';
 const ChangeLogTableRow = props => {
 
     // Props
-    const {data, columns, actions, modelName} = props;
+    const {data, columns, actions, modelName, objectContentType} = props;
     
     // Hooks
     const [user, setUser] = useState(null);
@@ -43,7 +43,7 @@ const ChangeLogTableRow = props => {
     // Callback Functions
     const getDisplayValue = (column) =>{
 
-        if(column == ''){
+        if(column == 'action'){
             // Override specifically for log entries to display an icon
             switch(data["action_flag"]){
                 case 1:
@@ -70,10 +70,10 @@ const ChangeLogTableRow = props => {
             
             switch(changeActionText){
                 case 'added':
-                    return('Created shipment.')
+                    return(`created ${objectContentType}`)
                 
                 case 'changed':
-                    return(`Modified: ${changeActionBody["fields"].join(', ')}.`)
+                    return(`modified ${objectContentType} field(s) '${changeActionBody["fields"].join(', ')}.'`)
             }
         }
 

@@ -140,9 +140,10 @@ const ShipmentDetailView = props =>{
                     <SortingGrid 
                         modelName="logentry" 
                         data={historyData}
-                        initialColumns={["", "user", "change_message", "action_time"]}
+                        initialColumns={["action", "user", "change_message", "action_time"]}
                         paperProps={{elevation:2, width:"100%"}}
                         RowComponent={ChangeLogTableRow}
+                        rowProps={{'objectContentType' : 'shipment'}}
                         count={historyData.length}
                     />
                 </Section>

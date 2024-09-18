@@ -45,29 +45,7 @@ const SortingGridColumnHeader = props => {
     const open = Boolean(popoverAnchor);
     const id = open ? `${column}-options` : undefined;
     
-    try { 
-        modelField = modelOptions.data?.model_fields[column];
-    } catch (e) {
-        if (e instanceof ReferenceError){
-            console.error('SortingGridColumnHeader', `'${column}' is not a valid property of '${modelName}'.`);
-        } else {
-            throw e;
-        }
-    }
-
-    // if(modelOptions.isFetched && !modelField){ 
-
-    //     // Remove invalid column name
-    //     dataManipulation.setActiveColumns(previous =>{
-    //         return previous.filter(columnName => columnName != column);
-    //     });
-
-    //     // Return nothing
-    //     return(
-    //         <></>
-    //     );
-    // }
-    // THE ABOVE WAS REMOVED BECAUSE THERE ARE SITUATIONS IN WHICH WE CAN STILL RENDER 
+    modelField = modelOptions.data?.model_fields[column];
 
     if (!modelOptions.isFetched){
         return <Skeleton variant="text" />
@@ -243,6 +221,7 @@ const SortingGrid = props => {
         initialColumns=["id", "label"],
         paperProps={},
         RowComponent=SortingGridRow,
+        rowProps={}
     } = props;
 
     // Validation
@@ -289,7 +268,7 @@ const SortingGrid = props => {
                     <TableBody>
                         {/* Add result rows */}
                         { data?.length > 0 &&
-                            data.map( rowObject => <RowComponent data={rowObject} columns={activeColumns} modelName={modelName} actions={rowActions}/> )
+                            data.map( rowObject => <RowComponent data={rowObject} columns={activeColumns} modelName={modelName} actions={rowActions} {...rowProps}/> )
                         }
 
                         {/* No Results */}
