@@ -35,13 +35,13 @@ const LocationView = props => {
             <SortingGrid 
                 title="Manage Locations"
                 defaultColumns={["id", "label", "city", "state", "country"]}
-                dataModel={'location'}
+                modelName='location'
                 data={allLoadedLocations}
                 count={locationCount}
                 rowActions={{
                     'open'   : {'icon': OpenInNew, 'callbackFn' : openLocation},
                 }}
-            />
+            /> 
         </Box>
     );
 }

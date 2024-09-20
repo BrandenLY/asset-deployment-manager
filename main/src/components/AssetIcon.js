@@ -1,26 +1,23 @@
 import { DevicesOther } from '@mui/icons-material';
 import { Box, Paper } from '@mui/material'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 const AssetIcon = props => {
-    const {iconName} = props;
+
+    const {iconName="DevicesOther"} = props;
     const [IconElement, setIconElement] = useState(null);
 
-    const importMaterialIcon = async (iconName) => {
-        const {default: icon} = await import(`@mui/icons-material/${iconName}.js`);
-        return icon;
-    }
-
-    const icon = importMaterialIcon(iconName);
-
-    icon.then(val => {
-        setIconElement(val);
+    const icon = import(`@mui/icons-material/${iconName}.js`)
+    .then(val => {
+        if (IconElement != val.default){
+            setIconElement(val.default);
+        }
     });
 
     return(
         <Paper 
             sx={{
-                padding:1.25,
+                padding: 1.25,
                 display: "flex", 
                 justifyContent: "center", 
                 alignItems: "center",

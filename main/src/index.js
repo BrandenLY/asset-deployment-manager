@@ -11,8 +11,6 @@ import primaryDarkTheme from "./themes/primary-dark";
 import CustomQueryClientProvider from "./queryConfig";
 
 // PAGE VIEWS
-// import TasklistView from "./views/TasklistView";
-// import EventDetailView from "./views/EventDetailView";
 import CustomPage from "./components/CustomPage";
 import ManageShipmentView from "./views/ManageShipmentView";
 import ShipmentDetailView from "./views/ShipmentDetailView";

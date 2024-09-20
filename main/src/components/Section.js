@@ -10,8 +10,8 @@ const Section = props => {
         title,
         actions,
         children,
-        defaultExpanded=false
-
+        defaultExpanded=false,
+        paperProps={}
     } = props;
 
     const [expanded, setExpanded] = useState(defaultExpanded);
@@ -24,7 +24,7 @@ const Section = props => {
 
 
   return (
-    <Paper className="section" sx={{padding: 1, margin: `${theme.spacing(1)} 0`}}>
+    <Paper className="section" sx={{padding: 1, margin: `${theme.spacing(1)} 0`}} {...paperProps}>
 
         <Box className="section-heading" display="flex" gap={theme.spacing(1)} padding={theme.spacing(1)}>
             <Box className="section-controls" display="flex" gap={theme.spacing(1.5)} flexGrow={1}>
@@ -33,7 +33,7 @@ const Section = props => {
                 </IconButton>
                 <Typography variant="h4">{title}</Typography>
             </Box>
-            <Box className="section-actions">
+            <Box className="section-actions" display="flex" alignItems="center" gap={theme.spacing(0.5)}>
                 {actions}
             </Box>
         </Box>

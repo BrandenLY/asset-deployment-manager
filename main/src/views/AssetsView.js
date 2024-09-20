@@ -35,13 +35,13 @@ const AssetsView = props =>{
             <SortingGrid 
                 title="Manage Assets"
                 defaultColumns={["id", "label", "code"]}
-                dataModel={'asset'}
+                modelName='asset'
                 data={allLoadedAssets}
                 count={assetCount}
                 rowActions={{
                     'open'   : {'icon': OpenInNew, 'callbackFn' : openAsset},
                 }}
-            />
+            /> 
         </Box>
     );
 };
