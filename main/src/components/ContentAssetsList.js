@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import Section from './Section';
 import { Badge, Box, Button, Checkbox, IconButton, Paper, Typography, useTheme } from '@mui/material';
-import { Archive, Close, Delete, ExpandLess, ExpandMore, SubdirectoryArrowRight } from '@mui/icons-material';
+import { Archive, Close, Delete, DocumentScanner, ExpandLess, ExpandMore, SubdirectoryArrowRight } from '@mui/icons-material';
 import ScanTool from './ScanTool';
 import { useModelOptions } from '../customHooks';
 import { useQuery } from '@tanstack/react-query';
@@ -72,68 +72,134 @@ const AssetTableRow = props => {
         selectRow(a);
     }
 
-    return(
-        <Paper elevation={2} {...paperProps}>
-            <Box 
-                className="asset-table-row-title"
-                display="flex"
-                alignItems="center"
-                gap={theme.spacing(1)}
-                padding={theme.spacing(1)}
-            >
-                <IconButton onClick={toggleExpanded}>
-                    { expanded ? <ExpandLess /> : <ExpandMore />}
-                </IconButton>
-                <Box
+    if(asset.is_container){
+        return(
+            <Paper elevation={2} {...paperProps}>
+                <Box 
+                    className="asset-table-row-title"
                     display="flex"
                     alignItems="center"
                     gap={theme.spacing(1)}
                     padding={theme.spacing(1)}
-                    paddingLeft={theme.spacing(3)}
-                    borderRadius={theme.shape.borderRadius}
-                    backgroundColor={theme.palette.divider}
-                    border={`3px solid ${theme.palette.divider}`}
-                    width="100%"
                 >
-                    <Checkbox checked={asset._meta.selected} onChange={() => {onCheckboxToggle(asset)}}/>
-                    <AssetSectionTitle asset={asset}/>
+                    <IconButton onClick={toggleExpanded}>
+                        { expanded ? <ExpandLess /> : <ExpandMore />}
+                    </IconButton>
+                    <Box
+                        display="flex"
+                        alignItems="center"
+                        gap={theme.spacing(1)}
+                        padding={theme.spacing(1)}
+                        paddingLeft={theme.spacing(3)}
+                        borderRadius={theme.shape.borderRadius}
+                        backgroundColor={theme.palette.divider}
+                        border={`3px solid ${theme.palette.divider}`}
+                        width="100%"
+                    >
+                        <Checkbox checked={asset._meta.selected} onChange={() => {onCheckboxToggle(asset)}}/>
+                        <AssetSectionTitle asset={asset}/>
+                    </Box>
                 </Box>
-            </Box>
-
-            { expanded &&
+    
+                { expanded &&
+                    <Box 
+                        className="asset-table-row-body"
+                        display="flex"
+                        flexDirection="column"
+                        alignItems="stretch"
+                        gap={theme.spacing(1)}
+                        padding={theme.spacing(1)}
+                        paddingLeft={theme.spacing(8)}
+                    >
+                        { asset.assets.map( childAsset => {
+                            return(
+                                <Box display="flex" alignItems="center">
+                                    <SubdirectoryArrowRight />
+                                    <Box
+                                        display="flex"
+                                        alignItems="center"
+                                        gap={theme.spacing(1)}
+                                        padding={theme.spacing(1)}
+                                        paddingLeft={theme.spacing(3)}
+                                        borderRadius={theme.shape.borderRadius}
+                                        border={`3px solid ${theme.palette.divider}`}
+                                        width="100%"
+                                    >
+                                        <Checkbox checked={childAsset._meta.selected} onChange={() => {onCheckboxToggle(childAsset)}}/>
+                                        <AssetSectionTitle asset={childAsset}/>
+                                    </Box>
+                                </Box>
+                            )
+                        }) }
+                    </Box>
+                }
+            </Paper>
+        )
+    }
+    else{
+        return(
+            <Paper elevation={2} {...paperProps}>
                 <Box 
-                    className="asset-table-row-body"
+                    className="asset-table-row-title"
                     display="flex"
-                    flexDirection="column"
-                    alignItems="stretch"
+                    alignItems="center"
                     gap={theme.spacing(1)}
                     padding={theme.spacing(1)}
-                    paddingLeft={theme.spacing(8)}
                 >
-                    { asset.assets.map( childAsset => {
-                        return(
-                            <Box display="flex" alignItems="center">
-                                <SubdirectoryArrowRight />
-                                <Box
-                                    display="flex"
-                                    alignItems="center"
-                                    gap={theme.spacing(1)}
-                                    padding={theme.spacing(1)}
-                                    paddingLeft={theme.spacing(3)}
-                                    borderRadius={theme.shape.borderRadius}
-                                    border={`3px solid ${theme.palette.divider}`}
-                                    width="100%"
-                                >
-                                    <Checkbox checked={childAsset._meta.selected} onChange={() => {onCheckboxToggle(childAsset)}}/>
-                                    <AssetSectionTitle asset={childAsset}/>
-                                </Box>
-                            </Box>
-                        )
-                    }) }
+                    <IconButton onClick={toggleExpanded}>
+                        { expanded ? <ExpandLess /> : <ExpandMore />}
+                    </IconButton>
+                    <Box
+                        display="flex"
+                        alignItems="center"
+                        gap={theme.spacing(1)}
+                        padding={theme.spacing(1)}
+                        paddingLeft={theme.spacing(3)}
+                        borderRadius={theme.shape.borderRadius}
+                        backgroundColor={theme.palette.divider}
+                        border={`3px solid ${theme.palette.divider}`}
+                        width="100%"
+                    >
+                        <Checkbox checked={asset._meta.selected} onChange={() => {onCheckboxToggle(asset)}}/>
+                        <AssetSectionTitle asset={asset}/>
+                    </Box>
                 </Box>
-            }
-        </Paper>
-    )
+    
+                { expanded &&
+                    <Box 
+                        className="asset-table-row-body"
+                        display="flex"
+                        flexDirection="column"
+                        alignItems="stretch"
+                        gap={theme.spacing(1)}
+                        padding={theme.spacing(1)}
+                        paddingLeft={theme.spacing(8)}
+                    >
+                        { asset.assets.map( childAsset => {
+                            return(
+                                <Box display="flex" alignItems="center">
+                                    <SubdirectoryArrowRight />
+                                    <Box
+                                        display="flex"
+                                        alignItems="center"
+                                        gap={theme.spacing(1)}
+                                        padding={theme.spacing(1)}
+                                        paddingLeft={theme.spacing(3)}
+                                        borderRadius={theme.shape.borderRadius}
+                                        border={`3px solid ${theme.palette.divider}`}
+                                        width="100%"
+                                    >
+                                        <Checkbox checked={childAsset._meta.selected} onChange={() => {onCheckboxToggle(childAsset)}}/>
+                                        <AssetSectionTitle asset={childAsset}/>
+                                    </Box>
+                                </Box>
+                            )
+                        }) }
+                    </Box>
+                }
+            </Paper>
+        )
+    }
 }
 
 const ContentAssetsList = props => {
@@ -177,9 +243,9 @@ const ContentAssetsList = props => {
         <Section
             title={`Assets (${obj.asset_counts?.total_assets})`}
             actions={[
-                hasAssetSelections && canReceiveAssetsFromObj ? <Button startIcon={<Archive/>} variant="contained" onClick={receiveSelectedAssets}>Receive selected</Button> : null,
-                hasAssetSelections && canRemoveAssetsFromObj ? <Button startIcon={<Delete/>} variant="contained" onClick={receiveSelectedAssets}>Remove selected</Button> : null,
-                <Button startIcon={displayScanTool ? <Close/> : undefined } variant={displayScanTool ? 'contained' : 'text'} color={displayScanTool ? 'error' : 'primary'} onClick={toggleScanTool}>Scan</Button>,
+                hasAssetSelections && canReceiveAssetsFromObj ? <Button startIcon={<Archive/>} variant="outlined" onClick={receiveSelectedAssets}>Receive selected</Button> : null,
+                hasAssetSelections && canRemoveAssetsFromObj ? <Button startIcon={<Delete/>} variant="outlined" onClick={removeSelectedAssets}>Remove selected</Button> : null,
+                <Button startIcon={displayScanTool ? <Close/> : <DocumentScanner sx={{transform:"rotate(90deg)"}}/> } variant={displayScanTool ? 'outlined' : 'text'} color={displayScanTool ? 'error' : 'primary'} onClick={toggleScanTool}>Scan</Button>,
             ]}
             defaultExpanded={true}
         >

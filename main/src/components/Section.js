@@ -38,7 +38,7 @@ const Section = props => {
             </Box>
         </Box>
 
-        <Divider sx={{marginBottom: theme.spacing(1)}}></Divider>
+        <Divider sx={{borderBottomWidth: "3px", marginBottom: theme.spacing(1)}}></Divider>
         <ErrorBoundary fallback={<PageError/>}>
             <Box className="section-content" padding={theme.spacing(1)}>
                 { expanded ? children : null}

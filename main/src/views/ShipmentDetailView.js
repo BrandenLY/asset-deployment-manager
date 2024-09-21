@@ -1,6 +1,6 @@
 import { Archive, CheckBox, Close, Delete, ExpandLess, ExpandMore, SubdirectoryArrowRight } from "@mui/icons-material";
 import { Badge, Box, Button, Checkbox, IconButton, Paper, Typography, useTheme } from "@mui/material";
-import { useQueries, useQuery } from "@tanstack/react-query";
+import { useMutation, useQueries, useQuery } from "@tanstack/react-query";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import AssetIcon from "../components/AssetIcon";
@@ -12,6 +12,7 @@ import { ShipmentDetailPanel } from "../components/ShipmentDetailPanel";
 import SortingGrid from "../components/SortingGrid";
 import { useModelOptions } from "../customHooks";
 import ContentAssetsList from "../components/ContentAssetsList";
+import { getCookie } from "../context";
 
 const ShipmentDetailView = props =>{
 
@@ -20,22 +21,21 @@ const ShipmentDetailView = props =>{
 
     // Hooks
     const locationParams = useParams();
-    const modelOptions = useModelOptions('shipment');
+    const shipmentOptions = useModelOptions('shipment');
+    const assetOptions = useModelOptions('asset');
     const [shipment, setShipment] = useState(false);
     const [displayScanTool, setDisplayScanTool] = useState(false);
-    const [selections, setSelections] = useState([])
-    const theme = useTheme();
 
     // Queries
 
     const shipmentQuery = useQuery({
         queryKey: ['shipment', locationParams.id],
-        enabled: modelOptions.isSuccess
+        enabled: shipmentOptions.isSuccess
     })
 
     const history = useQuery({
-        queryKey: ['logs', modelOptions.data?.contenttype_id, locationParams.id],
-        enabled: modelOptions.isSuccess && shipment.isSuccess,
+        queryKey: ['logs', shipmentOptions.data?.contenttype_id, locationParams.id],
+        enabled: shipmentOptions.isSuccess && shipment.isSuccess,
         queryFn: async ({ queryKey }) => {
 
             const formattedUrl = new URL(
@@ -49,14 +49,85 @@ const ShipmentDetailView = props =>{
     });
 
     const relatedQueries = useQueries({
-        queries: modelOptions.isSuccess && shipmentQuery.isSuccess ?
+        queries: shipmentOptions.isSuccess && shipmentQuery.isSuccess ?
         // Get related query option objects
-        Object.entries(modelOptions.data.model_fields)
+        Object.entries(shipmentOptions.data.model_fields)
         .filter( ([fieldName, fieldData]) => fieldData['type'] == "related object") // Only get foreign key relationships
         .filter(([fieldName, fieldData]) => shipmentQuery.data[fieldName] != null )  // Only get non null foreign keys
         .map(([fieldName, fieldData]) => ({queryKey:[fieldData['related_model_name'], shipmentQuery.data[fieldName]]})) // construct query option object 
         : [] // Don't make any queries if dependant queries not completed.
     })
+    // Mutations
+    const updateShipment = useMutation({
+        mutationFn: (method, data) => {
+
+            const updateUrl = new URL(`${window.location.protocol}${window.location.host}/api/shipment/${data.id}/`);
+
+            const requestHeaders = new Headers();
+            requestHeaders.set("Content-Type", "application/json");
+            requestHeaders.set("X-CSRFToken", getCookie("csrftoken"));
+            
+            // Deletions
+            if (method=="DELETE"){
+                return fetch(updateUrl, {
+                    method: method,
+                    headers: requestHeaders,
+                })
+            }
+
+            // Updates
+            if (method=="PUT"){
+                let payload = {};
+
+                shipmentOptions.model_fields.forEach( (fieldName, fieldDetails) => {
+                    if(!fieldDetails.read_only && data[fieldName] != undefined){
+                        payload[fieldName] = data[fieldName];
+                    }
+                });
+    
+                return fetch(updateUrl, {
+                  method: method,
+                  headers: requestHeaders,
+                  body: JSON.stringify(payload),
+                });
+            }
+
+            throw new Error("ShipmentDetailView", "Unsupported method provided to mutation")
+
+          }
+    });
+
+    const updateAsset = useMutation({
+        mutationFn: (data) => {
+
+            const updateUrl = new URL(`${window.location.protocol}${window.location.host}/api/asset/${data.id}/`);
+
+            const requestHeaders = new Headers();
+            requestHeaders.set("Content-Type", "application/json");
+            requestHeaders.set("X-CSRFToken", getCookie("csrftoken"));
+
+            // Updates
+            let payload = {};
+
+            assetOptions.model_fields.forEach( (fieldName, fieldDetails) => {
+                if(!fieldDetails.read_only && data[fieldName] != undefined){
+                    payload[fieldName] = data[fieldName];
+                }
+            });
+
+            return fetch(updateUrl, {
+                method: "PUT",
+                headers: requestHeaders,
+                body: JSON.stringify(payload),
+            });
+
+        },
+        onSettled: (data, error, variables, context) => {
+            console.log(data, error, variables, context)
+        }
+    })
+
+    // Effects
 
     useEffect(() => {
 
@@ -71,7 +142,7 @@ const ShipmentDetailView = props =>{
             let temporaryState = {...shipmentQuery.data}
 
             // Queries are returned in the same order they're called.
-            const queryOrdering = Object.entries(modelOptions.data.model_fields)
+            const queryOrdering = Object.entries(shipmentOptions.data.model_fields)
             .filter( ([fieldName, fieldData]) => fieldData['type'] == "related object") // Only get foreign key relationships
             .filter( ([fieldName, fieldData]) => shipmentQuery.data[fieldName] != null ) // Only get non null foreign keys
             .map( ([fieldName, fieldData]) => fieldName)
@@ -97,7 +168,7 @@ const ShipmentDetailView = props =>{
         }
     }, [shipment])
 
-    // CALLBACK FUNCTIONS
+    // Callback Functions
 
     const parseShipmentData = data => {
         return({...data});
@@ -146,12 +217,22 @@ const ShipmentDetailView = props =>{
         })
     }
 
+    const getSelectedAssets = () => {
+        return shipment.assets
+        .map( a => [a, ...a.assets]).flat()
+        .filter( a => a._meta.selected )
+    }
+
     const receiveSelectedAssets = e => {
-        return;
+        const selectedAssets = getSelectedAssets();
     }
 
     const removeSelectedAssets = e => {
-        return;
+        const selectedAssets = getSelectedAssets();
+
+        selectedAssets.forEach(asset => {
+            updateShipment.mutate({...asset, location:shipment.origin.id, parent_object_id:null, parent_content_type:null})
+        })
     }
 
     // Formatted Data
@@ -165,12 +246,12 @@ const ShipmentDetailView = props =>{
                 shipment={shipment}
             />
             <Box className="ShipmentDetailContent" maxWidth="calc(initial - 45px)">
-                
+
                 <Box padding={1}>
                     <Typography variant="h3">{shipment?.label}</Typography>
                     <Box display="flex" justifyContent="flex-end" gap={1} paddingTop={1}>
                         <ProgressStatusAction model="shipment" object={shipment} actions={{}}/>
-                        <Button color="error" startIcon={<Delete/>}>Delete</Button>
+                        <Button color="error" variant="outlined" startIcon={<Delete/>}>Delete</Button>
                     </Box>
                 </Box>
 
