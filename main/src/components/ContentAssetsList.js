@@ -4,8 +4,9 @@ import { Badge, Box, Button, Checkbox, IconButton, Paper, Typography, useTheme }
 import { Archive, Close, Delete, DocumentScanner, ExpandLess, ExpandMore, SubdirectoryArrowRight } from '@mui/icons-material';
 import ScanTool from './ScanTool';
 import { useModelOptions } from '../customHooks';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import AssetIcon from './AssetIcon';
+import { getCookie } from '../context';
 
 const AssetSectionTitle = props => {
 
@@ -204,25 +205,106 @@ const AssetTableRow = props => {
 
 const ContentAssetsList = props => {
 
+    // Props
     const {
         obj,
         objContentType,
         onSelect,
-        receiveSelectedAssets,
-        removeSelectedAssets,
     
     } = props;
 
+    // Hooks
     const [displayScanTool, setDisplayScanTool] = useState(false);
+    const assetOptions = useModelOptions('asset');
     const theme = useTheme();
+    const queryClient = useQueryClient();
 
+    // Mutations
+    const updateAsset = useMutation({
+        mutationFn: (data) => {
+
+            const updateUrl = new URL(`${window.location.protocol}${window.location.host}/api/asset/${data.id}/`);
+
+            const requestHeaders = new Headers();
+            requestHeaders.set("Content-Type", "application/json");
+            requestHeaders.set("X-CSRFToken", getCookie("csrftoken"));
+
+            // Updates
+            let payload = {};
+            
+            console.log('mutation data', data);
+
+            Object.entries(assetOptions.data.model_fields)
+            .forEach( ([fieldName, fieldDetails], _) => {
+                if(fieldDetails.read_only){
+                    return;
+                }
+                if(data[fieldName] === undefined){
+                    return;
+                }
+                payload[fieldName] = data[fieldName];
+            });
+
+            console.log("payload", payload);
+
+            return fetch(updateUrl, {
+                method: "PUT",
+                headers: requestHeaders,
+                body: JSON.stringify(payload),
+            });
+
+        },
+        onSettled: (data, error, variables, context) => {
+            console.log(data, error, variables, context);
+
+            if (error == null && data.ok){
+                // Update state
+            }
+        }
+    })
+
+    // Callback Functions
     const refetchState = e => {
-        return; //FIXME 
+        queryClient.invalidateQueries({queryKey : [objContentType, obj.id]})
+    }
+
+    const getSelectedAssets = () => {
+        return obj.assets
+        .map( a => [a, ...a.assets]).flat()
+        .filter( a => a._meta.selected )
+    }
+
+    const receiveSelectedAssets = e => {
+        const selectedAssets = getSelectedAssets();
+
+        selectedAssets.forEach(asset => {
+            if (objContentType == "shipment"){
+                updateAsset.mutate({...asset, location:obj.destination.id, parent_object_id:null, parent_content_type:null})
+            }
+            else{
+                throw new Error("Cannot receive assets from another asset, must receive via a shipment");
+            }
+        })
+    }
+
+    const removeSelectedAssets = e => {
+        const selectedAssets = getSelectedAssets();
+
+        selectedAssets.forEach(asset => {
+            if (objContentType == "shipment"){
+                updateAsset.mutate({...asset, location:obj.origin.id, parent_object_id:null, parent_content_type:null})
+            }
+            else{
+                updateAsset.mutate({...asset, location:obj.location, parent_object_id:null, parent_content_type:null})
+            }
+        })
     }
 
     const toggleScanTool = e => {
         setDisplayScanTool(prev => !prev)
     }
+    
+    // Formatted data
     let canReceiveAssetsFromObj = false;
     let canRemoveAssetsFromObj = false;
     

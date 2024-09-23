@@ -22,7 +22,6 @@ const ShipmentDetailView = props =>{
     // Hooks
     const locationParams = useParams();
     const shipmentOptions = useModelOptions('shipment');
-    const assetOptions = useModelOptions('asset');
     const [shipment, setShipment] = useState(false);
     const [displayScanTool, setDisplayScanTool] = useState(false);
 
@@ -96,36 +95,6 @@ const ShipmentDetailView = props =>{
 
           }
     });
-
-    const updateAsset = useMutation({
-        mutationFn: (data) => {
-
-            const updateUrl = new URL(`${window.location.protocol}${window.location.host}/api/asset/${data.id}/`);
-
-            const requestHeaders = new Headers();
-            requestHeaders.set("Content-Type", "application/json");
-            requestHeaders.set("X-CSRFToken", getCookie("csrftoken"));
-
-            // Updates
-            let payload = {};
-
-            assetOptions.model_fields.forEach( (fieldName, fieldDetails) => {
-                if(!fieldDetails.read_only && data[fieldName] != undefined){
-                    payload[fieldName] = data[fieldName];
-                }
-            });
-
-            return fetch(updateUrl, {
-                method: "PUT",
-                headers: requestHeaders,
-                body: JSON.stringify(payload),
-            });
-
-        },
-        onSettled: (data, error, variables, context) => {
-            console.log(data, error, variables, context)
-        }
-    })
 
     // Effects
 
@@ -215,24 +184,7 @@ const ShipmentDetailView = props =>{
 
             return(temporaryState)
         })
-    }
 
-    const getSelectedAssets = () => {
-        return shipment.assets
-        .map( a => [a, ...a.assets]).flat()
-        .filter( a => a._meta.selected )
-    }
-
-    const receiveSelectedAssets = e => {
-        const selectedAssets = getSelectedAssets();
-    }
-
-    const removeSelectedAssets = e => {
-        const selectedAssets = getSelectedAssets();
-
-        selectedAssets.forEach(asset => {
-            updateShipment.mutate({...asset, location:shipment.origin.id, parent_object_id:null, parent_content_type:null})
-        })
     }
 
     // Formatted Data
@@ -260,8 +212,6 @@ const ShipmentDetailView = props =>{
                         obj={shipment}
                         objContentType={'shipment'}
                         onSelect={selectAsset}
-                        receiveSelectedAssets={receiveSelectedAssets}
-                        removeSelectedAssets={removeSelectedAssets}
                     />
                 :
                     null
