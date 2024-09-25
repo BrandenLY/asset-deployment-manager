@@ -1,51 +1,27 @@
-import { Archive, CheckBox, Close, Delete, ExpandLess, ExpandMore, SubdirectoryArrowRight } from "@mui/icons-material";
-import { Badge, Box, Button, Checkbox, IconButton, Paper, Typography, useTheme } from "@mui/material";
 import { useMutation, useQueries, useQuery } from "@tanstack/react-query";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import AssetIcon from "../components/AssetIcon";
-import ChangeLogTableRow from "../components/ChangeLogTableRow";
-import ProgressStatusAction from "../components/ProgressStatusAction";
-import ScanTool from "../components/ScanTool";
-import Section from "../components/Section";
-import { ShipmentDetailPanel } from "../components/ShipmentDetailPanel";
-import SortingGrid from "../components/SortingGrid";
 import { useModelOptions } from "../customHooks";
 import ContentAssetsList from "../components/ContentAssetsList";
 import { getCookie } from "../context";
+import GenericDetailView from "../components/GenericDetailView";
+
+const MODELNAME = 'shipment'
 
 const ShipmentDetailView = props =>{
 
-    // Props
-    const { addNotif, removeNotif } = props;
-
     // Hooks
     const locationParams = useParams();
-    const shipmentOptions = useModelOptions('shipment');
+    const shipmentOptions = useModelOptions(MODELNAME);
     const [shipment, setShipment] = useState(false);
     const [displayScanTool, setDisplayScanTool] = useState(false);
 
     // Queries
 
     const shipmentQuery = useQuery({
-        queryKey: ['shipment', locationParams.id],
+        queryKey: [MODELNAME, locationParams.id],
         enabled: shipmentOptions.isSuccess
     })
-
-    const history = useQuery({
-        queryKey: ['logs', shipmentOptions.data?.contenttype_id, locationParams.id],
-        enabled: shipmentOptions.isSuccess && shipment.isSuccess,
-        queryFn: async ({ queryKey }) => {
-
-            const formattedUrl = new URL(
-              `${window.location.protocol}${window.location.host}/api/logs/${queryKey[1]}/${queryKey[2]}/`
-            );
-          
-            const res = await fetch(formattedUrl);
-            const data = await res.json();
-            return data;
-          }
-    });
 
     const relatedQueries = useQueries({
         queries: shipmentOptions.isSuccess && shipmentQuery.isSuccess ?
@@ -187,53 +163,23 @@ const ShipmentDetailView = props =>{
 
     }
 
-    // Formatted Data
-    const historyData = history.isSuccess ? history.data : [];
-
     return (
-        <Box className="ShipmentDetailView" position="relative">
-            <ShipmentDetailPanel
-                shipmentId={locationParams.id}
-                addNotif={addNotif}
-                shipment={shipment}
-            />
-            <Box className="ShipmentDetailContent" maxWidth="calc(initial - 45px)">
+        <GenericDetailView
+            {...props}
+            model={MODELNAME}
+        >
 
-                <Box padding={1}>
-                    <Typography variant="h3">{shipment?.label}</Typography>
-                    <Box display="flex" justifyContent="flex-end" gap={1} paddingTop={1}>
-                        <ProgressStatusAction model="shipment" object={shipment} actions={{}}/>
-                        <Button color="error" variant="outlined" startIcon={<Delete/>}>Delete</Button>
-                    </Box>
-                </Box>
+            { shipment ?
+                <ContentAssetsList 
+                    obj={shipment}
+                    objContentType={MODELNAME}
+                    onSelect={selectAsset}
+                />
+            :
+                null
+            }
 
-                { shipment ?
-                    <ContentAssetsList 
-                        obj={shipment}
-                        objContentType={'shipment'}
-                        onSelect={selectAsset}
-                    />
-                :
-                    null
-                }
-
-
-                <Section
-                    title={`History`}
-                >
-                    <SortingGrid 
-                        modelName="logentry" 
-                        data={historyData}
-                        initialColumns={["action", "user", "change_message", "action_time"]}
-                        paperProps={{elevation:2, width:"100%"}}
-                        RowComponent={ChangeLogTableRow}
-                        rowProps={{'objectContentType' : 'shipment'}}
-                        count={historyData.length}
-                    />
-                </Section>
-
-            </Box>
-        </Box>
+        </GenericDetailView>
     );
 };
 

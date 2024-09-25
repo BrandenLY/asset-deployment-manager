@@ -214,3 +214,11 @@ export const useModelOptions = (modelName) => {
           }
     })
 }
+
+export const useCurrentUser = () => {
+
+    return useQuery({
+        queryKey: ['user', 'current-user']
+    })
+
+}

@@ -87,9 +87,11 @@ const ModelForm = props => {
         formData = typeof index == 'number' ? formState[index] : formState;
     }
 
+    const gridContainerStyles = {padding:0, paddingRight:1, margin:0, maxWidth: "100%"};
+
     if(layout != undefined){
         return(
-            <Grid container spacing={1} sx={{padding:0, paddingRight:1, margin:0, maxWidth: "100%"}}>
+            <Grid container spacing={1} sx={gridContainerStyles}>
                 {formStateExists &&
                     layout.map( row => {
 
@@ -123,14 +125,16 @@ const ModelForm = props => {
 
     else{
         return (
-            <Grid container spacing={2} sx={{padding:0, margin:0, maxWidth: "100%"}}>
+            <Grid container spacing={1} sx={gridContainerStyles}>
                 {formStateExists &&
-                    Object.entries(formData).map(([fieldName, fieldInfo], fieldIndex) => {
-
+                    Object
+                    .entries(formData)
+                    .map(([fieldName, fieldInfo], _) => {
+                        const _field = formData[fieldName]; 
                         const htmlInputId = `${modelOptions.data.model}-form-${index ? index : 'generic'}-field-${fieldName}`;
                         return(
                             <Grid item xs={6}> 
-                                <DynamicInput disabled={disabled} fieldName={fieldName} fieldDetails={fieldInfo} {...{ updateFieldData, htmlInputId}}/>
+                                <DynamicInput disabled={disabled} fieldName={fieldName} fieldDetails={_field} {...{ updateFieldData, htmlInputId}}/>
                             </Grid>
                         )
                     })

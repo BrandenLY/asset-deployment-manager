@@ -11,7 +11,7 @@ import ModelForm from "../components/ModelForm";
 import ScanTool from "../components/ScanTool";
 
 
-const ManageShipmentView = props => {
+const ShipmentsView = props => {
 
     // Hooks 
     const shipmentOptions = useModelOptions('shipment');
@@ -274,4 +274,4 @@ const ManageShipmentView = props => {
     )
 }
 
-export default ManageShipmentView;
+export default ShipmentsView;

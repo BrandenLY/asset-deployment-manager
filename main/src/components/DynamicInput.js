@@ -68,7 +68,6 @@ const DynamicInput = props => {
                 onChange={(_e, newValue) => {updateValues(_e, newValue)}}
                 /> 
             );
-
         case 'computed value':
             // Standard HTML Datetime Input w/ notched label.
             return(
@@ -102,6 +101,7 @@ const DynamicInput = props => {
             );
         case 'related object':
             // Autocomplete/Select Style Input.
+            console.log(fieldName, fieldDetails);
             return(
                 <ModelAutoComplete
                 field={{fieldName,...fieldDetails}}

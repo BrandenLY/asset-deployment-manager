@@ -32,7 +32,7 @@ class Asset(TrackedModel):
         (3, "Lost"),
     )
     
-    model = models.ForeignKey("AssetModel", on_delete=models.PROTECT)
+    model = models.ForeignKey("Model", related_name="model", on_delete=models.PROTECT)
     code = models.CharField(_("Code"), max_length=25, validators=[ALPHANUMERIC_VALIDATOR,], unique=True)
     serial_number = models.CharField(_("Serial Number"), max_length=50, blank=True, null=True)
     iccid = models.CharField(_("ICCID"), max_length=20, blank=True, null=True)
@@ -105,7 +105,7 @@ class Asset(TrackedModel):
         # The Shipment must also be accepting contents
         return self.parent_object.can_accept_scan_entries()
 
-class AssetModel(models.Model):
+class Model(models.Model):
     name = models.CharField(_("Name"), max_length=SMALL_TEXT_FIELD_SIZE)
     description = models.CharField(_("Description"), max_length=LARGE_TEXT_FIELD_SIZE, blank=True, null=True)
     manufacturer = models.CharField(_("Manufacturer"), max_length=SMALL_TEXT_FIELD_SIZE)

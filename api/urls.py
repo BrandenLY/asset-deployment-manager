@@ -19,12 +19,13 @@ from django.urls import path, re_path
 from django.urls import include
 from rest_framework.routers import DefaultRouter, Route
 
+from .views import ContentTypeView
 from .views import UserView
 from .views import EventView
 # from .views import MilestoneView
 # from .views import ServiceView
 from .views import AssetView
-from .views import AssetModelView
+from .views import ModelView
 from .views import LocationView
 from .views import ShipmentView
 from .views import CurrentUserView
@@ -34,13 +35,14 @@ from .views import ObjectAdminLogEntries
 
 router = DefaultRouter()
 
+router.register(r"contenttype", ContentTypeView)
 router.register(r"user", UserView)
 router.register(r"logentry", LogEntryView)
 router.register(r"event", EventView)
 # router.register(r"milestone", MilestoneView)
 # router.register(r"service", ServiceView)
 router.register(r"asset", AssetView)
-router.register(r"model", AssetModelView)
+router.register(r"model", ModelView)
 router.register(r"location", LocationView)
 router.register(r"shipment", ShipmentView)
 

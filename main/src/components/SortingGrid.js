@@ -5,7 +5,7 @@ import { MoreVert, ArrowUpward, ArrowDownward, ViewColumn, FirstPage, LastPage, 
 import { useQueries, useQuery } from "@tanstack/react-query";
 import { Link as RouterLink } from "react-router-dom";
 import { useModelOptions } from "../customHooks";
-import ActionButton from "./actionButton";
+import ActionButton from "./ActionButton";
 import { ErrorBoundary } from "./ErrorBoundary";
 
 const minimumRecordsPerPage = 25;
@@ -249,7 +249,7 @@ const SortingGrid = props => {
                 <Typography variant="h4">{title}</Typography>
             </Box>
 
-            <TableContainer sx={{flexGrow: 1}}>
+            <TableContainer sx={{flexGrow: 1, overflowX: "scroll"}}>
                 <Table>
 
                     <TableHead>

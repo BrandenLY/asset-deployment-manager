@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from assets.models import Asset, AssetModel, AssetIcon, Location, Shipment
+from assets.models import Asset, Model, AssetIcon, Location, Shipment
 from .base_serializers import CustomBaseSerializer, ContentTypeSerializer
 
 
@@ -18,7 +18,7 @@ class ContentAssetsField(serializers.ReadOnlyField):
 
 class AssetSerializer(CustomBaseSerializer):
     assets = ContentAssetsField()
-    parent_content_type = ContentTypeSerializer(required=False, allow_null=True)
+    # parent_content_type = ContentTypeSerializer(required=False, allow_null=True)
 
     class Meta:
         model = Asset
@@ -53,11 +53,11 @@ class AssetIconSerializer(CustomBaseSerializer):
             "source_name"
         ]
 
-class AssetModelSerializer(CustomBaseSerializer):
+class ModelSerializer(CustomBaseSerializer):
 
     icon = AssetIconSerializer()
     class Meta:
-        model = AssetModel
+        model = Model
         fields = [
             "id",
             "label",

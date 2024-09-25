@@ -112,7 +112,7 @@ const CustomPage = props => {
                 <Typography variant="subtitle1" sx={{margin: 1}}> <CustomBreadcrumbs/> </Typography>
                 {/* Page Content */}
                 <ErrorBoundary fallback={<PageError/>} >
-                    { View ? <View addNotif={addNotification} remNotif={closeActiveNotification} {...props}/> : "" }
+                    { View ? <View addNotif={addNotification} remNotif={closeActiveNotification}/> : "" }
                 </ErrorBoundary>
             </Box>
             <Snackbar 

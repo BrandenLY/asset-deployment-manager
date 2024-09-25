@@ -147,8 +147,8 @@ const AssetTableRow = props => {
                     gap={theme.spacing(1)}
                     padding={theme.spacing(1)}
                 >
-                    <IconButton onClick={toggleExpanded}>
-                        { expanded ? <ExpandLess /> : <ExpandMore />}
+                    <IconButton disabled={true}>
+                        <ExpandMore />
                     </IconButton>
                     <Box
                         display="flex"
@@ -157,7 +157,6 @@ const AssetTableRow = props => {
                         padding={theme.spacing(1)}
                         paddingLeft={theme.spacing(3)}
                         borderRadius={theme.shape.borderRadius}
-                        backgroundColor={theme.palette.divider}
                         border={`3px solid ${theme.palette.divider}`}
                         width="100%"
                     >
@@ -165,39 +164,6 @@ const AssetTableRow = props => {
                         <AssetSectionTitle asset={asset}/>
                     </Box>
                 </Box>
-    
-                { expanded &&
-                    <Box 
-                        className="asset-table-row-body"
-                        display="flex"
-                        flexDirection="column"
-                        alignItems="stretch"
-                        gap={theme.spacing(1)}
-                        padding={theme.spacing(1)}
-                        paddingLeft={theme.spacing(8)}
-                    >
-                        { asset.assets.map( childAsset => {
-                            return(
-                                <Box display="flex" alignItems="center">
-                                    <SubdirectoryArrowRight />
-                                    <Box
-                                        display="flex"
-                                        alignItems="center"
-                                        gap={theme.spacing(1)}
-                                        padding={theme.spacing(1)}
-                                        paddingLeft={theme.spacing(3)}
-                                        borderRadius={theme.shape.borderRadius}
-                                        border={`3px solid ${theme.palette.divider}`}
-                                        width="100%"
-                                    >
-                                        <Checkbox checked={childAsset._meta.selected} onChange={() => {onCheckboxToggle(childAsset)}}/>
-                                        <AssetSectionTitle asset={childAsset}/>
-                                    </Box>
-                                </Box>
-                            )
-                        }) }
-                    </Box>
-                }
             </Paper>
         )
     }
@@ -255,16 +221,17 @@ const ContentAssetsList = props => {
 
         },
         onSettled: (data, error, variables, context) => {
-            console.log(data, error, variables, context);
 
             if (error == null && data.ok){
                 // Update state
             }
+
+            refetchState();
         }
     })
 
     // Callback Functions
-    const refetchState = e => {
+    const refetchState = () => {
         queryClient.invalidateQueries({queryKey : [objContentType, obj.id]})
     }
 
@@ -285,12 +252,13 @@ const ContentAssetsList = props => {
                 throw new Error("Cannot receive assets from another asset, must receive via a shipment");
             }
         })
+
     }
 
     const removeSelectedAssets = e => {
         const selectedAssets = getSelectedAssets();
 
-        selectedAssets.forEach(asset => {
+        selectedAssets.forEach( asset => {
             if (objContentType == "shipment"){
                 updateAsset.mutate({...asset, location:obj.origin.id, parent_object_id:null, parent_content_type:null})
             }
@@ -298,6 +266,7 @@ const ContentAssetsList = props => {
                 updateAsset.mutate({...asset, location:obj.location, parent_object_id:null, parent_content_type:null})
             }
         })
+
     }
 
     const toggleScanTool = e => {
@@ -339,7 +308,7 @@ const ContentAssetsList = props => {
                         return <AssetTableRow asset={asset} selectRow={onSelect}/>
                     }
                     else{
-                        return <></>
+                        return <AssetTableRow asset={asset} selectRow={onSelect}/>
                     }
                 })}
             </Box>

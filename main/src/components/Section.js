@@ -24,8 +24,16 @@ const Section = props => {
 
 
   return (
-    <Paper className="section" sx={{padding: 1, margin: `${theme.spacing(1)} 0`}} {...paperProps}>
-
+    <Paper 
+        {...paperProps} 
+        className="section" 
+        sx={{
+            minWidth: "300px",
+            padding: 1,
+            margin: `${theme.spacing(1)} 0`,
+            ...paperProps.sx
+        }}
+    >
         <Box className="section-heading" display="flex" gap={theme.spacing(1)} padding={theme.spacing(1)}>
             <Box className="section-controls" display="flex" gap={theme.spacing(1.5)} flexGrow={1}>
                 <IconButton onClick={toggleExpansion}>

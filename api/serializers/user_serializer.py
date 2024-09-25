@@ -1,20 +1,22 @@
 from rest_framework import serializers
+from api.serializers.base_serializers import CustomBaseSerializer
 from main.models import User
 from django.contrib.auth.models import Permission
 
-class PermissionSerializer(serializers.ModelSerializer):
+class PermissionSerializer(CustomBaseSerializer):
 
     class Meta:
         model=Permission
-        fields=["id", "codename", "name"]
+        fields=["id", "label", "codename", "name"]
 
 
-class UserSerializer(serializers.ModelSerializer):
+class UserSerializer(CustomBaseSerializer):
     user_permissions = PermissionSerializer(many=True)
     class Meta:
         model = User
         fields = [
             "id",
+            "label",
             "first_name",
             "last_name",
             "email",

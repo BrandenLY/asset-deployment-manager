@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .models import Asset
-from .models import AssetModel
+from .models import Model
 from .models import AssetIcon
 from .models import Location
 from .models import Shipment
@@ -29,7 +29,7 @@ class AssetModelAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Asset, AssetAdmin)
-admin.site.register(AssetModel, AssetModelAdmin)
+admin.site.register(Model, AssetModelAdmin)
 admin.site.register(AssetIcon)
 admin.site.register(Location)
 admin.site.register(Shipment)
