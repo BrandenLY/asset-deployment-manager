@@ -12,22 +12,24 @@ import CustomQueryClientProvider from "./queryConfig";
 
 // PAGE VIEWS
 import CustomPage from "./components/CustomPage";
-import ManageShipmentView from "./views/ShipmentsView";
+import PageNotFound from "./views/PageNotFound";
+
+import ShipmentsView from "./views/ShipmentsView";
 import ShipmentDetailView from "./views/ShipmentDetailView";
-import PageNotFound from "./views/PageNotFound"
 import AssetsView from "./views/AssetsView";
-import LocationView from "./views/LocationView";
 import AssetDetailView from "./views/AssetDetailView";
+import LocationsView from "./views/LocationsView";
+import LocationDetailView from "./views/LocationDetailView";
 
 const applicationRoutes = [
   // [ PATH: String, VIEW: React Component, TITLE: String ]
-  ['/', ManageShipmentView, 'Homepage'],
-  ['/shipments', ManageShipmentView, 'Manage Shipments'],
+  ['/', ShipmentsView, 'Homepage'],
+  ['/shipments', ShipmentsView, 'Manage Shipments'],
   ['/shipments/:id', ShipmentDetailView, 'Shipment Details'],
   ['/assets', AssetsView, 'Manage Assets'],
   ['/assets/:id', AssetDetailView, 'Asset Details'],
-  ['/locations', LocationView, 'Manage Locations'],
-  ['/locations/:id', null, 'Location Details'],
+  ['/locations', LocationsView, 'Manage Locations'],
+  ['/locations/:id', LocationDetailView, 'Location Details'],
   ['*', PageNotFound, null] // Fallback/Default Route.
 ]
 

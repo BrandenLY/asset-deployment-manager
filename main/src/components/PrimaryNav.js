@@ -9,7 +9,7 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemIcon from '@mui/material/ListItemIcon';
-import { Menu, LocalShipping, Assignment, Close, LibraryBooks, Place, DevicesOther } from '@mui/icons-material';
+import { Menu, LocalShipping, Assignment, Close, LibraryBooks, Place, DevicesOther, People, Groups } from '@mui/icons-material';
 import Typography from '@mui/material/Typography';
 import { Divider, useTheme } from '@mui/material';
 
@@ -88,11 +88,11 @@ const NavDrawer = props =>{
             onClose={onClose}
         >
             <Box width="100%" height="100%" position="relative" paddingTop={navHeight}>
-                <Box display="flex" justifyContent="center" padding={1} borderBottom={`${theme.spacing(0.25)} solid ${theme.palette.divider}`}>
-                    <Typography variant="h5" textTransform="uppercase">Pages</Typography>
-                </Box>
                 <Box component="nav">
                     <List>
+                        <ListItem sx={{justifyContent: "center", borderBottom: `3px solid ${theme.palette.divider}`}}>
+                            <Typography variant="h5" textTransform="uppercase">Track & Manage</Typography>
+                        </ListItem>
 
                         <ListItem disablePadding>
                             <ListItemButton onClick={() => navigate('/shipments')}>
@@ -117,7 +117,7 @@ const NavDrawer = props =>{
 
                         <ListItem disablePadding>
                             <ListItemButton onClick={() => navigate('/staffing')}>
-                                <ListItemIcon><Place /></ListItemIcon>
+                                <ListItemIcon><Groups /></ListItemIcon>
                                 <ListItemText primary="Staffing" />
                             </ListItemButton>
                         </ListItem>
