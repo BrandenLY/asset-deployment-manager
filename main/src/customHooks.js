@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useContext } from 'react';
+import React, { useState, useEffect, useCallback, useContext, useReducer } from 'react';
 import { useInfiniteQuery, useQuery, useQueries } from "@tanstack/react-query";
 import { FormControl, InputLabel, OutlinedInput, Autocomplete, TextField } from '@mui/material';
 import { ModelAutoComplete } from './components/ModelAutoComplete';
@@ -215,10 +215,61 @@ export const useModelOptions = (modelName) => {
     })
 }
 
-export const useCurrentUser = () => {
+const userReducer = (prev, dispatchData) => {
 
-    return useQuery({
-        queryKey: ['user', 'current-user']
-    })
+    switch (dispatchData.action){
 
+        case 'addCallback':
+            let tmp = {...prev};
+            tmp[dispatchData.fnName] = dispatchData.fn;
+
+            return tmp;
+
+        case 'updateQueryInfo':
+            return {...prev, ...dispatchData.queryData};
+
+        case 'initializeState':
+            let initialState = {...dispatchData.queryData}
+            return initialState;
+    }
+
+}
+
+export const useCurrentUser = props => {
+
+    const userQuery = useQuery({
+        queryKey:['user', 'current-user'],
+        staleTime: 'Infinity'
+    });
+    const [state, dispatch] = useReducer(userReducer, null);
+
+    useEffect(() => {
+        dispatch({action:'initalizeState', queryData:userQuery});
+    },[])
+
+    useEffect(() => {
+        dispatch({action:'updateQueryInfo', queryData:userQuery});
+    },[userQuery.isFetched]);
+
+    useEffect(() => {
+        dispatch({action:'addCallback', fnName:"checkPermission", fn:checkPermission})
+    }, [state?.data]);
+
+    // Check to see if a user has permission to perform a specific action.
+    const checkPermission = useCallback(permissionCode => {
+
+        if (state === null){
+            return false;
+        }
+
+        if (state.data?.is_superuser){
+            return true;
+        }
+
+        const perm = state.data.user_permissions.find( p => p.codename == permissionCode );
+        return(perm != undefined);
+
+    }, [state?.data])
+
+    return state;
 }
