@@ -58,7 +58,7 @@ const objectFormReducer = (prev, action) => {
 
         case 'resetToInitialState':
 
-            return null;
+            return [];
     }
 
 }
