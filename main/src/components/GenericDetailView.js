@@ -1,4 +1,4 @@
-import { Box, Button, Skeleton, Typography, useMediaQuery, useTheme, } from '@mui/material';
+import { Box, Button, Skeleton, Typography, useTheme, } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import DetailsPanel from './DetailsPanel';
 import Section from './Section';
@@ -19,7 +19,6 @@ const GenericDetailView = props => {
     const objOptions = useModelOptions(model);
     const locationParams = useParams();
     const user = useCurrentUser();
-    const userDeviceIsMobile = useMediaQuery("(max-width:1010px)");
     const theme = useTheme();
 
     // Queries
@@ -57,14 +56,12 @@ const GenericDetailView = props => {
         // Update State to include object and related-object data.
 
         // Escape hatch: exit if no related objects to query.
-        if (relatedQueries.length == 0) {
+        if (relatedQueries.length == 0 && !obj.isSuccess) {
             return;
         }
 
         // Evaluates to true or false depending on whether all related object queries are successful.
         const relatedQueriesAreSuccess = Object.values(relatedQueries).every( q => q.isFetched && q.isSuccess );
-        console.log(relatedQueries)
-        console.log(relatedQueriesAreSuccess)
 
         // 
         if (obj.isSuccess && relatedQueriesAreSuccess){
@@ -81,11 +78,6 @@ const GenericDetailView = props => {
             // Update foreign key relations to object data
             queryOrdering.forEach( (fieldName, index) => temporaryState[fieldName] = relatedQueries[index].data);
 
-            // Data manipulation
-            // temporaryState = parseShipmentData(temporaryState);
-            // temporaryState['assets'] = temporaryState['assets'].map( asset => parseAssetData(asset) )
-
-            console.log('updateState', temporaryState)
             // Update state
             setData(temporaryState);
         }
@@ -97,7 +89,7 @@ const GenericDetailView = props => {
     const viewContainerName = `${model}-detail-view`;
     const viewContainerContentName = `${model}-detail-content`;
     const historyData = history.isSuccess ? history.data : [];
-    const userCanDelete = user.data?.user_permissions?.find( p => p.codename == `delete_${model}`);
+    const userCanDelete = user ? user.checkPermission(`delete_${model}`) : false;
 
     return (
         <Box id={viewContainerName} position="relative">
@@ -117,7 +109,8 @@ const GenericDetailView = props => {
                 <DetailsPanel
                     model={model}
                     data={data ? data : obj.data}
-                    layout={detailFormLayout ? detailFormLayout : undefined}
+                    formLayout={detailFormLayout ? detailFormLayout : undefined}
+                    addNotif={props.addNotif}
                 /> :
                 <Skeleton
                     variant='rectangular'
@@ -129,9 +122,7 @@ const GenericDetailView = props => {
                         padding: 1,
                         margin: `${theme.spacing(1)} 0`,
                     }}
-                >
-
-                </Skeleton>
+                />
                 }
 
                 <Box id={viewContainerContentName} flex="2" minWidth='300px' white-space="nowrap" maxWidth="100%">
