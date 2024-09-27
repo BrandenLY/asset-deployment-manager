@@ -26,6 +26,18 @@ const AssetDetailView = props => {
                     { obj.isSuccess ? obj.data.label : `Unknown ${MODELNAME}`}
                 </Typography>
             }
+            detailFormLayout = {[
+                ['id', null],
+                ['model', 'code'],
+                ['condition'],
+                ['serial_number'],
+                ['iccid'],
+                ['imei'],
+                ['knox_id'],
+                ['location'],
+                ['note'],
+                ['date_created', 'last_modified']
+            ]}
         >
 
             {/* Model/Page specific content can be added here */}
