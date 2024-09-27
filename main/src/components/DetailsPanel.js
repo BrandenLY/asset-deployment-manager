@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useCurrentUser, useModelOptions } from '../customHooks';
 import { getCookie } from '../context';
 import { Button, Collapse, Divider, IconButton, List, ListItem, ListItemIcon, ListItemText, Paper, useMediaQuery, useTheme } from '@mui/material';
@@ -26,7 +26,7 @@ const DetailsPanel = props => {
     const formContainer = useRef(null);
 
     const { mutate } = useMutation({
-        mutationFn: async data => {
+        mutationFn: async ({method, payload}) => {
             const updateUrl = new URL(
                 `${window.location.protocol}${window.location.host}/api/${model}/${data.id}/`
             );
@@ -37,7 +37,7 @@ const DetailsPanel = props => {
             return fetch(updateUrl, {
                 method: "PUT",
                 headers: requestHeaders,
-                body: JSON.stringify(data),
+                body: JSON.stringify(payload),
               });
         },
         onSettled: (res, error, vars) => {
@@ -82,35 +82,113 @@ const DetailsPanel = props => {
         }
     })
 
+    // Effects
+    useEffect(() => {
+      
+      if (modelOptions.data === undefined){
+        return;
+      }
+
+      if (data === undefined){
+        return;
+      }
+
+      let tmp = {};
+
+      Object.entries(modelOptions.data.model_fields)
+      .map( ([fieldName, fieldDetails]) => {
+
+        tmp[fieldName] = {...fieldDetails, errors:[], current:data[fieldName]}
+
+      })
+      console.log(tmp);
+      setObjForm(tmp);
+
+    }, [modelOptions.data, data])
+
     // Callback Functions
     const toggleEditMode = e => {
         setIsEditing(!isEditing);
     };
 
-    const updateForm = (_, data, fieldName=null) => {
+    const updateForm = (_, fieldName, value) => {
         setObjForm( prev => {
+
             let tmp = {...prev};
-
-            if(fieldName == null){
-                // Expecting a fully formed state data
-                tmp = data;
-            }
-            else{
-                // Expecting a partial update to the form state data
-                tmp[fieldName].current = data;
-            }
-
+            tmp[fieldName].current = value;
             return tmp;
+
         });
     }
 
     const resetForm = () => {
-
+      setObjForm(undefined);
     }
 
     const saveModel = () => {
         let payload = {};
+        
+        Object.entries(objForm).forEach( ([fieldName, fieldDetails]) => {
+          
+          // Readonly fields cannot be saved.
+          if (fieldDetails.read_only){
+            return;
+          }
 
+          // Ignore undefined fields
+          if (fieldDetails.current == undefined){
+            return;
+          }
+
+          // Set null fields
+          if (fieldDetails.current == null){
+            payload[fieldName] = null;
+            return;
+          }
+
+          // Format data before sending to backend.
+          switch(fieldDetails.type){
+            case 'field':
+              payload[fieldName] = new String(fieldDetails.current);
+              return;
+            case 'boolean':
+              payload[fieldName] = new Boolean(fieldDetails.current);
+              return;
+            case 'string':
+              payload[fieldName] = new String(fieldDetails.current);
+              return;
+            case 'url':
+              payload[fieldName] = new URL(fieldDetails.current);
+              return;
+            case 'regex':
+              payload[fieldName] = new String(fieldDetails.current);
+              return;
+            case 'slug':
+              payload[fieldName] = new String(fieldDetails.current);
+              return;
+            case 'date':
+              payload[fieldName] = new Date(fieldDetails.current);
+              return;
+            case 'datetime':
+              payload[fieldName] = new Date(fieldDetails.current);
+              return;
+            case 'time':
+              payload[fieldName] = new Date(fieldDetails.current);
+              return;
+            case 'choice':
+              payload[fieldName] = fieldDetails.current.value;
+              return;
+            case 'related object':
+              payload[fieldName] = fieldDetails.current.id;
+              return;
+            default:
+              payload[fieldName] = fieldDetails.current;
+              return;
+          }
+        })
+
+        console.log(payload);
+        mutate({method:"PUT", payload:payload});
     }
 
     const collapseSelf = () => {
@@ -122,8 +200,7 @@ const DetailsPanel = props => {
     }
 
     // Formatted Data
-    
-    const userCanModify = user.data?.user_permissions?.find( p => p.codename == `change_${model}`);
+    const userCanModify = user ? user.checkPermission(`change_${model}`) : false;
 
     return (
       <Paper className={`${model}DetailPanel`}
@@ -155,13 +232,14 @@ const DetailsPanel = props => {
 
               <ListItem sx={{flexGrow: 1, alignItems:"flex-start"}} disableGutters>
 
-                { data && // Wait for data to load before displaying the Model Form Component
-                  <ModelForm 
+                { objForm && // Wait for data to load before displaying the Model Form Component
+                  <ModelForm
+                    index={0}
+                    model={model} 
                     disabled={!isEditing}
                     formState={objForm}
-                    initialValue={data}
                     onChange={updateForm}
-                    modelOptions={modelOptions}
+                    layout={formLayout ? formLayout : undefined}
                   />
                 }
 

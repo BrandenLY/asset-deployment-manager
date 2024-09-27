@@ -14,14 +14,21 @@ import {
 import { Close } from "@mui/icons-material";
 
 const CustomDialog = (props) => {
+
     // Props
-    const {openDialogButtonText, openDialogButtonIcon, title, subtitle="", children:innerContent, onClose:externalOnClose, actions={}} = props;
+    const {
+        openDialogButtonText,
+        openDialogButtonIcon,
+        title,
+        subtitle="",
+        children:innerContent,
+        onClose:externalOnClose,
+        actions={}
+    } = props;
 
     // Hooks
     const theme = useTheme();
     const clientIsMobile = useMediaQuery(theme.breakpoints.down('sm'));
-    
-    // State
     const [isOpen, setIsOpen] = useState(false);
 
     // Callback Functions
@@ -68,9 +75,13 @@ const CustomDialog = (props) => {
                 {innerContent}
             </DialogContent>
             <DialogActions>
-                { actions.map(([actionName, actionDetails]) => {
-                    return(<Button onClick={actionDetails.callbackFn} variant="contained">{actionName}</Button>)
-                }) }
+                {actions.map(
+                    ( {buttonText, onClickFn} ) => (
+                        <Button onClick={onClickFn} variant="contained">
+                            {buttonText}
+                        </Button>
+                    )    
+                )}
             </DialogActions>
         </Dialog>
     </React.Fragment>

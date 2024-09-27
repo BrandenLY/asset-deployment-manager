@@ -47,14 +47,22 @@ const DynamicInput = props => {
     switch(fieldDetails.type){
         case 'choice':
             // Autocomplete/Select Style Input.
+            const getOptionLabelFn = option => {
+                return fieldDetails.choices.find( choice => (
+                    choice.value == option
+                ))?.display_name
+            }
+
+            const fieldOptions = fieldDetails.choices.map(choice => choice.value);
+
             return(
                 <Autocomplete
                 id={htmlInputId}
-                options={fieldDetails.choices}
+                options={fieldOptions}
                 disabled={fieldIsDisabled}
                 required={fieldDetails.required}
                 error={fieldError}
-                getOptionLabel={option => option.display_name}
+                getOptionLabel={getOptionLabelFn}
                 renderInput={ (params) => (
                     <TextField
                         {...params}
@@ -68,10 +76,10 @@ const DynamicInput = props => {
                 onChange={(_e, newValue) => {updateValues(_e, newValue)}}
                 /> 
             );
+
         case 'computed value':
-            // Standard HTML Datetime Input w/ notched label.
             return(
-                <TextField disabled={fieldIsDisabled} inputProps={{sx:{width:"100%"}}} sx={{flexGrow:"2"}} label={fieldName} />
+                <TextField disabled={fieldIsDisabled} inputProps={{sx:{width:"100%"}}} sx={{flexGrow:"2"}} label={fieldName} value={fieldDetails.current}/>
             );
         case 'datetime':
             // Const datetime input type with customized label styling.
@@ -101,7 +109,6 @@ const DynamicInput = props => {
             );
         case 'related object':
             // Autocomplete/Select Style Input.
-            console.log(fieldName, fieldDetails);
             return(
                 <ModelAutoComplete
                 field={{fieldName,...fieldDetails}}
@@ -118,7 +125,6 @@ const DynamicInput = props => {
                 <InputLabel variant="outlined" error={fieldError} for={htmlInputId}>
                     {fieldDetails.label}
                 </InputLabel>
-        
                 <OutlinedInput
                     id={htmlInputId}
                     type={fieldDetails.type}

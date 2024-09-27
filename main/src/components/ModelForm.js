@@ -1,147 +1,85 @@
 import React, {useEffect} from 'react'
 import DynamicInput from './DynamicInput';
-import { Box, Grid, Typography } from '@mui/material';
+import { Grid } from '@mui/material';
+import { useModelOptions } from '../customHooks';
+
+const GridStyles = {padding:0, paddingRight:1, margin:0, maxWidth: "100%"};
 
 const ModelForm = props => {
+
+    // Renders all of the html input fields required to manipulate, and 
     
     // State Variables
     const {
-        disabled, // Whether or not the form should be editable.
-        excludeReadOnly, // Whether 'Read Only' fields should be excluded.
-        onChange:externalOnChange, // A function to call whenever the internal form data is changed.
-        formState,
         index,
-        initialValue,
-        layout, // If provided, will determine the structure of the html input fields.
-        modelOptions
+        model,
+        formState,
+        layout,
+        disabled = false,
+        excludeReadOnly = false,
+        onChange:externalOnChange = () => {}
     } = props;
 
-    // Effects
-    useEffect(() => { // Configure initial data based on model options.
-
-        if(modelOptions.isLoading || formStateExists){
-            // We do not want to run this effect if we
-            // have not received the model options from the backend or,
-            // the initial data is already loaded.
-            return;
-        }
-
-        // Instantiate initial values
-        const initialFieldValues = {};
-
-        Object.entries(modelOptions.data.model_fields)
-            .forEach(
-            ([fieldName, fieldDetails], _) => {
-
-                // Skip non required fields
-                if(fieldDetails.read_only && excludeReadOnly){
-                    return;
-                }
-
-                // Ensure choices fields are populated with their display_name
-                if('choices' in fieldDetails && initialValue){
-
-                    const currentChoice = fieldDetails.choices.find(
-                        choice => choice.value == initialValue[fieldName]
-                    );
-                    
-                    initialFieldValues[fieldName] = {
-                        ...fieldDetails, 
-                        errors:[], 
-                        current:currentChoice
-                    };
-
-                    return;
-
-                }
-
-                // Add initial field values
-                initialFieldValues[fieldName] = {
-                    ...fieldDetails, 
-                    errors:[], 
-                    current: initialValue ? initialValue[fieldName] : null
-                }
-            }
-        )
-
-        // Update state with initial values
-        externalOnChange(index, initialFieldValues);
-
-    }, [modelOptions])
-
-    // Callback Functions
-    const updateFieldData = (fieldName, value) => {
-        externalOnChange(index, value, fieldName=fieldName);
-        return;
-    } 
-
-    // Formatted Data
-    const formStateExists = (
-        typeof index == 'number' ? 
-        typeof formState[index] != 'undefined' && formState.length > 0 : 
-        typeof formState != 'undefined'
-    );
-
-    let formData = {};
-    if(formStateExists){
-        formData = typeof index == 'number' ? formState[index] : formState;
+    if(formState == undefined){
+        throw new Error('Modelform did not receive any formState.')
     }
 
-    const gridContainerStyles = {padding:0, paddingRight:1, margin:0, maxWidth: "100%"};
+    if(model == undefined){
+        throw new Error('Modelform did not receive any model.')
+    }
 
-    if(layout != undefined){
-        return(
-            <Grid container spacing={1} sx={gridContainerStyles}>
-                {formStateExists &&
-                    layout.map( row => {
+    // Callback Functions
+    
+    const updateFieldData = (fieldName, value) => {
 
-                        const colSpan = 12 / row.length;
-                        return ( row.map( cell => {
+        externalOnChange(index, fieldName, value);
 
-                            // Add whitespace
-                            if(cell == null){
-                                return(<Grid item xs={colSpan} />)
+    }
+
+    return(
+        <Grid container spacing={1} sx={GridStyles}>
+            {
+                layout != undefined ?
+                layout.map( row => {
+                    const colSpan = 12 / row.length;
+                    return (
+                        row.map( cell => {
+                            if(cell === null){
+                                // Insert intentional whitespace into the grid layout.
+                                return <Grid item xs={colSpan}/> 
                             }
-
-                            // Add Form Field
                             else{
-
-                                const _field = formData[cell]; 
-                                const htmlInputId = `${modelOptions.data.model}-form-${index}-field-${cell}`;
-                                return(
+                                // Render input field
+                                const field = formState[cell]
+                                const htmlInputId = `${model}-form-${index}-field-${cell}`;
+                                return (
                                     <Grid item xs={colSpan}> 
-                                        <DynamicInput disabled={disabled} fieldName={cell} fieldDetails={_field} {...{updateFieldData, htmlInputId}}/>
+                                        <DynamicInput 
+                                            fieldName={cell}
+                                            fieldDetails={field}
+                                            {...{disabled, updateFieldData, htmlInputId}}
+                                        />
                                     </Grid>
                                 )
                             }
-
-                        }));
-
-                    })
-                }
-            </Grid>
-        )
-    }
-
-    else{
-        return (
-            <Grid container spacing={1} sx={gridContainerStyles}>
-                {formStateExists &&
-                    Object
-                    .entries(formData)
-                    .map(([fieldName, fieldInfo], _) => {
-                        const _field = formData[fieldName]; 
-                        const htmlInputId = `${modelOptions.data.model}-form-${index ? index : 'generic'}-field-${fieldName}`;
-                        return(
-                            <Grid item xs={6}> 
-                                <DynamicInput disabled={disabled} fieldName={fieldName} fieldDetails={_field} {...{ updateFieldData, htmlInputId}}/>
-                            </Grid>
-                        )
-                    })
-                }
-            </Grid>
-          )
-    }
+                        })
+                    )
+                }) :
+                Object.entries(formState).map(([fieldName, fieldDetails]) => {
+                    const htmlInputId = `${model}-form-${index}-field-${fieldName}`;
+                    return (
+                        <Grid item xs={6}> 
+                            <DynamicInput 
+                                fieldName={fieldName}
+                                fieldDetails={fieldDetails}
+                                {...{disabled, updateFieldData, htmlInputId}}
+                            />
+                        </Grid>
+                    );
+                })
+            }
+        </Grid>
+    );
 }
 
 export default ModelForm;
