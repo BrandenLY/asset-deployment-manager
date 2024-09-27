@@ -101,7 +101,7 @@ const DetailsPanel = props => {
         tmp[fieldName] = {...fieldDetails, errors:[], current:data[fieldName]}
 
       })
-      console.log(tmp);
+      
       setObjForm(tmp);
 
     }, [modelOptions.data, data])
