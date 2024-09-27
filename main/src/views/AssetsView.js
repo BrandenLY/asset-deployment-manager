@@ -5,6 +5,9 @@ import { useModelOptions } from "../customHooks";
 import { useNavigate } from "react-router-dom";
 import { OpenInNew } from "@mui/icons-material";
 import SortingGrid from "../components/SortingGrid";
+import ModelListControls from "../components/ModelListControls";
+
+const MODELNAME = 'asset'
 
 const AssetsView = props =>{
     // Hooks
@@ -17,7 +20,7 @@ const AssetsView = props =>{
 
     // Queries
     const assets = useInfiniteQuery({
-        queryKey: ['asset'],
+        queryKey: [MODELNAME],
     });
 
     // Callback Functions
@@ -30,8 +33,10 @@ const AssetsView = props =>{
     // Formatted Data
     const allLoadedAssets = assets.data?.pages.map(p => p.results).flat();
     const assetCount = assets.data?.pages.reduce((count, page) => count + page.results.length, 0);
+
     return (
         <Box className="AssetsView">
+            <ModelListControls model={MODELNAME}/>
             <SortingGrid 
                 title="Manage Assets"
                 defaultColumns={["id", "label", "code"]}

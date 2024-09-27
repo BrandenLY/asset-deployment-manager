@@ -9,7 +9,17 @@ import CustomDialog from "../components/CustomDialog";
 import { getCookie } from "../context";
 import ModelForm from "../components/ModelForm";
 import ScanTool from "../components/ScanTool";
+import ModelListControls from "../components/ModelListControls";
 
+const MODELNAME = 'shipment';
+const CREATESHIPMENTSFORMLAYOUT = [
+    ['status', null],
+    ['carrier', null],
+    ['origin', 'destination'],
+    ['arrival_date', 'departure_date'],
+    // ['event', null],
+    // ['send_back_shipment', null]
+]
 
 const ShipmentsView = props => {
 
@@ -189,75 +199,19 @@ const ShipmentsView = props => {
     // Formatted Data
     const allLoadedShipments = shipments.data?.pages.map(p => p.results).flat();
     const shipmentCount = shipments.data?.pages.reduce((count, page) => count + page.results.length, 0);
-    const createShipmentsFormLayout = [
-        ['status', null],
-        ['carrier', null],
-        ['origin', 'destination'],
-        ['arrival_date', 'departure_date'],
-        // ['event', null],
-        // ['send_back_shipment', null]
-    ]
 
     // JSX 
     return (
         <Box className="ManageShipmentView">
-            <Box
-                sx={{
-                    display: "flex",
-                    justifyContent: "flex-end",
-                    transform: "translateY(-18px)",
-                }}
-            > 
-                <CustomDialog
-                    title="Create shipment(s)"
-                    subtitle="Setup and create new shipments"
-                    openDialogButtonText="New Shipment"
-                    openDialogButtonIcon={<Add/>}
-                    onClose = {() => {setNumExtraShipmentCreationForms(0); setForms([]);}}
-                    actions={[
-                        [numExtraShipmentCreationForms ? `Submit ${numExtraShipmentCreationForms+1} records` : 'Submit', {'callbackFn' : createNewShipments}]
-                    ]}
-                >
-                    <Paper sx={{background:"none", boxShadow:"none", padding:1, boxSizing:'border-box'}}>
-                        <Box sx={{display: "flex", justifyContent:"space-between", paddingX:1}}>
-                            <Typography>Shipment {numExtraShipmentCreationForms > 0 ? "1" : null}</Typography>
-                            <IconButton disabled={true} size={'small'}><Close/></IconButton>
-                        </Box>
-                        <ModelForm index={0} modelOptions={shipmentOptions} onChange={updateShipmentFormsData} formState={forms} layout={createShipmentsFormLayout} excludeReadOnly/>
-                    </Paper>
-                    { 
-                        [...Array(numExtraShipmentCreationForms)].map((_, i) =>{
-                            const formRequiresBackground = (i+1) % 2;
-                            return(
-                                <Paper sx={{background:formRequiresBackground ? null : "none", boxShadow:"none", padding:1, boxSizing:'border-box'}}>
-                                    <Box sx={{display: "flex", justifyContent:"space-between", paddingX:1}}>
-                                        <Typography>Shipment {i+2}</Typography>
-                                        <IconButton size={'small'} onClick={() => {
-                                            setForms( previous => {
-                                                const tmp = [...previous];
-                                                tmp.splice(i+1, 1);
-                                                return tmp;
-                                            })
-                                            setNumExtraShipmentCreationForms( previous => {
-                                                return previous - 1;
-                                            })
-                                        }}><Close/></IconButton>
-                                    </Box>
-                                    <ModelForm index={i+1} modelOptions={shipmentOptions} onChange={updateShipmentFormsData} formState={forms} layout={createShipmentsFormLayout} excludeReadOnly/>
-                                </Paper>
-                            )
-                        })
-                    }
-                    <Box sx={{marginY:1}}>
-                        <Button startIcon={<Add/>} color={'success'} onClick={increaseFormFieldComponents}>Add shipment</Button>
-                    </Box>
-                </CustomDialog>
-            </Box>
+
+            <ModelListControls model={MODELNAME} createObjectsFormLayout={CREATESHIPMENTSFORMLAYOUT}/>
+
             {selectedShipment&&
 
                 <ScanTool shipment={selectedShipment}/>
             
             }
+
             <SortingGrid 
                 title="Manage Shipments"
                 initialColumns={["id", "label", "status", "departure_date", "arrival_date"]}
@@ -270,6 +224,7 @@ const ShipmentsView = props => {
                     'delete' : {'icon': Delete, 'callbackFn' : deleteShipment}
                 }}
             />
+
         </Box>
     )
 }

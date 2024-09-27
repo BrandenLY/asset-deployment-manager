@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { OpenInNew } from "@mui/icons-material";
 import SortingGrid from "../components/SortingGrid";
 
-const LocationView = props => {
+const LocationsView = props => {
 
     // Hooks
     const queryClient = useQueryClient();
@@ -46,4 +46,4 @@ const LocationView = props => {
     );
 }
 
-export default LocationView
+export default LocationsView
