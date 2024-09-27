@@ -5,6 +5,7 @@ import { useModelOptions } from "../customHooks";
 import ContentAssetsList from "../components/ContentAssetsList";
 import { getCookie } from "../context";
 import GenericDetailView from "../components/GenericDetailView";
+import { Skeleton } from "@mui/material";
 
 const MODELNAME = 'shipment'
 
@@ -14,13 +15,15 @@ const ShipmentDetailView = props =>{
     const locationParams = useParams();
     const shipmentOptions = useModelOptions(MODELNAME);
     const [shipment, setShipment] = useState(false);
-    const [displayScanTool, setDisplayScanTool] = useState(false);
 
     // Queries
 
     const shipmentQuery = useQuery({
         queryKey: [MODELNAME, locationParams.id],
-        enabled: shipmentOptions.isSuccess
+    });
+
+    const contentTypes = useQuery({
+        queryKey: ['contenttype'],
     })
 
     const relatedQueries = useQueries({
@@ -31,7 +34,8 @@ const ShipmentDetailView = props =>{
         .filter(([fieldName, fieldData]) => shipmentQuery.data[fieldName] != null )  // Only get non null foreign keys
         .map(([fieldName, fieldData]) => ({queryKey:[fieldData['related_model_name'], shipmentQuery.data[fieldName]]})) // construct query option object 
         : [] // Don't make any queries if dependant queries not completed.
-    })
+    });
+
     // Mutations
     const updateShipment = useMutation({
         mutationFn: (method, data) => {
@@ -73,8 +77,11 @@ const ShipmentDetailView = props =>{
     });
 
     // Effects
-
     useEffect(() => {
+
+        if (!contentTypes.isSuccess){
+            return;
+        }
 
         if (relatedQueries.length == 0) {
             return;
@@ -97,86 +104,51 @@ const ShipmentDetailView = props =>{
 
             // Data manipulation
             temporaryState = parseShipmentData(temporaryState);
-            temporaryState['assets'] = temporaryState['assets'].map( asset => parseAssetData(asset) )
+            temporaryState['assets'] = temporaryState['assets'].map( asset => parseAssetData(asset) );
 
             // Update state
             setShipment(temporaryState);
         }
 
 
-    }, [shipmentQuery.data, shipmentQuery.isSuccess, ...Object.values(relatedQueries).map(query => query.isSuccess)])
+    }, [shipmentQuery.data, contentTypes.isSuccess, shipmentQuery.isSuccess, ...Object.values(relatedQueries).map(query => query.isSuccess)])
 
-    useEffect(() => {
-        if (shipment.status == 0 && displayScanTool == false){
-            // Open scan tool if the shipment is scheduled.
-            setDisplayScanTool(true);
-        }
-    }, [shipment])
 
     // Callback Functions
-
     const parseShipmentData = data => {
         return({...data});
     }
     
     const parseAssetData = data => {
         let tmpData = {...data,_meta:{selected:false}}
-        tmpData['assets'] = tmpData['assets'].map( a => ({...a,_meta:{selected:false}}))
-        return(tmpData)
-    }
-
-    const selectAsset = (asset) => {
-
-        setShipment(prev => {
-
-            let temporaryState = {...prev}
-            let temporaryAssets = [...temporaryState['assets']]
-
-            if (asset.parent_content_type.model == 'asset'){
-                const parentIndex = temporaryAssets.findIndex( a => a.id == asset.parent_object_id )
-                const childIndex = temporaryAssets[parentIndex]['assets'].findIndex( a => a.id == asset.id)
-
-                temporaryAssets[parentIndex]['assets'][childIndex] = {
-                    ...temporaryAssets[parentIndex]['assets'][childIndex],
-                    _meta: {
-                        ...temporaryAssets[parentIndex]['assets'][childIndex]['_meta'],
-                        selected: !asset._meta.selected
-                    }
-                }
-            }
-            else{
-                const assetIndex = temporaryAssets.findIndex( a => a.id == asset.id );
-            
-                temporaryAssets[assetIndex] = {
-                    ...temporaryAssets[assetIndex], 
-                    _meta:{
-                        ...temporaryAssets[assetIndex]['_meta'],
-                        selected: !asset._meta.selected
-                    }
-                }
-            }
-
-            temporaryState['assets'] = temporaryAssets;
-
-            return(temporaryState)
-        })
-
+        tmpData['assets'] = tmpData['assets'].map( a => ({...a,_meta:{selected:false}}));
+        return(tmpData);
     }
 
     return (
         <GenericDetailView
             {...props}
             model={MODELNAME}
+            detailFormLayout={[
+                ['id', null],
+                ['label'],
+                ['status'],
+                ['carrier'],
+                ['origin'],
+                ['destination'],
+                ['departure_date', 'arrival_date'],
+                ['event'],
+                ['send_back_shipment']
+            ]}
         >
 
             { shipment ?
                 <ContentAssetsList 
                     obj={shipment}
                     objContentType={MODELNAME}
-                    onSelect={selectAsset}
                 />
             :
-                null
+                <Skeleton variant="rectangular" />
             }
 
         </GenericDetailView>
