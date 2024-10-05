@@ -6,12 +6,16 @@ import { getCookie } from "./context";
 // Docs: https://tanstack.com/query/latest/docs/react/overview
 
 // Default Query-related Functions
-const defaultQueryFn = async ({ queryKey }) => {
+const defaultQueryFn = async ({ queryKey, pageParam }) => {
   const formattedUrl = new URL(
     `${window.location.protocol}${window.location.host}/api/${queryKey[0]}/${
       !!queryKey.at(1) ? queryKey.at(1) + "/" : ""
     }`
   );
+  
+  if(pageParam != undefined){
+    formattedUrl.searchParams.set('page', pageParam);
+  }
 
   const res = await fetch(formattedUrl);
   const data = await res.json();
@@ -36,9 +40,10 @@ const defaultMutationFn = async ({ model, data }) => {
 };
 
 const defaultGetNextPageFn = (lastPage, pages) => {
-  if (!lastPage.next) {
+  if (lastPage.next == null) {
     return undefined;
   }
+
   const nextPage = new URL(lastPage.next);
   return nextPage.searchParams.get("page");
 };

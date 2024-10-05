@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { createContext, useContext, useState, useEffect } from "react";
 import { useBackend } from "./customHooks";
 import { useQuery } from '@tanstack/react-query';
@@ -122,5 +122,67 @@ export const SessionContextProvider = props => {
         <sessionContext.Provider value={ctx}>
             {children}
         </sessionContext.Provider>
+    )
+}
+
+const NotificationDisplayTimeInSeconds = 2;
+
+export const notificationContext = createContext(null);
+export const NotificationContextProvider = props => {
+    
+    // PROPS DESTRUCTURING
+    const {children} = props;
+
+    // HOOKS
+    const [onScreenNotification, setOnScreenNotification] = useState(null);
+    const notificationQueue = useRef([]);
+
+    // EFFECTS
+    useEffect(() => {
+        if(onScreenNotification == null && notificationQueue.current.length > 0){
+            let newNotif = notificationQueue.current.pop();
+            setOnScreenNotification(newNotif);
+        }
+    }, [onScreenNotification])
+
+    // CALLBACK FUNCTIONS
+    const addNotification = notifObject => {
+
+        if(onScreenNotification == null){
+            // Update state directly
+            setOnScreenNotification(notifObject)
+        }
+        else{
+            // Update notification queue
+            let notifs = [...notificationQueue.current];
+            notifs.push(notifObject);
+    
+            notificationQueue.current = notifs;
+        }
+
+    }
+
+    const clearOnScreenNotification = e => {
+        setOnScreenNotification(null);
+    }
+
+    const clearAllNotifications = e => {
+        notificationQueue.current = [];
+        setOnScreenNotification(null);
+    }
+
+    // Formatted Data
+    const value = {
+        add: addNotification,
+        close: clearOnScreenNotification,
+        clear: clearAllNotifications,
+        active: onScreenNotification,
+        displayDuration: NotificationDisplayTimeInSeconds * 1000
+    }
+
+    return(
+        <notificationContext.Provider value={value}>
+            {children}
+        </notificationContext.Provider>
     )
 }

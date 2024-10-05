@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import { useCurrentUser, useModelOptions } from '../customHooks';
-import { getCookie } from '../context';
+import { getCookie, notificationContext } from '../context';
 import { Button, Collapse, Divider, IconButton, List, ListItem, ListItemIcon, ListItemText, Paper, useMediaQuery, useTheme } from '@mui/material';
 import { Edit, Save } from '@mui/icons-material';
 import ModelForm from './ModelForm';
@@ -15,6 +15,7 @@ const DetailsPanel = props => {
     // Hooks
     const queryClient = useQueryClient();
     const modelOptions = useModelOptions(model);
+    const notifications = useContext(notificationContext);
     const userDeviceIsMobile = useMediaQuery("(max-width:1010px)");
     const user = useCurrentUser();
     const theme = useTheme();
@@ -43,10 +44,8 @@ const DetailsPanel = props => {
         onSettled: (res, error, vars) => {
 
             // Frontend mutation error
-            if (error != undefined){
-              props.addNotif({message: `Failed to update ${model}: unknown error.`, severity:'error'})
-              // KEEP THIS CONSOLE LOG IN DEBUG MODE.
-              console.log(error);
+            if (error){
+              notifications.add({message: `Failed to update ${model}: unknown error.`, severity:'error'})
               return;
             }
       
@@ -54,7 +53,7 @@ const DetailsPanel = props => {
             if (!res.ok){
               // Improper POST/PUT data
               if (res.status == 400){
-                props.addNotif({message: `Failed to update ${model}: invalid data`, severity:'error'})
+                notifications.add({message: `Failed to update ${model}: invalid data`, severity:'error'})
                 
                 setObjForm( previous => {
                   let newValue = {...previous};
@@ -75,9 +74,9 @@ const DetailsPanel = props => {
               }
             }
       
-              props.addNotif({message:`Successfully updated ${model}`});
-              res.json().then(data => {
-                queryClient.invalidateQueries({queryKey:[model, obj.id]})
+              notifications.add({message:`Successfully updated ${model}`});
+              res.json().then(resData => {
+                queryClient.setQueryData([model, data.id], {...data, ...resData})
               })
         }
     })
@@ -176,7 +175,7 @@ const DetailsPanel = props => {
               payload[fieldName] = new Date(fieldDetails.current);
               return;
             case 'choice':
-              payload[fieldName] = fieldDetails.current.value;
+              payload[fieldName] = fieldDetails.current;
               return;
             case 'related object':
               payload[fieldName] = fieldDetails.current.id;
@@ -187,7 +186,6 @@ const DetailsPanel = props => {
           }
         })
 
-        console.log(payload);
         mutate({method:"PUT", payload:payload});
     }
 

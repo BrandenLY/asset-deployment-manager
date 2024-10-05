@@ -20,6 +20,7 @@ import AssetsView from "./views/AssetsView";
 import AssetDetailView from "./views/AssetDetailView";
 import LocationsView from "./views/LocationsView";
 import LocationDetailView from "./views/LocationDetailView";
+import { NotificationContextProvider } from "./context";
 
 const applicationRoutes = [
   // [ PATH: String, VIEW: React Component, TITLE: String ]
@@ -41,23 +42,25 @@ const App = () => {
       <CustomQueryClientProvider>
         <ThemeProvider theme={primaryDarkTheme}>
           <CssBaseline />
-          <Router>
-            <Routes>
+          <NotificationContextProvider>
+            <Router>
+              <Routes>
 
-              {/* Display Routes */}
-              {applicationRoutes.map(([path, view, title]) => {
-                return(
-                  <Route 
-                    path={path}
-                    element={
-                      <CustomPage view={view} title={title}/>
-                    }
-                  />
-                )
-              })}
+                {/* Display Routes */}
+                {applicationRoutes.map(([path, view, title]) => {
+                  return(
+                    <Route 
+                      path={path}
+                      element={
+                        <CustomPage view={view} title={title}/>
+                      }
+                    />
+                  )
+                })}
 
-            </Routes>
-          </Router>
+              </Routes>
+            </Router>
+          </NotificationContextProvider>
         </ThemeProvider>
       </CustomQueryClientProvider>
     </React.StrictMode>

@@ -1,8 +1,9 @@
-import { Box, IconButton, Popover, Typography } from '@mui/material';
+import { Box, Button, IconButton, Popover, Typography } from '@mui/material';
 import React from 'react'
 
 const ActionButton = props => {
-    const { actionObject, actionText, callbackFn } = props;
+    const { actionElement:ActionElement=Button, elementProps={}, callbackFn, popoverText
+ } = props;
 
     const [anchorEl, setAnchorEl] = React.useState(null);
 
@@ -16,7 +17,7 @@ const ActionButton = props => {
 
     const handleActionButtonClick = event => {
         setAnchorEl(null);
-        callbackFn(actionText, event);
+        callbackFn(event);
         event.preventDefault();
     }
   
@@ -24,30 +25,38 @@ const ActionButton = props => {
 
     return (
         <Box>
-        <IconButton aria-label={actionText} onMouseEnter={handlePopoverOpen} onMouseLeave={handlePopoverClose} onClick={handleActionButtonClick}>
-            <actionObject.icon></actionObject.icon>
-        </IconButton>
-        <Popover
-            id="mouse-over-popover"
-            sx={{
-            pointerEvents: 'none',
-            transform: "translateY(-5px)"
-            }}
-            open={open}
-            anchorEl={anchorEl}
-            anchorOrigin={{
-            vertical: 'top',
-            horizontal: 'center',
-            }}
-            transformOrigin={{
-            vertical: 'bottom',
-            horizontal: 'center',
-            }}
-            onClose={handlePopoverClose}
-            disableRestoreFocus
-        >
-            <Typography sx={{padding: 0.5}}>{actionText}</Typography>
-        </Popover>
+                
+            <ActionElement 
+                {...elementProps} 
+                onMouseEnter={handlePopoverOpen}
+                onMouseLeave={handlePopoverClose}
+                onClick={handleActionButtonClick}
+            >
+                {props.children}
+            </ActionElement>
+
+            <Popover
+                id="mouse-over-popover"
+                sx={{
+                pointerEvents: 'none',
+                transform: "translateY(-5px)"
+                }}
+                open={open}
+                anchorEl={anchorEl}
+                anchorOrigin={{
+                vertical: 'top',
+                horizontal: 'center',
+                }}
+                transformOrigin={{
+                vertical: 'bottom',
+                horizontal: 'center',
+                }}
+                onClose={handlePopoverClose}
+                disableRestoreFocus
+            >
+                <Typography sx={{padding: 0.5}}>{popoverText}</Typography>
+            </Popover>
+            
         </Box>
     )
 }

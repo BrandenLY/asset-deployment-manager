@@ -110,7 +110,6 @@ const GenericDetailView = props => {
                     model={model}
                     data={data ? data : obj.data}
                     formLayout={detailFormLayout ? detailFormLayout : undefined}
-                    addNotif={props.addNotif}
                 /> :
                 <Skeleton
                     variant='rectangular'

@@ -1,3 +1,4 @@
+import json
 from django.db import transaction
 from django.utils.encoding import force_str
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
@@ -20,6 +21,7 @@ from assets.models import Asset
 from assets.models import Model
 from assets.models import Location
 from assets.models import Shipment
+from assets.models import EquipmentHold
 from .serializers import ContentTypeSerializer
 from .serializers import AssetSerializer
 from .serializers import ModelSerializer
@@ -27,6 +29,7 @@ from .serializers import LocationSerializer
 from .serializers import ShipmentSerializer
 from .serializers import ContentAssetsField
 from .serializers import LogEntrySerializer
+from .serializers import EquipmentHoldSerializer
 # App Related Imports : Main
 from main.models import User
 from main.models import Event
@@ -142,7 +145,7 @@ class BaseView(viewsets.GenericViewSet,
         for field in serializer.instance.__class__._meta.get_fields():
             change_map[field.name] = (change_map[field.name][0], getattr(serializer.instance, field.name, None))
         
-        changed_fields = [field for field, changes in change_map.items() if changes[0] != changes[1] and field is not 'last_modified' and field is not 'modified_by']
+        changed_fields = [field for field, changes in change_map.items() if changes[0] is not changes[1] and field is not 'last_modified' and field is not 'modified_by']
             
         with transaction.atomic():
             serializer.save()
@@ -265,6 +268,37 @@ class BaseView(viewsets.GenericViewSet,
 
         return field_info
 
+    @action(detail=False, methods=['post'])
+    def validate(self, request):
+
+        data = request.data
+        
+        # Verify single object
+        if (type(data) is dict):
+            serializer = self.get_serializer(data=data)
+            serializer.is_valid(raise_exception=True)
+
+            return Response(status=status.HTTP_200_OK)
+
+        # Verify multiple objects
+        if (type(data) is list):
+
+            for obj in data:
+                serializer = self.get_serializer(data=obj)
+                if not serializer.is_valid():
+                    # Increment by 1 because spreadsheet rows use 1-based indexes.
+                    # Increment by 1 because the first row (header row) is not expected.
+                    row_number = data.index(obj) + 1 + 1 
+
+                    issues = {'row': row_number, 'errors': serializer.errors}
+
+                    return Response(issues, status=status.HTTP_400_BAD_REQUEST)
+
+            return Response(status=status.HTTP_200_OK)
+        
+        raise InvalidData(f'Request body must contain JSON array or Object. Instead body contained {type(data)}')
+
+
 #    __  __       _         _       _             __                     
 #   |  \/  | __ _(_)_ __   (_)_ __ | |_ ___ _ __ / _| __ _  ___ ___  ___ 
 #   | |\/| |/ _` | | '_ \  | | '_ \| __/ _ \ '__| |_ / _` |/ __/ _ \/ __|
@@ -375,7 +409,6 @@ class ContentTypeView(viewsets.GenericViewSet,
 
         return field_info
 
-
 class UserView(BaseView):
     """
     Simple Viewset for Viewing User Information
@@ -480,6 +513,14 @@ class LocationView(BaseView):
     model = Location
     queryset = model.objects.all()
     serializer_class = LocationSerializer
+
+class EquipmentHoldView(BaseView):
+    """
+    Simple Viewset for Viewing Equipment Hold data
+    """
+    model = EquipmentHold
+    queryset = model.objects.all()
+    serializer_class = EquipmentHoldSerializer
 
 class ShipmentView(BaseView):
     """

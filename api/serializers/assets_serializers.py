@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from assets.models import Asset, Model, AssetIcon, Location, Shipment
+from assets.models import Asset, Model, AssetIcon, Location, Shipment, EquipmentHold
 from .base_serializers import CustomBaseSerializer, ContentTypeSerializer
 
 
@@ -129,3 +129,13 @@ class ShipmentSerializer(CustomBaseSerializer):
             'extended_children' : extended_child_count
         }
 
+class EquipmentHoldSerializer(CustomBaseSerializer):
+
+    class Meta:
+        model = EquipmentHold
+        fields = [
+            'model',
+            'start_date',
+            'end_date',
+            'event'
+        ]

@@ -1,7 +1,7 @@
 import React, {useEffect, useRef, useState} from "react";
 import { Box, Paper, Typography, IconButton, Popover, List, ListItemButton, ListItemIcon, ListItemText, Link, Stack, Skeleton, FormControl, FormHelperText, MenuItem, Select } from "@mui/material";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableFooter, TablePagination, TableRow } from "@mui/material";
-import { MoreVert, ArrowUpward, ArrowDownward, ViewColumn, FirstPage, LastPage, NavigateNext, NavigateBefore } from '@mui/icons-material';
+import { MoreVert, ArrowUpward, ArrowDownward, ViewColumn, FirstPage, LastPage, NavigateNext, NavigateBefore, Loop } from '@mui/icons-material';
 import { useQueries, useQuery } from "@tanstack/react-query";
 import { Link as RouterLink } from "react-router-dom";
 import { useModelOptions } from "../customHooks";
@@ -9,6 +9,7 @@ import ActionButton from "./ActionButton";
 import { ErrorBoundary } from "./ErrorBoundary";
 
 const minimumRecordsPerPage = 25;
+
 const RecordsPerPageOptions = [
     minimumRecordsPerPage,
     minimumRecordsPerPage * 2,
@@ -17,13 +18,13 @@ const RecordsPerPageOptions = [
     minimumRecordsPerPage * 10,
     minimumRecordsPerPage * 30,
 ]
+
 const sortingGridPaperStyles = {
     display: "flex",
     gap:1,
     padding: 2,
-    minHeight:"460px",
     flexDirection: 'column',
-    alignItems: 'stretch',
+    alignItems: 'stretch'
 }
 
 const SortingGridColumnHeader = props => {
@@ -87,9 +88,12 @@ const SortingGridColumnHeader = props => {
             }}>
                 {modelField ? modelField.label : column}
             </Typography>
-            <IconButton size="small" onClick={togglePopover}>
-                <MoreVert fontSize="inherit" />
-            </IconButton>
+            
+            { (props.disableControls != true) &&
+                <IconButton size="small" onClick={togglePopover}>
+                    <MoreVert fontSize="inherit" />
+                </IconButton>
+            }
             </Box>
 
             <Popover
@@ -129,7 +133,7 @@ const SortingGridColumnHeader = props => {
 
 const SortingGridRow = props => {
 
-    const {data, columns, actions, modelName} = props;
+    const {data, columns, actions, modelName, disableControls = false} = props;
     const modelOptions = useModelOptions(modelName);
     const fieldOptions = modelOptions.data?.model_fields
     const queriesOrdering = useRef();
@@ -156,6 +160,10 @@ const SortingGridRow = props => {
 
     const getDisplayValue = (column) =>{
 
+        if (data[column] == undefined){
+            return "";
+        }
+
         const columnOptions = modelOptions.data?.model_fields[column];
 
         switch(columnOptions.type){
@@ -171,10 +179,6 @@ const SortingGridRow = props => {
             default:
                 return new String(data[column]);
         }
-    }
-
-    const triggerAction = (actionText, event) => {
-        actions[actionText].callbackFn(data, event);
     }
     
     return (
@@ -199,7 +203,16 @@ const SortingGridRow = props => {
                 <TableCell sx={{paddingTop:0.5, paddingBottom: 0.5}}>
                     <Typography variant="body2">
                         <Stack direction="row">
-                           { Object.keys(actions).map(actionKey => <ActionButton actionObject={actions[actionKey]} actionText={actionKey} callbackFn={triggerAction}/>) }
+                            { Object.keys(actions).map( actionKey => {
+                                const IconElement = actions[actionKey].icon;
+                                const actionCallback = actions[actionKey].callbackFn;
+                                return (
+                                    <ActionButton actionElement={IconButton} callbackFn={() => {actionCallback(data)}} popoverText={`${actionKey} ${modelName}`}>
+                                        <IconElement/>
+                                    </ActionButton>
+                                )
+
+                            })}
                         </Stack>
                     </Typography>
                 </TableCell> : 
@@ -221,7 +234,8 @@ const SortingGrid = props => {
         initialColumns=["id", "label"],
         paperProps={},
         RowComponent=SortingGridRow,
-        rowProps={}
+        rowProps={},
+        disableControls=false
     } = props;
 
     // Validation
@@ -249,16 +263,16 @@ const SortingGrid = props => {
                 <Typography variant="h4">{title}</Typography>
             </Box>
 
-            <TableContainer sx={{flexGrow: 1, overflowX: "scroll"}}>
-                <Table>
+            <TableContainer sx={{flexGrow: 1}}>
+                <Table sx={{overflowX:'auto'}}>
 
                     <TableHead>
                         <TableRow>
 
                             { activeColumns.map( column => <SortingGridColumnHeader 
                                 column={column}
-                                modelName={modelName}
                                 dataManipulation={{setActiveColumns, setSortDirection}}
+                                {...props}
                             /> ) }
 
                             { rowActions ? <TableCell sx={{verticalAlign:"bottom"}}><Box sx={{display: "flex",gap: "5px",alignItems: "center",}}><Typography sx={{fontWeight: "bold",}}>Actions</Typography></Box></TableCell> : null}
@@ -274,8 +288,8 @@ const SortingGrid = props => {
                         {/* No Results */}
                         { data?.length == 0 && 
                             <TableRow>
-                                <TableCell minHeight="300px" sx={{ textAlign:"center", paddingTop:0.5, paddingBottom: 0.5}} colspan={columnCount}>
-                                    No results.
+                                <TableCell sx={{textAlign:"center", paddingTop:0.5, paddingBottom: 0.5}} colspan={columnCount}>
+                                <Box minHeight="200px" display="flex" alignItems="center" justifyContent="center">No results</Box>
                                 </TableCell>
                             </TableRow>
                         }
@@ -283,8 +297,8 @@ const SortingGrid = props => {
                         {/* Loading */}
                         { !data && 
                             <TableRow>
-                                <TableCell minHeight="300px" sx={{ textAlign:"center", paddingTop:0.5, paddingBottom: 0.5}} colspan={columnCount}>
-                                    ...
+                                <TableCell sx={{textAlign:"center", paddingTop:0.5, paddingBottom: 0.5}} colspan={columnCount}>
+                                    <Box minHeight="200px" display="flex" alignItems="center" justifyContent="center"><Loop sx={{animation: 'rotate 2s linear infinite'}}/></Box>
                                 </TableCell>
                             </TableRow>
                         }
@@ -293,45 +307,48 @@ const SortingGrid = props => {
                 </Table>
             </TableContainer>
             
-            <Box sx={{ maxWidth: "100%", display: "flex", justifyContent: "space-between", marginTop: 1, marginLeft:1, marginRight:1}}>
-                <FormControl sx={{flexDirection:"row", alignItems: "center", height: "min-content"}}>
-                    <Select
-                        size="small"
-                        value={recordsPerPage}
-                        onChange={e => {setRecordsPerPage(e.target.value)}}
-                        sx={{height: "21px"}}
-                    >
-                        {RecordsPerPageOptions.map(num => <MenuItem value={num}>{num}</MenuItem>)}
-                    </Select>
-                    <FormHelperText sx={{display:"flex", alignItems: "center"}}>
-                        Rows per page
-                    </FormHelperText>
-                </FormControl>
-                <Box sx={{display: "flex", alignItems: "center", gap:2}}>
-                    <FormHelperText>
-                        {`${Math.max(recordsPerPage * page - recordsPerPage, 1)} - ${Math.min(recordsPerPage * page, count)} of ${count}`}
-                    </FormHelperText>
-                    <Box sx={{display: "flex", alignItems: "center"}}>
-                        <IconButton size="small" sx={{padding:0}}>
-                            <FirstPage sx={{color:"rgba(255,255,255,0.7)"}}/>
-                        </IconButton>
-                        <IconButton size="small" sx={{padding:0}}>
-                            <NavigateBefore sx={{color:"rgba(255,255,255,0.7)"}}/>
-                        </IconButton>
-                        <Box>
-                            <FormHelperText>
-                                {page}
-                            </FormHelperText>
+            { (disableControls != true) &&
+                <Box sx={{ maxWidth: "100%", display: "flex", justifyContent: "space-between", marginTop: 1, marginLeft:1, marginRight:1}}>
+                    <FormControl sx={{flexDirection:"row", alignItems: "center", height: "min-content"}}>
+                        <Select
+                            size="small"
+                            value={recordsPerPage}
+                            onChange={e => {setRecordsPerPage(e.target.value)}}
+                            sx={{height: "21px"}}
+                        >
+                            {RecordsPerPageOptions.map(num => <MenuItem value={num}>{num}</MenuItem>)}
+                        </Select>
+                        <FormHelperText sx={{display:"flex", alignItems: "center"}}>
+                            Rows per page
+                        </FormHelperText>
+                    </FormControl>
+                    <Box sx={{display: "flex", alignItems: "center", gap:2}}>
+                        <FormHelperText>
+                            {`${Math.max(recordsPerPage * page - recordsPerPage, 1)} - ${Math.min(recordsPerPage * page, count)} of ${count}`}
+                        </FormHelperText>
+                        <Box sx={{display: "flex", alignItems: "center"}}>
+                            <IconButton size="small" sx={{padding:0}}>
+                                <FirstPage sx={{color:"rgba(255,255,255,0.7)"}}/>
+                            </IconButton>
+                            <IconButton size="small" sx={{padding:0}}>
+                                <NavigateBefore sx={{color:"rgba(255,255,255,0.7)"}}/>
+                            </IconButton>
+                            <Box>
+                                <FormHelperText>
+                                    {page}
+                                </FormHelperText>
+                            </Box>
+                            <IconButton size="small" sx={{padding:0}}>
+                                <NavigateNext sx={{color:"rgba(255,255,255,0.7)"}}/>
+                            </IconButton>
+                            <IconButton size="small" sx={{padding:0}}>
+                                <LastPage sx={{color:"rgba(255,255,255,0.7)"}}/>
+                            </IconButton>
                         </Box>
-                        <IconButton size="small" sx={{padding:0}}>
-                            <NavigateNext sx={{color:"rgba(255,255,255,0.7)"}}/>
-                        </IconButton>
-                        <IconButton size="small" sx={{padding:0}}>
-                            <LastPage sx={{color:"rgba(255,255,255,0.7)"}}/>
-                        </IconButton>
                     </Box>
                 </Box>
-            </Box>
+            }
+
         </Paper>
     )
 }

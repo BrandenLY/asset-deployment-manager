@@ -8,6 +8,15 @@ import SortingGrid from "../components/SortingGrid";
 import ModelListControls from "../components/ModelListControls";
 
 const MODELNAME = 'asset'
+const CREATEASSETSFORMLAYOUT = [
+    ['model', 'code'],
+    ['serial_number', 'knox_id'],
+    ['iccid', 'imei'],
+    ['note'],
+    ['location'],
+    ['is_container', null],
+    ['condition', null]
+]
 
 const AssetsView = props =>{
     // Hooks
@@ -36,7 +45,8 @@ const AssetsView = props =>{
 
     return (
         <Box className="AssetsView">
-            <ModelListControls model={MODELNAME}/>
+            <ModelListControls model={MODELNAME} createObjectsFormLayout={CREATEASSETSFORMLAYOUT} />
+
             <SortingGrid 
                 title="Manage Assets"
                 defaultColumns={["id", "label", "code"]}

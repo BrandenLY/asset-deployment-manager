@@ -9,9 +9,10 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemIcon from '@mui/material/ListItemIcon';
-import { Menu, LocalShipping, Assignment, Close, LibraryBooks, Place, DevicesOther, People, Groups } from '@mui/icons-material';
+import { Menu, LocalShipping, Assignment, Close, LibraryBooks, Place, DevicesOther, People, Groups, Group, PersonAdd, Article } from '@mui/icons-material';
 import Typography from '@mui/material/Typography';
 import { Divider, useTheme } from '@mui/material';
+import { useCurrentUser } from '../customHooks';
 
 const PrimaryNav = props => {
 
@@ -63,13 +64,36 @@ const NavLogo = props => {
     );
 }
 
+const PageLinks = [
+    {
+        groupHeading: 'Track & Manage',
+        links: [
+            // Link Format: Link Button Text, Icon element, linkto url, required permission.
+            ['Shipments', <LocalShipping /> ,'/shipments', 'view_shipment'],
+            ['Assets', <DevicesOther/> ,'/assets', 'view_asset'],
+            ['Locations', <Place /> ,'/location', 'view_location']
+        ]
+    },
+    {
+        groupHeading: 'Admin Tools',
+        links: [
+            ['Staffing', <Groups /> ,'/staffing', 'view_shipment'],
+            ['Groups & Permissions', <Group /> ,'/permissions', 'view_asset'],
+            ['Users', <PersonAdd /> ,'/users', 'view_location'],
+            ['Admin Logs', <Article /> ,'/logs', 'view_location']
+        ]
+    }
+]
+
+// Primary Component
 const NavDrawer = props =>{
 
     const {expanded, navHeight, drawerWidth, onClose} = props;
     
     // Hooks
-    const navigate = useNavigate();
     const theme = useTheme();
+    const navigate = useNavigate();
+    const user = useCurrentUser();
 
     return (
         <Drawer 
@@ -90,7 +114,7 @@ const NavDrawer = props =>{
             <Box width="100%" height="100%" position="relative" paddingTop={navHeight}>
                 <Box component="nav">
                     <List>
-                        <ListItem sx={{justifyContent: "center", borderBottom: `3px solid ${theme.palette.divider}`}}>
+                        <ListItem sx={{justifyContent: "center", marginTop:2, borderBottom: `3px solid ${theme.palette.divider}`, borderTop: `3px solid ${theme.palette.divider}`}}>
                             <Typography variant="h5" textTransform="uppercase">Track & Manage</Typography>
                         </ListItem>
 
@@ -115,10 +139,35 @@ const NavDrawer = props =>{
                             </ListItemButton>
                         </ListItem>
 
+                        <ListItem sx={{justifyContent: "center", marginTop:3, borderBottom: `3px solid ${theme.palette.divider}`, borderTop: `3px solid ${theme.palette.divider}`}}>
+                            <Typography variant="h5" textTransform="uppercase">Admin</Typography>
+                        </ListItem>
+
                         <ListItem disablePadding>
                             <ListItemButton onClick={() => navigate('/staffing')}>
                                 <ListItemIcon><Groups /></ListItemIcon>
                                 <ListItemText primary="Staffing" />
+                            </ListItemButton>
+                        </ListItem>
+
+                        <ListItem disablePadding>
+                            <ListItemButton onClick={() => navigate('/permissions')}>
+                                <ListItemIcon><Group /></ListItemIcon>
+                                <ListItemText primary="Groups &amp; Permissions" />
+                            </ListItemButton>
+                        </ListItem>
+
+                        <ListItem disablePadding>
+                            <ListItemButton onClick={() => navigate('/users')}>
+                                <ListItemIcon><PersonAdd /></ListItemIcon>
+                                <ListItemText primary="Users" />
+                            </ListItemButton>
+                        </ListItem>
+
+                        <ListItem disablePadding>
+                            <ListItemButton onClick={() => navigate('/logs')}>
+                                <ListItemIcon><Article /></ListItemIcon>
+                                <ListItemText primary="Admin logs"/>
                             </ListItemButton>
                         </ListItem>
 

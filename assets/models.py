@@ -105,7 +105,7 @@ class Asset(TrackedModel):
         # The Shipment must also be accepting contents
         return self.parent_object.can_accept_scan_entries()
 
-class Model(models.Model):
+class Model(TrackedModel):
     name = models.CharField(_("Name"), max_length=SMALL_TEXT_FIELD_SIZE)
     description = models.CharField(_("Description"), max_length=LARGE_TEXT_FIELD_SIZE, blank=True, null=True)
     manufacturer = models.CharField(_("Manufacturer"), max_length=SMALL_TEXT_FIELD_SIZE)
@@ -122,7 +122,7 @@ class Model(models.Model):
     def __repr__(self):
         return str(self)
     
-class AssetIcon(models.Model):
+class AssetIcon(TrackedModel):
     name = models.CharField(_("Name"), max_length=SMALL_TEXT_FIELD_SIZE)
     source_name = models.CharField(_("Source Name"), max_length=SMALL_TEXT_FIELD_SIZE)
 
@@ -132,7 +132,7 @@ class AssetIcon(models.Model):
     def __repr__(self):
         return str(self)
     
-class Location(models.Model):
+class Location(TrackedModel):
     name = models.CharField(_("Name"), max_length=SMALL_TEXT_FIELD_SIZE)
     address_line_1 = models.CharField(_("Address Line 1"), max_length=35)
     address_line_2 = models.CharField(_("Address Line 2"), max_length=35, blank=True, null=True)
@@ -204,3 +204,9 @@ class Shipment(TrackedModel):
     
     def __repr__(self):
         return str(self)
+    
+class EquipmentHold(TrackedModel):
+    model = models.ForeignKey(Model, on_delete=models.PROTECT)
+    start_date = models.DateField('Start date')
+    end_date = models.DateField('End date')
+    event = models.ForeignKey('main.Event', on_delete=models.CASCADE, blank=True, null=True)

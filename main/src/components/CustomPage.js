@@ -1,15 +1,10 @@
-import React, {useState, useEffect, useRef, useCallback} from 'react';
-import { useLocation, useNavigate, Link as RouterLink } from 'react-router-dom';
-
-// Material UI
-import { Box, Button, Breadcrumbs, Link, Typography, Snackbar, Alert } from '@mui/material';
-import {Home} from '@mui/icons-material';
-
-import PrimaryNav from './PrimaryNav'
-import { BackendContextProvider } from '../context';
+import { Home } from '@mui/icons-material';
+import { Alert, Box, Breadcrumbs, Button, Link, Snackbar, Typography } from '@mui/material';
+import React, { useContext } from 'react';
+import { Link as RouterLink, useLocation, useNavigate } from 'react-router-dom';
+import { BackendContextProvider, notificationContext } from '../context';
 import { ErrorBoundary } from './ErrorBoundary';
-
-const notificationDisplayDuration = 3 * 1000;
+import PrimaryNav from './PrimaryNav';
 
 const CustomBreadcrumbs = props => {
     const location = useLocation()
@@ -60,42 +55,12 @@ export const PageError = props => {
 
 const CustomPage = props => {
   // PROPS
-  const { className, children, view: View, } = props;
+  const { className, view: View } = props;
   
   // NOTIFICATION STATE
-  const notifications = useRef([]);
-  const [activeNotification, setActiveNotification] = useState(null);
+  const notifications = useContext(notificationContext);
   
   // CALLBACK FUNCTIONS
-  const addNotification = useCallback(notif => {
-    let notifElement = (
-        <Alert 
-            onClose = { closeActiveNotification }
-            severity = { notif.severity ? notif.severity : 'success' }
-            variant = { notif.variant ? notif.variant : 'filled'}
-        >
-            {notif.message}
-        </Alert>
-    );
-    notifications.current = [...notifications.current, notifElement];
-    if (activeNotification == null){
-        setActiveNotification(notifications.current.shift())
-    }
-  }, [])
-  const closeActiveNotification = (e, r) => {
-    if (r === 'clickaway'){
-        return;
-    }
-    setActiveNotification(null);
-  }
-
-  // HOOKS
-  useEffect(() => {
-    const upcomingNotification = notifications.current[notifications.current.length - 1]; // Retrieve notification from queue
-    if (activeNotification != null && !!upcomingNotification){
-        setActiveNotification(upcomingNotification);
-    }
-  })
 
   // FORMATTED DATA
   const classNames = ['page', className].join(' ');
@@ -105,6 +70,7 @@ const CustomPage = props => {
 
         <Box className={classNames} sx={{padding:2}}>
             <PrimaryNav></PrimaryNav>
+
             <Box className="page-content" sx={{gridArea:"content", padding: 1.5}}>
                 {/* Page Title */}
                 <Typography variant="h2" sx={{margin: 1}}>{props.title}</Typography>
@@ -112,16 +78,25 @@ const CustomPage = props => {
                 <Typography variant="subtitle1" sx={{margin: 1}}> <CustomBreadcrumbs/> </Typography>
                 {/* Page Content */}
                 <ErrorBoundary fallback={<PageError/>} >
-                    { View ? <View addNotif={addNotification} remNotif={closeActiveNotification}/> : "" }
+                    { View ? <View addNotif={notifications.add} remNotif={notifications.close}/> : "" }
                 </ErrorBoundary>
             </Box>
+
             <Snackbar 
-                open={!!activeNotification}
-                autoHideDuration={notificationDisplayDuration}
-                onClose={closeActiveNotification}
+                open={notifications.active != null}
+                autoHideDuration={notifications.displayDuration}
+                onClose={notifications.close}
                 anchorOrigin={{vertical:'bottom', horizontal:'right'}}
             >
-                {activeNotification}
+                {notifications.active &&
+                <Alert
+                    onClose={notifications.close}
+                    severity={notifications.active.severity ? notifications.active.severity : 'success'}
+                    variant='filled'
+                >
+                    {notifications.active.message}
+                </Alert>
+                }
             </Snackbar>
         </Box>
 

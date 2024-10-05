@@ -4,6 +4,7 @@ import CustomDialog from './CustomDialog';
 import { Box, Button, IconButton, Paper, Typography } from '@mui/material';
 import { Add, Close } from '@mui/icons-material';
 import ModelForm from './ModelForm';
+import ActionButton from './ActionButton';
 
 const objectFormReducer = (prev, action) => {
     
@@ -69,6 +70,8 @@ const CreateObjectsButton = props => {
     const {model} = props;
 
     // Hooks
+    const [displayDialog, setDisplayDialog] = useState(false);
+
     const [creationForms, dispatch] = useReducer(objectFormReducer, new Array());
     const modelOptions = useModelOptions(model);
 
@@ -105,7 +108,7 @@ const CreateObjectsButton = props => {
     const createNewObjects = useCallback(e => {
 
         let mutations = []
-        forms.forEach( (shipmentFormObj, i) => {
+        creationForms.forEach( (shipmentFormObj, i) => {
             // Parse state data into proper POST data.
             let postData = {};
 
@@ -129,7 +132,16 @@ const CreateObjectsButton = props => {
     }, []);
 
     const onDialogClose = useCallback(e => {
-        dispatch({type:"resetToInitialState"});
+        
+        setDisplayDialog(false);
+        setTimeout(() => {
+            dispatch({type:"resetToInitialState"});
+        }, 5);
+
+    }, []);
+
+    const openDialog = useCallback(e => {
+        setDisplayDialog(true);
     }, []);
 
     // Formatted Data
@@ -137,56 +149,64 @@ const CreateObjectsButton = props => {
     const submitActionText = multipleFormsExist ? `Submit ${creationForms?.length} records` : 'Submit';
 
   return (
-    <CustomDialog
-        title={`Create ${model}(s)`}
-        subtitle={`Setup and create new ${model}s`}
-        openDialogButtonText={`New ${model}`}
-        openDialogButtonIcon={<Add/>}
-        onClose = {onDialogClose}
-        actions={[
-            { buttonText : submitActionText, onClickFn : createNewObjects },
-        ]}
-    >
-        { creationForms && // Display Each Form using material ui and the ModelForm component.
+    
+    <React.Fragment>
 
-            creationForms.map((form, index) => {
+        <ActionButton elementProps={{startIcon:<Add/>, variant:"contained"}} callbackFn={openDialog} popoverText={`Create new ${model}s by entering their data manually`}>
+            New {model}
+        </ActionButton>
 
-                const formRequiresBackground = index % 2;
+        <CustomDialog
+            open={displayDialog}
+            title={`Create ${model}(s)`}
+            subtitle={`Setup new ${model}s by manually entering their details below.`}
+            onClose = {onDialogClose}
+            actions={[
+                <Button onClick={createNewObjects} variant='outlined'>{submitActionText}</Button>
+            ]}
+        >
+            { creationForms && // Display Each Form using material ui and the ModelForm component.
 
-                return(
-                    <Paper key={index} sx={{background:formRequiresBackground ? null : "none", boxShadow:"none", padding:1, boxSizing:'border-box'}}>
-                        
-                        <Box display="flex" justifyContent="space-between" paddingX={1}>
-                            <Typography textTransform="capitalize" variant="h5">
-                                {model} {multipleFormsExist ? index + 1 : null}
-                            </Typography>
-                            <IconButton disabled={index == 0} size={'small'} onClick={() => {closeSingleForm(index)}}>
-                                <Close/>
-                            </IconButton>
-                        </Box>
+                creationForms.map((form, index) => {
 
-                        <ModelForm 
-                            index={index}
-                            model={model}
-                            formState={form}
-                            layout={props.formLayout ? props.formLayout : undefined} 
-                            excludeReadOnly
-                            onChange={updateObjFormsData}
-                        />
+                    const formRequiresBackground = index % 2;
 
-                    </Paper>
-                )
-            })
+                    return(
+                        <Paper key={index} sx={{background:formRequiresBackground ? null : "none", boxShadow:"none", padding:1, boxSizing:'border-box'}}>
+                            
+                            <Box display="flex" justifyContent="space-between" paddingX={1}>
+                                <Typography textTransform="capitalize" variant="h5">
+                                    {model} {multipleFormsExist ? index + 1 : null}
+                                </Typography>
+                                <IconButton disabled={index == 0} size={'small'} onClick={() => {closeSingleForm(index)}}>
+                                    <Close/>
+                                </IconButton>
+                            </Box>
 
-        }
-        
-        <Box sx={{marginY:1}}>
-            <Button startIcon={<Add/>} color={'success'} onClick={increaseFormCount}>
-                Add {model}
-            </Button>
-        </Box>
+                            <ModelForm 
+                                index={index}
+                                model={model}
+                                formState={form}
+                                layout={props.formLayout ? props.formLayout : undefined} 
+                                excludeReadOnly
+                                onChange={updateObjFormsData}
+                            />
 
-    </CustomDialog>
+                        </Paper>
+                    )
+                })
+
+            }
+            
+            <Box sx={{marginY:1}}>
+                <Button startIcon={<Add/>} color={'success'} onClick={increaseFormCount}>
+                    Add {model}
+                </Button>
+            </Box>
+
+        </CustomDialog>
+
+    </React.Fragment>
   )
 }
 

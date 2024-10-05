@@ -9,21 +9,22 @@ const toHtmlInputDate = date => {
 
 const CustomFormControl = (props) => {
     
-    const {helpText,fieldError} = props;
+    const {helpText, fieldError} = props;
 
     return(
       <FormControl fullWidth>
   
       {props.children}
   
-      {!!props.helpText ? (
-        <FormHelperText children={props.helpText} />
+      {!!helpText ? (
+        <FormHelperText children={helpText} />
       ) : null}
   
       
-      {!!props.fieldError ? (
-        <FormHelperText children={props.fieldError} sx={{color:"error.main"}}/>
+      {!!fieldError ? (
+        <FormHelperText children={fieldError} sx={{color:"error.main"}} />
       ) : null}
+
       </FormControl>
     )
 };
