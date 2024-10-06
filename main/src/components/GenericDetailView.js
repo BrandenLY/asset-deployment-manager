@@ -1,13 +1,14 @@
+import { Delete } from '@mui/icons-material';
 import { Box, Button, Skeleton, Typography, useTheme, } from '@mui/material';
-import React, { useEffect, useState } from 'react';
+import { useMutation, useQueries, useQuery } from '@tanstack/react-query';
+import React, { useContext, useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { backendApiContext } from '../context';
+import { useCurrentUser, useModelOptions } from '../customHooks';
+import ChangeLogTableRow from './ChangeLogTableRow';
 import DetailsPanel from './DetailsPanel';
 import Section from './Section';
 import SortingGrid from './SortingGrid';
-import { useParams } from 'react-router-dom';
-import { useCurrentUser, useModelOptions } from '../customHooks';
-import { useQueries, useQuery } from '@tanstack/react-query';
-import ChangeLogTableRow from './ChangeLogTableRow';
-import { Delete } from '@mui/icons-material';
 
 const GenericDetailView = props => {
 
@@ -15,16 +16,30 @@ const GenericDetailView = props => {
     const {model, title, actions, detailFormLayout, addNotif=()=>{}, children} = props;
 
     // Hooks
-    const [data, setData] = useState(false);
-    const objOptions = useModelOptions(model);
-    const locationParams = useParams();
-    const user = useCurrentUser();
     const theme = useTheme();
+    const locationParams = useParams();
+    const objOptions = useModelOptions(model);
+    const backend = useContext(backendApiContext);
+
+    const [data, setData] = useState(false);
 
     // Queries
     const obj = useQuery({
         queryKey: [model, locationParams.id],
     });
+
+    const backendObj = useMutation({
+        queryFn: async ( data, method='PUT' ) => {
+            const updateUrl = new URL(`${backend.baseUrl}/api/${model}/${locationParams.id}/`);
+            const requestHeaders = backend.api.getRequestHeaders(updateUrl);
+          
+            return fetch(updateUrl, {
+              method: method,
+              headers: requestHeaders,
+              body: JSON.stringify(data),
+            });
+        }
+    })
 
     const history = useQuery({
         queryKey: ['logs', objOptions.data?.['contenttype_id'], locationParams.id ],
@@ -85,11 +100,15 @@ const GenericDetailView = props => {
 
     }, [obj.data, obj.isSuccess, ...Object.values(relatedQueries).map(query => query.isSuccess)])
 
+    // Callback Functions
+    const deleteObj = e => {
+        backendObj.mutate(data, method="DELETE");
+    }
     // Formatted Data
     const viewContainerName = `${model}-detail-view`;
     const viewContainerContentName = `${model}-detail-content`;
     const historyData = history.isSuccess ? history.data : [];
-    const userCanDelete = user ? user.checkPermission(`delete_${model}`) : false;
+    const userCanDelete = backend.auth.user ? backend.auth.user.checkPermission(`delete_${model}`) : false;
 
     return (
         <Box id={viewContainerName} position="relative">
@@ -98,7 +117,7 @@ const GenericDetailView = props => {
                 <Typography variant="h3">{title ? title: data.label}</Typography>
                 <Box className='detail-view-actions'>
                     <Box display="flex" sx={{float:"right"}}>
-                        { userCanDelete ? <Button color="error" variant="outlined" startIcon={<Delete/>}>Delete</Button> : null}
+                        { userCanDelete && data ? <Button color="error" variant="outlined" startIcon={<Delete/>} onClick={deleteObj}>Delete</Button> : null}
                     </Box>
                 </Box>
             </Box>

@@ -22,7 +22,7 @@ const defaultQueryFn = async ({ queryKey, pageParam }) => {
   return data;
 };
 
-const defaultMutationFn = async ({ model, data }) => {
+const defaultMutationFn = async ({ data }) => {
   const updateUrl = new URL(
     `${window.location.protocol}${window.location.host}/api/${
       model.modelName

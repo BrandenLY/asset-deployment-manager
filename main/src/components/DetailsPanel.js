@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import { useCurrentUser, useModelOptions } from '../customHooks';
-import { getCookie, notificationContext } from '../context';
+import { backendApiContext, getCookie, notificationContext } from '../context';
 import { Button, Collapse, Divider, IconButton, List, ListItem, ListItemIcon, ListItemText, Paper, useMediaQuery, useTheme } from '@mui/material';
 import { Edit, Save } from '@mui/icons-material';
 import ModelForm from './ModelForm';
@@ -13,12 +13,12 @@ const DetailsPanel = props => {
     const {model, data, formLayout} = props;
 
     // Hooks
+    const theme = useTheme();
     const queryClient = useQueryClient();
     const modelOptions = useModelOptions(model);
+    const backend = useContext(backendApiContext);
     const notifications = useContext(notificationContext);
     const userDeviceIsMobile = useMediaQuery("(max-width:1010px)");
-    const user = useCurrentUser();
-    const theme = useTheme();
 
     const [isEditing, setIsEditing] = useState(false);
     const [isCollapsed, setIsCollapsed] = useState(false);
@@ -27,19 +27,16 @@ const DetailsPanel = props => {
     const formContainer = useRef(null);
 
     const { mutate } = useMutation({
-        mutationFn: async ({method, payload}) => {
-            const updateUrl = new URL(
-                `${window.location.protocol}${window.location.host}/api/${model}/${data.id}/`
-            );
-            const requestHeaders = new Headers();
-            requestHeaders.set("Content-Type", "application/json");
-            requestHeaders.set("X-CSRFToken", getCookie("csrftoken"));
+        mutationFn: async (payload, method="PUT") => {
+            const updateUrl = new URL(`${backend.api.baseUrl}/${model}/${data.id}/`);
+            const requestHeaders = backend.api.getRequestHeaders(updateUrl);
 
             return fetch(updateUrl, {
-                method: "PUT",
+                method: method,
                 headers: requestHeaders,
-                body: JSON.stringify(payload),
+                body: JSON.stringify({...payload}),
               });
+
         },
         onSettled: (res, error, vars) => {
 
@@ -77,6 +74,7 @@ const DetailsPanel = props => {
               notifications.add({message:`Successfully updated ${model}`});
               res.json().then(resData => {
                 queryClient.setQueryData([model, data.id], {...data, ...resData})
+                setIsEditing(false);
               })
         }
     })
@@ -186,7 +184,7 @@ const DetailsPanel = props => {
           }
         })
 
-        mutate({method:"PUT", payload:payload});
+        mutate(payload);
     }
 
     const collapseSelf = () => {
@@ -198,7 +196,7 @@ const DetailsPanel = props => {
     }
 
     // Formatted Data
-    const userCanModify = user ? user.checkPermission(`change_${model}`) : false;
+    const userCanModify = backend.auth.user ? backend.auth.user.checkPermission(`change_${model}`) : false;
 
     return (
       <Paper className={`${model}DetailPanel`}

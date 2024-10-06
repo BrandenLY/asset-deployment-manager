@@ -1,12 +1,11 @@
-import { Add, Close, Download, FileUpload, ImportExport } from '@mui/icons-material';
-import { Autocomplete, Box, Button, Checkbox, FormControl, FormControlLabel, FormGroup, Grid, IconButton, Paper, TextField, Typography, useTheme } from '@mui/material';
+import { Download } from '@mui/icons-material';
+import { Autocomplete, Box, Button, Checkbox, FormControlLabel, FormGroup, Grid, TextField, Typography, useTheme } from '@mui/material';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import React, { useCallback, useEffect, useReducer, useState } from 'react';
 import * as XLSX from 'xlsx';
 import { useModelOptions } from '../customHooks';
 import ActionButton from './ActionButton';
 import CustomDialog from './CustomDialog';
-import ModelForm from './ModelForm';
 
 // Constant Variables
 const VALIDEXPORTFILETYPES = [
@@ -75,7 +74,6 @@ function ExportButton(props) {
     })
 
     // Effects
-    
     useEffect(() => {
         if(modelOptions.data != undefined && exportFields.length < 1){
 
@@ -93,6 +91,64 @@ function ExportButton(props) {
             })
         }
     }, [modelOptions.data, exportFields])
+
+    useEffect(() => {
+
+        if (allModelObjects.isFetching){
+            // Escape Hatch
+            return;
+        }
+
+        if(!allModelObjects.hasNextPage){
+            // Escape Hatch
+            return;
+        }
+
+        allModelObjects.fetchNextPage();
+
+    }, [allModelObjects.hasNextPage, allModelObjects.isFetching]);
+
+    useEffect(() => {
+
+        if( userRequestedDownload && !allModelObjects.hasNextPage){
+            console.log('prepping download');
+            setIsPreparingDownload(true);
+
+            const headerRow = Object.values(exportFields).map( field => field.label);
+            const modelObjectsData = allModelObjects.data.pages.map(page => page.results).flat();
+            
+            let sheetArrays = [
+                headerRow
+            ]
+
+            modelObjectsData.forEach( modelObj => {
+                let objRow = []
+
+                headerRow.forEach(fieldFriendlyName => {
+                
+                    const [backendFieldName, fieldDetails] = Object.entries(modelOptions.data.model_fields).find( 
+                        ([_, fieldDetails]) => fieldDetails.label == fieldFriendlyName 
+                    );
+
+                    objRow.push( modelObj[backendFieldName] );
+
+                })
+
+                sheetArrays.push(objRow);
+
+            })
+
+            const ws = XLSX.utils.aoa_to_sheet(sheetArrays);
+            const wb = XLSX.utils.book_new(ws, `${model}s`);
+            
+            XLSX.writeFile(wb, `${model}-export${exportFileType}`)
+
+            setIsPreparingDownload(false);
+            onDialogClose();
+
+        }
+
+    }, [userRequestedDownload, allModelObjects.hasNextPage]);
 
     const openDialog = e => {
         setDialogIsOpen(true);

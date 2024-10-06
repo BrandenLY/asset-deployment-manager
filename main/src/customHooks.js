@@ -7,44 +7,6 @@ import DynamicInput from './components/DynamicInput';
 
 
 // CUSTOM HOOKS
-export const useBackend = ({model, id=null, makeInfinate=false}) => {
-    const apiBaseUrl = "http://127.0.0.1:8000/api/";
-    const formattedUrl = new URL(`${apiBaseUrl}${model}/${id ? id + "/" : ""}`);
-    const defaultStaleTime = 1000 * 60 * 15;
-    const queryKey = [model, id];
-
-    if (makeInfinate) {
-        return useInfiniteQuery({
-            queryKey: queryKey + "infinate",
-            queryFn: async ({pageParam = 1}) => {
-                formattedUrl.searchParams.set('page', pageParam)
-                const res  = await fetch(formattedUrl);
-                const data = await res.json()
-                return data;
-            },
-            getNextPageParam: (lastPage, pages) => {
-                if (lastPage.next) {
-                    const nextPage = new URL(lastPage.next);
-                    return nextPage.searchParams.get('page');
-                }
-                return undefined;
-            },
-            hasNextPage: (lastPage, pages) => new Boolean(lastPage.next),
-            staleTime : defaultStaleTime,
-        })
-    }
-
-    return useQuery({
-        queryKey : queryKey,
-        queryFn : async () => {
-            const res = await fetch(formattedUrl);
-            const data = await res.json()
-            return data;
-        },
-        staleTime : defaultStaleTime,
-    })
-};
-
 export const useRichQuery = props => {
 
     // Queries on certain models may need more than one query to retrieve data for related models.

@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react'
-import Section from './Section';
-import { Badge, Box, Button, Checkbox, IconButton, Paper, Typography, useMediaQuery, useTheme } from '@mui/material';
 import { Archive, Close, Delete, DocumentScanner, ExpandLess, ExpandMore, SubdirectoryArrowRight } from '@mui/icons-material';
-import ScanTool from './ScanTool';
-import { useCurrentUser, useModelOptions } from '../customHooks';
+import { Badge, Box, Button, Checkbox, IconButton, Paper, Typography, useMediaQuery, useTheme } from '@mui/material';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import React, { useContext, useEffect, useState } from 'react';
+import { backendApiContext, getCookie } from '../context';
+import { useModelOptions } from '../customHooks';
 import AssetIcon from './AssetIcon';
-import { getCookie } from '../context';
+import ScanTool from './ScanTool';
+import Section from './Section';
 
 const ASSETMODELNAME = 'asset';
 
@@ -196,14 +196,17 @@ const ContentAssetsList = props => {
     } = props;
 
     // Hooks
+    const theme = useTheme();
+    const queryClient = useQueryClient();
+    const backend = useContext(backendApiContext);
+    const assetOptions = useModelOptions(ASSETMODELNAME);
+    const viewingFromMobile = useMediaQuery(theme.breakpoints.down('md'));
+
+    // State
     const [objData, setObjData] = useState(false);
     const [displayScanTool, setDisplayScanTool] = useState(false);
-    const theme = useTheme();
-    const viewingFromMobile = useMediaQuery(theme.breakpoints.down('md'));
-    const assetOptions = useModelOptions(ASSETMODELNAME);
-    const queryClient = useQueryClient();
-    const user = useCurrentUser();
 
+    // Queries
     const contentTypes = useQuery({
         queryKey: ['contenttype'],
     })
@@ -373,9 +376,9 @@ const ContentAssetsList = props => {
     }
 
     // Formatted data
-    let canReceiveAssetsFromObj = user ? user.checkPermission(`receive`) : false;
-    let canRemoveAssetsFromObj = user ? user.checkPermission(`change_asset`) : false;
-    let canMoveAssetsViaScan = user ? user.checkPermission(`scan_to_parent`) : false;
+    let canReceiveAssetsFromObj = backend.auth.user ? backend.auth.user.checkPermission(`receive`) : false;
+    let canRemoveAssetsFromObj = backend.auth.user ? backend.auth.user.checkPermission(`change_asset`) : false;
+    let canMoveAssetsViaScan = backend.auth.user ? backend.auth.user.checkPermission(`scan_to_parent`) : false;
 
     if (objContentType == 'shipment'){
         //If the shipment is 'Delivered' or 'Cancelled', allow receiving assets from it.

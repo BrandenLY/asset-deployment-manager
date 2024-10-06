@@ -1,27 +1,100 @@
-import { Button, Box, Paper, Typography, TextField } from "@mui/material";
-import React, { useEffect, useRef, useState } from "react";
-import { ModelAutoComplete } from "./ModelAutoComplete";
-import { useModelOptions } from "../customHooks";
-import { getCookie } from "../context";
+import { Box, Button, Paper, TextField, Typography } from "@mui/material";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import React, { useEffect, useRef, useState } from "react";
+import { getCookie } from "../context";
+import { ModelAutoComplete } from "./ModelAutoComplete";
 import ScanLog from "./ScanLog";
 
+// Primary Component
 const ScanTool = (props) => {
   
-  // PROPS
-  const { shipment:initialShipmentData, onSuccessfulScan = () => {}, variant = "block", elevation = 1, visible = true} = props;
-  
-  // STATE
-  const [ destinationId, setDestinationId ] = useState(initialShipmentData.id); // Individual 'shipment' or 'asset' Id
-  const [ destinationContentType, setDestinationContentType ] = useState("shipment"); // Either 'shipment' or 'asset'
-  const [ destinationName, setDestinationName ] = useState(""); // For display purposes only
-  const [ assetCode, setAssetCode ] = useState(""); // The code to be entered
-  const [ scanLog, setScanLog ] = useState({}); // Log of Scans Sent to Backend
-  
-  // HOOKS
-  const queryClient = useQueryClient();
-  const assetCodeInput = useRef(null);
+    // Props Destructuring
+    const { shipment:initialShipmentData, onSuccessfulScan = () => {}, variant = "block", elevation = 1, visible = true} = props;
+    
+    // Hooks
+    const queryClient = useQueryClient();
+    const assetCodeInput = useRef(null);
 
+    // State
+    const [ destinationId, setDestinationId ] = useState(initialShipmentData.id); // Individual 'shipment' or 'asset' Id
+    const [ destinationContentType, setDestinationContentType ] = useState("shipment"); // Either 'shipment' or 'asset'
+    const [ destinationName, setDestinationName ] = useState(""); // For display purposes only
+    const [ assetCode, setAssetCode ] = useState(""); // The code to be entered
+    const [ scanLog, setScanLog ] = useState({}); // Log of Scans Sent to Backend
+
+    // Queries
+    const {data: shipment} = useQuery({
+        queryKey: ['shipment', initialShipmentData.id],
+        initialData: initialShipmentData,
+    })
+
+    // Mutations
+    const scanAssetMutation = useMutation({
+        mutationFn: async (vars) => {
+            
+            // Scanning logic is handled primarily by the backend, we will just pass back the shipment id and asset code.
+            const scanUrl = new URL(`${window.location.protocol}${window.location.host}/api/scan/`);
+            const requestHeaders = new Headers();
+            requestHeaders.set('Content-Type', 'application/json');
+            requestHeaders.set('X-CSRFToken', getCookie('csrftoken'));
+        
+            // Format Payload
+            const payload = {
+                destination_content_type: destinationContentType,
+                destination_object_id: destinationId,
+                asset_code: vars,
+                shipment: shipment.id,
+            }
+
+            return await fetch( scanUrl, {method:"POST", headers:requestHeaders, body:JSON.stringify(payload)})
+        },
+        onMutate: vars => {
+            setScanLog(prev=>{
+                let data = {...prev};
+                data[vars] = null;
+                return data;
+            })
+        },
+        onSettled: async (data, error, vars, context) => {
+            
+            // Backend has returned a http 200 response status
+            if (data.ok){
+
+                // Parse data
+                const _data = await data.json();
+
+                // Update State
+                setScanLog(prev => {
+                    let data = {...prev}
+                    data[vars] = {data:_data, error};
+                    return data;
+                })
+                
+                // Update Scan Destination
+                if (_data.is_container){
+                    setDestinationId(_data.id);
+                    setDestinationContentType('asset');
+                    setDestinationName(_data.label);
+                }
+
+                // Execute callback
+                onSuccessfulScan();
+
+            }
+            // Backend has returned an error (400/500) response status.
+            else{
+                const _data = await data.json();
+                setScanLog(prev => {
+                    let data = {...prev}
+                    data[vars] = {data:null, error:_data['detail']};
+                    return data;
+                })
+            }
+
+        }
+    })
+
+    // Effects
     useEffect(() => {
         return () => {
             if (scanLog.length > 0){
@@ -36,7 +109,7 @@ const ScanTool = (props) => {
             assetCodeInput.current.focus();
         }
     }) // Focus input on page load
-        
+
     useEffect(() => {
 
     // Trigger: Submitting via 'Enter' keypress
@@ -54,7 +127,7 @@ const ScanTool = (props) => {
     },[assetCodeInput.current]) // Focus input after submitting asset code
 
     useEffect(() => {
-    
+
         // Set Defaults
         setDestinationContentType("shipment");
         setDestinationId(shipment.id);
@@ -63,79 +136,6 @@ const ScanTool = (props) => {
         setScanLog({});
 
     }, [initialShipmentData.id]) // Reset component defaults
-    
-
-  // QUERIES
-  const {data: shipment} = useQuery({
-    queryKey: ['shipment', initialShipmentData.id],
-    initialData: initialShipmentData,
-  })
-
-  // MUTATIONS
-  const scanAssetMutation = useMutation({
-    mutationFn: async (vars) => {
-        
-        // Scanning logic is handled primarily by the backend, we will just pass back the shipment id and asset code.
-        const scanUrl = new URL(`${window.location.protocol}${window.location.host}/api/scan/`);
-        const requestHeaders = new Headers();
-        requestHeaders.set('Content-Type', 'application/json');
-        requestHeaders.set('X-CSRFToken', getCookie('csrftoken'));
-    
-        // Format Payload
-        const payload = {
-            destination_content_type: destinationContentType,
-            destination_object_id: destinationId,
-            asset_code: vars,
-            shipment: shipment.id,
-        }
-
-        return await fetch( scanUrl, {method:"POST", headers:requestHeaders, body:JSON.stringify(payload)})
-    },
-    onMutate: vars => {
-        setScanLog(prev=>{
-            let data = {...prev};
-            data[vars] = null;
-            return data;
-        })
-    },
-    onSettled: async (data, error, vars, context) => {
-        
-        // Backend has returned a http 200 response status
-        if (data.ok){
-
-            // Parse data
-            const _data = await data.json();
-
-            // Update State
-            setScanLog(prev => {
-                let data = {...prev}
-                data[vars] = {data:_data, error};
-                return data;
-            })
-            
-            // Update Scan Destination
-            if (_data.is_container){
-                setDestinationId(_data.id);
-                setDestinationContentType('asset');
-                setDestinationName(_data.label);
-            }
-
-            // Execute callback
-            onSuccessfulScan();
-
-        }
-        // Backend has returned an error (400/500) response status.
-        else{
-            const _data = await data.json();
-            setScanLog(prev => {
-                let data = {...prev}
-                data[vars] = {data:null, error:_data['detail']};
-                return data;
-            })
-        }
-
-    }
-  })
 
   // CALLBACKS
   const updateDestinationId = ID => {
@@ -178,7 +178,6 @@ const ScanTool = (props) => {
     justifyContent:"center",
     alignItems:"center"
   };
-
   switch(variant){
     case 'block':
         // Update paper styles
@@ -203,11 +202,12 @@ const ScanTool = (props) => {
         boxStyles['columnGap'] = 1;
   };
 
-  // RENDER
+  // Render
   if(destinationId == null){
-    // Requires Shipment Selection
+    // Render shipment selection input
     return(<ShipmentSelector onSelect={updateDestinationId} variant={variant}/>)
-  }else{
+  }
+  else{
     // Render primary form
     return(
         <Paper sx={paperStyles} elevation={elevation}>
@@ -252,7 +252,7 @@ const ScanTool = (props) => {
   }
 };
 
-// This component wasn't designed to be used outside of the ScanTool component.
+// Supplementary Components
 const ShipmentSelector = props => {
 
     // Props Destructuring
@@ -375,4 +375,5 @@ const ScanToolDestinationDetails = props => {
         </Box>
     );
 }
+
 export default ScanTool;

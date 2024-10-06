@@ -30,14 +30,16 @@ const ShipmentsView = props => {
     const [selectedShipment, setSelectedShipment] = useState(null);
 
     // Mutations
-    const deleteShipmentMutation = useMutation({
-        mutationFn: async (data) => {
-            const updateUrl = new URL(`${backend.baseUrl}/${MODELNAME}/${data.id}/`);
-            const requestHeaders = new Headers();
-            requestHeaders.set('Content-Type', 'application/json');
-            requestHeaders.set('X-CSRFToken', backend.csrftoken);
+    const backendShipment = useMutation({
+        mutationFn: async (payload, method='PUT') => {
+            const updateUrl = new URL(`${backend.baseUrl}/${MODELNAME}/${payload.id ? payload.id + "/" : ""}`);
+            const requestHeaders = backend.api.getRequestHeaders(updateUrl);
         
-            return fetch( updateUrl, {method:"DELETE", headers:requestHeaders} )
+            return fetch( updateUrl, {
+                method:method,
+                headers:requestHeaders
+            })
+            
         },
         onSettled: async (data) => {
             if (data.ok) {
@@ -71,7 +73,7 @@ const ShipmentsView = props => {
     const deleteShipment = shipment => {
         const message = `Are you sure you would like to delete ${shipment.label}?`
         if (confirm(message) == true){
-            deleteShipmentMutation.mutate(shipment);
+            backendShipment.mutate(shipment, method="DELETE");
         }
     }
 
