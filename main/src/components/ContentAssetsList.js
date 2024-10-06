@@ -392,7 +392,7 @@ const ContentAssetsList = props => {
             actions={[
                 hasAssetSelections && canReceiveAssetsFromObj ? <Button startIcon={<Archive/>} variant="outlined" onClick={receiveSelectedAssets}>Receive selected</Button> : null,
                 hasAssetSelections && canRemoveAssetsFromObj ? <Button startIcon={<Delete/>} variant="outlined" onClick={removeSelectedAssets}>Remove selected</Button> : null,
-                canMoveAssetsViaScan ? <Button startIcon={displayScanTool ? <Close/> : <DocumentScanner sx={{transform:"rotate(90deg)"}}/> } variant={outlined} color={displayScanTool ? 'error' : 'primary'} onClick={toggleScanTool}>Scan</Button> : null,
+                canMoveAssetsViaScan ? <Button startIcon={displayScanTool ? <Close/> : <DocumentScanner sx={{transform:"rotate(90deg)"}}/> } variant="outlined" color={displayScanTool ? 'error' : 'primary'} onClick={toggleScanTool}>Scan</Button> : null,
             ]}
 
             defaultExpanded={true}
