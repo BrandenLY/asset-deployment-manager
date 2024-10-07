@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[248696],{248696:(a,s,e)=>{e.r(s),e.d(s,{default:()=>n});var h=e(675003),p=e(474848);const n=(0,h.A)((0,p.jsx)("path",{d:"M21 5H3v14h18zm-2 12H5V7h14z"}),"CropLandscapeSharp")}}]);

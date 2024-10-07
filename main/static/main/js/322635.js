@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[322635],{322635:(e,c,a)=>{a.r(c),a.d(c,{default:()=>s});var n=a(675003),r=a(474848);const s=(0,n.A)((0,r.jsx)("circle",{cx:"12",cy:"12",r:"8"}),"FiberManualRecordRounded")}}]);

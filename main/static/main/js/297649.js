@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[297649],{297649:(h,a,e)=>{e.r(a),e.d(a,{default:()=>t});var m=e(675003),s=e(474848);const t=(0,m.A)((0,s.jsx)("path",{d:"M16 10h-2v2h2zm0 4h-2v2h2zm-8-4H6v2h2zm4 0h-2v2h2zm10-6H2v16h20zm-2 14H4V6h16z"}),"ImageAspectRatioSharp")}}]);

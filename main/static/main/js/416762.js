@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[416762],{416762:(h,e,s)=>{s.r(e),s.d(e,{default:()=>n});var v=s(675003),a=s(474848);const n=(0,v.A)((0,a.jsx)("path",{d:"M2 6v12h2V8h10v10h2v-2h4v2h2V6zm18 2v2h-4V8zm-4 6v-2h4v2z"}),"DeskOutlined")}}]);

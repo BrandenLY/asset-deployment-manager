@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[508022],{508022:(a,e,s)=>{s.r(e),s.d(e,{default:()=>t});var h=s(675003),n=s(474848);const t=(0,h.A)((0,n.jsx)("path",{d:"M14 8.83 17.17 12 14 15.17V14H6v-4h8zM12 4v4H4v8h8v4l8-8z"}),"ForwardOutlined")}}]);

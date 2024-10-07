@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[21190],{21190:(a,c,e)=>{e.r(c),e.d(c,{default:()=>h});var l=e(675003),s=e(474848);const h=(0,l.A)((0,s.jsx)("path",{d:"m14.5 12.59.9 3.88-3.4-2.05-3.4 2.05.9-3.87-3-2.59 3.96-.34L12 6.02l1.54 3.64 3.96.34zM3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"}),"LocalPoliceSharp")}}]);

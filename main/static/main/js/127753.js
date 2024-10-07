@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[127753],{127753:(h,a,s)=>{s.r(a),s.d(a,{default:()=>n});var e=s(675003),k=s(474848);const n=(0,e.A)((0,k.jsx)("path",{d:"M21.04 3h-18v18h18zm-6 14h-2v-4h-4V7h2v4h2V7h2z"}),"Looks4Sharp")}}]);

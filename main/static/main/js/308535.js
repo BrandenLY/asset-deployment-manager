@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[308535],{308535:(a,e,h)=>{h.r(e),h.d(e,{default:()=>t});var s=h(675003),n=h(474848);const t=(0,s.A)((0,n.jsx)("path",{d:"M3 18h6v-2H3zM3 6v2h18V6zm0 7h12v-2H3z"}),"SortTwoTone")}}]);

@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[166852],{166852:(h,a,e)=>{e.r(a),e.d(a,{default:()=>t});var n=e(675003),s=e(474848);const t=(0,n.A)((0,s.jsx)("path",{d:"M19 19V5c0-1.1-.9-2-2-2H7c-1.1 0-2 .9-2 2v14H3v2h18v-2zm-2 0H7V5h10zm-4-8h2v2h-2z"}),"DoorFrontOutlined")}}]);

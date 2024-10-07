@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[4685],{4685:(e,a,c)=>{c.r(a),c.d(a,{default:()=>t});var s=c(675003),n=c(474848);const t=(0,s.A)((0,n.jsx)("path",{d:"M21.99 4c0-1.1-.89-2-1.99-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14l4 4z"}),"ModeComment")}}]);

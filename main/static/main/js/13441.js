@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[13441],{13441:(s,c,a)=>{a.r(c),a.d(c,{default:()=>h});var e=a(675003),n=a(474848);const h=(0,e.A)((0,n.jsx)("path",{d:"M20 19h-1V5c0-1.1-.9-2-2-2H7c-1.1 0-2 .9-2 2v14H4c-.55 0-1 .45-1 1s.45 1 1 1h16c.55 0 1-.45 1-1s-.45-1-1-1m-6-6c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1"}),"DoorFrontRounded")}}]);

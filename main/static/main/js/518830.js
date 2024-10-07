@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[518830],{518830:(h,a,e)=>{e.r(a),e.d(a,{default:()=>s});var o=e(675003),p=e(474848);const s=(0,o.A)([(0,p.jsx)("path",{d:"M4 5h16v10H4z",opacity:".3"},"0"),(0,p.jsx)("path",{d:"M22 18V3H2v15H0v2h24v-2zm-8 0h-4v-1h4zm6-3H4V5h16z"},"1")],"LaptopChromebookTwoTone")}}]);

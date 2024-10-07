@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[350614],{350614:(a,c,h)=>{h.r(c),h.d(c,{default:()=>t});var e=h(675003),s=h(474848);const t=(0,e.A)((0,s.jsx)("path",{d:"M17 5v16c0 .55-.45 1-1 1H8c-.55 0-1-.45-1-1V5c0-.55.45-1 1-1h2V2h4v2h2c.55 0 1 .45 1 1m-2 1H9v8h6z"}),"Battery3Bar")}}]);

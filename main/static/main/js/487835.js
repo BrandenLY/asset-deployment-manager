@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[487835],{487835:(a,s,e)=>{e.r(s),e.d(s,{default:()=>n});var h=e(675003),l=e(474848);const n=(0,h.A)((0,l.jsx)("path",{d:"M3 10h11v2H3zm0-4h11v2H3zm0 8h7v2H3zm13-1v8l6-4z"}),"PlaylistPlayTwoTone")}}]);

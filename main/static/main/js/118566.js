@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[118566],{118566:(e,a,s)=>{s.r(a),s.d(a,{default:()=>h});var n=s(675003),c=s(474848);const h=(0,n.A)((0,c.jsx)("path",{d:"M15 17H8.41L20 5.41 18.59 4 7 15.59V9H5v10h10z"}),"CallReceivedTwoTone")}}]);

@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[371876],{371876:(a,e,s)=>{s.r(e),s.d(e,{default:()=>u});var h=s(675003),t=s(474848);const u=(0,h.A)((0,t.jsx)("path",{d:"M19.66 3 3.07 19.59V21h1.41L21.07 4.42V3zm-7.71 0-8.88 8.88v2.83L14.78 3zM3.07 3v4l4-4zm18 18v-4l-4 4zm-8.88 0 8.88-8.88V9.29L9.36 21z"}),"TextureSharp")}}]);

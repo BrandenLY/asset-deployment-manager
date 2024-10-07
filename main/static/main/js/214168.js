@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[214168],{214168:(a,h,s)=>{s.r(h),s.d(h,{default:()=>r});var e=s(675003),n=s(474848);const r=(0,e.A)((0,n.jsx)("path",{d:"M19 19V3H5v16H3v2h18v-2zm-4-6h-2v-2h2z"}),"DoorFrontSharp")}}]);

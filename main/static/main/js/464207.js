@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[464207],{464207:(h,a,s)=>{s.r(a),s.d(a,{default:()=>n});var v=s(675003),e=s(474848);const n=(0,v.A)((0,e.jsx)("path",{d:"M20 19V3h-7.25v16h-1.5V3H4v16H3v2h18v-2zm-10-6H8v-2h2zm6 0h-2v-2h2z"}),"DoorSlidingSharp")}}]);

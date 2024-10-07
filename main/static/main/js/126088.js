@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[126088],{126088:(l,h,s)=>{s.r(h),s.d(h,{default:()=>e});var a=s(675003),c=s(474848);const e=(0,a.A)([(0,c.jsx)("path",{d:"M18 2H6v6l2 3v11h8V11l2-3zm-2 2v1H8V4zm-2 6.4V20h-4v-9.61l-2-3V7h8v.39z"},"0"),(0,c.jsx)("circle",{cx:"12",cy:"14",r:"1.5"},"1")],"FlashlightOnOutlined")}}]);

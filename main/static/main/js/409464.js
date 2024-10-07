@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[409464],{409464:(h,v,e)=>{e.r(v),e.d(v,{default:()=>t});var a=e(675003),s=e(474848);const t=(0,a.A)((0,s.jsx)("path",{d:"M14 2H4v20h16V8zm1 10h-4v1h4v5h-2v1h-2v-1H9v-2h4v-1H9v-5h2V9h2v1h2zm-2-4V3.5L17.5 8z"}),"RequestQuoteSharp")}}]);

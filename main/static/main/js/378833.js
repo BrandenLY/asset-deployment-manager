@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[378833],{378833:(a,e,s)=>{s.r(e),s.d(e,{default:()=>u});var h=s(675003),n=s(474848);const u=(0,h.A)((0,n.jsx)("path",{d:"M6 5h4v14H6zm8 0h4v14h-4z"}),"PauseTwoTone")}}]);

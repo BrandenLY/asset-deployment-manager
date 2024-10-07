@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[394475],{394475:(s,a,c)=>{c.r(a),c.d(a,{default:()=>n});var e=c(675003),k=c(474848);const n=(0,e.A)((0,k.jsx)("path",{d:"M5 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4m12-2c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6-2.69-6-6-6m0 10c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4"}),"HdrWeak")}}]);

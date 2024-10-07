@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[461565],{461565:(e,l,n)=>{n.r(l),n.d(l,{default:()=>u});var a=n(675003),s=n(474848);const u=(0,a.A)((0,s.jsx)("path",{d:"M21 11V3h-8l3.29 3.29-10 10L3 13v8h8l-3.29-3.29 10-10z"}),"OpenInFullOutlined")}}]);

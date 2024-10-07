@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[380560],{380560:(a,e,s)=>{s.r(e),s.d(e,{default:()=>h});var c=s(675003),f=s(474848);const h=(0,c.A)((0,f.jsx)("path",{d:"M22.83 12.99 11.83 2H2v9.83l10.99 10.99zM5.5 7C4.67 7 4 6.33 4 5.5S4.67 4 5.5 4 7 4.67 7 5.5 6.33 7 5.5 7"}),"LocalOfferSharp")}}]);

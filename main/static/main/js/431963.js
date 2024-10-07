@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[431963],{431963:(a,h,s)=>{s.r(h),s.d(h,{default:()=>c});var e=s(675003),p=s(474848);const c=(0,e.A)((0,p.jsx)("path",{d:"M11 21H3V3h8zm2 0h8v-9h-8zm8-11V3h-8v7z"}),"SpaceDashboardSharp")}}]);

@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[488098],{488098:(a,e,s)=>{s.r(e),s.d(e,{default:()=>c});var h=s(675003),n=s(474848);const c=(0,h.A)((0,n.jsx)("path",{d:"M18 13H6V9H4v6h16V9h-2z"}),"SpaceBarTwoTone")}}]);

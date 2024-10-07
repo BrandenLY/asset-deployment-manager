@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[39870],{39870:(a,s,e)=>{e.r(s),e.d(s,{default:()=>n});var r=e(675003),h=e(474848);const n=(0,r.A)((0,h.jsx)("path",{d:"M12 8V4l8 8-8 8v-4H4V8z"}),"ForwardSharp")}}]);

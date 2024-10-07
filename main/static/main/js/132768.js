@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[132768],{132768:(h,a,e)=>{e.r(a),e.d(a,{default:()=>n});var s=e(675003),t=e(474848);const n=(0,s.A)((0,t.jsx)("path",{d:"M22 18V3H2v15H0v2h24v-2zm-8 0h-4v-1h4zm6-3H4V5h16z"}),"LaptopChromebookOutlined")}}]);

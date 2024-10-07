@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[241598],{241598:(a,e,h)=>{h.r(e),h.d(e,{default:()=>s});var n=h(675003),v=h(474848);const s=(0,n.A)((0,v.jsx)("path",{d:"M18 5V3H7v13H5v2h2v3h2v-3h4v-2H9v-3h8v-2H9V5z"}),"CurrencyFrancOutlined")}}]);

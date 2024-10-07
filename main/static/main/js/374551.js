@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[374551],{374551:(a,l,s)=>{s.r(l),s.d(l,{default:()=>t});var e=s(296540),h=s(675003),n=s(474848);const t=(0,h.A)((0,n.jsxs)(e.Fragment,{children:[(0,n.jsx)("path",{fillOpacity:".3",d:"M2 22h20V2z"}),(0,n.jsx)("path",{d:"M12 12L2 22h10z"})]}),"SignalCellular1Bar")}}]);

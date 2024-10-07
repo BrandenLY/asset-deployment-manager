@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[456938],{456938:(h,e,a)=>{a.r(e),a.d(e,{default:()=>t});var c=a(675003),s=a(474848);const t=(0,c.A)((0,s.jsx)("path",{d:"m12 16 4-4h-3V3h-2v9H8zm9-13h-6v1.99h6v14.03H3V4.99h6V3H3c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2"}),"SystemUpdateAltTwoTone")}}]);

@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[12120],{12120:(a,s,e)=>{e.r(s),e.d(s,{default:()=>h});var r=e(675003),c=e(474848);const h=(0,r.A)((0,c.jsx)("path",{d:"M17.77 3.77 16 2 6 12l10 10 1.77-1.77L9.54 12z"}),"ArrowBackIosNewSharp")}}]);

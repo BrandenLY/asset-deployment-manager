@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[354910],{354910:(e,a,h)=>{h.r(a),h.d(a,{default:()=>u});var n=h(675003),s=h(474848);const u=(0,n.A)((0,s.jsx)("path",{d:"M3 18h18v-2H3zm0-5h18v-2H3zm0-7v2h18V6z"}),"MenuTwoTone")}}]);

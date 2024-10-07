@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[152748],{152748:(e,l,s)=>{s.r(l),s.d(l,{default:()=>u});var a=s(675003),n=s(474848);const u=(0,a.A)((0,n.jsx)("path",{d:"M22 3.41 16.71 8.7 20 12h-8V4l3.29 3.29L20.59 2zM3.41 22l5.29-5.29L12 20v-8H4l3.29 3.29L2 20.59z"}),"CloseFullscreenTwoTone")}}]);

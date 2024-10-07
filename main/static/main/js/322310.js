@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[322310],{322310:(e,t,a)=>{a.r(t),a.d(t,{default:()=>n});var s=a(675003),l=a(474848);const n=(0,s.A)((0,l.jsx)("path",{d:"M8.5 8.62v6.76L5.12 12zM10 5l-7 7 7 7zm4 0v14l7-7z"}),"SwitchLeftOutlined")}}]);

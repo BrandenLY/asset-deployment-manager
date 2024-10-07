@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[298833],{298833:(a,e,s)=>{s.r(e),s.d(e,{default:()=>l});var h=s(675003),n=s(474848);const l=(0,h.A)((0,n.jsx)("path",{d:"M17.2 3H6.8l-5.2 9 5.2 9h10.4l5.2-9z"}),"HexagonSharp")}}]);

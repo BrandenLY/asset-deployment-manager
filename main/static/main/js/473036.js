@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[473036],{473036:(a,e,s)=>{s.r(e),s.d(e,{default:()=>l});var u=s(675003),h=s(474848);const l=(0,u.A)((0,h.jsx)("path",{d:"M7 9v6h4l5 5V4l-5 5z"}),"VolumeMuteSharp")}}]);

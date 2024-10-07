@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[137767],{137767:(a,h,c)=>{c.r(h),c.d(h,{default:()=>t});var e=c(675003),s=c(474848);const t=(0,e.A)([(0,s.jsx)("path",{d:"m4 18 2-2h14V4H4z",opacity:".3"},"0"),(0,s.jsx)("path",{d:"M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2m0 14H6l-2 2V4h16z"},"1")],"ChatBubbleTwoTone")}}]);

@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[17536],{17536:(a,s,e)=>{e.r(s),e.d(s,{default:()=>n});var h=e(675003),l=e(474848);const n=(0,h.A)((0,l.jsx)("path",{d:"M22 4H2v16h20zm-2 4-8 5-8-5V6l8 5 8-5z"}),"MailSharp")}}]);

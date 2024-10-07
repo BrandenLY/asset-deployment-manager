@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[462343],{462343:(s,a,e)=>{e.r(a),e.d(a,{default:()=>n});var h=e(675003),t=e(474848);const n=(0,h.A)((0,t.jsx)("path",{d:"M3 4v16h18V4zm16 14H5V8h14z"}),"WebAssetSharp")}}]);

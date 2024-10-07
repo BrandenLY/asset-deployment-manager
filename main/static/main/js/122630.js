@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[122630],{122630:(h,v,e)=>{e.r(v),e.d(v,{default:()=>H});var a=e(675003),s=e(474848);const H=(0,a.A)((0,s.jsx)("path",{d:"M18 16h-2v-1H8v1H6v-1H2v5h20v-5h-4zm-1-8V4H7v4H2v6h4v-2h2v2h8v-2h2v2h4V8zM9 6h6v2H9z"}),"HomeRepairServiceSharp")}}]);

@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[36013],{36013:(h,a,e)=>{e.r(a),e.d(a,{default:()=>n});var s=e(675003),t=e(474848);const n=(0,s.A)((0,t.jsx)("path",{d:"M10 10.02h5V21h-5zM17 21h5V10h-5zm5-18H3v5h19zM3 21h5V10H3z"}),"TableChartSharp")}}]);

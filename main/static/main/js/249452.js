@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[249452],{249452:(h,s,t)=>{t.r(s),t.d(s,{default:()=>e});var v=t(675003),a=t(474848);const e=(0,v.A)((0,a.jsx)("path",{d:"M18 7V4c0-1.1-.9-2-2-2H8c-1.1 0-2 .9-2 2v3H5v6l3 6v3h8v-3l3-6V7zM8 4h8v3h-2V5h-1v2h-2V5h-1v2H8z"}),"SettingsInputHdmi")}}]);

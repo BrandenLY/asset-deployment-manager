@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[412844],{412844:(s,a,h)=>{h.r(a),h.d(a,{default:()=>n});var c=h(675003),e=h(474848);const n=(0,c.A)((0,e.jsx)("path",{d:"M21 13H3v8h18zM7 19c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2M21 3H3v8h18zM7 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2"}),"DnsSharp")}}]);

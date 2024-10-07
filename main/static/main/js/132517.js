@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[132517],{132517:(a,e,n)=>{n.r(e),n.d(e,{default:()=>t});var s=n(675003),h=n(474848);const t=(0,s.A)((0,h.jsx)("path",{d:"m18 12 4-4-4-4v3H3v2h15zM6 12l-4 4 4 4v-3h15v-2H6z"}),"SyncAltTwoTone")}}]);

@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[119922],{119922:(h,a,s)=>{s.r(a),s.d(a,{default:()=>l});var e=s(675003),v=s(474848);const l=(0,e.A)([(0,v.jsx)("path",{d:"M22 9 12 2 2 9h9v13h2V9z"},"0"),(0,v.jsx)("path",{d:"m4.14 12-1.96.37.82 4.37V22h2l.02-4H7v4h2v-6H4.9zm14.96 4H15v6h2v-4h1.98l.02 4h2v-5.26l.82-4.37-1.96-.37z"},"1")],"DeckSharp")}}]);

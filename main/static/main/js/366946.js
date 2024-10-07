@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[366946],{366946:(a,e,s)=>{s.r(e),s.d(e,{default:()=>t});var h=s(675003),n=s(474848);const t=(0,h.A)((0,n.jsx)("path",{d:"m13.5 13.48-4-4L2 16.99l1.5 1.5 6-6.01 4 4L22 6.92l-1.41-1.41z"}),"ShowChartTwoTone")}}]);

@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[251767],{251767:(e,a,s)=>{s.r(a),s.d(a,{default:()=>t});var l=s(675003),n=s(474848);const t=(0,l.A)((0,n.jsx)("path",{d:"M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"}),"CheckOutlined")}}]);

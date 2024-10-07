@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[257526],{257526:(a,e,s)=>{s.r(e),s.d(e,{default:()=>t});var h=s(675003),n=s(474848);const t=(0,h.A)((0,n.jsx)("path",{d:"M5.59 7.41 10.18 12l-4.59 4.59L7 18l6-6-6-6zM16 6h2v12h-2z"}),"LastPageTwoTone")}}]);

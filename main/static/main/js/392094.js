@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[392094],{392094:(a,e,h)=>{h.r(e),h.d(e,{default:()=>k});var n=h(675003),s=h(474848);const k=(0,n.A)((0,s.jsx)("path",{d:"M19 5v14H5V5zm2-2H3v18h18z"}),"CheckBoxOutlineBlankSharp")}}]);

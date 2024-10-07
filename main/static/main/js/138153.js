@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[138153],{138153:(s,t,a)=>{a.r(t),a.d(t,{default:()=>u});var e=a(675003),n=a(474848);const u=(0,e.A)((0,n.jsx)("path",{d:"M15.5 22c1.05 0 2.05-.16 3-.46-4.06-1.27-7-5.06-7-9.54s2.94-8.27 7-9.54c-.95-.3-1.95-.46-3-.46-5.52 0-10 4.48-10 10s4.48 10 10 10"}),"NightlightRoundOutlined")}}]);

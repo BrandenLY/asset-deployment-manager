@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[246770],{246770:(s,a,c)=>{c.r(a),c.d(a,{default:()=>n});var e=c(675003),d=c(474848);const n=(0,e.A)((0,d.jsx)("path",{d:"M15 11H9V8c0-.55-.45-1-1-1s-1 .45-1 1v8c0 .55.45 1 1 1s1-.45 1-1v-3h6v3c0 .55.45 1 1 1s1-.45 1-1V8c0-.55-.45-1-1-1s-1 .45-1 1z"}),"HMobiledataRounded")}}]);

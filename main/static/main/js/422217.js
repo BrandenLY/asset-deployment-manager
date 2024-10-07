@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[422217],{422217:(h,s,a)=>{a.r(s),a.d(s,{default:()=>t});var c=a(675003),e=a(474848);const t=(0,c.A)((0,e.jsx)("path",{d:"M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2M9 11H7V9h2zm4 0h-2V9h2zm4 0h-2V9h2z"}),"Textsms")}}]);

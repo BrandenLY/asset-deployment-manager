@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[183163],{183163:(h,a,e)=>{e.r(a),e.d(a,{default:()=>n});var v=e(675003),s=e(474848);const n=(0,v.A)((0,s.jsx)("path",{d:"M14 6v15H3v-2h2V3h9v1h5v15h2v2h-4V6zm-4 5v2h2v-2z"}),"MeetingRoomSharp")}}]);

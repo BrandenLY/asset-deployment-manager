@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[514404],{514404:(a,e,l)=>{l.r(e),l.d(e,{default:()=>t});var n=l(675003),s=l(474848);const t=(0,n.A)((0,s.jsx)("path",{d:"M5 14h3v6H5z"}),"SignalCellularAlt1BarTwoTone")}}]);

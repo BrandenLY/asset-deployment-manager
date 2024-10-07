@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[405665],{405665:(a,e,h)=>{h.r(e),h.d(e,{default:()=>t});var r=h(675003),s=h(474848);const t=(0,r.A)((0,s.jsx)("path",{d:"M4 3H2v14h11v-2H4zm18.24 12.96-2.53 1.15-3.41-6.98C15.96 9.45 15.27 9 14.51 9H11V3H5v11h10l3.41 7 5.07-2.32z"}),"AirlineSeatLegroomExtraSharp")}}]);

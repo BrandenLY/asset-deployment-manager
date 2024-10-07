@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[488180],{488180:(a,h,e)=>{e.r(h),e.d(h,{default:()=>u});var s=e(675003),n=e(474848);const u=(0,s.A)((0,n.jsx)("path",{d:"M3 18h18v-2H3zm0-5h18v-2H3zm0-7v2h18V6z"}),"MenuSharp")}}]);

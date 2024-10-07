@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[449806],{449806:(h,e,v)=>{v.r(e),v.d(e,{default:()=>n});var a=v(675003),s=v(474848);const n=(0,a.A)((0,s.jsx)("path",{d:"M6.6 11h10.8l-.9-3h-9zM20 11v2H4v-2H2v11h8v-5h4v5h8V11zm-4.1-5L15 3V1h-2v2h-2.03V1h-2v2.12L8.1 6z"}),"TempleHindu")}}]);

@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[205577],{205577:(h,a,s)=>{s.r(a),s.d(a,{default:()=>l});var e=s(675003),v=s(474848);const l=(0,e.A)((0,v.jsx)("path",{d:"M3 3v8h5L7 7l4 1V3zm5 10H3v8h8v-5l-4 1zm9 4-4-1v5h8v-8h-5zm4-14h-8v5l4-1-1 4h5z"}),"PagesSharp")}}]);

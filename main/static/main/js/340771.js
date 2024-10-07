@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[340771],{340771:(h,a,s)=>{s.r(a),s.d(a,{default:()=>t});var v=s(675003),e=s(474848);const t=(0,v.A)((0,e.jsx)("path",{d:"M12 11H6V7H4v10h2v-4h6v4h2V7h-2zm10 0h-2V9h-2v2h-2v2h2v2h2v-2h2z"}),"HPlusMobiledata")}}]);

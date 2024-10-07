@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[450096],{450096:(a,e,s)=>{s.r(e),s.d(e,{default:()=>t});var l=s(675003),n=s(474848);const t=(0,l.A)((0,n.jsx)("path",{d:"M12 8.41 16.59 13 18 11.59l-6-6-6 6L7.41 13zM6 18h12v-2H6z"}),"KeyboardCapslockOutlined")}}]);

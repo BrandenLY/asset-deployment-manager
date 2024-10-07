@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[418833],{418833:(a,e,h)=>{h.r(e),h.d(e,{default:()=>n});var s=h(675003),c=h(474848);const n=(0,s.A)((0,c.jsx)("path",{d:"M5 5h7V3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h7v-2H5zm16 7-4-4v3H9v2h8v3z"}),"LogoutTwoTone")}}]);

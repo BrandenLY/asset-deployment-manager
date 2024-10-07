@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[519872],{519872:(a,h,s)=>{s.r(h),s.d(h,{default:()=>t});var c=s(675003),e=s(474848);const t=(0,c.A)([(0,e.jsx)("path",{d:"M19 19V5c0-1.1-.9-2-2-2H7c-1.1 0-2 .9-2 2v14H3v2h18v-2zm-2 0H7V5h10z"},"0"),(0,e.jsx)("path",{d:"M9 11h2v2H9z"},"1")],"DoorBackOutlined")}}]);

@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[427020],{427020:(a,e,h)=>{h.r(e),h.d(e,{default:()=>p});var l=h(675003),s=h(474848);const p=(0,l.A)((0,s.jsx)("path",{d:"M15 7.5V2H9v5.5l3 3zM7.5 9H2v6h5.5l3-3zM9 16.5V22h6v-5.5l-3-3zM16.5 9l-3 3 3 3H22V9z"}),"GamepadSharp")}}]);

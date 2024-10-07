@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[408856],{408856:(h,e,s)=>{s.r(e),s.d(e,{default:()=>t});var a=s(675003),c=s(474848);const t=(0,a.A)((0,c.jsx)("path",{d:"M7 24h2v-2H7zm4 0h2v-2h-2zm4 0h2v-2h-2zM16 .01 8 0C6.9 0 6 .9 6 2v16c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V2c0-1.1-.9-1.99-2-1.99M16 16H8V4h8z"}),"SettingsCell")}}]);

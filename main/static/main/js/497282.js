@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[497282],{497282:(a,e,s)=>{s.r(e),s.d(e,{default:()=>h});var l=s(675003),r=s(474848);const h=(0,l.A)([(0,r.jsx)("path",{d:"M18 6.41 16.59 5 12 9.58 7.41 5 6 6.41l6 6z"},"0"),(0,r.jsx)("path",{d:"m18 13-1.41-1.41L12 16.17l-4.59-4.58L6 13l6 6z"},"1")],"KeyboardDoubleArrowDownSharp")}}]);

@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[172737],{172737:(h,a,e)=>{e.r(a),e.d(a,{default:()=>s});var t=e(675003),m=e(474848);const s=(0,t.A)((0,m.jsx)("path",{d:"M3 13h8v2H3zm0 4h8v2H3zm0-8h8v2H3zm0-4h8v2H3zm16 2v10h-4V7zm2-2h-8v14h8z"}),"VerticalSplitOutlined")}}]);

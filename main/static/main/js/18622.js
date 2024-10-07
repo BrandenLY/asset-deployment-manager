@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[18622],{18622:(c,r,e)=>{e.r(r),e.d(r,{default:()=>l});var s=e(675003),a=e(474848);const l=(0,s.A)([(0,a.jsx)("circle",{cx:"7",cy:"14",r:"3"},"0"),(0,a.jsx)("circle",{cx:"11",cy:"6",r:"3"},"1"),(0,a.jsx)("circle",{cx:"16.6",cy:"17.6",r:"3"},"2")],"ScatterPlotSharp")}}]);

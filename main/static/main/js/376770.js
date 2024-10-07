@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[376770],{376770:(s,a,e)=>{e.r(a),e.d(a,{default:()=>u});var c=e(675003),t=e(474848);const u=(0,c.A)((0,t.jsx)("path",{d:"M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3z"}),"MusicNote")}}]);

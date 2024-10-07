@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[178221],{178221:(h,a,c)=>{c.r(a),c.d(a,{default:()=>s});var e=c(675003),l=c(474848);const s=(0,e.A)((0,l.jsx)("path",{d:"m18 4 2 4h-3l-2-4h-2l2 4h-3l-2-4H8l2 4H7L5 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V4z"}),"Movie")}}]);

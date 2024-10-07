@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[512749],{512749:(h,e,v)=>{v.r(e),v.d(e,{default:()=>t});var a=v(675003),s=v(474848);const t=(0,a.A)((0,s.jsx)("path",{d:"M13 8v8h-3V8zm3-3H7v14h9zM1 8h2v11h3V5H1zm22 3h-6v5h4v1h-4v2h6v-5h-4v-1h4z"}),"Timer10SelectSharp")}}]);

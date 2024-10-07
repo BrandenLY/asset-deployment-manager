@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[31561],{31561:(a,e,s)=>{s.r(e),s.d(e,{default:()=>l});var t=s(675003),c=s(474848);const l=(0,t.A)((0,c.jsx)("path",{d:"m3.5 18.99 11 .01c.67 0 1.27-.33 1.63-.84L20.5 12l-4.37-6.16c-.36-.51-.96-.84-1.63-.84l-11 .01L8.34 12z"}),"LabelImportant")}}]);

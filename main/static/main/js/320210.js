@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[320210],{320210:(a,s,e)=>{e.r(s),e.d(s,{default:()=>h});var n=e(675003),t=e(474848);const h=(0,n.A)((0,t.jsx)("path",{d:"M11 18V6l-8.5 6zm.5-6 8.5 6V6z"}),"FastRewindSharp")}}]);

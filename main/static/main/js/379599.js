@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[379599],{379599:(a,e,s)=>{s.r(e),s.d(e,{default:()=>h});var t=s(675003),c=s(474848);const h=(0,t.A)((0,c.jsx)("path",{d:"M19 12v7H5v-7H3v7c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2v-7zm-6 .67 2.59-2.58L17 11.5l-5 5-5-5 1.41-1.41L11 12.67V3h2z"}),"SaveAltOutlined")}}]);

@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[368529],{368529:(a,e,n)=>{n.r(e),n.d(e,{default:()=>t});var s=n(675003),h=n(474848);const t=(0,s.A)((0,h.jsx)("path",{d:"m2 9 4 12h12l4-12-10-7z"}),"PentagonSharp")}}]);

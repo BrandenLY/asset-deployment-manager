@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[126559],{126559:(h,a,s)=>{s.r(a),s.d(a,{default:()=>m});var t=s(675003),e=s(474848);const m=(0,t.A)((0,e.jsx)("path",{d:"M3 21h18v-2H3zm0-4h18v-2H3zm0-4h18v-2H3zm0-4h18V7H3zm0-6v2h18V3z"}),"FormatAlignJustifyOutlined")}}]);

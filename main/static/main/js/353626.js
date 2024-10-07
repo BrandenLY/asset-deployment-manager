@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[353626],{353626:(e,h,a)=>{a.r(h),a.d(h,{default:()=>t});var s=a(675003),n=a(474848);const t=(0,s.A)((0,n.jsx)("path",{d:"M13 6.99h3L12 3 8 6.99h3v10.02H8L12 21l4-3.99h-3z"}),"HeightTwoTone")}}]);

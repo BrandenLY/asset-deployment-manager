@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[473445],{473445:(a,e,h)=>{h.r(e),h.d(e,{default:()=>u});var t=h(675003),s=h(474848);const u=(0,t.A)((0,s.jsx)("path",{d:"M19 11h-8v6h8zm4 10V3H1v18zm-2-1.98H3V4.97h18z"}),"PictureInPictureAltSharp")}}]);

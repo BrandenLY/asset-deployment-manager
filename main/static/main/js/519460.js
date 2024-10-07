@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[519460],{519460:(a,s,e)=>{e.r(s),e.d(s,{default:()=>i});var n=e(675003),c=e(474848);const i=(0,n.A)((0,c.jsx)("path",{d:"M15.53 17.46 12 21l-3.53-3.54c.9-.9 2.15-1.46 3.53-1.46s2.63.56 3.53 1.46"}),"Wifi1BarTwoTone")}}]);

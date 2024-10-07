@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[425655],{425655:(e,a,s)=>{s.r(a),s.d(a,{default:()=>h});var n=s(675003),c=s(474848);const h=(0,n.A)((0,c.jsx)("path",{d:"M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"}),"CheckTwoTone")}}]);

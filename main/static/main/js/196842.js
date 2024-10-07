@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[196842],{196842:(h,e,a)=>{a.r(e),a.d(e,{default:()=>t});var m=a(675003),s=a(474848);const t=(0,m.A)((0,s.jsx)("path",{d:"M13 7h-2v2h2zm0 4h-2v2h2zm4 0h-2v2h2zM3 3v18h18V3zm16 16H5V5h14zm-6-4h-2v2h2zm-4-4H7v2h2z"}),"BorderOuterOutlined")}}]);

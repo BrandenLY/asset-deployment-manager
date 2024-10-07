@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[268445],{268445:(e,n,a)=>{a.r(n),a.d(n,{default:()=>l});var h=a(675003),t=a(474848);const l=(0,h.A)((0,t.jsx)("path",{d:"M20 18h2v-8h-2zm0 4h2v-2h-2zM2 22h16V8h4V2z"}),"SignalCellularConnectedNoInternet4BarOutlined")}}]);

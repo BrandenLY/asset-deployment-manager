@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[251112],{251112:(a,e,s)=>{s.r(e),s.d(e,{default:()=>l});var t=s(675003),h=s(474848);const l=(0,t.A)((0,h.jsx)("path",{d:"M5.59 7.41 10.18 12l-4.59 4.59L7 18l6-6-6-6zM16 6h2v12h-2z"}),"LastPageOutlined")}}]);

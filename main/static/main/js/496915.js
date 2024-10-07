@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[496915],{496915:(e,a,s)=>{s.r(a),s.d(a,{default:()=>l});var n=s(675003),c=s(474848);const l=(0,n.A)((0,c.jsx)("path",{d:"M10 9V5l-7 7 7 7v-4.1c5 0 8.5 1.6 11 5.1-1-5-4-10-11-11"}),"ReplyTwoTone")}}]);

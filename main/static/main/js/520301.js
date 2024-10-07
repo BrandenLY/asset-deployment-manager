@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[520301],{520301:(e,s,c)=>{c.r(s),c.d(s,{default:()=>h});var a=c(675003),t=c(474848);const h=(0,a.A)((0,t.jsx)("path",{d:"M19 4H5c-1.11 0-2 .9-2 2v12c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.89-2-2-2m0 14H5V8h14z"}),"WebAssetOutlined")}}]);

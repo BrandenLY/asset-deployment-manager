@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[162148],{162148:(h,a,s)=>{s.r(a),s.d(a,{default:()=>t});var e=s(675003),r=s(474848);const t=(0,e.A)((0,r.jsx)("path",{d:"M4 9h4v11H4zm12 4h4v7h-4zm-6-9h4v16h-4z"}),"BarChartSharp")}}]);

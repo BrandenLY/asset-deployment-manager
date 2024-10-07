@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[166848],{166848:(a,h,s)=>{s.r(h),s.d(h,{default:()=>t});var e=s(675003),n=s(474848);const t=(0,e.A)((0,n.jsx)("path",{d:"M23 3H1v18h22zm-2 16H3v-3h18z"}),"CallToActionSharp")}}]);

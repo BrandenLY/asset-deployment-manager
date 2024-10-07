@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[160797],{160797:(a,e,s)=>{s.r(e),s.d(e,{default:()=>t});var h=s(675003),n=s(474848);const t=(0,h.A)((0,n.jsx)("path",{d:"M20 9H4v2h16zM4 15h16v-2H4z"}),"DragHandle")}}]);

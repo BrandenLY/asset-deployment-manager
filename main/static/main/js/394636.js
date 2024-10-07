@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[394636],{394636:(h,a,e)=>{e.r(a),e.d(a,{default:()=>s});var t=e(675003),n=e(474848);const s=(0,t.A)((0,n.jsx)("path",{d:"m21 18-3-3v2H5v2h13v2zM9.5 11.8h5l.9 2.2h2.1L12.75 3h-1.5L6.5 14h2.1zM12 4.98 13.87 10h-3.74z"}),"TextRotationNoneSharp")}}]);

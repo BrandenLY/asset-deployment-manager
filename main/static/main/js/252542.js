@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[252542],{252542:(a,h,s)=>{s.r(h),s.d(h,{default:()=>n});var e=s(675003),k=s(474848);const n=(0,e.A)((0,k.jsx)("path",{d:"M20 2H4v20h16zM6 4h5v8l-2.5-1.5L6 12z"}),"BookSharp")}}]);

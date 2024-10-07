@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[406594],{406594:(a,s,e)=>{e.r(s),e.d(s,{default:()=>n});var h=e(675003),t=e(474848);const n=(0,h.A)((0,t.jsx)("path",{d:"m3.5 18.49 6-6.01 4 4L22 6.92l-1.41-1.41-7.09 7.97-4-4L2 16.99z"}),"ShowChart")}}]);

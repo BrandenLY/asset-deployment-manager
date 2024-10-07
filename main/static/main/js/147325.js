@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[147325],{147325:(h,a,e)=>{e.r(a),e.d(a,{default:()=>t});var s=e(675003),n=e(474848);const t=(0,s.A)((0,n.jsx)("path",{d:"M20 2.01 4 2v20h16zM18 20H6v-9.02h12zm0-11H6V4h12zM8 5h2v3H8zm0 7h2v5H8z"}),"KitchenSharp")}}]);

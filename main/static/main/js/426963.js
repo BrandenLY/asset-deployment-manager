@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[426963],{426963:(a,r,t)=>{t.r(r),t.d(r,{default:()=>h});var s=t(675003),e=t(474848);const h=(0,s.A)((0,e.jsx)("path",{d:"M5.01 1v22H19V1zM17 19H7V5h10z"}),"StayPrimaryPortraitSharp")}}]);

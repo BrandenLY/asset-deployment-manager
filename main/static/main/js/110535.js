@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[110535],{110535:(h,a,e)=>{e.r(a),e.d(a,{default:()=>t});var n=e(675003),s=e(474848);const t=(0,n.A)((0,s.jsx)("path",{d:"M2 2v6.7h1V22h18V8.7h1V2zm13 12H9v-2h6zm5-7H4V4h16z"}),"Inventory2Sharp")}}]);

@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[397545],{397545:(h,a,e)=>{e.r(a),e.d(a,{default:()=>t});var p=e(675003),s=e(474848);const t=(0,p.A)((0,s.jsx)("path",{d:"m17 4 4 4-4 4V9h-4V7h4zM7 17h4v-2H7v-3l-4 4 4 4zm12-2h-2v2h2zm-4 0h-2v2h2zm-4-8H9v2h2zM7 7H5v2h2z"}),"MultipleStopSharp")}}]);

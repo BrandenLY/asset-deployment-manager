@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[498006],{498006:(a,e,h)=>{h.r(e),h.d(e,{default:()=>n});var s=h(675003),d=h(474848);const n=(0,s.A)((0,d.jsx)("path",{d:"M7.5 21H2V9h5.5zm7.25-18h-5.5v18h5.5zM22 11h-5.5v10H22z"}),"Leaderboard")}}]);

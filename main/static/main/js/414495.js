@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[414495],{414495:(h,c,s)=>{s.r(c),s.d(c,{default:()=>n});var a=s(675003),e=s(474848);const n=(0,a.A)((0,e.jsx)("path",{d:"M18 4v16H6V4zm0-2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2M7 19h10v-6H7zm3-9h4v1h3V5H7v6h3z"}),"SensorWindow")}}]);

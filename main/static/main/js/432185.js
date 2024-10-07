@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[432185],{432185:(e,a,s)=>{s.r(a),s.d(a,{default:()=>n});var h=s(675003),l=s(474848);const n=(0,h.A)((0,l.jsx)("path",{d:"M2 22h20V2zm18-2h-3V9.83l3-3z"}),"NetworkCellTwoTone")}}]);

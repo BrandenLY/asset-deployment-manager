@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[280011],{280011:(a,e,c)=>{c.r(e),c.d(e,{default:()=>t});var h=c(675003),s=c(474848);const t=(0,h.A)((0,s.jsx)("path",{d:"M21 3H3c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2m0 16H3V5h18zM5 10h9v2H5zm0-3h9v2H5z"}),"FeaturedPlayListOutlined")}}]);

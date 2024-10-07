@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[188602],{188602:(a,s,h)=>{h.r(s),h.d(s,{default:()=>n});var e=h(675003),l=h(474848);const n=(0,e.A)((0,l.jsx)("path",{d:"M7 2v11h3v9l7-12h-4l4-8z"}),"FlashOn")}}]);

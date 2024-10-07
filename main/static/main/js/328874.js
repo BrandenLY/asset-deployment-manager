@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[328874],{328874:(a,e,h)=>{h.r(e),h.d(e,{default:()=>p});var s=h(675003),n=h(474848);const p=(0,s.A)((0,n.jsx)("path",{d:"M3 13h18v8H3zM3 3h18v8H3z"}),"ViewAgendaSharp")}}]);

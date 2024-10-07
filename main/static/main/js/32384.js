@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[32384],{32384:(a,s,e)=>{e.r(s),e.d(s,{default:()=>n});var h=e(675003),r=e(474848);const n=(0,h.A)((0,r.jsx)("path",{d:"M9.01 14H2v2h7.01v3L13 15l-3.99-4zm5.98-1v-3H22V8h-7.01V5L11 9z"}),"CompareArrows")}}]);

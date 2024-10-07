@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[294138],{294138:(h,a,e)=>{e.r(a),e.d(a,{default:()=>n});var s=e(675003),v=e(474848);const n=(0,s.A)((0,v.jsx)("path",{d:"M8 10h1.5v1.5H8zm13-7H3v18h18zM11 9v6H6.5v-1.5h3v-1h-3V9zm7 6h-1.75l-1.75-2.25V15H13V9h1.5v2.25L16.25 9H18l-2.25 3z"}),"NineKSharp")}}]);

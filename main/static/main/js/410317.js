@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[410317],{410317:(s,a,c)=>{c.r(a),c.d(a,{default:()=>n});var e=c(675003),k=c(474848);const n=(0,e.A)((0,k.jsx)("path",{d:"M16 7c0 2.21-1.79 4-4 4S8 9.21 8 7s1.79-4 4-4 4 1.79 4 4m-9 6c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4m10 0c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4"}),"Spoke")}}]);

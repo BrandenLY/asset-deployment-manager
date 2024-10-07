@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[22773],{22773:(h,e,a)=>{a.r(e),a.d(e,{default:()=>v});var n=a(675003),t=a(474848);const v=(0,n.A)((0,t.jsx)("path",{d:"M22 11h-5V6h-3v5h-4V3H7v8H1.84v2H7v8h3v-8h4v5h3v-5h5z"}),"AlignVerticalCenterOutlined")}}]);

@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[410635],{410635:(a,s,e)=>{e.r(s),e.d(s,{default:()=>n});var h=e(675003),t=e(474848);const n=(0,h.A)([(0,t.jsx)("path",{d:"M12 7.77 5.61 18h12.78z",opacity:".3"},"0"),(0,t.jsx)("path",{d:"M12 4 2 20h20zm0 3.77L18.39 18H5.61z"},"1")],"ChangeHistoryTwoTone")}}]);

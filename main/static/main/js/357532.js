@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[357532],{357532:(a,e,l)=>{l.r(e),l.d(e,{default:()=>n});var s=l(675003),h=l(474848);const n=(0,s.A)((0,h.jsx)("path",{d:"M2 22h20V2z"}),"SignalCellular4BarSharp")}}]);

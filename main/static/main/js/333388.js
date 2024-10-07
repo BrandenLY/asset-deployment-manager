@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[333388],{333388:(h,l,s)=>{s.r(l),s.d(l,{default:()=>n});var a=s(675003),e=s(474848);const n=(0,a.A)((0,e.jsx)("path",{d:"M13 10h5l3-3-3-3h-5V2h-2v2H4v6h7v2H6l-3 3 3 3h5v4h2v-4h7v-6h-7zM6 6h11.17l1 1-1 1H6zm12 10H6.83l-1-1 1-1H18z"}),"SignpostOutlined")}}]);

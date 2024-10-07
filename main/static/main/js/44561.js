@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[44561],{44561:(s,a,e)=>{e.r(a),e.d(a,{default:()=>c});var h=e(675003),u=e(474848);const c=(0,h.A)((0,u.jsx)("path",{d:"M9 16h2V8H9zm3-14C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8m1-4h2V8h-2z"}),"PauseCircleOutlineSharp")}}]);

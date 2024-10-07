@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[483487],{483487:(a,e,h)=>{h.r(e),h.d(e,{default:()=>t});var l=h(675003),s=h(474848);const t=(0,l.A)((0,s.jsx)("path",{d:"M22 2H2v20l4-4h16zm-2 14H6l-2 2V4h16z"}),"ChatBubbleOutlineSharp")}}]);

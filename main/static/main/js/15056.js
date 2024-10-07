@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[15056],{15056:(e,a,l)=>{l.r(a),l.d(a,{default:()=>t});var s=l(675003),n=l(474848);const t=(0,s.A)((0,n.jsx)("path",{d:"M22 16v-2l-8.5-5V3.5c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5V9L2 14v2l8.5-2.5V19L8 20.5V22l4-1 4 1v-1.5L13.5 19v-5.5z"}),"AirplanemodeActiveOutlined")}}]);

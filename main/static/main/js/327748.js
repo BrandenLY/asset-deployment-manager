@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[327748],{327748:(a,e,h)=>{h.r(e),h.d(e,{default:()=>t});var s=h(675003),l=h(474848);const t=(0,s.A)((0,l.jsx)("path",{d:"M17 11V2H7v9l4.66 2.8-.99 2.34-3.41.29 2.59 2.24L9.07 22 12 20.23 14.93 22l-.78-3.33 2.59-2.24-3.41-.29-.99-2.34zm-4 1.23-1 .6-1-.6V3h2z"}),"MilitaryTechSharp")}}]);

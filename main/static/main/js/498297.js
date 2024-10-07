@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[498297],{498297:(a,c,e)=>{e.r(c),e.d(c,{default:()=>u});var n=e(675003),s=e(474848);const u=(0,n.A)((0,s.jsx)("path",{d:"M22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2zm-2 0-8 5-8-5zm0 12H4V8l8 5 8-5z"}),"MarkunreadOutlined")}}]);

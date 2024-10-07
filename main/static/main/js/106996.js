@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[106996],{106996:(a,t,e)=>{e.r(t),e.d(t,{default:()=>s});var h=e(675003),l=e(474848);const s=(0,h.A)((0,l.jsx)("path",{d:"M10 4v3h2.21l-3.42 8H6v3h8v-3h-2.21l3.42-8H18V4z"}),"FormatItalicOutlined")}}]);

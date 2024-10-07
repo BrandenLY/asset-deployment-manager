@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[408198],{408198:(c,s,a)=>{a.r(s),a.d(s,{default:()=>t});var e=a(675003),h=a(474848);const t=(0,e.A)((0,h.jsx)("path",{d:"M9 6c0 .56.45 1 1 1h5.59L4.7 17.89c-.39.39-.39 1.02 0 1.41.39.39 1.02.39 1.41 0L17 8.41V14c0 .55.45 1 1 1s1-.45 1-1V6c0-.55-.45-1-1-1h-8c-.55 0-1 .45-1 1"}),"NorthEastRounded")}}]);

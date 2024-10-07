@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[489042],{489042:(h,a,l)=>{l.r(a),l.d(a,{default:()=>e});var s=l(675003),v=l(474848);const e=(0,s.A)((0,v.jsx)("path",{d:"M20 18v1h3v1h-4v-3h3v-1h-3v-1h4v3zM5.88 18h2.66l3.4-5.42h.12l3.4 5.42h2.66l-4.65-7.27L17.81 4h-2.68l-3.07 4.99h-.12L8.85 4H6.19l4.32 6.73z"}),"SubscriptSharp")}}]);

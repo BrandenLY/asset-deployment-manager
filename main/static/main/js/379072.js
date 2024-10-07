@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[379072],{379072:(a,e,t)=>{t.r(e),t.d(e,{default:()=>s});var h=t(675003),l=t(474848);const s=(0,h.A)((0,l.jsx)("path",{d:"M23 3H1v18h22zM5 17l3.5-4.5 2.5 3.01L14.5 11l4.5 6z"}),"PhotoSizeSelectActualSharp")}}]);

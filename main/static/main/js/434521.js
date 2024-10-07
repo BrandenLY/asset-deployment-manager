@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[434521],{434521:(h,v,a)=>{a.r(v),a.d(v,{default:()=>t});var s=a(675003),e=a(474848);const t=(0,s.A)((0,e.jsx)("path",{d:"M16 10h3V3H5v7h3v2H5v9h2v-3h10v3h2v-9h-3zM7 8V5h10v3zm10 8H7v-2h10zm-3-4h-4v-2h4z"}),"ChairAltSharp")}}]);

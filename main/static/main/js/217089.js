@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[217089],{217089:(a,s,e)=>{e.r(s),e.d(s,{default:()=>t});var h=e(675003),n=e(474848);const t=(0,h.A)((0,n.jsx)("path",{d:"M12 7.77 18.39 18H5.61zM12 4 2 20h20z"}),"ChangeHistory")}}]);

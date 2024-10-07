@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[111146],{111146:(a,h,s)=>{s.r(h),s.d(h,{default:()=>u});var e=s(675003),t=s(474848);const u=(0,e.A)((0,t.jsx)("path",{d:"M1 5h2v14H1zm4 0h2v14H5zm18 0H9v14h14zM11 17l2.5-3.15L15.29 16l2.5-3.22L21 17z"}),"BurstModeSharp")}}]);

@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[414435],{414435:(s,a,t)=>{t.r(a),t.d(a,{default:()=>h});var c=t(675003),e=t(474848);const h=(0,c.A)((0,e.jsx)("path",{d:"M4 6c0-1.1.9-2 2-2s2 .9 2 2-.9 2-2 2-2-.9-2-2M1 9h6l7-5 1.31 1.52-4.17 2.98H14L21.8 4 23 5.4 14.5 12 14 22h-2l-.5-10L8 11H1z"}),"SportsGymnastics")}}]);

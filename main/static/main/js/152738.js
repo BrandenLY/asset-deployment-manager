@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[152738],{152738:(h,a,s)=>{s.r(a),s.d(a,{default:()=>p});var v=s(675003),e=s(474848);const p=(0,v.A)((0,e.jsx)("path",{d:"M21 3H3v18h18zM6 7h5v1.5H6zm13 12H5L19 5zm-4.5-3v2H16v-2h2v-1.5h-2v-2h-1.5v2h-2V16z"}),"ExposureSharp")}}]);

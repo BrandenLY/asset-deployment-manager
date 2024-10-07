@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[214090],{214090:(h,m,z)=>{z.r(m),z.d(m,{default:()=>s});var a=z(675003),v=z(474848);const s=(0,a.A)((0,v.jsx)("path",{d:"M22 2H2v20h20zM8 20H4v-4h4zm0-6H4v-4h4zm0-6H4V4h4zm6 12h-4v-4h4zm0-6h-4v-4h4zm0-6h-4V4h4zm6 12h-4v-4h4zm0-6h-4v-4h4zm0-6h-4V4h4z"}),"GridOnSharp")}}]);

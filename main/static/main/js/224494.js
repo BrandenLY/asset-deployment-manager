@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[224494],{224494:(e,a,s)=>{s.r(a),s.d(a,{default:()=>t});var n=s(675003),r=s(474848);const t=(0,n.A)((0,r.jsx)("path",{d:"M15.41 16.59 10.83 12l4.58-4.59L14 6l-6 6 6 6z"}),"KeyboardArrowLeftTwoTone")}}]);

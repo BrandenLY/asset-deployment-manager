@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[503631],{503631:(a,h,n)=>{n.r(h),n.d(h,{default:()=>e});var s=n(675003),t=n(474848);const e=(0,s.A)((0,t.jsx)("path",{d:"M17 12h-5v5h5zM16 1v2H8V1H6v2H3.01v18H21V3h-3V1zm3 18H5V8h14z"}),"InsertInvitationSharp")}}]);

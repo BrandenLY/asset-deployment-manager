@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[215475],{215475:(a,h,e)=>{e.r(h),e.d(h,{default:()=>k});var s=e(675003),n=e(474848);const k=(0,s.A)((0,n.jsx)("path",{d:"m13 8.2-1-1-4 4-4-4-1 1 4 4-4 4 1 1 4-4 4 4 1-1-4-4zM21 1H7v5h2V4h10v16H9v-2H7v5h14z"}),"PhonelinkEraseSharp")}}]);

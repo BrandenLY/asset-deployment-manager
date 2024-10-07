@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[318759],{318759:(c,a,e)=>{e.r(a),e.d(a,{default:()=>u});var h=e(675003),s=e(474848);const u=(0,h.A)((0,s.jsx)("path",{d:"M20 6h-1v8c0 .55-.45 1-1 1H6v1c0 1.1.9 2 2 2h10l4 4V8c0-1.1-.9-2-2-2m-3 5V4c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v13l4-4h9c1.1 0 2-.9 2-2"}),"ForumRounded")}}]);

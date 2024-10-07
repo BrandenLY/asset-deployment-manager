@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[308070],{308070:(h,a,l)=>{l.r(a),l.d(a,{default:()=>s});var e=l(675003),n=l(474848);const s=(0,e.A)((0,n.jsx)("path",{d:"M13 14h-2v-2h2zm5.1 2.56L17 14.79V21H7v-6.2l-1.1 1.76-1.7-1.06L12 3l7.8 12.5zM15 11.59l-3-4.8-3 4.8V19h2v-3h2v3h2z"}),"BungalowOutlined")}}]);

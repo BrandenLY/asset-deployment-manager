@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[237324],{237324:(a,e,s)=>{s.r(e),s.d(e,{default:()=>l});var h=s(675003),n=s(474848);const l=(0,h.A)((0,n.jsx)("path",{d:"M5.41 20 17 8.41V15h2V5H9v2h6.59L4 18.59z"}),"CallMadeTwoTone")}}]);

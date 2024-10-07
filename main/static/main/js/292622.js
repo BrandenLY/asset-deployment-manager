@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[292622],{292622:(c,e,s)=>{s.r(e),s.d(e,{default:()=>h});var a=s(675003),t=s(474848);const h=(0,a.A)((0,t.jsx)("path",{d:"M17 4c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2zM2 20c0 1.1.9 2 2 2h9c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2zm19-2c.83 0 1.5-.67 1.5-1.5v-9c0-.83-.67-1.5-1.5-1.5z"}),"WebStories")}}]);

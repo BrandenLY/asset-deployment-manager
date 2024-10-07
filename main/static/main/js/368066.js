@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[368066],{368066:(h,e,a)=>{a.r(e),a.d(e,{default:()=>c});var s=a(675003),v=a(474848);const c=(0,s.A)((0,v.jsx)("path",{d:"M22 13v3c0 1.1-.9 2-2 2h-3l1 1v2H6v-2l1-1H4c-1.1 0-2-.9-2-2V5c0-1.1.9-2 2-2h8v2H4v11h16v-3zm-7 2-5-5h4V3h2v7h4z"}),"BrowserUpdatedTwoTone")}}]);

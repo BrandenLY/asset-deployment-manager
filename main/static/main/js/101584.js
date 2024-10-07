@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[101584],{101584:(a,c,s)=>{s.r(c),s.d(c,{default:()=>u});var e=s(675003),t=s(474848);const u=(0,e.A)((0,t.jsx)("path",{d:"M12 3v9.28c-.47-.17-.97-.28-1.5-.28C8.01 12 6 14.01 6 16.5S8.01 21 10.5 21c2.31 0 4.2-1.75 4.45-4H15V6h4V3z"}),"Audiotrack")}}]);

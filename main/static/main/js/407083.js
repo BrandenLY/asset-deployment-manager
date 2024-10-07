@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[407083],{407083:(c,e,s)=>{s.r(e),s.d(e,{default:()=>i});var a=s(675003),h=s(474848);const i=(0,a.A)([(0,h.jsx)("circle",{cx:"12",cy:"19",r:"2"},"0"),(0,h.jsx)("path",{d:"M10 3h4v12h-4z"},"1")],"PriorityHighTwoTone")}}]);

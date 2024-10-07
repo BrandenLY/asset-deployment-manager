@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[409751],{409751:(h,a,e)=>{e.r(a),e.d(a,{default:()=>n});var s=e(675003),l=e(474848);const n=(0,s.A)((0,l.jsx)("path",{d:"M20 10V5H4v5H2v7h1.33L4 19h1l.67-2h12.67l.66 2h1l.67-2H22v-7zm-9 0H6V7h5zm7 0h-5V7h5z"}),"KingBedSharp")}}]);
