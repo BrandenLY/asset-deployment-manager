@@ -146,7 +146,7 @@ function ImportButton(props) {
             
             const requestHeaders = new Headers();
             requestHeaders.set("Content-Type", "application/json");
-            requestHeaders.set("X-CSRFToken", backend.csrftoken);
+            requestHeaders.set("X-CSRFToken", backend.api.csrftoken);
 
             const res = await fetch(updateUrl, {
             method: "POST",
@@ -156,12 +156,14 @@ function ImportButton(props) {
 
             if (!res.ok){
                 const data = await res.json();
-                const fieldErrors = Object.entries(data['errors'])
-                .map( ([fieldName, errors]) => `${fieldName}: ${errors.join(', ')}`);
-
-                const errorMessage = `Row ${data['row']}: ${fieldErrors}`;
-
-                uploadErrors.push(errorMessage);
+                if (data.hasOwnProperty('errors')){
+                    const fieldErrors = Object.entries(data['errors'])
+                    .map( ([fieldName, errors]) => `${fieldName}: ${errors.join(', ')}`);
+    
+                    const errorMessage = `Row ${data['row']}: ${fieldErrors}`;
+    
+                    uploadErrors.push(errorMessage);
+                }
             }
 
             // Update error state and end execution
