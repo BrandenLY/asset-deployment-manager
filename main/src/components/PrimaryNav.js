@@ -59,7 +59,7 @@ const NavLogo = props => {
         <Box sx={{height: "50px", marginLeft: "25px", display: "flex", alignItems: "center", gap:"2px"}}>
             <img src="/static/main/images/icons/Logo-v2.svg" alt="Brand logo" style={{height: "100%"}}/>
             <Typography variant="h2" sx={{fontWeight:"bold", color:"#E6E7E8"}}>
-                onfigView
+                atapult
             </Typography>
         </Box>
     );
@@ -73,7 +73,7 @@ const PageLinks = [
             ['Shipments', <LocalShipping /> ,'/shipments', 'view_shipment'],
             ['Assets', <DevicesOther/> ,'/assets', 'view_asset'],
             ['Models', <DeviceUnknown/>, '/models', 'view_model'],
-            ['Locations', <Place /> ,'/location', 'view_location']
+            ['Locations', <Place /> ,'/locations', 'view_location']
         ]
     },
     {
