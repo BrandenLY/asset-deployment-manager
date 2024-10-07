@@ -22,7 +22,7 @@ const objectFormReducer = (prev, action) => {
 
             Object.entries(action.use.model_fields)
             .forEach( ([fieldName, fieldOptions]) => {
-                tmpFormState1[fieldName] = fieldOptions;
+                tmpFormState1[fieldName] = {...fieldOptions};
                 tmpFormState1[fieldName].current = null;
                 tmpFormState1[fieldName].errors = [];
             })
