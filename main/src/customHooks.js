@@ -357,9 +357,9 @@ export const useCustomTheme = props => {
     useEffect(() => {
         setTheme(createTheme({
             palette: {
-                mode: !mediaQuery ? "dark" : "light",
+                mode: mediaQuery ? "dark" : "light",
                 primary: {
-                main: !mediaQuery ? "#07002B" : "#230465",
+                main: mediaQuery ? "#07002B" : "#230465",
                 light: "#230465",
                 dark: "#07002B",
                 contrastText: "#CBC6DE"
@@ -371,9 +371,9 @@ export const useCustomTheme = props => {
                 contrastText: "#FFFFFF"
                 },
                 text:{
-                primary: !mediaQuery ? "rgba(236, 233, 250, 0.87)" : "rgba(7, 0, 43, 0.87)",
-                secondary: !mediaQuery ? "rgba(236, 233, 250, 0.6)" : "rgba(7, 0, 43, 0.6)",
-                disabled: !mediaQuery ? "rgba(236, 233, 250, 0.38)" : "rgba(7, 0, 43, 0.38)"
+                primary: mediaQuery ? "rgba(236, 233, 250, 0.87)" : "rgba(7, 0, 43, 0.87)",
+                secondary: mediaQuery ? "rgba(236, 233, 250, 0.6)" : "rgba(7, 0, 43, 0.6)",
+                disabled: mediaQuery ? "rgba(236, 233, 250, 0.38)" : "rgba(7, 0, 43, 0.38)"
                 },
                 conditions : {
                 working: {
