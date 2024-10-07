@@ -230,7 +230,7 @@ const CreateObjectsButton = props => {
     
     <React.Fragment>
 
-        <ActionButton elementProps={{startIcon:<Add/>, variant:"contained"}} callbackFn={openDialog} popoverText={`Create new ${model}s by entering their data manually`}>
+        <ActionButton elementProps={{startIcon:<Add/>, variant:"contained", color:"secondary"}} callbackFn={openDialog} popoverText={`Create new ${model}s by entering their data manually`}>
             New {model}
         </ActionButton>
 
