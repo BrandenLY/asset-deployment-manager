@@ -32,9 +32,7 @@ function ImportButton(props) {
     // Mutations
     const api = useMutation({
         mutationFn: async ( data ) => {
-            const updateUrl = new URL(
-              `${backend.api.baseUrl}/${model}/${data.id ? `${data.id}/` : ""}`
-            );
+            const updateUrl = new URL(`${backend.api.baseUrl}/${model}/${data.id ? data.id + "/" : ""}`);
             const requestHeaders = new Headers();
             requestHeaders.set("Content-Type", "application/json");
             requestHeaders.set("X-CSRFToken", backend.api.csrftoken);
