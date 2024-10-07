@@ -17,7 +17,6 @@ const CREATESHIPMENTSFORMLAYOUT = [
     ['arrival_date', 'departure_date']
 ]
 
-
 const ShipmentsView = props => {
 
     // Hooks 

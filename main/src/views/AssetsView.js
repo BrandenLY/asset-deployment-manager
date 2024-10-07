@@ -9,7 +9,7 @@ import ModelListControls from "../components/ModelListControls";
 import { backendApiContext, notificationContext } from "../context";
 
 const MODELNAME = 'asset'
-const SORTINGGRIDDEFAULTCOLUMNS = [ 'id', 'label', 'location', 'parent_object', 'condition']
+const SORTINGGRIDDEFAULTCOLUMNS = [ 'id', 'label', 'location', 'parent', 'condition']
 const CREATEASSETSFORMLAYOUT = [
     ['model', 'code'],
     ['serial_number', 'knox_id'],
@@ -25,7 +25,6 @@ const AssetsView = props =>{
     // Hooks
     const navigate = useNavigate();
     const queryClient = useQueryClient();
-    const assetOptions = useModelOptions(MODELNAME)
     const backend = useContext(backendApiContext);
     const notifications = useContext(notificationContext);
 
