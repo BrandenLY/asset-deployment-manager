@@ -1,4 +1,4 @@
-import { Autocomplete, FormControl, FormHelperText, InputLabel, OutlinedInput, TextField } from '@mui/material';
+import { Autocomplete, Checkbox, FormControl, FormControlLabel, FormHelperText, InputLabel, OutlinedInput, TextField } from '@mui/material';
 import React, { useState, useEffect } from 'react'
 import { ModelAutoComplete } from './ModelAutoComplete';
 
@@ -69,6 +69,7 @@ const DynamicInput = props => {
                         {...params}
                         sx={{flexGrow:"2"}} 
                         label={fieldDetails.label}
+                        error={fieldError}
                         helperText={fieldDetails.errors.toString()}
                         FormHelperTextProps={{error:fieldError}}
                     />
@@ -77,7 +78,19 @@ const DynamicInput = props => {
                 onChange={(_e, newValue) => {updateValues(_e, newValue)}}
                 /> 
             );
-
+        case 'boolean':
+            return(
+            <FormControlLabel
+                label={fieldDetails.label}
+                sx={{marginLeft:1}}
+                control = {
+                    <Checkbox
+                        checked={fieldDetails.current}
+                        onChange={e => {updateValues(e, e.target.checked)}}
+                    />
+                }
+            />
+            )
         case 'computed value':
             return(
                 <TextField disabled={fieldIsDisabled} inputProps={{sx:{width:"100%"}}} sx={{flexGrow:"2"}} label={fieldName} value={fieldDetails.current}/>
@@ -132,7 +145,7 @@ const DynamicInput = props => {
                     disabled={fieldIsDisabled}
                     value={fieldDetails.current}
                     label={fieldDetails.label}
-                    onChange={(_e, newValue) => {updateValues(_e, _e.target.value)}}
+                    onChange={e => {updateValues(e, e.target.value)}}
                     error={fieldError}
                     required={fieldDetails.required}
                 />

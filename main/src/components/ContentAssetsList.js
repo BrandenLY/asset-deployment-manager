@@ -20,9 +20,12 @@ const AssetSectionTitle = props => {
     const model = useQuery({
         queryKey: ['model', asset.model]
     })
+
+    const modelIconId = model.data?.icon;
+
     const modelIcon = useQuery({
-        queryKey: ['asseticon', model.data.icon.id],
-        enabled: model.isSuccess
+        queryKey: ['asseticon', modelIconId],
+        enabled: !!modelIconId
     })
 
     const modelIconName = modelIcon.isSuccess ? modelIcon.data.source_name : "DevicesOther";
@@ -31,7 +34,7 @@ const AssetSectionTitle = props => {
     : "";
     const conditionBgColor = conditionLabel != "" ? theme.palette.conditions[conditionLabel.toLowerCase()].main : "gray";
     const conditionFgColor = conditionLabel != "" ? theme.palette.conditions[conditionLabel.toLowerCase()].contrastText : "black";
-    
+
     return(
         <Box display="flex" alignItems="center" gap={theme.spacing(1)}>
 

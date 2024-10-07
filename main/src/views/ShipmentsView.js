@@ -30,13 +30,15 @@ const ShipmentsView = props => {
 
     // Mutations
     const backendShipment = useMutation({
-        mutationFn: async (payload, method='PUT') => {
-            const updateUrl = new URL(`${backend.baseUrl}/${MODELNAME}/${payload.id ? payload.id + "/" : ""}`);
+        mutationFn: async (vars) => {
+
+            const { payload, method="PUT" } = vars;
+            const updateUrl = new URL(`${backend.api.baseUrl}/${MODELNAME}/${payload.id ? payload.id + "/" : ""}`);
             const requestHeaders = backend.api.getRequestHeaders(updateUrl);
         
             return fetch( updateUrl, {
-                method:method,
-                headers:requestHeaders
+                method: method,
+                headers: requestHeaders
             })
             
         },
@@ -72,7 +74,7 @@ const ShipmentsView = props => {
     const deleteShipment = shipment => {
         const message = `Are you sure you would like to delete ${shipment.label}?`
         if (confirm(message) == true){
-            backendShipment.mutate(shipment, method="DELETE");
+            backendShipment.mutate({payload:shipment, method:"DELETE"});
         }
     }
 

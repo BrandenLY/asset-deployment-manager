@@ -1,10 +1,12 @@
-import React, { useCallback, useEffect, useReducer, useState } from 'react'
+import React, { useCallback, useContext, useEffect, useReducer, useState } from 'react'
 import { useModelOptions } from '../customHooks';
 import CustomDialog from './CustomDialog';
 import { Box, Button, IconButton, Paper, Typography } from '@mui/material';
 import { Add, Close } from '@mui/icons-material';
 import ModelForm from './ModelForm';
 import ActionButton from './ActionButton';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { backendApiContext, notificationContext } from '../context';
 
 const objectFormReducer = (prev, action) => {
     
@@ -23,7 +25,7 @@ const objectFormReducer = (prev, action) => {
             Object.entries(action.use.model_fields)
             .forEach( ([fieldName, fieldOptions]) => {
                 tmpFormState1[fieldName] = {...fieldOptions};
-                tmpFormState1[fieldName].current = null;
+                tmpFormState1[fieldName].current = undefined;
                 tmpFormState1[fieldName].errors = [];
             })
 
@@ -38,6 +40,16 @@ const objectFormReducer = (prev, action) => {
             let tmpFormState2 = prev[action.index];
             tmpFormState2[action.fieldName].current = action.value;
             newPayload[action.index] = tmpFormState2;
+            
+            return newPayload;
+
+        case 'updateFormFieldErrors':
+            // Update a form field's current value within a single form data object.
+            // requries action to have properties: index<integer>, fieldName<string>, errors<any>
+            
+            let tmpFormState3 = prev[action.index];
+            tmpFormState3[action.fieldName].errors = action.errors;
+            newPayload[action.index] = tmpFormState3;
             
             return newPayload;
 
@@ -70,11 +82,81 @@ const CreateObjectsButton = props => {
     const {model} = props;
 
     // Hooks
-    const [displayDialog, setDisplayDialog] = useState(false);
-
-    const [creationForms, dispatch] = useReducer(objectFormReducer, new Array());
+    const queryClient = useQueryClient();
     const modelOptions = useModelOptions(model);
+    const backend = useContext(backendApiContext);
+    const notifications = useContext(notificationContext);
 
+    // State
+    const [displayDialog, setDisplayDialog] = useState(false);
+    const [creationForms, dispatch] = useReducer(objectFormReducer, new Array());
+
+    const backendObj = useMutation({
+        mutationFn: async (vars) => {
+            const { payload, method = "PUT" } = vars;
+
+            const updateUrl = new URL(`${backend.api.baseUrl}/${model}/${payload.id ? payload.id + "/" : ""}`);
+            const requestHeaders = backend.api.getRequestHeaders(updateUrl);
+        
+            return fetch( updateUrl, {
+                method:method,
+                headers:requestHeaders,
+                body: JSON.stringify(payload)
+            })
+            
+        },
+        onSettled: async (res, error, vars, ctx) => {
+
+            if (error){
+                notifications.add({message: error, severity: "error"})
+                return;
+            }
+
+            const formNumber = vars.formIndex + 1;
+            const data = await res.json();
+
+            if (!res.ok){
+
+                // Invalid post data
+                if(res.status == 400){
+                    
+                    // Assumed Non-field error
+                    if (data.hasOwnProperty('detail')){
+                        notifications.add({message: data['detail'], severity:"error"});
+                        return;
+                    }
+
+                    // Assumed Field error
+                    Object.entries(data).forEach(([fieldName, fieldErrors]) => {
+                        dispatch({
+                            type:'updateFormFieldErrors',
+                            index: vars.formIndex, 
+                            fieldName: fieldName,
+                            errors: fieldErrors
+                        })
+                    })
+
+                    // Add failure notification
+                    notifications.add({message: `Failed to create shipment ${formNumber}`, severity: "error"})
+                    return;
+
+                }
+                
+                // Unknown error
+                else{
+                    const errorMsg = data.detail ? new String(data.detail) : new String(data);
+                    notifications.add({message: errorMsg, severity: "error"})
+                    return;
+                }
+
+            }
+
+            dispatch({type: 'deleteFormInstance', index: vars.formIndex})
+            notifications.add({message: `Successfully created shipment ${formNumber}`})
+            queryClient.invalidateQueries({queryKey:[model]})
+
+        }
+    })
     // Effects
     useEffect(() => {
         if(modelOptions.data != undefined && creationForms != undefined){
@@ -87,7 +169,6 @@ const CreateObjectsButton = props => {
 
         }
     }, [modelOptions.data, creationForms]);
-
 
     // Callback Functions
     const closeSingleForm = useCallback(formIndex => {
@@ -114,10 +195,7 @@ const CreateObjectsButton = props => {
 
             Object.entries(shipmentFormObj).forEach( ([fieldName,fieldData], _index) => {
 
-                if ( fieldData.type == 'choice' ){
-                    postData[fieldName] = fieldData.current?.value;
-                }
-                else if ( fieldData.type == 'related object'){
+                if ( fieldData.type == 'related object'){
                     postData[fieldName] = fieldData.current?.id;
                 }
                 else{
@@ -125,11 +203,11 @@ const CreateObjectsButton = props => {
                 }
             })
 
-            mutations[i] = addShipmentMutation.mutate({formIndex:i, postData});
+            mutations[i] = backendObj.mutate({payload:postData, method:"POST", formIndex:i});
         });
 
 
-    }, []);
+    }, [creationForms]);
 
     const onDialogClose = useCallback(e => {
         

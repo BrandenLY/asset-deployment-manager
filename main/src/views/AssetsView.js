@@ -9,15 +9,15 @@ import ModelListControls from "../components/ModelListControls";
 import { backendApiContext, notificationContext } from "../context";
 
 const MODELNAME = 'asset'
-const SORTINGGRIDDEFAULTCOLUMNS = [ 'id', 'label', 'location', 'parent', 'condition']
+const SORTINGGRIDDEFAULTCOLUMNS = [ 'id', 'label', 'location', 'condition']
 const CREATEASSETSFORMLAYOUT = [
     ['model', 'code'],
+    ['condition', null],
     ['serial_number', 'knox_id'],
     ['iccid', 'imei'],
     ['note'],
     ['location'],
     ['is_container', null],
-    ['condition', null]
 ]
 
 const AssetsView = props =>{

@@ -7,6 +7,7 @@ import { getCookie } from "./context";
 
 // Default Query-related Functions
 const defaultQueryFn = async ({ queryKey, pageParam }) => {
+
   const formattedUrl = new URL(
     `${window.location.protocol}${window.location.host}/api/${queryKey[0]}/${
       !!queryKey.at(1) ? queryKey.at(1) + "/" : ""

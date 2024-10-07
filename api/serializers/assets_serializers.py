@@ -18,7 +18,7 @@ class ContentAssetsField(serializers.ReadOnlyField):
 
 class AssetSerializer(CustomBaseSerializer):
     assets = ContentAssetsField()
-    # parent_content_type = ContentTypeSerializer(required=False, allow_null=True)
+    is_container = serializers.BooleanField(default=False)
 
     class Meta:
         model = Asset

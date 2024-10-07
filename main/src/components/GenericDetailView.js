@@ -2,7 +2,7 @@ import { Delete } from '@mui/icons-material';
 import { Box, Button, Skeleton, Typography, useTheme, } from '@mui/material';
 import { useMutation, useQueries, useQuery } from '@tanstack/react-query';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { backendApiContext, notificationContext } from '../context';
 import { useModelOptions } from '../customHooks';
 import ChangeLogTableRow from './ChangeLogTableRow';
@@ -17,6 +17,7 @@ const GenericDetailView = props => {
 
     // Hooks
     const theme = useTheme();
+    const navigate = useNavigate();
     const locationParams = useParams();
     const objOptions = useModelOptions(model);
     const backend = useContext(backendApiContext);
@@ -46,14 +47,14 @@ const GenericDetailView = props => {
         },
         onSettled: async (res, error, vars, ctx) => {
 
-            if (error != null){
-                notifications.add({message: error, severity:'error'})
-            }
+            // if (error){
+            //     notifications.add({message: error, severity:"error"})
+            // }
 
             const data = await res.json();
 
             if (!res.ok){
-                notifications.add({message: data.detail ? data.detail : new String(data), severity:'error'})
+                notifications.add({message: data.detail ? data.detail : new String(data), severity:"error"})
             };
 
         }
@@ -124,6 +125,7 @@ const GenericDetailView = props => {
 
     // Callback Functions
     const deleteObj = useCallback(e => {
+        navigate(-1);
         backendObj.mutate({payload: data, method: 'DELETE'});
     }, []);
 
