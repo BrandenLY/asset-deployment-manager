@@ -24,9 +24,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "d7T1JA8dBBaFa0yMY+KVNfb3i/8aMLIrYepgxTN8sTk="
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['198.58.118.106', 'ims-demo.brandenly.com']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
