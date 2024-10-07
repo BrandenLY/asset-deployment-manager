@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[967462],{967462:(a,e,h)=>{h.r(e),h.d(e,{default:()=>t});var s=h(675003),n=h(474848);const t=(0,s.A)([(0,n.jsx)("path",{d:"M3 17h18v2H3zm16-5v1H5v-1zm2-2H3v5h18zM3 6h18v2H3z"},"0"),(0,n.jsx)("path",{d:"M5 12h14v1H5z",opacity:".3"},"1")],"CalendarViewDayTwoTone")}}]);

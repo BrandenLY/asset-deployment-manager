@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[972242],{972242:(a,e,h)=>{h.r(e),h.d(e,{default:()=>t});var s=h(675003),n=h(474848);const t=(0,s.A)((0,n.jsx)("path",{d:"M15 5h6v2h-6zM9 5H3v2h4.85l6.92 12H21v-2h-5.07z"}),"KeyboardOptionKey")}}]);

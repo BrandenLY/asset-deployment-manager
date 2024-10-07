@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[970148],{970148:(h,v,a)=>{a.r(v),a.d(v,{default:()=>n});var e=a(675003),s=a(474848);const n=(0,e.A)((0,s.jsx)("path",{d:"M17 4h5v5h-2V6h-3zM4 9V6h3V4H2v5zm16 6v3h-3v2h5v-5zM7 18H4v-3H2v5h5zM18 8H6v8h12z"}),"FitScreenSharp")}}]);

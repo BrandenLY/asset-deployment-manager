@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[980400],{980400:(a,e,h)=>{h.r(e),h.d(e,{default:()=>n});var l=h(675003),s=h(474848);const n=(0,l.A)((0,s.jsx)("path",{d:"M21.19 21.19 2.81 2.81 1.39 4.22 5 7.83V23h14v-1.17l.78.78zM7 18V9.83L15.17 18zM8.83 6 5 2.17V1h14v15.17l-2-2V6z"}),"NoCellSharp")}}]);

@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[997166],{997166:(h,a,s)=>{s.r(a),s.d(a,{default:()=>t});var e=s(675003),p=s(474848);const t=(0,e.A)((0,p.jsx)("path",{d:"M21 3H3.01L3 21h18zm-3 11h-4v4h-4v-4H6v-4h4V6h4v4h4z"}),"LocalHospitalSharp")}}]);

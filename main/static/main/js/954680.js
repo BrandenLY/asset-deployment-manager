@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[954680],{954680:(a,s,e)=>{e.r(s),e.d(s,{default:()=>t});var h=e(675003),n=e(474848);const t=(0,h.A)((0,n.jsx)("path",{d:"M21 8H3V4h18zm0 2H3v4h18zm0 6H3v4h18z"}),"TableRows")}}]);

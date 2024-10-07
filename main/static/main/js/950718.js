@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[950718],{950718:(a,s,c)=>{c.r(s),c.d(s,{default:()=>n});var h=c(675003),e=c(474848);const n=(0,h.A)((0,e.jsx)("path",{d:"M20 19V3H4v16H2v2h20v-2zM8.19 12c2.04-1.35 3.5-3.94 3.76-7h.09c.26 3.06 1.72 5.65 3.76 7-2.04 1.35-3.5 3.94-3.76 7h-.09c-.26-3.06-1.72-5.65-3.76-7"}),"Curtains")}}]);

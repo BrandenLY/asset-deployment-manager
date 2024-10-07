@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[984e3],{984e3:(h,e,a)=>{a.r(e),a.d(e,{default:()=>l});var s=a(675003),t=a(474848);const l=(0,s.A)((0,t.jsx)("path",{d:"M3 5H1v18h18v-2H3zm20-4H5v18h18zm-2 16H7V3h14zm-8-2 4-8V5h-6v2h4l-4 8z"}),"Filter7Sharp")}}]);

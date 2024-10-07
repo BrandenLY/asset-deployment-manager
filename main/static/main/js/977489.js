@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[977489],{977489:(s,a,c)=>{c.r(a),c.d(a,{default:()=>l});var h=c(675003),e=c(474848);const l=(0,h.A)((0,e.jsx)("path",{d:"m18 4-4 4h3v7c0 1.1-.9 2-2 2s-2-.9-2-2V8c0-2.21-1.79-4-4-4S5 5.79 5 8v7H2l4 4 4-4H7V8c0-1.1.9-2 2-2s2 .9 2 2v7c0 2.21 1.79 4 4 4s4-1.79 4-4V8h3z"}),"SwapCallsSharp")}}]);

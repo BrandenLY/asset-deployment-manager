@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[996816],{996816:(a,c,e)=>{e.r(c),e.d(c,{default:()=>s});var h=e(675003),n=e(474848);const s=(0,h.A)((0,n.jsx)("path",{d:"M21 3H3c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2m0 16H3V5h18zm-10-7h9v6h-9z"}),"BrandingWatermarkOutlined")}}]);

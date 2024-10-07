@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[970156],{970156:(e,h,a)=>{a.r(h),a.d(h,{default:()=>l});var s=a(675003),t=a(474848);const l=(0,s.A)((0,t.jsx)("path",{d:"M6 21h12V7H6zM8 9h8v10H8zm7.5-5-1-1h-5l-1 1H5v2h14V4z"}),"DeleteOutlineSharp")}}]);

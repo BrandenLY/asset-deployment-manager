@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[981972],{981972:(h,v,a)=>{a.r(v),a.d(v,{default:()=>n});var s=a(675003),e=a(474848);const n=(0,s.A)((0,e.jsx)("path",{d:"M13 22h8v-7h-3v-4h-5V9h3V2H8v7h3v2H6v4H3v7h8v-7H8v-2h8v2h-3z"}),"LanSharp")}}]);

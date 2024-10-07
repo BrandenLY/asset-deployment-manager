@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[995763],{995763:(h,c,a)=>{a.r(c),a.d(c,{default:()=>t});var e=a(675003),s=a(474848);const t=(0,e.A)((0,s.jsx)("path",{d:"M22 13h-8v-2h8zm0-6h-8v2h8zm-8 10h8v-2h-8zm-2-8v6c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V9c0-1.1.9-2 2-2h6c1.1 0 2 .9 2 2m-1.5 6-2.25-3-1.75 2.26-1.25-1.51L3.5 15z"}),"ArtTrackOutlined")}}]);

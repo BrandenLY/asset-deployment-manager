@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[967909],{967909:(h,a,v)=>{v.r(a),v.d(a,{default:()=>t});var e=v(675003),s=v(474848);const t=(0,e.A)((0,s.jsx)("path",{d:"M10 3h11v5H10zm-7 7h5v11H3zm0-7h5v5H3zm15 6-4 4h3v4h-4v-3l-4 4 4 4v-3h6v-6h3z"}),"PivotTableChartSharp")}}]);

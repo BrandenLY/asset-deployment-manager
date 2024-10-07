@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[960904],{960904:(h,a,e)=>{e.r(a),e.d(a,{default:()=>v});var s=e(675003),p=e(474848);const v=(0,s.A)((0,p.jsx)("path",{d:"M10 3H3v18h7v2h2V1h-2zm0 15H5l5-6zM21 3h-7v2h5v13l-5-6v9h7z"}),"CompareSharp")}}]);

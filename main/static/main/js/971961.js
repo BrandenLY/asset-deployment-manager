@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[971961],{971961:(a,s,e)=>{e.r(s),e.d(s,{default:()=>p});var n=e(675003),r=e(474848);const p=(0,n.A)((0,r.jsx)("path",{d:"m7 10 5 5 5-5z"}),"ArrowDropDown")}}]);

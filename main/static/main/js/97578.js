@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[97578],{97578:(h,m,v)=>{v.r(m),v.d(m,{default:()=>a});var e=v(675003),z=v(474848);const a=(0,e.A)((0,z.jsx)("path",{d:"M3 3v8h8V3zm6 6H5V5h4zm-6 4v8h8v-8zm6 6H5v-4h4zm4-16v8h8V3zm6 6h-4V5h4zm-6 4v8h8v-8zm6 6h-4v-4h4z"}),"GridViewOutlined")}}]);
