@@ -39,7 +39,7 @@ class Asset(TrackedModel):
     imei = models.CharField(_("IMEI"), max_length=15, blank=True, null=True)
     knox_id = models.CharField(_("Knox ID"), max_length=20, blank=True, null=True)
     note = models.TextField(_("Note"), blank=True, null=True)
-    location = models.ForeignKey("Location", on_delete=models.CASCADE, blank=True, null=True)
+    location = models.ForeignKey("Location", on_delete=models.SET_NULL, blank=True, null=True)
     condition = models.PositiveSmallIntegerField(_("Condition"), default=0, choices=CONDITION_OPTIONS)
     is_container = models.BooleanField(_("Is a Container"), default=False)
     parent_content_type = models.ForeignKey(ContentType, on_delete=models.SET_NULL, blank=True, null=True)
@@ -110,7 +110,6 @@ class Model(TrackedModel):
     description = models.CharField(_("Description"), max_length=LARGE_TEXT_FIELD_SIZE, blank=True, null=True)
     manufacturer = models.CharField(_("Manufacturer"), max_length=SMALL_TEXT_FIELD_SIZE)
     model_code = models.CharField(_("Model Code"), max_length=10)
-    image = models.ImageField(_("Image"), blank=True, null=True, upload_to="assets/models")
     icon = models.ForeignKey("AssetIcon", on_delete=models.PROTECT, blank=True, null=True)
     
     class Meta:

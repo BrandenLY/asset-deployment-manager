@@ -49,13 +49,14 @@ class AssetIconSerializer(CustomBaseSerializer):
     class Meta:
         model = AssetIcon
         fields = [
+            "id",
+            "label",
             "name",
             "source_name"
         ]
 
 class ModelSerializer(CustomBaseSerializer):
 
-    icon = AssetIconSerializer()
     class Meta:
         model = Model
         fields = [
@@ -65,7 +66,6 @@ class ModelSerializer(CustomBaseSerializer):
             "description",
             "manufacturer",
             "model_code",
-            "image",
             "icon",
         ]
 

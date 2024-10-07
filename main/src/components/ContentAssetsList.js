@@ -16,11 +16,16 @@ const AssetSectionTitle = props => {
 
     const theme = useTheme();
     const assetOptions = useModelOptions(ASSETMODELNAME);
+
     const model = useQuery({
         queryKey: ['model', asset.model]
     })
+    const modelIcon = useQuery({
+        queryKey: ['asseticon', model.data.icon.id],
+        enabled: model.isSuccess
+    })
 
-    const modelIconName = model.isSuccess ? model.data.icon.source_name : "DevicesOther"
+    const modelIconName = modelIcon.isSuccess ? modelIcon.data.source_name : "DevicesOther";
     const conditionLabel = assetOptions.isSuccess ? assetOptions.data.model_fields.condition.choices
     .find( c => c.value == asset.condition ).display_name
     : "";

@@ -21,6 +21,8 @@ import AssetDetailView from "./views/AssetDetailView";
 import LocationsView from "./views/LocationsView";
 import LocationDetailView from "./views/LocationDetailView";
 import { NotificationContextProvider } from "./context";
+import ModelsView from "./views/ModelsView";
+import ModelDetailView from "./views/ModelDetailView";
 
 const applicationRoutes = [
   // [ PATH: String, VIEW: React Component, TITLE: String ]
@@ -29,6 +31,8 @@ const applicationRoutes = [
   ['/shipments/:id', ShipmentDetailView, 'Shipment Details'],
   ['/assets', AssetsView, 'Manage Assets'],
   ['/assets/:id', AssetDetailView, 'Asset Details'],
+  ['/models', ModelsView, 'Manage Models'],
+  ['/models/:id', ModelDetailView, 'Model Details'],
   ['/locations', LocationsView, 'Manage Locations'],
   ['/locations/:id', LocationDetailView, 'Location Details'],
   ['*', PageNotFound, null] // Fallback/Default Route.

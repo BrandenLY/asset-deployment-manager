@@ -1,6 +1,7 @@
 # App Related Imports : Assets
 from .assets_serializers import AssetSerializer
 from .assets_serializers import ModelSerializer
+from .assets_serializers import AssetIconSerializer
 from .assets_serializers import LocationSerializer
 from .assets_serializers import ShipmentSerializer
 from .assets_serializers import ContentAssetsField

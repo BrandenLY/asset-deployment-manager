@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import { useNavigate } from "react-router-dom";
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
@@ -9,10 +9,11 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemIcon from '@mui/material/ListItemIcon';
-import { Menu, LocalShipping, Assignment, Close, LibraryBooks, Place, DevicesOther, People, Groups, Group, PersonAdd, Article } from '@mui/icons-material';
+import { Menu, LocalShipping, Assignment, Close, LibraryBooks, Place, DevicesOther, People, Groups, Group, PersonAdd, Article, DeviceUnknown } from '@mui/icons-material';
 import Typography from '@mui/material/Typography';
 import { Divider, useTheme } from '@mui/material';
 import { useCurrentUser } from '../customHooks';
+import { backendApiContext } from '../context';
 
 const PrimaryNav = props => {
 
@@ -71,6 +72,7 @@ const PageLinks = [
             // Link Format: Link Button Text, Icon element, linkto url, required permission.
             ['Shipments', <LocalShipping /> ,'/shipments', 'view_shipment'],
             ['Assets', <DevicesOther/> ,'/assets', 'view_asset'],
+            ['Models', <DeviceUnknown/>, '/models', 'view_model'],
             ['Locations', <Place /> ,'/location', 'view_location']
         ]
     },
@@ -93,7 +95,7 @@ const NavDrawer = props =>{
     // Hooks
     const theme = useTheme();
     const navigate = useNavigate();
-    const user = useCurrentUser();
+    const backend = useContext(backendApiContext);
 
     return (
         <Drawer 
@@ -114,63 +116,41 @@ const NavDrawer = props =>{
             <Box width="100%" height="100%" position="relative" paddingTop={navHeight}>
                 <Box component="nav">
                     <List>
-                        <ListItem sx={{justifyContent: "center", marginTop:2, borderBottom: `3px solid ${theme.palette.divider}`, borderTop: `3px solid ${theme.palette.divider}`}}>
-                            <Typography variant="h5" textTransform="uppercase">Track & Manage</Typography>
-                        </ListItem>
 
-                        <ListItem disablePadding>
-                            <ListItemButton onClick={() => navigate('/shipments')}>
-                                <ListItemIcon><LocalShipping /></ListItemIcon>
-                                <ListItemText primary="Shipments" />
-                            </ListItemButton>
-                        </ListItem>
+                        { PageLinks.map( linkGroup => {
 
-                        <ListItem disablePadding>
-                            <ListItemButton onClick={() => navigate('/assets')}>
-                                <ListItemIcon><DevicesOther/></ListItemIcon>
-                                <ListItemText primary="Assets" />
-                            </ListItemButton>
-                        </ListItem>
+                            return(
+                                <Box component={React.Fragment}>
+                                    <ListItem sx={{
+                                        justifyContent: "center",
+                                        marginTop:2,
+                                        borderBottom: `3px solid ${theme.palette.divider}`,
+                                        borderTop: `3px solid ${theme.palette.divider}`
+                                    }}>
+                                        <Typography variant="h5" textTransform="uppercase">{linkGroup.groupHeading}</Typography>
+                                    </ListItem>
 
-                        <ListItem disablePadding>
-                            <ListItemButton onClick={() => navigate('/locations')}>
-                                <ListItemIcon><Place /></ListItemIcon>
-                                <ListItemText primary="Locations" />
-                            </ListItemButton>
-                        </ListItem>
+                                    { linkGroup.links.map( ([linkText, linkIcon, linkUrl, linkPermission]) =>{
+                                        
+                                        const userCanViewLink = backend.auth.user ? backend.auth.user.checkPermission(linkPermission) : false;
+                                        if (!userCanViewLink){
+                                            return null;
+                                        }
+                                        
+                                        return(
+                                            <ListItem disablePadding>
+                                                <ListItemButton onClick={() => navigate(linkUrl)}>
+                                                    <ListItemIcon>{linkIcon}</ListItemIcon>
+                                                    <ListItemText primary={linkText} />
+                                                </ListItemButton>
+                                            </ListItem>
+                                        )    
+                                    })}
 
-                        <ListItem sx={{justifyContent: "center", marginTop:3, borderBottom: `3px solid ${theme.palette.divider}`, borderTop: `3px solid ${theme.palette.divider}`}}>
-                            <Typography variant="h5" textTransform="uppercase">Admin</Typography>
-                        </ListItem>
+                                </Box>
+                            )
 
-                        <ListItem disablePadding>
-                            <ListItemButton onClick={() => navigate('/staffing')}>
-                                <ListItemIcon><Groups /></ListItemIcon>
-                                <ListItemText primary="Staffing" />
-                            </ListItemButton>
-                        </ListItem>
-
-                        <ListItem disablePadding>
-                            <ListItemButton onClick={() => navigate('/permissions')}>
-                                <ListItemIcon><Group /></ListItemIcon>
-                                <ListItemText primary="Groups &amp; Permissions" />
-                            </ListItemButton>
-                        </ListItem>
-
-                        <ListItem disablePadding>
-                            <ListItemButton onClick={() => navigate('/users')}>
-                                <ListItemIcon><PersonAdd /></ListItemIcon>
-                                <ListItemText primary="Users" />
-                            </ListItemButton>
-                        </ListItem>
-
-                        <ListItem disablePadding>
-                            <ListItemButton onClick={() => navigate('/logs')}>
-                                <ListItemIcon><Article /></ListItemIcon>
-                                <ListItemText primary="Admin logs"/>
-                            </ListItemButton>
-                        </ListItem>
-
+                        }) }
                     </List>
                 </Box>
                 <Box position="absolute" bottom={0} width="100%" border="1px solid red">

@@ -25,6 +25,7 @@ from .views import EventView
 # from .views import MilestoneView
 # from .views import ServiceView
 from .views import AssetView
+from .views import AssetIconView
 from .views import ModelView
 from .views import LocationView
 from .views import ShipmentView
@@ -39,9 +40,8 @@ router.register(r"contenttype", ContentTypeView)
 router.register(r"user", UserView)
 router.register(r"logentry", LogEntryView)
 router.register(r"event", EventView)
-# router.register(r"milestone", MilestoneView)
-# router.register(r"service", ServiceView)
 router.register(r"asset", AssetView)
+router.register(r"asseticon", AssetIconView)
 router.register(r"model", ModelView)
 router.register(r"location", LocationView)
 router.register(r"shipment", ShipmentView)

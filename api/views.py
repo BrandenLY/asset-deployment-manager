@@ -1,5 +1,6 @@
 import json
 from django.db import transaction
+from django.db.models import ProtectedError
 from django.utils.encoding import force_str
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from django.contrib.auth.models import Permission
@@ -18,12 +19,14 @@ from rest_framework.utils.field_mapping import ClassLookupDict
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 # App Related Imports : Assets
 from assets.models import Asset
+from assets.models import AssetIcon
 from assets.models import Model
 from assets.models import Location
 from assets.models import Shipment
 from assets.models import EquipmentHold
 from .serializers import ContentTypeSerializer
 from .serializers import AssetSerializer
+from .serializers import AssetIconSerializer
 from .serializers import ModelSerializer
 from .serializers import LocationSerializer
 from .serializers import ShipmentSerializer
@@ -172,16 +175,21 @@ class BaseView(viewsets.GenericViewSet,
             
             instance_content_type = ContentType.objects.get(model=instance.__class__.__name__.lower())
             
-            # FIXME: Deprecated, use LogEntryManager.log_actions()
-            LogEntry.objects.log_action(
-                request.user.id,
-                instance_content_type.id,
-                instance.id,
-                repr(instance),
-                DELETION,
-            )
+            try:
+                payload = instance.delete()
+
+                LogEntry.objects.log_action(
+                    request.user.id,
+                    instance_content_type.id,
+                    instance.id,
+                    repr(instance),
+                    DELETION,
+                )
+                
+            except ProtectedError as e:
+                raise InvalidData(e)
+
             
-            instance.delete()
 
     def retrieve(self, request, pk=None):
         try:
@@ -497,6 +505,14 @@ class AssetView(BaseView):
     model = Asset
     queryset = model.objects.all()
     serializer_class = AssetSerializer
+
+class AssetIconView(BaseView):
+    """
+    Simple Viewset for Viewing Asset Icon Information
+    """
+    model = AssetIcon
+    queryset = model.objects.all()
+    serializer_class = AssetIconSerializer
 
 class ModelView(BaseView):
     """
