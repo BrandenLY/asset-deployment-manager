@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[783603],{783603:(h,a,s)=>{s.r(a),s.d(a,{default:()=>n});var c=s(675003),e=s(474848);const n=(0,c.A)((0,e.jsx)("path",{d:"M2 8v9h4v4h12v-4h4V8zm14 11H8v-5h8zm3-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1m-1-9H6v4h12z"}),"LocalPrintshopSharp")}}]);

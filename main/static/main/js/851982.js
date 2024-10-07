@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[851982],{851982:(h,v,a)=>{a.r(v),a.d(v,{default:()=>n});var e=a(675003),m=a(474848);const n=(0,e.A)((0,m.jsx)("path",{d:"M7 3H4v3H2V1h5zm15 3V1h-5v2h3v3zM7 21H4v-3H2v5h5zm13-3v3h-3v2h5v-5zM19 4v16H5V4zm-4 4H9v2h6zm0 3H9v2h6zm0 3H9v2h6z"}),"DocumentScannerSharp")}}]);

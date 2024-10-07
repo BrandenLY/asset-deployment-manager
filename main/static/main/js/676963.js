@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[676963],{676963:(h,a,e)=>{e.r(a),e.d(a,{default:()=>n});var s=e(675003),v=e(474848);const n=(0,s.A)((0,v.jsx)("path",{d:"M12 22H3V4h3V2h2v2h8V2h2v2h3v8h-2v-2H5v10h7zm10.13-5.01 1.41-1.41-2.12-2.12-1.41 1.41zm-.71.71-5.3 5.3H14v-2.12l5.3-5.3z"}),"EditCalendarSharp")}}]);

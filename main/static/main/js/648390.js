@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[648390],{648390:(h,a,s)=>{s.r(a),s.d(a,{default:()=>m});var e=s(675003),d=s(474848);const m=(0,e.A)((0,d.jsx)("path",{d:"M20 2H10L4 8v14h16zm-8 6h-2V4h2zm3 0h-2V4h2zm3 0h-2V4h2z"}),"SdCardSharp")}}]);

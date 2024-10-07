@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[935469],{935469:(h,a,m)=>{m.r(a),m.d(a,{default:()=>v});var e=m(675003),s=m(474848);const v=(0,e.A)((0,s.jsx)("path",{d:"M14 5V3h-3V1H5v2H2v19h12v-2h8V5zm-2 13h-2v-2h2zm0-9h-2V7h2zm4 9h-2v-2h2zm0-9h-2V7h2zm4 9h-2v-2h2zm0-9h-2V7h2z"}),"CameraRollSharp")}}]);

@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[636612],{636612:(a,h,s)=>{s.r(h),s.d(h,{default:()=>k});var e=s(675003),c=s(474848);const k=(0,e.A)((0,c.jsx)("path",{d:"M8 23h8v-2H8zM18 1.01 6 1v18h12zM16 15H8V5h8z"}),"DockSharp")}}]);

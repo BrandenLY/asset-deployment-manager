@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[651170],{651170:(a,h,s)=>{s.r(h),s.d(h,{default:()=>l});var e=s(675003),u=s(474848);const l=(0,e.A)((0,u.jsx)("path",{d:"M22 6h-3v9H6v3h12l4 4zm-5 7V2H2v15l4-4z"}),"ForumSharp")}}]);

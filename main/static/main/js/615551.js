@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[615551],{615551:(h,e,a)=>{a.r(e),a.d(e,{default:()=>t});var s=a(675003),r=a(474848);const t=(0,s.A)((0,r.jsx)("path",{d:"M22 6H12l-2-2H2v16h20zm-3 8h-3v3h-2v-3h-3v-2h3V9h2v3h3z"}),"CreateNewFolderSharp")}}]);

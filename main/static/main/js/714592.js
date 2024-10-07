@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[714592],{714592:(h,a,s)=>{s.r(a),s.d(a,{default:()=>l});var e=s(675003),u=s(474848);const l=(0,e.A)((0,u.jsx)("path",{d:"M5 4v2h14V4zm0 10h4v6h6v-6h4l-7-7z"}),"PublishSharp")}}]);

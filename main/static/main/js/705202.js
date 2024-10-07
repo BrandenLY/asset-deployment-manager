@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[705202],{705202:(a,h,s)=>{s.r(h),s.d(h,{default:()=>t});var c=s(675003),e=s(474848);const t=(0,c.A)((0,e.jsx)("path",{d:"M7 13c1.66 0 3-1.34 3-3S8.66 7 7 7s-3 1.34-3 3 1.34 3 3 3m12-6h-8v7H3V5H1v15h2v-3h18v3h2v-9c0-2.21-1.79-4-4-4"}),"LocalHotel")}}]);

@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[946426],{946426:(a,e,h)=>{h.r(e),h.d(e,{default:()=>n});var s=h(675003),l=h(474848);const n=(0,s.A)((0,l.jsx)("path",{d:"M9 5v2h6.59L4 18.59 5.41 20 17 8.41V15h2V5z"}),"CallMadeSharp")}}]);

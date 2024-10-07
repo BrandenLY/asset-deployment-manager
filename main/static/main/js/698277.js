@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[698277],{698277:(a,s,e)=>{e.r(s),e.d(s,{default:()=>n});var t=e(675003),h=e(474848);const n=(0,t.A)([(0,h.jsx)("path",{d:"M13 8.92 18.6 19H13zm-2 0V19H5.4z",opacity:".3"},"0"),(0,h.jsx)("path",{d:"M12 3 2 21h20zm1 5.92L18.6 19H13zm-2 0V19H5.4z"},"1")],"DetailsTwoTone")}}]);

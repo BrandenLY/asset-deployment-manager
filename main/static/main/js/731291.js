@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[731291],{731291:(h,a,s)=>{s.r(a),s.d(a,{default:()=>t});var e=s(675003),p=s(474848);const t=(0,e.A)([(0,p.jsx)("path",{d:"M20 6v14H6v2h16V6z"},"0"),(0,p.jsx)("path",{d:"M18 2H2v16h16zM9 16H4v-5h5zm7 0h-5v-5h5zm0-7H4V4h12z"},"1")],"BackupTableSharp")}}]);

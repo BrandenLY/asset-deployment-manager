@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[869811],{869811:(h,a,e)=>{e.r(a),e.d(a,{default:()=>r});var s=e(675003),t=e(474848);const r=(0,s.A)((0,t.jsx)("path",{d:"M18 4h3v16h-3zM3 13h3v7H3zm11-9h3v3h-3zm-4 1h3v4h-3zm-3 5h3v4H7z"}),"WaterfallChartSharp")}}]);

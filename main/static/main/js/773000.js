@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[773e3],{773e3:(e,h,n)=>{n.r(h),n.d(h,{default:()=>t});var a=n(675003),s=n(474848);const t=(0,a.A)((0,s.jsx)("path",{d:"M22 2H2v20l4-4h16zm-9 9h-2V5h2zm0 4h-2v-2h2z"}),"AnnouncementSharp")}}]);

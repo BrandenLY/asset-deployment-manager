@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[712336],{712336:(e,a,n)=>{n.r(a),n.d(a,{default:()=>o});var s=n(675003),l=n(474848);const o=(0,s.A)((0,l.jsx)("path",{d:"m5 12 1.41 1.41L12 7.83l5.59 5.58L19 12l-7-7z"}),"KeyboardControlKeyTwoTone")}}]);

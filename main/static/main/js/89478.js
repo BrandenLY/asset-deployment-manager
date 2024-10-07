@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[89478],{89478:(e,a,s)=>{s.r(a),s.d(a,{default:()=>l});var c=s(675003),h=s(474848);const l=(0,c.A)((0,h.jsx)("path",{d:"M20 5.41 18.59 4 7 15.59V9H5v10h10v-2H8.41z"}),"CallReceived")}}]);

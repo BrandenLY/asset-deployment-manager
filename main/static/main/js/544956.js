@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[544956],{544956:(h,v,a)=>{a.r(v),a.d(v,{default:()=>H});var e=a(675003),s=a(474848);const H=(0,e.A)((0,s.jsx)("path",{d:"M14 9v2h-3V9H8.5V7H11V1H4v6h2.5v2H4v6h2.5v2H4v6h7v-6H8.5v-2H11v-2h3v2h7V9z"}),"SchemaSharp")}}]);

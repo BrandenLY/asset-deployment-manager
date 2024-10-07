@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[696442],{696442:(h,a,s)=>{s.r(a),s.d(a,{default:()=>d});var e=s(675003),n=s(474848);const d=(0,e.A)((0,n.jsx)("path",{d:"M3 3v18h18V3zm6 6H7V7h2zm4 0h-2V7h2zm4 0h-2V7h2z"}),"PaddingSharp")}}]);

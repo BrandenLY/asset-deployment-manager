@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[608497],{608497:(h,s,a)=>{a.r(s),a.d(s,{default:()=>n});var e=a(675003),v=a(474848);const n=(0,e.A)((0,v.jsx)("path",{d:"M12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4m-7 7H3v6h6v-2H5zM5 5h4V3H3v6h2zm16-2h-6v2h4v4h2zm-2 16h-4v2h6v-6h-2z"}),"CenterFocusStrongSharp")}}]);

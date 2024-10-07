@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[93632],{93632:(e,a,n)=>{n.r(a),n.d(a,{default:()=>l});var s=n(675003),h=n(474848);const l=(0,s.A)((0,h.jsx)("path",{d:"M20 15H4v-2h16zm0 2H4v2h16zm-5-6 5-3.55V5l-5 3.55L10 5 4 8.66V11l5.92-3.61z"}),"LegendToggleTwoTone")}}]);

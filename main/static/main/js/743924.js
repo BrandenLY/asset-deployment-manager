@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[743924],{743924:(e,s,a)=>{a.r(s),a.d(s,{default:()=>u});var c=a(675003),n=a(474848);const u=(0,c.A)((0,n.jsx)("path",{d:"M18 13H6c-.55 0-1-.45-1-1s.45-1 1-1h12c.55 0 1 .45 1 1s-.45 1-1 1"}),"RemoveRounded")}}]);

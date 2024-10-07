@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[737179],{737179:(h,c,a)=>{a.r(c),a.d(c,{default:()=>e});var s=a(675003),v=a(474848);const e=(0,s.A)((0,v.jsx)("path",{d:"M4 6H2v14c0 1.1.9 2 2 2h14v-2H4zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2m-1 9h-4v4h-2v-4H9V9h4V5h2v4h4z"}),"LibraryAdd")}}]);

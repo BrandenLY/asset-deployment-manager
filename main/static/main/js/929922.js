@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[929922],{929922:(a,l,e)=>{e.r(l),e.d(l,{default:()=>n});var s=e(675003),u=e(474848);const n=(0,s.A)((0,u.jsx)("path",{d:"M20 6.83V20H6.83zM22 2 2 22h20z"}),"SignalCellularNull")}}]);

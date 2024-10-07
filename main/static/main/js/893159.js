@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[893159],{893159:(e,a,h)=>{h.r(a),h.d(a,{default:()=>t});var r=h(675003),s=h(474848);const t=(0,r.A)((0,s.jsx)("path",{d:"m19 15-6 6-1.42-1.42L15.17 16H4V4h2v10h9.17l-3.59-3.58L13 9z"}),"SubdirectoryArrowRightTwoTone")}}]);

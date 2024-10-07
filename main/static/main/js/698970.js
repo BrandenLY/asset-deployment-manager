@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[698970],{698970:(c,a,h)=>{h.r(a),h.d(a,{default:()=>e});var l=h(675003),s=h(474848);const e=(0,l.A)((0,s.jsx)("path",{d:"M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2m-7 2h5v7l-2.5-1.5L11 11zM7 18l2.38-3.17L11 17l2.62-3.5L17 18z"}),"PhotoAlbum")}}]);

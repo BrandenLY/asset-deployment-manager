@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[552756],{552756:(a,h,l)=>{l.r(h),l.d(h,{default:()=>n});var e=l(675003),s=l(474848);const n=(0,e.A)((0,s.jsx)("path",{d:"M17 4h3v16h-3zM5 14h3v6H5zm6-5h3v11h-3z"}),"SignalCellularAlt")}}]);

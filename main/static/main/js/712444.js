@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[712444],{712444:(a,e,h)=>{h.r(e),h.d(e,{default:()=>p});var s=h(675003),n=h(474848);const p=(0,s.A)((0,n.jsx)("path",{d:"M3 17h18v2H3zm0-7h18v5H3zm0-4h18v2H3z"}),"CalendarViewDaySharp")}}]);

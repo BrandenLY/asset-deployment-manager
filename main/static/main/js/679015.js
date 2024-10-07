@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[679015],{679015:(a,e,n)=>{n.r(e),n.d(e,{default:()=>t});var l=n(675003),s=n(474848);const t=(0,l.A)((0,s.jsx)("path",{d:"M5 18h14v2H5zm4.6-2.7L5 10.7l2-1.9 2.6 2.6L17 4l2 2z"}),"DownloadDoneOutlined")}}]);

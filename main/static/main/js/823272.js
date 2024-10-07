@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[823272],{823272:(a,h,s)=>{s.r(h),s.d(h,{default:()=>n});var e=s(675003),i=s(474848);const n=(0,e.A)([(0,i.jsx)("path",{d:"m16.6 10.88-1.42-1.42-4.24 4.25-2.12-2.13L7.4 13l3.54 3.54z"},"0"),(0,i.jsx)("path",{d:"M3 4v16h18V4zm16 14H5V8h14z"},"1")],"DomainVerificationSharp")}}]);

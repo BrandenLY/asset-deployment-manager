@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[535181],{535181:(a,s,e)=>{e.r(s),e.d(s,{default:()=>n});var k=e(675003),h=e(474848);const n=(0,k.A)((0,h.jsx)("path",{d:"M19 3H5v18l7-3 7 3z"}),"BookmarkSharp")}}]);

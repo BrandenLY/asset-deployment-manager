@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[8192],{8192:(a,e,s)=>{s.r(e),s.d(e,{default:()=>c});var h=s(675003),p=s(474848);const c=(0,h.A)((0,p.jsx)("path",{d:"M18 9v4H6V9H4v6h16V9z"}),"SpaceBarSharp")}}]);

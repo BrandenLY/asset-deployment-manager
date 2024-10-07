@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[786015],{786015:(s,a,h)=>{h.r(a),h.d(a,{default:()=>p});var e=h(675003),n=h(474848);const p=(0,e.A)((0,n.jsx)("path",{d:"M20 8H4V6h16zm-2-6H6v2h12zm4 8v12H2V10zm-6 6-6-3.27v6.53z"}),"SubscriptionsSharp")}}]);

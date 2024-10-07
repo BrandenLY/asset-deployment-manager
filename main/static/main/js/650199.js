@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[650199],{650199:(e,a,s)=>{s.r(a),s.d(a,{default:()=>v});var h=s(675003),t=s(474848);const v=(0,h.A)((0,t.jsx)("path",{d:"M20 19V3H4v16H2v2h20v-2zM13 5h1.5v14H13zm-2 14H9.5V5H11zM6 5h1.5v14H6zm10.5 14V5H18v14z"}),"VerticalShadesClosedOutlined")}}]);

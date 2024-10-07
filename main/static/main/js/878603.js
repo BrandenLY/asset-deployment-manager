@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[878603],{878603:(e,a,l)=>{l.r(a),l.d(a,{default:()=>u});var s=l(675003),t=l(474848);const u=(0,s.A)([(0,t.jsx)("path",{d:"M17.59 18 19 16.59 14.42 12 19 7.41 17.59 6l-6 6z"},"0"),(0,t.jsx)("path",{d:"m11 18 1.41-1.41L7.83 12l4.58-4.59L11 6l-6 6z"},"1")],"KeyboardDoubleArrowLeftOutlined")}}]);

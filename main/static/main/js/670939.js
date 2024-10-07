@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[670939],{670939:(h,a,e)=>{e.r(a),e.d(a,{default:()=>m});var n=e(675003),s=e(474848);const m=(0,n.A)((0,s.jsx)("path",{d:"M13 7h-2v2h2zm0 4h-2v6h2zM5 1v22h14V1zm12 18H7V5h10z"}),"PermDeviceInformationSharp")}}]);

@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[826682],{826682:(h,a,s)=>{s.r(a),s.d(a,{default:()=>e});var v=s(675003),c=s(474848);const e=(0,v.A)([(0,c.jsx)("path",{d:"M7 13h10V7h3V3H4v4h3z"},"0"),(0,c.jsx)("path",{d:"M23 9h-4v6H5V9H1v10h3v1c0 .55.45 1 1 1s1-.45 1-1v-1h12v1c0 .55.45 1 1 1s1-.45 1-1v-1h3z"},"1")],"ChairSharp")}}]);

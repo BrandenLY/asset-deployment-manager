@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[723813],{723813:(h,a,s)=>{s.r(a),s.d(a,{default:()=>t});var e=s(675003),p=s(474848);const t=(0,e.A)([(0,p.jsx)("path",{d:"M20 8h-5v2h3v11H6V10h3V8H4v15h16z"},"0"),(0,p.jsx)("path",{d:"M11 16h2V5h3l-4-4-4 4h3z"},"1")],"IosShareSharp")}}]);

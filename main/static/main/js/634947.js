@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[634947],{634947:(a,c,s)=>{s.r(c),s.d(c,{default:()=>h});var e=s(675003),r=s(474848);const h=(0,e.A)([(0,r.jsx)("circle",{cx:"12",cy:"12",r:"3"},"0"),(0,r.jsx)("path",{d:"M16.83 4 15 2H9L7.17 4H2v16h20V4zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5"},"1")],"CameraAltSharp")}}]);

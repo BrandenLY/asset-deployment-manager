@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[548465],{548465:(h,a,s)=>{s.r(a),s.d(a,{default:()=>d});var e=s(675003),v=s(474848);const d=(0,e.A)((0,v.jsx)("path",{d:"M21 3H3v18h18zm-4 10h-4v4h-2v-4H7v-2h4V7h2v4h4z"}),"AddBoxSharp")}}]);

@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[526113],{526113:(h,a,e)=>{e.r(a),e.d(a,{default:()=>n});var s=e(675003),t=e(474848);const n=(0,s.A)((0,t.jsx)("path",{d:"M14 2H2v12h2V4h10zm4 4H6v12h2V8h10zm4 4H10v12h12z"}),"AutoAwesomeMotionSharp")}}]);

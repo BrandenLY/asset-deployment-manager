@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[640648],{640648:(h,a,s)=>{s.r(a),s.d(a,{default:()=>t});var e=s(675003),p=s(474848);const t=(0,e.A)([(0,p.jsx)("path",{d:"M9.83 8H11v6h2V8h1.17L12 5.83z",opacity:".3"},"0"),(0,p.jsx)("path",{d:"m12 3-7 7h4v6h6v-6h4zm1 5v6h-2V8H9.83L12 5.83 14.17 8zM5 18h14v2H5z"},"1")],"UploadTwoTone")}}]);

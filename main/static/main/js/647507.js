@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[647507],{647507:(c,e,r)=>{r.r(e),r.d(e,{default:()=>l});var s=r(675003),a=r(474848);const l=(0,s.A)([(0,a.jsx)("circle",{cx:"7",cy:"14",r:"3"},"0"),(0,a.jsx)("circle",{cx:"11",cy:"6",r:"3"},"1"),(0,a.jsx)("circle",{cx:"16.6",cy:"17.6",r:"3"},"2")],"ScatterPlotRounded")}}]);

@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[548060],{548060:(c,a,e)=>{e.r(a),e.d(a,{default:()=>n});var h=e(675003),s=e(474848);const n=(0,h.A)([(0,s.jsx)("path",{d:"M14 7h-4c-1.1 0-2 .9-2 2v5c0 .55.45 1 1 1h1v6c0 .55.45 1 1 1h2c.55 0 1-.45 1-1v-6h1c.55 0 1-.45 1-1V9c0-1.1-.9-2-2-2"},"0"),(0,s.jsx)("circle",{cx:"12",cy:"4",r:"2"},"1")],"ManRounded")}}]);

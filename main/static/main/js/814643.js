@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[814643],{814643:(a,l,e)=>{e.r(l),e.d(l,{default:()=>n});var h=e(675003),s=e(474848);const n=(0,h.A)((0,s.jsx)("path",{d:"M14.77 9 12 12.11 9.23 9zM21 3H3v2l8 9v5H6v2h12v-2h-5v-5l8-9zM7.43 7 5.66 5h12.69l-1.78 2z"}),"LocalBarOutlined")}}]);

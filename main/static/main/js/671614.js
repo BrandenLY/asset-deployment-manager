@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[671614],{671614:(h,a,s)=>{s.r(a),s.d(a,{default:()=>e});var t=s(675003),v=s(474848);const e=(0,t.A)((0,v.jsx)("path",{d:"M18 7V2H6v5H5v6l3 6v3h8v-3l3-6V7zM8 4h8v3h-2V5h-1v2h-2V5h-1v2H8z"}),"SettingsInputHdmiSharp")}}]);

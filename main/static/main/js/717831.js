@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[717831],{717831:(a,c,e)=>{e.r(c),e.d(c,{default:()=>n});var s=e(675003),h=e(474848);const n=(0,s.A)((0,h.jsx)("path",{d:"M20 6H10v6H8V4h6V0H6v6H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2"}),"MarkunreadMailbox")}}]);

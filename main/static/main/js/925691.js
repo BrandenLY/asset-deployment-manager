@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[925691],{925691:(h,s,a)=>{a.r(s),a.d(s,{default:()=>t});var e=a(675003),n=a(474848);const t=(0,e.A)((0,n.jsx)("path",{d:"M21 3H3v18h18zM9 17H7v-7h2zm4 0h-2V7h2zm4 0h-2v-4h2z"}),"AssessmentSharp")}}]);

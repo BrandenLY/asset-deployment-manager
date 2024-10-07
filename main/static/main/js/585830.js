@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[585830],{585830:(t,a,e)=>{e.r(a),e.d(a,{default:()=>l});var n=e(675003),s=e(474848);const l=(0,n.A)((0,s.jsx)("path",{d:"m6 20 3-3H7V4H5v13H3zm6.2-11.5v5l-2.2.9v2.1l11-4.75v-1.5L10 5.5v2.1zm6.82 2.5L14 12.87V9.13z"}),"TextRotationDownOutlined")}}]);

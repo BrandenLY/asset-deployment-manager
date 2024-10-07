@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[727697],{727697:(a,e,s)=>{s.r(e),s.d(e,{default:()=>p});var h=s(675003),n=s(474848);const p=(0,h.A)((0,n.jsx)("path",{d:"M18 4v5H6V4zm2-2H4v9h16zm-2 13v5H6v-5zm2-2H4v9h16z"}),"SplitscreenSharp")}}]);

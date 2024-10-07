@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[766326],{766326:(h,a,e)=>{e.r(a),e.d(a,{default:()=>m});var v=e(675003),s=e(474848);const m=(0,v.A)([(0,s.jsx)("path",{d:"M10 5h4v14h-4zm-6 6h4v8H4zm16 8h-4v-6h4z",opacity:".3"},"0"),(0,s.jsx)("path",{d:"M16 11V3H8v6H2v12h20V11zm-6-6h4v14h-4zm-6 6h4v8H4zm16 8h-4v-6h4z"},"1")],"LeaderboardTwoTone")}}]);

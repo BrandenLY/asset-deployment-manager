@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[857045],{857045:(a,e,h)=>{h.r(e),h.d(e,{default:()=>p});var s=h(675003),n=h(474848);const p=(0,s.A)((0,n.jsx)("path",{d:"M20 9H4v2h16zM4 15h16v-2H4z"}),"DragHandleSharp")}}]);

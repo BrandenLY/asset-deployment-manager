@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[696624],{696624:(e,a,h)=>{h.r(a),h.d(a,{default:()=>v});var s=h(675003),n=h(474848);const v=(0,s.A)((0,n.jsx)("path",{d:"M2 16v2h20v-2zm0-5v2h20v-2zm0-5v2h20V6z"}),"DehazeTwoTone")}}]);

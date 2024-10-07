@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[935606],{935606:(a,e,h)=>{h.r(e),h.d(e,{default:()=>v});var s=h(675003),t=h(474848);const v=(0,s.A)((0,t.jsx)("path",{d:"M18 6H9V4H7v2H6l-4 4v9h20v-9zM4 12h10v5H4zm16 5h-4v-6.17l2-2 2 2z"}),"Gite")}}]);

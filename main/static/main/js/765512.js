@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[765512],{765512:(h,a,e)=>{e.r(a),e.d(a,{default:()=>m});var s=e(675003),r=e(474848);const m=(0,s.A)((0,r.jsx)("path",{d:"M3 15h18v-2H3zm0 4h18v-2H3zm0-8h18V9H3zm0-6v2h18V5z"}),"ReorderSharp")}}]);

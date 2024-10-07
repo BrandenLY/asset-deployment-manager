@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[681934],{681934:(h,a,e)=>{e.r(a),e.d(a,{default:()=>s});var l=e(675003),n=e(474848);const s=(0,l.A)((0,n.jsx)("path",{d:"M11 7 9.6 8.4l2.6 2.6H2v2h10.2l-2.6 2.6L11 17l5-5zm9 12h-8v2h8c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-8v2h8z"}),"LoginOutlined")}}]);

@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[777677],{777677:(a,l,c)=>{c.r(l),c.d(l,{default:()=>h});var e=c(675003),s=c(474848);const h=(0,e.A)((0,s.jsx)("path",{d:"M18.99 5c0-1.1-.89-2-1.99-2h-7L7.66 5.34 19 16.68zM3.65 3.88 2.38 5.15 5 7.77V19c0 1.1.9 2 2 2h10.01c.35 0 .67-.1.96-.26l1.88 1.88 1.27-1.27z"}),"SignalCellularNoSim")}}]);

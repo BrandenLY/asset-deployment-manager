@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[858113],{858113:(a,e,s)=>{s.r(e),s.d(e,{default:()=>l});var c=s(675003),k=s(474848);const l=(0,c.A)((0,k.jsx)("path",{d:"M21 11H6.83l3.58-3.59L9 6l-6 6 6 6 1.41-1.41L6.83 13H21z"}),"KeyboardBackspace")}}]);

@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[792778],{792778:(a,s,e)=>{e.r(s),e.d(s,{default:()=>c});var h=e(675003),r=e(474848);const c=(0,h.A)((0,r.jsx)("path",{d:"M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12s4.48 10 10 10 10-4.48 10-10m-10 1H8v-2h4V8l4 4-4 4z"}),"ArrowCircleRightSharp")}}]);

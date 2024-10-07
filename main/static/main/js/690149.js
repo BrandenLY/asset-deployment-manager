@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[690149],{690149:(a,e,s)=>{s.r(e),s.d(e,{default:()=>p});var h=s(675003),n=s(474848);const p=(0,h.A)((0,n.jsx)("path",{d:"M21 3 3 10.53v.98l6.84 2.65L12.48 21h.98z"}),"NearMeSharp")}}]);

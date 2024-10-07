@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[618341],{618341:(h,s,a)=>{a.r(s),a.d(s,{default:()=>n});var e=a(675003),v=a(474848);const n=(0,e.A)((0,v.jsx)("path",{d:"M19 12h3L12 3 2 12h3v8h2v-2h10v2h2zM7.21 10h9.58l.21.19V12H7v-1.81zm7.36-2H9.43L12 5.69zM7 16v-2h10v2z"}),"HouseSiding")}}]);

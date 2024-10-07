@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[642196],{642196:(a,s,e)=>{e.r(s),e.d(s,{default:()=>c});var h=e(675003),p=e(474848);const c=(0,h.A)((0,p.jsx)("path",{d:"M12 8.41 16.59 13 18 11.59l-6-6-6 6L7.41 13zM6 18h12v-2H6z"}),"KeyboardCapslockSharp")}}]);

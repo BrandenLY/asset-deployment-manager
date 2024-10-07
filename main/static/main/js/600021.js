@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[600021],{600021:(e,h,a)=>{a.r(h),a.d(h,{default:()=>l});var s=a(675003),c=a(474848);const l=(0,s.A)((0,c.jsx)("path",{fillRule:"evenodd",d:"M12 2C6.48 2 2 6.48 2 12c0 1.54.36 2.98.97 4.29L1 23l6.71-1.97c1.31.61 2.75.97 4.29.97 5.52 0 10-4.48 10-10S17.52 2 12 2m4 11h-3v3h-2v-3H8v-2h3V8h2v3h3z"}),"MapsUgc")}}]);

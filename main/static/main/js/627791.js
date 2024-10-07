@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[627791],{627791:(a,e,s)=>{s.r(e),s.d(e,{default:()=>t});var n=s(675003),r=s(474848);const t=(0,n.A)((0,r.jsx)("path",{d:"M19 7v4H5.83l3.58-3.59L8 6l-6 6 6 6 1.41-1.41L5.83 13H21V7z"}),"KeyboardReturnSharp")}}]);

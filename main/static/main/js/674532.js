@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[674532],{674532:(h,e,s)=>{s.r(e),s.d(e,{default:()=>n});var c=s(675003),a=s(474848);const n=(0,c.A)((0,a.jsx)("path",{d:"M2 7h2v7H2zm18 3h2v7h-2zm-4-7.99L8 2c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V4c0-1.1-.9-1.99-2-1.99M16 20H8v-1h8zm0-3H8V7h8zM8 5V4h8v1z"}),"EdgesensorLowOutlined")}}]);

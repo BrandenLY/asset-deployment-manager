@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[694439],{694439:(h,a,s)=>{s.r(a),s.d(a,{default:()=>n});var c=s(675003),e=s(474848);const n=(0,c.A)([(0,e.jsx)("path",{d:"M18 8h-3v2h3v11H6V10h3V8H6c-1.11 0-2 .89-2 2v11c0 1.1.89 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.11-.9-2-2-2"},"0"),(0,e.jsx)("path",{d:"M11 16h2V5h3l-4-4-4 4h3z"},"1")],"IosShareTwoTone")}}]);

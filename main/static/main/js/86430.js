@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[86430],{86430:(a,e,s)=>{s.r(e),s.d(e,{default:()=>n});var h=s(675003),c=s(474848);const n=(0,h.A)((0,c.jsx)("path",{d:"M12 2 4 5v6.09c0 5.05 3.41 9.76 8 10.91 4.59-1.15 8-5.86 8-10.91V5z"}),"ShieldSharp")}}]);

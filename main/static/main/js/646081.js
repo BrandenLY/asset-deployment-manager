@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[646081],{646081:(a,h,e)=>{e.r(h),e.d(h,{default:()=>n});var s=e(675003),u=e(474848);const n=(0,s.A)((0,u.jsx)("path",{d:"M10 20h4V4h-4zm-6 0h4v-8H4zM16 9v11h4V9z"}),"EqualizerSharp")}}]);

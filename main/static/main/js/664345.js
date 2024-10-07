@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[664345],{664345:(h,s,a)=>{a.r(s),a.d(s,{default:()=>v});var e=a(675003),n=a(474848);const v=(0,e.A)((0,n.jsx)("path",{d:"M13 10h5l3-3-3-3h-5V2h-2v2H4v6h7v2H6l-3 3 3 3h5v4h2v-4h7v-6h-7z"}),"SignpostRounded")}}]);

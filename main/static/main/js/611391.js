@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[611391],{611391:(e,a,s)=>{s.r(a),s.d(a,{default:()=>u});var n=s(675003),t=s(474848);const u=(0,n.A)((0,t.jsx)("path",{d:"m14.2 6-6 6 6 6 1.41-1.41L11.03 12l4.58-4.59z"}),"NavigateBeforeTwoTone")}}]);

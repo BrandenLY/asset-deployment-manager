@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[736225],{736225:(a,c,e)=>{e.r(c),e.d(c,{default:()=>n});var s=e(675003),h=e(474848);const n=(0,s.A)((0,h.jsx)("path",{d:"M12 3 4 9v12h16V9zm4 13.06L14 15v1c0 .55-.45 1-1 1H9c-.55 0-1-.45-1-1v-4c0-.55.45-1 1-1h4c.55 0 1 .45 1 1v1l2-1.06z"}),"CameraIndoor")}}]);

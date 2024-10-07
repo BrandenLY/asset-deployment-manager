@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[544382],{544382:(h,v,a)=>{a.r(v),a.d(v,{default:()=>n});var e=a(675003),s=a(474848);const n=(0,e.A)((0,s.jsx)("path",{d:"M20 5V3h-4v2h-1v5h2v9h-4V3H5v11H3v5h1v2h4v-2h1v-5H7V5h4v16h8V10h2V5z"}),"CableSharp")}}]);

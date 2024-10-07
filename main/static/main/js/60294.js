@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[60294],{60294:(a,s,e)=>{e.r(s),e.d(s,{default:()=>r});var t=e(675003),n=e(474848);const r=(0,t.A)((0,n.jsx)("path",{d:"m4 18 8.5-6L4 6zm9-12v12l8.5-6z"}),"FastForward")}}]);

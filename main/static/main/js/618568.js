@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[618568],{618568:(a,e,s)=>{s.r(e),s.d(e,{default:()=>l});var t=s(675003),h=s(474848);const l=(0,t.A)((0,h.jsx)("path",{d:"m5 9 1.41 1.41L11 5.83V22h2V5.83l4.59 4.59L19 9l-7-7z"}),"NorthOutlined")}}]);

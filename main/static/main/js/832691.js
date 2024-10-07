@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[832691],{832691:(a,e,h)=>{h.r(e),h.d(e,{default:()=>c});var s=h(675003),t=h(474848);const c=(0,s.A)((0,t.jsx)("path",{d:"M12 3 2 12h3v8h14v-8h3zm0 13c-1.1 0-2-.9-2-2s2-4 2-4 2 2.9 2 4-.9 2-2 2"}),"WaterDamageSharp")}}]);

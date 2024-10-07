@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[740967],{740967:(s,c,e)=>{e.r(c),e.d(c,{default:()=>r});var a=e(675003),n=e(474848);const r=(0,a.A)((0,n.jsx)("circle",{cx:"12",cy:"12",r:"10"}),"Brightness1")}}]);

@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[661309],{661309:(a,h,s)=>{s.r(h),s.d(h,{default:()=>l});var c=s(675003),e=s(474848);const l=(0,c.A)((0,e.jsx)("path",{d:"M7 21H3V8l13-5v7H7zm12-11c-1.1 0-2 .9-2 2H9v9h5v-5h2v5h5v-9c0-1.1-.9-2-2-2"}),"VillaSharp")}}]);

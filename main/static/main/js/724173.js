@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[724173],{724173:(h,a,s)=>{s.r(a),s.d(a,{default:()=>n});var c=s(675003),e=s(474848);const n=(0,c.A)((0,e.jsx)("path",{d:"M12 2C8.14 2 5 5.14 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.86-3.14-7-7-7m4 8h-3v3h-2v-3H8V8h3V5h2v3h3z"}),"AddLocation")}}]);

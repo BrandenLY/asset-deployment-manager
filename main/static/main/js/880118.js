@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[880118],{880118:(h,a,e)=>{e.r(a),e.d(a,{default:()=>t});var s=e(675003),v=e(474848);const t=(0,s.A)((0,v.jsx)("path",{d:"M22 10h-9.01V7L9 11l3.99 4v-3H20v5H4V5h16v3h2V3H2v16h6v2h8v-2h6z"}),"ResetTvSharp")}}]);

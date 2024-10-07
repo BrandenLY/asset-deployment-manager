@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[849657],{849657:(s,a,e)=>{e.r(a),e.d(a,{default:()=>u});var n=e(675003),t=e(474848);const u=(0,n.A)((0,t.jsx)("path",{d:"M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2"}),"Lens")}}]);

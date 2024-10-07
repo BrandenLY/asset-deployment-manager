@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[815026],{815026:(c,h,s)=>{s.r(h),s.d(h,{default:()=>n});var a=s(675003),e=s(474848);const n=(0,a.A)((0,e.jsx)("path",{d:"M19 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.89-2-2-2m0 16H5V7h14zm-2-7H7v-2h10zm-4 4H7v-2h6z"}),"WysiwygOutlined")}}]);

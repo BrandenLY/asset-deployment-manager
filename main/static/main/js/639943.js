@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[639943],{639943:(h,a,l)=>{l.r(a),l.d(a,{default:()=>c});var v=l(675003),s=l(474848);const c=(0,v.A)((0,s.jsx)("path",{d:"M21 5h-2.64l1.14-3.14L17.15 1l-1.46 4H3v2l2 6-2 6v2h18v-2l-2-6 2-6zm-5 9h-3v3h-2v-3H8v-2h3V9h2v3h3z"}),"LocalPharmacy")}}]);

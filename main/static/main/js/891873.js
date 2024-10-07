@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[891873],{891873:(h,a,e)=>{e.r(a),e.d(a,{default:()=>t});var m=e(675003),s=e(474848);const t=(0,m.A)((0,s.jsx)("path",{d:"M4 9h4v11H4zm0-5h4v4H4zm6 3h4v4h-4zm6 3h4v4h-4zm0 5h4v5h-4zm-6-3h4v8h-4z"}),"StackedBarChartTwoTone")}}]);

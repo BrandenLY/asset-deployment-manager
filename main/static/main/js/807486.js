@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[807486],{807486:(a,e,s)=>{s.r(e),s.d(e,{default:()=>h});var n=s(675003),c=s(474848);const h=(0,n.A)((0,c.jsx)("path",{d:"M12 8.41 16.59 13 18 11.59l-6-6-6 6L7.41 13zM6 18h12v-2H6z"}),"KeyboardCapslockTwoTone")}}]);

@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[615182],{615182:(h,a,e)=>{e.r(a),e.d(a,{default:()=>t});var s=e(675003),r=e(474848);const t=(0,s.A)((0,r.jsx)("path",{d:"M20 2H10L4 8v14h16zm-7 15h-2v-2h2zm0-4h-2V8h2z"}),"SimCardAlertSharp")}}]);

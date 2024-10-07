@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[693148],{693148:(a,h,s)=>{s.r(h),s.d(h,{default:()=>t});var e=s(675003),r=s(474848);const t=(0,e.A)((0,r.jsx)("path",{d:"M22 18V2H6v16zm-11-6 2.03 2.71L16 11l4 5H8zM2 6v16h16v-2H4V6z"}),"PhotoLibrarySharp")}}]);

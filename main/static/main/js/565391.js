@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[565391],{565391:(h,v,a)=>{a.r(v),a.d(v,{default:()=>p});var e=a(675003),s=a(474848);const p=(0,e.A)((0,s.jsx)("path",{d:"M22 9V7h-2V3H2v18h18v-4h2v-2h-2v-2h2v-2h-2V9zm-4 10H4V5h14zM6 13h5v4H6zm6-6h4v3h-4zM6 7h5v5H6zm6 4h4v6h-4z"}),"DeveloperBoardSharp")}}]);

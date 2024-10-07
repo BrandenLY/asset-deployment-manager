@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[726553],{726553:(a,h,s)=>{s.r(h),s.d(h,{default:()=>t});var e=s(675003),l=s(474848);const t=(0,e.A)((0,l.jsx)("path",{d:"M13 5.7V4h3l-1-1.49L16 1h-5v4.7L2 12v10h7v-5l3.03-2L15 17v5h7V12z"}),"Festival")}}]);

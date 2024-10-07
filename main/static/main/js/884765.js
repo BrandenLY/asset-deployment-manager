@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[884765],{884765:(e,a,c)=>{c.r(a),c.d(a,{default:()=>s});var h=c(675003),n=c(474848);const s=(0,h.A)((0,n.jsx)("path",{d:"M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2m-7 2h2.5v12H13zm-2 12H8.5V6H11zM4 6h2.5v12H4zm16 12h-2.5V6H20z"}),"CalendarViewWeekRounded")}}]);

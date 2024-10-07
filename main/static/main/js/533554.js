@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[533554],{533554:(e,a,h)=>{h.r(a),h.d(a,{default:()=>n});var s=h(675003),k=h(474848);const n=(0,s.A)((0,k.jsx)("path",{d:"M7.33 20H2V4h5.33zM22 20V4h-5.33v16zm-7.33 0V4H9.33v16z"}),"ViewWeekSharp")}}]);

@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[931279],{931279:(c,e,a)=>{a.r(e),a.d(e,{default:()=>n});var s=a(675003),h=a(474848);const n=(0,s.A)((0,h.jsx)("path",{d:"M3 17v-2c0-1.1.9-2 2-2h14c1.1 0 2 .9 2 2v2c0 1.1-.9 2-2 2H5c-1.1 0-2-.9-2-2M3 7v2c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2"}),"ViewStreamRounded")}}]);

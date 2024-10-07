@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[838227],{838227:(h,e,a)=>{a.r(e),a.d(e,{default:()=>t});var c=a(675003),s=a(474848);const t=(0,c.A)((0,s.jsx)("path",{d:"M20 6h-8l-2-2H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2m-1 8h-3v3h-2v-3h-3v-2h3V9h2v3h3z"}),"CreateNewFolder")}}]);

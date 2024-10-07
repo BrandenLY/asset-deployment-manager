@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[871974],{871974:(h,v,z)=>{z.r(v),z.d(v,{default:()=>a});var m=z(675003),e=z(474848);const a=(0,m.A)((0,e.jsx)("path",{d:"M3 16h5v-2H3zm6.5 0h5v-2h-5zm6.5 0h5v-2h-5zM3 20h2v-2H3zm4 0h2v-2H7zm4 0h2v-2h-2zm4 0h2v-2h-2zm4 0h2v-2h-2zM3 12h8v-2H3zm10 0h8v-2h-8zM3 4v4h18V4z"}),"LineStyle")}}]);

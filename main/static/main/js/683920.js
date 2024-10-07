@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[683920],{683920:(a,h,c)=>{c.r(h),c.d(h,{default:()=>s});var e=c(675003),n=c(474848);const s=(0,e.A)((0,n.jsx)("path",{d:"M20 3h-1V1h-2v2H7V1H5v2H4c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2m0 18H4V10h16zm0-13H4V5h16z"}),"CalendarTodayOutlined")}}]);

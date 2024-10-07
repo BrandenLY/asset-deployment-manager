@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[553383],{553383:(h,a,s)=>{s.r(a),s.d(a,{default:()=>p});var e=s(675003),n=s(474848);const p=(0,e.A)((0,n.jsx)("path",{d:"M23 3H1v16h7v2h8v-2h6.99zm-2 14H3V5h18z"}),"TvSharp")}}]);

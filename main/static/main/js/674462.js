@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[674462],{674462:(h,v,H)=>{H.r(v),H.d(v,{default:()=>e});var a=H(675003),s=H(474848);const e=(0,a.A)((0,s.jsx)("path",{d:"M21 3H3v18h18zm-11 7.5H7.5v1H10V15H6v-1.5h2.5v-1H6V9h4zm6 4.5h-1.75l-1.75-2.25V15H11V9h1.5v2.25L14.25 9H16l-2.25 3zm3-2.5h-1.5V14h-1v-1.5H15v-1h1.5V10h1v1.5H19z"}),"FiveKPlusSharp")}}]);

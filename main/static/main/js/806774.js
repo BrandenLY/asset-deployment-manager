@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[806774],{806774:(c,a,s)=>{s.r(a),s.d(a,{default:()=>t});var e=s(675003),h=s(474848);const t=(0,e.A)((0,h.jsx)("path",{d:"M20 3H4c-1.1 0-2 .9-2 2v11c0 1.1.9 2 2 2h6l-2 2v1h8v-1l-2-2h6c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2"}),"DesktopMac")}}]);

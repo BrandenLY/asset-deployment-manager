@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[53111],{53111:(a,e,l)=>{l.r(e),l.d(e,{default:()=>n});var s=l(675003),c=l(474848);const n=(0,s.A)((0,c.jsx)("path",{d:"M6.5 20c-.83 0-1.5-.67-1.5-1.5v-3c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5v3c0 .83-.67 1.5-1.5 1.5"}),"SignalCellularAlt1BarRounded")}}]);

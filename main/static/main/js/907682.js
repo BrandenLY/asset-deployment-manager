@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[907682],{907682:(a,h,s)=>{s.r(h),s.d(h,{default:()=>p});var e=s(675003),n=s(474848);const p=(0,e.A)((0,n.jsx)("path",{d:"M21 8H3V4h18zm0 2H3v4h18zm0 6H3v4h18z"}),"TableRowsSharp")}}]);

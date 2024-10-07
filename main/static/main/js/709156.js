@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[709156],{709156:(a,e,s)=>{s.r(e),s.d(e,{default:()=>i});var t=s(675003),u=s(474848);const i=(0,t.A)((0,u.jsx)("path",{d:"M21 5v6.5H9.33V5zm-6.33 14v-6.5H9.33V19zm1-6.5V19H21v-6.5zM8.33 19V5H3v14z"}),"ViewQuilt")}}]);

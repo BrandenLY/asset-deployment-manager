@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[862223],{862223:(h,a,s)=>{s.r(a),s.d(a,{default:()=>n});var t=s(675003),e=s(474848);const n=(0,t.A)([(0,e.jsx)("path",{d:"M21 3H3v18h18zm-6.8 8.2c-3.23 2.43-6.84-1.18-4.4-4.41 3.23-2.42 6.83 1.19 4.4 4.41"},"0"),(0,e.jsx)("path",{d:"M10 8.5h1v1h-1zm1.5 0h1v1h-1zm1.5 0h1v1h-1z"},"1")],"MonitorWeightSharp")}}]);

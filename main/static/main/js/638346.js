@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[638346],{638346:(a,c,t)=>{t.r(c),t.d(c,{default:()=>s});var e=t(675003),r=t(474848);const s=(0,e.A)((0,r.jsx)("path",{d:"M17 1.01 7 1c-1.1 0-1.99.9-1.99 2v18c0 1.1.89 2 1.99 2h10c1.1 0 2-.9 2-2V3c0-1.1-.9-1.99-2-1.99M17 19H7V5h10z"}),"StayPrimaryPortraitRounded")}}]);

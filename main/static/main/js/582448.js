@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[582448],{582448:(a,e,s)=>{s.r(e),s.d(e,{default:()=>u});var h=s(675003),n=s(474848);const u=(0,h.A)((0,n.jsx)("path",{d:"M14.67 5v14H9.33V5zm1 14H21V5h-5.33zm-7.34 0V5H3v14z"}),"ViewColumnSharp")}}]);

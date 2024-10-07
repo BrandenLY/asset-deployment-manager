@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[936630],{936630:(h,a,e)=>{e.r(a),e.d(a,{default:()=>r});var t=e(675003),s=e(474848);const r=(0,t.A)((0,s.jsx)("path",{d:"M17 4h-3V2h-4v2H7v18h10zm-4 14h-2v-2h2zm0-4h-2V9h2z"}),"BatteryAlertSharp")}}]);

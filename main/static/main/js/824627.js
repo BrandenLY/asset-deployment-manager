@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[824627],{824627:(h,a,s)=>{s.r(a),s.d(a,{default:()=>v});var e=s(675003),n=s(474848);const v=(0,e.A)((0,n.jsx)("path",{d:"M18 4v16H6V4zM4 2v20h16V2zm3 17h10v-6H7zm3-9h4v1h3V5H7v6h3z"}),"SensorWindowSharp")}}]);

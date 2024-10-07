@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[784232],{784232:(h,a,e)=>{e.r(a),e.d(a,{default:()=>c});var s=e(675003),t=e(474848);const c=(0,s.A)((0,t.jsx)("path",{d:"M2.99 3 3 21h12l6-6V3zM7 8h10v2H7zm5 6H7v-2h5zm2 5.5V14h5.5z"}),"StickyNote2Sharp")}}]);

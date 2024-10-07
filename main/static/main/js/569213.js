@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[569213],{569213:(a,s,e)=>{e.r(s),e.d(s,{default:()=>n});var c=e(675003),h=e(474848);const n=(0,c.A)((0,h.jsx)("path",{d:"M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2"}),"CircleSharp")}}]);

@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[881715],{881715:(a,e,h)=>{h.r(e),h.d(e,{default:()=>n});var s=h(675003),u=h(474848);const n=(0,s.A)((0,u.jsx)("path",{d:"M10 20h4V4h-4zm-6 0h4v-8H4zM16 9v11h4V9z"}),"EqualizerOutlined")}}]);

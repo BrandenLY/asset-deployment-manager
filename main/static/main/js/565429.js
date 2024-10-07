@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[565429],{565429:(a,h,s)=>{s.r(h),s.d(h,{default:()=>n});var e=s(675003),t=s(474848);const n=(0,e.A)((0,t.jsx)("path",{d:"M3 18h6v-2H3zM3 6v2h18V6zm0 7h12v-2H3z"}),"SortSharp")}}]);

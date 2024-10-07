@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[603576],{603576:(c,a,e)=>{e.r(a),e.d(a,{default:()=>t});var h=e(675003),s=e(474848);const t=(0,h.A)((0,s.jsx)("path",{d:"M20 4v12H8V4zm0-2H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2m-8.5 9.67 1.69 2.26 2.48-3.1L19 15H9zM2 6v14c0 1.1.9 2 2 2h14v-2H4V6z"}),"PhotoLibraryOutlined")}}]);

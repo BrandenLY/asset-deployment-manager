@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[716526],{716526:(s,c,a)=>{a.r(c),a.d(c,{default:()=>n});var e=a(675003),u=a(474848);const n=(0,e.A)((0,u.jsx)("path",{d:"M8 19c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2s-2 .9-2 2v10c0 1.1.9 2 2 2m6-12v10c0 1.1.9 2 2 2s2-.9 2-2V7c0-1.1-.9-2-2-2s-2 .9-2 2"}),"PauseRounded")}}]);

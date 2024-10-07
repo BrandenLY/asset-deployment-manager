@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[751394],{751394:(h,e,a)=>{a.r(e),a.d(e,{default:()=>t});var n=a(675003),s=a(474848);const t=(0,n.A)((0,s.jsx)("path",{d:"M2 9v2h19V9zm0 6h5v-2H2zm7 0h5v-2H9zm7 0h5v-2h-5z"}),"PowerInputTwoTone")}}]);

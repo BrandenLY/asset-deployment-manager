@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[771731],{771731:(h,e,a)=>{a.r(e),a.d(e,{default:()=>m});var s=a(675003),i=a(474848);const m=(0,s.A)((0,i.jsx)("path",{d:"M21 3H3v18h18zm-9 14H6v-2h6zm3-4H9v-2h6zm3-4h-6V7h6z"}),"ViewTimelineSharp")}}]);

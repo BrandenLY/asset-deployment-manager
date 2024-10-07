@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[786302],{786302:(a,e,s)=>{s.r(e),s.d(e,{default:()=>n});var h=s(675003),l=s(474848);const n=(0,h.A)((0,l.jsx)("path",{d:"M21 21V3H3v18zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5z"}),"ImageSharp")}}]);

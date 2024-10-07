@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[846877],{846877:(a,h,e)=>{e.r(h),e.d(h,{default:()=>n});var s=e(675003),t=e(474848);const n=(0,s.A)([(0,t.jsx)("path",{d:"M9 7h6v10H9z",opacity:".3"},"0"),(0,t.jsx)("path",{d:"M15 7v10H9V7zm6-2h-3v14h3zm-4 0H7v14h10zM6 5H3v14h3z"},"1")],"ViewArrayTwoTone")}}]);

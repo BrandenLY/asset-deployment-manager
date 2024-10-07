@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[655953],{655953:(a,h,e)=>{e.r(h),e.d(h,{default:()=>t});var s=e(675003),n=e(474848);const t=(0,s.A)([(0,n.jsx)("path",{d:"M14.17 11H13V5h-2v6H9.83L12 13.17z",opacity:".3"},"0"),(0,n.jsx)("path",{d:"M5 18h14v2H5zm14-9h-4V3H9v6H5l7 7zm-8 2V5h2v6h1.17L12 13.17 9.83 11z"},"1")],"FileDownloadTwoTone")}}]);
