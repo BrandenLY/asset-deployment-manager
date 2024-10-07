@@ -1,10 +1,10 @@
 import { Delete } from '@mui/icons-material';
 import { Box, Button, Skeleton, Typography, useTheme, } from '@mui/material';
 import { useMutation, useQueries, useQuery } from '@tanstack/react-query';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { backendApiContext } from '../context';
-import { useCurrentUser, useModelOptions } from '../customHooks';
+import { backendApiContext, notificationContext } from '../context';
+import { useModelOptions } from '../customHooks';
 import ChangeLogTableRow from './ChangeLogTableRow';
 import DetailsPanel from './DetailsPanel';
 import Section from './Section';
@@ -20,6 +20,7 @@ const GenericDetailView = props => {
     const locationParams = useParams();
     const objOptions = useModelOptions(model);
     const backend = useContext(backendApiContext);
+    const notifications = useContext(notificationContext);
 
     const [data, setData] = useState(false);
 
@@ -29,17 +30,34 @@ const GenericDetailView = props => {
     });
 
     const backendObj = useMutation({
-        queryFn: async ( data, method='PUT' ) => {
-            const updateUrl = new URL(`${backend.baseUrl}/api/${model}/${locationParams.id}/`);
+        mutationFn: async ( vars ) => {
+
+            const { payload , method = "PUT" } = vars;
+
+            const updateUrl = new URL(`${backend.api.baseUrl}/${model}/${locationParams.id}/`);
             const requestHeaders = backend.api.getRequestHeaders(updateUrl);
-          
+            
             return fetch(updateUrl, {
               method: method,
               headers: requestHeaders,
-              body: JSON.stringify(data),
+              body: JSON.stringify(payload),
             });
+
+        },
+        onSettled: async (res, error, vars, ctx) => {
+
+            if (error != null){
+                notifications.add({message: error, severity:'error'})
+            }
+
+            const data = await res.json();
+
+            if (!res.ok){
+                notifications.add({message: data.detail ? data.detail : new String(data), severity:'error'})
+            };
+
         }
-    })
+    });
 
     const history = useQuery({
         queryKey: ['logs', objOptions.data?.['contenttype_id'], locationParams.id ],
@@ -64,7 +82,7 @@ const GenericDetailView = props => {
         .filter(([fieldName, fieldData]) => obj.data[fieldName] != null )  // Only get non null foreign keys
         .map(([fieldName, fieldData]) => ({queryKey:[fieldData['related_model_name'], obj.data[fieldName]]})) // Construct query option object(s) 
         : [] // Don't make any queries if dependant queries not completed.
-    })
+    });
 
     // Effects
     useEffect(() => {
@@ -78,8 +96,8 @@ const GenericDetailView = props => {
         // Evaluates to true or false depending on whether all related object queries are successful.
         const relatedQueriesAreSuccess = Object.values(relatedQueries).every( q => q.isFetched && q.isSuccess );
 
-        // 
-        if (obj.isSuccess && relatedQueriesAreSuccess){
+        // Parse & Merge Data
+        if ([obj.isSuccess, objOptions.isSuccess, relatedQueriesAreSuccess].every( b => b == true)){
             
             let temporaryState = {...obj.data}
 
@@ -98,12 +116,17 @@ const GenericDetailView = props => {
         }
 
 
-    }, [obj.data, obj.isSuccess, ...Object.values(relatedQueries).map(query => query.isSuccess)])
+    }, [
+        objOptions.isSuccess,
+        obj.isSuccess,
+        ...Object.values(relatedQueries).map(query => query.isSuccess)
+    ]);
 
     // Callback Functions
-    const deleteObj = e => {
-        backendObj.mutate(data, method="DELETE");
-    }
+    const deleteObj = useCallback(e => {
+        backendObj.mutate({payload: data, method: 'DELETE'});
+    }, []);
+
     // Formatted Data
     const viewContainerName = `${model}-detail-view`;
     const viewContainerContentName = `${model}-detail-content`;
@@ -117,7 +140,20 @@ const GenericDetailView = props => {
                 <Typography variant="h3">{title ? title: data.label}</Typography>
                 <Box className='detail-view-actions'>
                     <Box display="flex" sx={{float:"right"}}>
-                        { userCanDelete && data ? <Button color="error" variant="outlined" startIcon={<Delete/>} onClick={deleteObj}>Delete</Button> : null}
+                        
+                        { userCanDelete && data ? 
+                        
+                            <Button
+                                color="error"
+                                variant="outlined"
+                                startIcon={<Delete/>} 
+                                onClick={deleteObj}
+                            >
+                                Delete
+                            </Button> 
+
+                        : null}
+                    
                     </Box>
                 </Box>
             </Box>

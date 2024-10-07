@@ -86,8 +86,8 @@ const LocationsView = props => {
                 count={locationCount}
                 initialColumns={SORTINGGRIDDEFAULTCOLUMNS}
                 rowActions={{
-                    open   : {icon: OpenInNew, callbackFn:openLocation},
-                    delete : {icon: Delete, callbackFn:deleteLocation}
+                    open   : {icon:OpenInNew, callbackFn:openLocation},
+                    delete : {icon:Delete, callbackFn:deleteLocation}
                 }}
             /> 
         </Box>
