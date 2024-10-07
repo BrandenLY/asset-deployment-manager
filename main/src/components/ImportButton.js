@@ -34,9 +34,7 @@ function ImportButton(props) {
         mutationFn: async ( data ) => {
             console.log(backend.api.baseUrl, model, data);
             const updateUrl = new URL(`${backend.api.baseUrl}/${model}/${data.id ? data.id + "/" : ""}`);
-            const requestHeaders = new Headers();
-            requestHeaders.set("Content-Type", "application/json");
-            requestHeaders.set("X-CSRFToken", backend.api.csrftoken);
+            const requestHeaders = backend.api.getRequestHeaders();
           
             return fetch(updateUrl, {
               method: data.hasOwnProperty('id') ? 'PUT' : 'POST',
@@ -144,9 +142,7 @@ function ImportButton(props) {
             // Perform advanced backend validation.
             const updateUrl = new URL(`${backend.api.baseUrl}/${model}/validate/`);
             
-            const requestHeaders = new Headers();
-            requestHeaders.set("Content-Type", "application/json");
-            requestHeaders.set("X-CSRFToken", backend.api.csrftoken);
+            const requestHeaders = backend.api.getRequestHeaders();
 
             const res = await fetch(updateUrl, {
             method: "POST",
