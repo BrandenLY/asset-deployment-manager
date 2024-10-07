@@ -79,10 +79,10 @@ const PageLinks = [
     {
         groupHeading: 'Admin Tools',
         links: [
-            ['Staffing', <Groups /> ,'/staffing', 'view_shipment'],
-            ['Groups & Permissions', <Group /> ,'/permissions', 'view_asset'],
-            ['Users', <PersonAdd /> ,'/users', 'view_location'],
-            ['Admin Logs', <Article /> ,'/logs', 'view_location']
+            ['Staffing', <Groups /> ,'/staffing', 'view_shipment', "---DELETE-THIS-ARRAY-STRING-TO-ENABLE-LINK"],
+            ['Groups & Permissions', <Group /> ,'/permissions', 'view_asset', "---DELETE-THIS-ARRAY-STRING-TO-ENABLE-LINK"],
+            ['Users', <PersonAdd /> ,'/users', 'view_location', "---DELETE-THIS-ARRAY-STRING-TO-ENABLE-LINK"],
+            ['Admin Logs', <Article /> ,'/logs', 'view_location', "---DELETE-THIS-ARRAY-STRING-TO-ENABLE-LINK"]
         ]
     }
 ]
@@ -130,7 +130,7 @@ const NavDrawer = props =>{
                                         <Typography variant="h5" textTransform="uppercase">{linkGroup.groupHeading}</Typography>
                                     </ListItem>
 
-                                    { linkGroup.links.map( ([linkText, linkIcon, linkUrl, linkPermission]) =>{
+                                    { linkGroup.links.map( ([linkText, linkIcon, linkUrl, linkPermission, linkDisabled]) =>{
                                         
                                         const userCanViewLink = backend.auth.user ? backend.auth.user.checkPermission(linkPermission) : false;
                                         if (!userCanViewLink){
@@ -139,7 +139,7 @@ const NavDrawer = props =>{
                                         
                                         return(
                                             <ListItem disablePadding>
-                                                <ListItemButton onClick={() => navigate(linkUrl)}>
+                                                <ListItemButton disabled={linkDisabled} onClick={() => navigate(linkUrl)}>
                                                     <ListItemIcon>{linkIcon}</ListItemIcon>
                                                     <ListItemText primary={linkText} />
                                                 </ListItemButton>
