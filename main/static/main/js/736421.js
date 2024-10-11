@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[736421],{736421:(a,h,s)=>{s.r(h),s.d(h,{default:()=>n});var e=s(675003),k=s(474848);const n=(0,e.A)((0,k.jsx)("path",{d:"M17 12h2L12 2 5.05 12H7l-3.9 6h6.92v4h3.96v-4H21z"}),"Park")}}]);

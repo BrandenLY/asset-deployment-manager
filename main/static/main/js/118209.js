@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[118209],{118209:(a,h,s)=>{s.r(h),s.d(h,{default:()=>v});var e=s(675003),l=s(474848);const v=(0,e.A)((0,l.jsx)("path",{d:"M21 5V3H3v2l8 9v5H6v2h12v-2h-5v-5zM7.43 7 5.66 5h12.69l-1.78 2z"}),"LocalBarSharp")}}]);

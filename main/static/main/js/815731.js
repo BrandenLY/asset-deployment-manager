@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[815731],{815731:(h,v,e)=>{e.r(v),e.d(v,{default:()=>n});var l=e(675003),a=e(474848);const n=(0,l.A)((0,a.jsx)("path",{d:"M15 16v1.26l-6-3v-3.17L11.7 8H16V2h-6v4.9L7.3 10H3v6h5l7 3.5V22h6v-6zM12 4h2v2h-2zM7 14H5v-2h2zm12 6h-2v-2h2z"}),"PolylineOutlined")}}]);

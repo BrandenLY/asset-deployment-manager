@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[349894],{349894:(h,a,e)=>{e.r(a),e.d(a,{default:()=>s});var v=e(675003),t=e(474848);const s=(0,v.A)((0,t.jsx)("path",{d:"M6 14h3v2H4V8h2zm3-4h2v6h2v-6h2V8H9zm12 0V8h-5v8h5v-2h-3v-1h3v-2h-3v-1z"}),"LteMobiledataOutlined")}}]);

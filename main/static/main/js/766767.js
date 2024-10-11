@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[766767],{766767:(h,e,c)=>{c.r(e),c.d(e,{default:()=>a});var t=c(675003),v=c(474848);const a=(0,t.A)((0,v.jsx)("path",{d:"M19 3h-1V1h-2v2H8V1H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2m0 16H5V9h14zM5 7V5h14v2zm2 4h10v2H7zm0 4h7v2H7z"}),"EventNoteOutlined")}}]);

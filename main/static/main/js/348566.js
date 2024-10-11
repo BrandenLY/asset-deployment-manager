@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[348566],{348566:(h,a,e)=>{e.r(a),e.d(a,{default:()=>l});var v=e(675003),s=e(474848);const l=(0,v.A)((0,s.jsx)("path",{d:"M7 7h10v3l4-4-4-4v3H5v6h2zm10 10H7v-3l-4 4 4 4v-3h12v-6h-2zm-4-2V9h-1l-2 1v1h1.5v4z"}),"RepeatOneSharp")}}]);

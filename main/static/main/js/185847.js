@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[185847],{185847:(h,a,s)=>{s.r(a),s.d(a,{default:()=>l});var e=s(675003),t=s(474848);const l=(0,e.A)((0,t.jsx)("path",{d:"m6.83 4 8 8H20v2h-3.17L22 19.17V4zm-5.79-.13.96.96V20h15.17l2.96 2.96 1.41-1.41L2.45 2.45zM4 12h4v2H4zm0 4h9.17l.83.83V18H4z"}),"SubtitlesOffSharp")}}]);

@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[100004],{100004:(e,a,c)=>{c.r(a),c.d(a,{default:()=>n});var s=c(675003),h=c(474848);const n=(0,s.A)((0,h.jsx)("path",{d:"M21 3H3c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2m0 13H3V5h18z"}),"VideoLabelOutlined")}}]);

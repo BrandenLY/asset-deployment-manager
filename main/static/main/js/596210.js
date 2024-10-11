@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[596210],{596210:(a,h,e)=>{e.r(h),e.d(h,{default:()=>d});var n=e(675003),s=e(474848);const d=(0,n.A)((0,s.jsx)("path",{d:"M23 3H1v16h7v2h8v-2h6.99zm-2 14H3V5h18zm-5-6-7 4V7z"}),"OndemandVideoSharp")}}]);

@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[568169],{568169:(a,e,l)=>{l.r(e),l.d(e,{default:()=>c});var s=l(675003),t=l(474848);const c=(0,s.A)((0,t.jsx)("path",{d:"M15 2 2.5 13 13 14l-5 7 1 1 12.5-11L11 10l5-7z"}),"ElectricBoltSharp")}}]);

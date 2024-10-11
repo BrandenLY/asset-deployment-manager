@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[724124],{724124:(h,a,e)=>{e.r(a),e.d(a,{default:()=>s});var t=e(675003),v=e(474848);const s=(0,t.A)([(0,v.jsx)("path",{d:"M9 5h6v7H9z",opacity:".3"},"0"),(0,v.jsx)("path",{d:"M4 21h2v-4h12v4h2v-6H4zM17 5c0-1.1-.9-2-2-2H9c-1.1 0-2 .9-2 2v9h10zm-2 7H9V5h6zm4-2h3v3h-3zM2 10h3v3H2z"},"1")],"EventSeatTwoTone")}}]);

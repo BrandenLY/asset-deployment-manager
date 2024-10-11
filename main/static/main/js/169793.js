@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[169793],{169793:(a,e,h)=>{h.r(e),h.d(e,{default:()=>r});var s=h(675003),n=h(474848);const r=(0,s.A)((0,n.jsx)("path",{d:"M12 3 4 9v12h16V9zm4 13.06L14 15v2H8v-6h6v2l2-1.06z"}),"CameraIndoorSharp")}}]);

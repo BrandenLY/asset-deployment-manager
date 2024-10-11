@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[960223],{960223:(h,a,s)=>{s.r(a),s.d(a,{default:()=>n});var e=s(675003),t=s(474848);const n=(0,e.A)((0,t.jsx)("path",{d:"M22 2H2.01L2 22l4-4h16zM6 9h12v2H6zm8 5H6v-2h8zm4-6H6V6h12z"}),"ChatSharp")}}]);

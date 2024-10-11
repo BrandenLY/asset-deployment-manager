@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[867210],{867210:(h,c,v)=>{v.r(c),v.d(c,{default:()=>s});var e=v(675003),a=v(474848);const s=(0,e.A)((0,a.jsx)("path",{d:"M20 6h-4V4c0-1.1-.9-2-2-2h-4c-1.1 0-2 .9-2 2v2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2M10 4h4v2h-4zm6 11h-3v3h-2v-3H8v-2h3v-3h2v3h3z"}),"MedicalServices")}}]);

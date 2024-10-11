@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[768197],{768197:(a,e,h)=>{h.r(e),h.d(e,{default:()=>t});var n=h(675003),s=h(474848);const t=(0,n.A)((0,s.jsx)("path",{d:"M4 22H2V2h2zM22 7H6v3h16zm-6 7H6v3h10z"}),"AlignHorizontalLeft")}}]);

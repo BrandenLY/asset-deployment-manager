@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[870789],{870789:(e,a,l)=>{l.r(a),l.d(a,{default:()=>h});var s=l(675003),t=l(474848);const h=(0,s.A)((0,t.jsx)("path",{d:"M2 22h20V2zm18-2h-3V9.83l3-3z"}),"NetworkCellOutlined")}}]);

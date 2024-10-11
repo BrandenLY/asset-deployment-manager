@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[232794],{232794:(a,c,e)=>{e.r(c),e.d(c,{default:()=>h});var n=e(675003),s=e(474848);const h=(0,n.A)((0,s.jsx)("path",{d:"M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2m0 14H4V8l8 5 8-5zm-8-7L4 6h16z"}),"MailOutlineTwoTone")}}]);

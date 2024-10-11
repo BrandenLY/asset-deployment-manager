@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[910521],{910521:(a,h,s)=>{s.r(h),s.d(h,{default:()=>n});var t=s(675003),e=s(474848);const n=(0,t.A)((0,e.jsx)("path",{d:"M3 19h18v-6H3zm0-8h18V9H3zm0-6v2h18V5z"}),"HorizontalSplit")}}]);

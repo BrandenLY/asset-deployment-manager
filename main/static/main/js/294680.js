@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[294680],{294680:(e,a,h)=>{h.r(a),h.d(a,{default:()=>n});var s=h(675003),t=h(474848);const n=(0,s.A)((0,t.jsx)("path",{d:"M13 5v6h1.17L12 13.17 9.83 11H11V5zm2-2H9v6H5l7 7 7-7h-4zm4 15H5v2h14z"}),"GetAppOutlined")}}]);

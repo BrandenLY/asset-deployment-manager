@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[503293],{503293:(h,a,t)=>{t.r(a),t.d(a,{default:()=>m});var e=t(675003),s=t(474848);const m=(0,e.A)([(0,s.jsx)("path",{d:"M15 7h4v10h-4z",opacity:".3"},"0"),(0,s.jsx)("path",{d:"M3 13h8v2H3zm0 4h8v2H3zm0-8h8v2H3zm0-4h8v2H3zm10 0v14h8V5zm6 12h-4V7h4z"},"1")],"VerticalSplitTwoTone")}}]);

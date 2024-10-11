@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[369927],{369927:(h,a,v)=>{v.r(a),v.d(a,{default:()=>r});var e=v(675003),l=v(474848);const r=(0,e.A)((0,l.jsx)("path",{d:"M20 4H4v2h16zm1 10v-2l-1-5H4l-1 5v2h1v6h10v-6h4v6h2v-6zm-9 4H6v-4h6z"}),"StoreMallDirectorySharp")}}]);

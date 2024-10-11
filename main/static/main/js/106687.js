@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[106687],{106687:(a,e,n)=>{n.r(e),n.d(e,{default:()=>t});var h=n(675003),s=n(474848);const t=(0,h.A)((0,s.jsx)("path",{d:"M4 22H2V2h2zM22 7H6v3h16zm-6 7H6v3h10z"}),"AlignHorizontalLeftTwoTone")}}]);

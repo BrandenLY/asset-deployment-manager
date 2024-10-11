@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[566401],{566401:(s,e,a)=>{a.r(e),a.d(e,{default:()=>u});var n=a(675003),t=a(474848);const u=(0,n.A)((0,t.jsx)("path",{d:"M12 4c4.41 0 8 3.59 8 8s-3.59 8-8 8-8-3.59-8-8 3.59-8 8-8m0-2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2"}),"Brightness1Outlined")}}]);

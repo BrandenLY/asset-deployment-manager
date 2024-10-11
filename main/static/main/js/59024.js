@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[59024],{59024:(a,r,s)=>{s.r(r),s.d(r,{default:()=>n});var e=s(675003),h=s(474848);const n=(0,e.A)((0,h.jsx)("path",{d:"m20 12-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8z"}),"ArrowDownwardSharp")}}]);

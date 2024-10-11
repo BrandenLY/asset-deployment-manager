@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[356169],{356169:(h,a,e)=>{e.r(a),e.d(a,{default:()=>n});var m=e(675003),s=e(474848);const n=(0,m.A)((0,s.jsx)("path",{d:"M3 9h14V7H3zm0 4h14v-2H3zm0 4h14v-2H3zm16 0h2v-2h-2zm0-10v2h2V7zm0 6h2v-2h-2z"}),"TocTwoTone")}}]);

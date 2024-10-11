@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[301813],{301813:(h,v,a)=>{a.r(v),a.d(v,{default:()=>s});var e=a(675003),n=a(474848);const s=(0,e.A)((0,n.jsx)("path",{d:"M10 13H8v-2h2zm6-2h-2v2h2zm5 8v2H3v-2h1V5c0-1.1.9-2 2-2h12c1.1 0 2 .9 2 2v14zM11 5H6v14h5zm7 0h-5v14h5z"}),"DoorSlidingOutlined")}}]);

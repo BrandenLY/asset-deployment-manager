@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[943052],{943052:(a,h,s)=>{s.r(h),s.d(h,{default:()=>c});var e=s(675003),p=s(474848);const c=(0,e.A)((0,p.jsx)("path",{d:"m12 6-2-2H2v16h20V6zm2 10H6v-2h8zm4-4H6v-2h12z"}),"TopicSharp")}}]);

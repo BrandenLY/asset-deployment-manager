@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[951608],{951608:(a,e,n)=>{n.r(e),n.d(e,{default:()=>c});var s=n(675003),t=n(474848);const c=(0,s.A)((0,t.jsx)("path",{d:"m2 19.99 7.5-7.51 4 4 7.09-7.97L22 9.92l-8.5 9.56-4-4-6 6.01zm1.5-4.5 6-6.01 4 4L22 3.92l-1.41-1.41-7.09 7.97-4-4L2 13.99z"}),"StackedLineChartTwoTone")}}]);

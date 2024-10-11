@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[274427],{274427:(e,s,a)=>{a.r(s),a.d(s,{default:()=>u});var n=a(675003),t=a(474848);const u=(0,n.A)((0,t.jsx)("path",{d:"M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m5 11H7v-2h10z"}),"RemoveCircleOutlined")}}]);

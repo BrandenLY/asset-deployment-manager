@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[418106],{418106:(e,h,a)=>{a.r(h),a.d(h,{default:()=>k});var s=a(675003),n=a(474848);const k=(0,s.A)((0,n.jsx)("path",{d:"M6 9.03V14h12V9.03h2V5H4v4.03zM19 15H5v-4.97H1V19h22v-8.97h-4z"}),"WeekendSharp")}}]);

@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[466889],{466889:(s,a,h)=>{h.r(a),h.d(a,{default:()=>n});var t=h(675003),e=h(474848);const n=(0,t.A)((0,e.jsx)("path",{d:"M14.4 6 14 4H5v17h2v-7h5.6l.4 2h7V6z"}),"AssistantPhotoSharp")}}]);

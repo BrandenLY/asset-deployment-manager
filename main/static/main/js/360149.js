@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[360149],{360149:(e,c,u)=>{u.r(c),u.d(c,{default:()=>n});var a=u(675003),s=u(474848);const n=(0,a.A)((0,s.jsx)("path",{d:"M7 10v4c0 .55.45 1 1 1h3l3.29 3.29c.63.63 1.71.18 1.71-.71V6.41c0-.89-1.08-1.34-1.71-.71L11 9H8c-.55 0-1 .45-1 1"}),"VolumeMuteRounded")}}]);

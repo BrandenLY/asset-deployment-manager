@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[791566],{791566:(h,a,e)=>{e.r(a),e.d(a,{default:()=>n});var p=e(675003),s=e(474848);const n=(0,p.A)((0,s.jsx)("path",{d:"m12 6-2-2H2v16h20V6zm7 11h-6V9h3.5l2.5 2.5zm-3.12-6.5 1.62 1.62v3.38h-3v-5z"}),"SnippetFolderSharp")}}]);

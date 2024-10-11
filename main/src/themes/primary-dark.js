@@ -2,9 +2,28 @@ import { createTheme } from "@mui/material";
 
 let baseTheme = createTheme({});
 
+const prefersDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
 const primaryDarkTheme = createTheme({
   palette: {
-    mode: "dark",
+    mode: prefersDarkMode ? "dark" : "light",
+    primary: {
+      main: prefersDarkMode ? "#07002B" : "#230465",
+      light: "#230465",
+      dark: "#07002B",
+      contrastText: "#CBC6DE"
+    },
+    secondary: {
+      main: "#BF104E",
+      light: "#F35588",
+      dark: "#BF104E",
+      contrastText: "#FFFFFF"
+    },
+    text:{
+      primary: prefersDarkMode ? "rgba(236, 233, 250, 0.87)" : "rgba(7, 0, 43, 0.87)",
+      secondary: prefersDarkMode ? "rgba(236, 233, 250, 0.6)" : "rgba(7, 0, 43, 0.6)",
+      disabled: prefersDarkMode ? "rgba(236, 233, 250, 0.38)" : "rgba(7, 0, 43, 0.38)"
+    },
     conditions : {
       working: {
         main: baseTheme.palette.success.dark,

@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[987199],{987199:(c,a,e)=>{e.r(a),e.d(a,{default:()=>r});var s=e(675003),h=e(474848);const r=(0,s.A)([(0,h.jsx)("circle",{cx:"12",cy:"12",r:"3.2"},"0"),(0,h.jsx)("path",{d:"M22 4h-5.17L15 2H9L7.17 4H2v16h20zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5"},"1")],"LocalSeeSharp")}}]);

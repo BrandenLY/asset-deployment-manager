@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[929422],{929422:(h,v,a)=>{a.r(v),a.d(v,{default:()=>u});var e=a(675003),s=a(474848);const u=(0,e.A)((0,s.jsx)("path",{d:"M23 3H1v16h7v2h8v-2h7zm-2 14H3V5h18zm-5-7v2h-3v3h-2v-3H8v-2h3V7h2v3z"}),"AddToQueueSharp")}}]);

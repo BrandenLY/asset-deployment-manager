@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[770309],{770309:(a,e,h)=>{h.r(e),h.d(e,{default:()=>n});var s=h(675003),p=h(474848);const n=(0,s.A)((0,p.jsx)("path",{d:"M16 18v2H8v-2zM11 7.99V16h2V7.99h3L12 4 8 7.99z"}),"UpgradeSharp")}}]);

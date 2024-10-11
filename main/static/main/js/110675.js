@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[110675],{110675:(h,a,v)=>{v.r(a),v.d(a,{default:()=>s});var c=v(675003),e=v(474848);const s=(0,c.A)((0,e.jsx)("path",{d:"M16 4h-2V2h-4v2H8c-.55 0-1 .45-1 1v16c0 .55.45 1 1 1h8c.55 0 1-.45 1-1V5c0-.55-.45-1-1-1m-1 10h-2v2h-2v-2H9v-2h2v-2h2v2h2z"}),"BatterySaver")}}]);

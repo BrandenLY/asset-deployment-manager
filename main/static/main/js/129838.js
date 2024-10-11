@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[129838],{129838:(c,e,s)=>{s.r(e),s.d(e,{default:()=>h});var n=s(675003),a=s(474848);const h=(0,n.A)((0,a.jsx)("path",{d:"M20 6h-1v8c0 .55-.45 1-1 1H6v1c0 1.1.9 2 2 2h10l4 4V8c0-1.1-.9-2-2-2m-3 5V4c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v13l4-4h9c1.1 0 2-.9 2-2"}),"QuestionAnswerRounded")}}]);

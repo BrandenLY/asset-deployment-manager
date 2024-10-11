@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[610432],{610432:(l,a,s)=>{s.r(a),s.d(a,{default:()=>n});var e=s(675003),h=s(474848);const n=(0,e.A)((0,h.jsx)("path",{d:"M17 10h-3.61l2.28 2.28zm0-8H7v1.61l6.13 6.13zm-13.59.86L2 4.27l5 5V13h3v9l3.58-6.15L17.73 20l1.41-1.41z"}),"FlashOffOutlined")}}]);

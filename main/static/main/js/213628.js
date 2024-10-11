@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[213628],{213628:(a,e,h)=>{h.r(e),h.d(e,{default:()=>t});var p=h(675003),s=h(474848);const t=(0,p.A)((0,s.jsx)("path",{d:"M19 9h-4V3H9v6H5l7 7zM5 18v2h14v-2z"}),"GetAppSharp")}}]);

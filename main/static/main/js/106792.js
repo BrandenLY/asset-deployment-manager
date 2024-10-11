@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[106792],{106792:(s,a,c)=>{c.r(a),c.d(a,{default:()=>d});var e=c(675003),n=c(474848);const d=(0,e.A)((0,n.jsx)("path",{d:"M19 9H5c-.55 0-1 .45-1 1s.45 1 1 1h14c.55 0 1-.45 1-1s-.45-1-1-1M5 15h14c.55 0 1-.45 1-1s-.45-1-1-1H5c-.55 0-1 .45-1 1s.45 1 1 1"}),"DragHandleRounded")}}]);

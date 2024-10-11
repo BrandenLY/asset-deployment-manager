@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[12911],{12911:(a,e,s)=>{s.r(e),s.d(e,{default:()=>n});var c=s(675003),h=s(474848);const n=(0,c.A)((0,h.jsx)("path",{d:"M19 12v7H5v-7H3v7c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2v-7zm-6 .67 2.59-2.58L17 11.5l-5 5-5-5 1.41-1.41L11 12.67V3h2z"}),"SaveAltTwoTone")}}]);

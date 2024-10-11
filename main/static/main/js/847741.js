@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[847741],{847741:(e,a,s)=>{s.r(a),s.d(a,{default:()=>p});var h=s(675003),n=s(474848);const p=(0,h.A)((0,n.jsx)("path",{d:"M17 20.41 18.41 19 15 15.59 13.59 17zM7.5 8H11v5.59L5.59 19 7 20.41l6-6V8h3.5L12 3.5z"}),"MergeType")}}]);

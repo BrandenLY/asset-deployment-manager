@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[441668],{441668:(h,a,e)=>{e.r(a),e.d(a,{default:()=>n});var s=e(675003),t=e(474848);const n=(0,s.A)((0,t.jsx)("path",{d:"M17 4h2v16h-2zM2 2v20h13V2zm19 16h1.5V6H21z"}),"WebStoriesSharp")}}]);

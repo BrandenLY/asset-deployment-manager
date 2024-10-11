@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[221820],{221820:(h,a,e)=>{e.r(a),e.d(a,{default:()=>z});var n=e(675003),s=e(474848);const z=(0,n.A)((0,s.jsx)("path",{d:"M22 4H2v16h20zM8 11H4V6h4zm6 0h-4V6h4zm6 0h-4V6h4zM8 18H4v-5h4zm6 0h-4v-5h4zm6 0h-4v-5h4z"}),"CalendarViewMonthSharp")}}]);

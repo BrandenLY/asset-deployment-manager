@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[341038],{341038:(h,a,e)=>{e.r(a),e.d(a,{default:()=>l});var s=e(675003),c=e(474848);const l=(0,s.A)([(0,c.jsx)("path",{d:"M4 17.17V4h16v6h2V4c0-1.1-.9-2-2-2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h9v-2H5.17z"},"0"),(0,c.jsx)("path",{d:"M22.5 16h-2.2l1.7-4h-5v6h2v5z"},"1")],"QuickreplyOutlined")}}]);

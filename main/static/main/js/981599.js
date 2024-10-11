@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[981599],{981599:(e,a,s)=>{s.r(a),s.d(a,{default:()=>u});var t=s(675003),n=s(474848);const u=(0,t.A)((0,n.jsx)("path",{d:"M15.61 7.41 14.2 6l-6 6 6 6 1.41-1.41L11.03 12z"}),"NavigateBeforeOutlined")}}]);

@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[339582],{339582:(a,s,h)=>{h.r(s),h.d(s,{default:()=>c});var n=h(675003),e=h(474848);const c=(0,n.A)((0,e.jsx)("path",{d:"M9 4c0-1.11.89-2 2-2s2 .89 2 2-.89 2-2 2-2-.89-2-2m7 9c-.01-1.34-.83-2.51-2-3 0-1.66-1.34-3-3-3s-3 1.34-3 3v7h2v5h3v-5h3z"}),"PregnantWomanSharp")}}]);

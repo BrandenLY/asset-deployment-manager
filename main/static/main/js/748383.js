@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[748383],{748383:(a,e,l)=>{l.r(e),l.d(e,{default:()=>h});var s=l(675003),t=l(474848);const h=(0,s.A)((0,t.jsx)("path",{d:"M21.05 4H6.83l7.97 7.97zM2.81 2.81 1.39 4.22 10 13v7h4v-3.17l5.78 5.78 1.41-1.42z"}),"FilterAltOffSharp")}}]);

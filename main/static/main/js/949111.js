@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[949111],{949111:(a,c,h)=>{h.r(c),h.d(c,{default:()=>t});var p=h(675003),s=h(474848);const t=(0,p.A)([(0,s.jsx)("path",{d:"M4 6h16v10H4z",opacity:".3"},"0"),(0,s.jsx)("path",{d:"M20 18c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2zM4 6h16v10H4z"},"1")],"LaptopTwoTone")}}]);

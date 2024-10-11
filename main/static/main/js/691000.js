@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[691e3],{691e3:(h,a,v)=>{v.r(a),v.d(a,{default:()=>t});var e=v(675003),s=v(474848);const t=(0,e.A)((0,s.jsx)("path",{d:"M9 7H7v5H5V7H3v7h4v3h2v-3h2v-2H9zm8 4v2h2v2h-5V9h7V7h-9v10h9v-6z"}),"FourGMobiledataSharp")}}]);

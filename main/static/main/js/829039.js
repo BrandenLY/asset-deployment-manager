@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[829039],{829039:(h,l,a)=>{a.r(l),a.d(l,{default:()=>s});var e=a(675003),n=a(474848);const s=(0,e.A)((0,n.jsx)("path",{d:"m14 6-1-2H5v17h2v-7h5l1 2h7V6zm4 8h-4l-1-2H7V6h5l1 2h5z"}),"OutlinedFlagOutlined")}}]);

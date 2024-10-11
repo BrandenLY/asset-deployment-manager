@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[815891],{815891:(a,h,t)=>{t.r(h),t.d(h,{default:()=>n});var e=t(675003),s=t(474848);const n=(0,e.A)((0,s.jsx)("path",{d:"M17 4h-3V2h-4v2H7v18h10z"}),"BatteryStdSharp")}}]);

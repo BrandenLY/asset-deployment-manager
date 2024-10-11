@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[724288],{724288:(a,h,s)=>{s.r(h),s.d(h,{default:()=>p});var t=s(296540),e=s(675003),n=s(474848);const p=(0,e.A)((0,n.jsxs)(t.Fragment,{children:[(0,n.jsx)("path",{d:"M7 17v5h10v-5H7z"}),(0,n.jsx)("path",{fillOpacity:".3",d:"M17 4h-3V2h-4v2H7v13h10V4z"})]}),"Battery20Sharp")}}]);

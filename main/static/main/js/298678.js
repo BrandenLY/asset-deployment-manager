@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[298678],{298678:(a,e,t)=>{t.r(e),t.d(e,{default:()=>l});var n=t(675003),s=t(474848);const l=(0,n.A)((0,s.jsx)("path",{d:"m2 19.99 7.5-7.51 4 4 7.09-7.97L22 9.92l-8.5 9.56-4-4-6 6.01zm1.5-4.5 6-6.01 4 4L22 3.92l-1.41-1.41-7.09 7.97-4-4L2 13.99z"}),"StackedLineChartOutlined")}}]);

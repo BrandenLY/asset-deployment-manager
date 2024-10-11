@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[11116],{11116:(s,e,a)=>{a.r(e),a.d(e,{default:()=>d});var n=a(675003),u=a(474848);const d=(0,n.A)((0,u.jsx)("path",{d:"M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2"}),"LensRounded")}}]);

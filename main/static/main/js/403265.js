@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[403265],{403265:(s,a,t)=>{t.r(a),t.d(a,{default:()=>c});var e=t(675003),n=t(474848);const c=(0,e.A)((0,n.jsx)("path",{d:"M12 22c5.52 0 10-4.48 10-10S17.52 2 12 2 2 6.48 2 12s4.48 10 10 10m1-17.93c3.94.49 7 3.85 7 7.93s-3.05 7.44-7 7.93z"}),"ContrastOutlined")}}]);

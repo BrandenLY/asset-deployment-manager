@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[575058],{575058:(h,e,v)=>{v.r(e),v.d(e,{default:()=>n});var a=v(675003),s=v(474848);const n=(0,a.A)((0,s.jsx)("path",{d:"M20 8.35V19h-2v-8H6v8H4V8.35l8-3.2zM22 21V7L12 3 2 7v14h6v-8h8v8zm-11-2H9v2h2zm2-3h-2v2h2zm2 3h-2v2h2z"}),"WarehouseTwoTone")}}]);

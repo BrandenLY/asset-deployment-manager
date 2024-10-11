@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[928641],{928641:(h,a,s)=>{s.r(a),s.d(a,{default:()=>t});var e=s(675003),r=s(474848);const t=(0,e.A)((0,r.jsx)("path",{d:"M22 13h-8v-2h8zm0-6h-8v2h8zm-8 10h8v-2h-8zM12 7v10H2V7zm-1.5 8-2.25-3-1.75 2.26-1.25-1.51L3.5 15z"}),"ArtTrackSharp")}}]);

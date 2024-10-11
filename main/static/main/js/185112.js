@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[185112],{185112:(a,h,l)=>{l.r(h),l.d(h,{default:()=>t});var s=l(675003),e=l(474848);const t=(0,s.A)((0,e.jsx)("path",{d:"M20 2H4v20h16zm-9 2h5v7l-2.5-1.5L11 11zM7 18l2.38-3.17L11 17l2.62-3.5L17 18z"}),"PhotoAlbumSharp")}}]);

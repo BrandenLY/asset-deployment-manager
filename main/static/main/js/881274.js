@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[881274],{881274:(e,a,c)=>{c.r(a),c.d(a,{default:()=>t});var h=c(675003),s=c(474848);const t=(0,h.A)((0,s.jsx)("path",{d:"M21 3H3c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2m0 16H3V5h18zM4 6h9v7H4z"}),"FeaturedVideoOutlined")}}]);

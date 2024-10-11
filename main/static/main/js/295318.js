@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[295318],{295318:(a,s,e)=>{e.r(s),e.d(s,{default:()=>t});var h=e(675003),p=e(474848);const t=(0,h.A)((0,p.jsx)("path",{d:"M22 4H2v16h20zM9.5 16.5v-9l7 4.5z"}),"SmartDisplaySharp")}}]);

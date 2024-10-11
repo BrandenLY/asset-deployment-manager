@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[58794],{58794:(h,a,s)=>{s.r(a),s.d(a,{default:()=>m});var e=s(675003),l=s(474848);const m=(0,e.A)((0,l.jsx)("path",{d:"M3 3v18h18V3zm6 14H7v-7h2zm4 0h-2V7h2zm4 0h-2v-4h2z"}),"PollSharp")}}]);

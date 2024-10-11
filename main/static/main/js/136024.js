@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[136024],{136024:(a,e,c)=>{c.r(e),c.d(e,{default:()=>h});var s=c(675003),u=c(474848);const h=(0,s.A)((0,u.jsx)("path",{d:"M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2"}),"ChatBubbleRounded")}}]);

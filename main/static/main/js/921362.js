@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[921362],{921362:(h,a,e)=>{e.r(a),e.d(a,{default:()=>s});var m=e(675003),r=e(474848);const s=(0,m.A)((0,r.jsx)("path",{d:"M13 7h-2v2h2zm0 4h-2v2h2zm4 0h-2v2h2zM3 3v18h18V3zm16 16H5V5h14zm-6-4h-2v2h2zm-4-4H7v2h2z"}),"BorderOuterSharp")}}]);

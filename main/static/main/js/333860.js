@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[333860],{333860:(a,e,h)=>{h.r(e),h.d(e,{default:()=>H});var s=h(675003),n=h(474848);const H=(0,s.A)((0,n.jsx)("path",{d:"M22 4H2v16h20zm-9 2h2.5v12H13zm-2 12H8.5V6H11zM4 6h2.5v12H4zm16 12h-2.5V6H20z"}),"CalendarViewWeekSharp")}}]);

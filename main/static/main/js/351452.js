@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[351452],{351452:(h,l,a)=>{a.r(l),a.d(l,{default:()=>t});var e=a(675003),s=a(474848);const t=(0,e.A)((0,s.jsx)("path",{d:"M18 13h-.68l-2 2h1.91L19 17H5l1.78-2h2.05l-2-2H6l-3 3v6h18v-6zm1.81-5.04L13.45 1.6 5.68 9.36l6.36 6.36zm-6.35-3.55L17 7.95l-4.95 4.95-3.54-3.54z"}),"HowToVoteSharp")}}]);

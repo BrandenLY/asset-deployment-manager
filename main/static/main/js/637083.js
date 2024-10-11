@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[637083],{637083:(a,e,t)=>{t.r(e),t.d(e,{default:()=>s});var l=t(675003),n=t(474848);const s=(0,l.A)((0,n.jsx)("path",{d:"M4 18.99h11c.67 0 1.27-.32 1.63-.83L21 12l-4.37-6.16C16.27 5.33 15.67 5 15 5H4l5 7z"}),"LabelImportantOutlined")}}]);

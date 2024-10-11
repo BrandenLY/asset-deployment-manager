@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[788352],{788352:(a,h,s)=>{s.r(h),s.d(h,{default:()=>n});var e=s(675003),t=s(474848);const n=(0,e.A)((0,t.jsx)("path",{d:"m3.5 18.49 6-6.01 4 4L22 6.92l-1.41-1.41-7.09 7.97-4-4L2 16.99z"}),"ShowChartSharp")}}]);

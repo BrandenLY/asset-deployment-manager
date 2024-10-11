@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[367282],{367282:(a,e,h)=>{h.r(e),h.d(e,{default:()=>i});var s=h(675003),n=h(474848);const i=(0,s.A)((0,n.jsx)("path",{d:"M4 15h16v-2H4zm0 4h16v-2H4zm0-8h16V9H4zm0-6v2h16V5z"}),"ViewHeadlineSharp")}}]);

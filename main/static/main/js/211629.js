@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[211629],{211629:(h,a,e)=>{e.r(a),e.d(a,{default:()=>s});var t=e(675003),m=e(474848);const s=(0,t.A)((0,m.jsx)("path",{d:"M4 9h4v11H4zm0-5h4v4H4zm6 3h4v4h-4zm6 3h4v4h-4zm0 5h4v5h-4zm-6-3h4v8h-4z"}),"StackedBarChartOutlined")}}]);

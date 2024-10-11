@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[810153],{810153:(h,a,s)=>{s.r(a),s.d(a,{default:()=>l});var c=s(675003),e=s(474848);const l=(0,c.A)((0,e.jsx)("path",{d:"M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2m-7 12h-2v-2h2zm0-4h-2V6h2z"}),"SmsFailed")}}]);

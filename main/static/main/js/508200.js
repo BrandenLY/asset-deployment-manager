@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[508200],{508200:(a,e,s)=>{s.r(e),s.d(e,{default:()=>t});var l=s(675003),n=s(474848);const t=(0,l.A)((0,n.jsx)("path",{d:"M10 8.64 15.27 12 10 15.36zM8 5v14l11-7z"}),"PlayArrowOutlined")}}]);

@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[269885],{269885:(h,v,a)=>{a.r(v),a.d(v,{default:()=>u});var s=a(675003),e=a(474848);const u=(0,s.A)((0,e.jsx)("path",{d:"M22 11V9L12 2 2 9v2h2v9H2v2h20v-2h-2v-9zm-6 7h-2v-4l-2 3-2-3v4H8v-7h2l2 3 2-3h2z"}),"MuseumSharp")}}]);

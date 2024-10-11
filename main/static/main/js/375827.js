@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[375827],{375827:(h,a,s)=>{s.r(a),s.d(a,{default:()=>t});var e=s(675003),p=s(474848);const t=(0,e.A)([(0,p.jsx)("path",{d:"M6 5H4v18h12v-2H6z"},"0"),(0,p.jsx)("path",{d:"M20 1H8v18h12zm-2 14h-8V5h8z"},"1"),(0,p.jsx)("path",{d:"M12.5 10.25h2V12L17 9.5 14.5 7v1.75H11V12h1.5z"},"2")],"OfflineShareSharp")}}]);

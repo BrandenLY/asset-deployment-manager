@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[691558],{691558:(e,a,h)=>{h.r(a),h.d(a,{default:()=>n});var s=h(675003),l=h(474848);const n=(0,s.A)((0,l.jsx)("path",{d:"M20 15H4v-2h16zm0 2H4v2h16zm-5-6 5-3.55V5l-5 3.55L10 5 4 8.66V11l5.92-3.61z"}),"LegendToggleSharp")}}]);

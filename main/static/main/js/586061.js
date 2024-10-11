@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[586061],{586061:(v,h,m)=>{m.r(h),m.d(h,{default:()=>e});var z=m(675003),a=m(474848);const e=(0,z.A)((0,a.jsx)("path",{d:"M23 4H1v17h22zM7 12v2H5v-2zm-2-2V8h2v2zm6 2v2H9v-2zm-2-2V8h2v2zm7 6v1H8v-1zm-1-4v2h-2v-2zm-2-2V8h2v2zm4 4v-2h2v2zm2-4h-2V8h2z"}),"KeyboardAltSharp")}}]);

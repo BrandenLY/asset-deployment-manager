@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[588579],{588579:(a,h,e)=>{e.r(h),e.d(h,{default:()=>n});var s=e(675003),t=e(474848);const n=(0,s.A)([(0,t.jsx)("path",{d:"M11 15h2v2h-2zm0-8h2v6h-2z"},"0"),(0,t.jsx)("path",{d:"M5.01 1v22H19V1zM17 18H7V6h10z"},"1")],"SystemSecurityUpdateWarningSharp")}}]);

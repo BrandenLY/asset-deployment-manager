@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[588780],{588780:(a,h,s)=>{s.r(h),s.d(h,{default:()=>n});var l=s(675003),e=s(474848);const n=(0,l.A)((0,e.jsx)("path",{d:"M6 2h12v3H6zm0 5v1l2 3v11h8V11l2-3V7zm6 8.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5"}),"FlashlightOnSharp")}}]);

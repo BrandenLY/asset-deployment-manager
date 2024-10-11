@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[231400],{231400:(a,h,e)=>{e.r(h),e.d(h,{default:()=>n});var s=e(675003),u=e(474848);const n=(0,s.A)((0,u.jsx)("path",{d:"M2 7h4v10H2zm5 12h10V5H7zM18 7h4v10h-4z"}),"ViewCarouselSharp")}}]);

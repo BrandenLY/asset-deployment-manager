@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[677034],{677034:(a,e,h)=>{h.r(e),h.d(e,{default:()=>p});var l=h(675003),s=h(474848);const p=(0,l.A)((0,s.jsx)("path",{d:"M22 6H12l-2-2H2v16h20zm-9 7v4h-2v-4H8l4.01-4L16 13z"}),"DriveFolderUploadSharp")}}]);

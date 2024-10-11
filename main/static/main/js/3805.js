@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[3805],{3805:(a,e,h)=>{h.r(e),h.d(e,{default:()=>u});var s=h(675003),t=h(474848);const u=(0,s.A)((0,t.jsx)("path",{d:"m17 8-1.41 1.41L17.17 11H9v2h8.17l-1.58 1.58L17 16l4-4zM5 5h7V3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h7v-2H5z"}),"LogoutOutlined")}}]);

@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[312235],{312235:(a,e,s)=>{s.r(e),s.d(e,{default:()=>n});var c=s(675003),h=s(474848);const n=(0,c.A)((0,h.jsx)("path",{d:"M18.5 12c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02M5 9v6h4l5 5V4L9 9z"}),"VolumeDownSharp")}}]);

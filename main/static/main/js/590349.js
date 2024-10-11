@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[590349],{590349:(a,e,s)=>{s.r(e),s.d(e,{default:()=>p});var h=s(675003),n=s(474848);const p=(0,h.A)((0,n.jsx)("path",{d:"M16 18v2H8v-2zM11 7.99V16h2V7.99h3L12 4 8 7.99z"}),"Upgrade")}}]);

@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[999628],{999628:(a,h,e)=>{e.r(h),e.d(h,{default:()=>d});var s=e(675003),r=e(474848);const d=(0,s.A)((0,r.jsx)("path",{d:"M7.5 21H2V9h5.5zm7.25-18h-5.5v18h5.5zM22 11h-5.5v10H22z"}),"LeaderboardSharp")}}]);

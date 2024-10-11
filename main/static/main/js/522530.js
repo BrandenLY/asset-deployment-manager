@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[522530],{522530:(a,c,h)=>{h.r(c),h.d(c,{default:()=>n});var s=h(675003),e=h(474848);const n=(0,s.A)((0,e.jsx)("path",{d:"M21 3H3c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2m0 16H3V5h10v4h8z"}),"Tab")}}]);

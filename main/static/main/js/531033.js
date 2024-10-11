@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[531033],{531033:(a,e,n)=>{n.r(e),n.d(e,{default:()=>h});var s=n(675003),p=n(474848);const h=(0,s.A)((0,p.jsx)("path",{d:"m16 6 2.29 2.29-4.88 4.88-4-4L2 16.59 3.41 18l6-6 4 4 6.3-6.29L22 12V6z"}),"TrendingUpSharp")}}]);

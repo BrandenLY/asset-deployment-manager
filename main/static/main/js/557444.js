@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[557444],{557444:(c,s,e)=>{e.r(s),e.d(s,{default:()=>r});var a=e(675003),i=e(474848);const r=(0,a.A)([(0,i.jsx)("circle",{cx:"12",cy:"19",r:"2"},"0"),(0,i.jsx)("path",{d:"M12 3c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2s2-.9 2-2V5c0-1.1-.9-2-2-2"},"1")],"PriorityHighRounded")}}]);

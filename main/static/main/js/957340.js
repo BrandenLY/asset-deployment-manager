@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[957340],{957340:(a,e,h)=>{h.r(e),h.d(e,{default:()=>n});var s=h(675003),c=h(474848);const n=(0,s.A)((0,c.jsx)("path",{d:"m20 18 2-2V4H2v12l2 2H0v2h24v-2zm-7-3.53v-2.19c-2.78 0-4.61.85-6 2.72.56-2.67 2.11-5.33 6-5.87V7l4 3.73z"}),"ScreenShareSharp")}}]);

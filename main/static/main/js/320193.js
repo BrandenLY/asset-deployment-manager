@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[320193],{320193:(a,h,e)=>{e.r(h),e.d(h,{default:()=>n});var l=e(675003),s=e(474848);const n=(0,l.A)((0,s.jsx)("path",{d:"M15 16v1.26l-6-3v-3.17L11.7 8H16V2h-6v4.9L7.3 10H3v6h5l7 3.5V22h6v-6z"}),"PolylineSharp")}}]);

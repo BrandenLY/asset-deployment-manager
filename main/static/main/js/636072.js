@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[636072],{636072:(a,c,s)=>{s.r(c),s.d(c,{default:()=>n});var e=s(675003),h=s(474848);const n=(0,e.A)((0,h.jsx)("path",{d:"M19 12h-1V4H6v8H5c-1.66 0-3 1.34-3 3v5h20v-5c0-1.66-1.34-3-3-3m-3 0H8V6h8zm2 5c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1"}),"AdfScanner")}}]);

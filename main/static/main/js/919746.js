@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[919746],{919746:(h,e,a)=>{a.r(e),a.d(e,{default:()=>v});var s=a(675003),n=a(474848);const v=(0,s.A)((0,n.jsx)("path",{d:"M20 1.01 6 1v5h2V5h10v14H8v-1H6v5h14zM10 15h2V8H5v2h3.59L3 15.59 4.41 17 10 11.41z"}),"AddToHomeScreenSharp")}}]);

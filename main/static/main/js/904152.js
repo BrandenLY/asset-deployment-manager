@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[904152],{904152:(c,e,a)=>{a.r(e),a.d(e,{default:()=>h});var n=a(675003),s=a(474848);const h=(0,n.A)((0,s.jsx)("path",{d:"M19 5v14H5V5zm0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2"}),"CheckBoxOutlineBlankTwoTone")}}]);

@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[872261],{872261:(c,s,a)=>{a.r(s),a.d(s,{default:()=>n});var h=a(675003),e=a(474848);const n=(0,h.A)((0,e.jsx)("path",{d:"M17 1H7c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V3c0-1.1-.9-2-2-2m0 18H7V5h10zM8 6h8v2H8z"}),"AdUnits")}}]);

@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[590575],{590575:(h,a,s)=>{s.r(a),s.d(a,{default:()=>n});var e=s(675003),k=s(474848);const n=(0,e.A)((0,k.jsx)("path",{d:"M21 3H3v18h18zm-6 10h-4v2h4v2H9v-6h4V9H9V7h6z"}),"LooksTwoSharp")}}]);

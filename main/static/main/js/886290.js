@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[886290],{886290:(e,a,c)=>{c.r(a),c.d(a,{default:()=>t});var h=c(675003),s=c(474848);const t=(0,h.A)((0,s.jsx)("path",{d:"M3 7v10c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2m16 10H5v-4h14zM5 11V7h14v4z"}),"ViewStreamOutlined")}}]);

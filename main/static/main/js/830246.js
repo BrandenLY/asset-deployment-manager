@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[830246],{830246:(a,h,s)=>{s.r(h),s.d(h,{default:()=>d});var e=s(675003),n=s(474848);const d=(0,e.A)((0,n.jsx)("path",{d:"M20 2H10L4 8v14h16zm-8 15-4-4h3V9.02L13 9v4h3z"}),"SimCardDownloadSharp")}}]);

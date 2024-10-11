@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[707100],{707100:(a,e,h)=>{h.r(e),h.d(e,{default:()=>f});var s=h(675003),c=h(474848);const f=(0,s.A)((0,c.jsx)("path",{d:"M21 16.61V6.5l-4 4V6h-6.61zM3.41 1.86 2 3.27 4.73 6H3v12h13.73l3 3 1.41-1.41z"}),"VideocamOffSharp")}}]);

@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[583941],{583941:(e,a,l)=>{l.r(a),l.d(a,{default:()=>c});var t=l(675003),u=l(474848);const c=(0,t.A)((0,u.jsx)("path",{d:"M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2m0 14H6l-2 2V4h16z"}),"ChatBubbleOutlineOutlined")}}]);

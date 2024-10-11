@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[901257],{901257:(h,v,a)=>{a.r(v),a.d(v,{default:()=>c});var e=a(675003),s=a(474848);const c=(0,e.A)((0,s.jsx)("path",{d:"M5 17c0 1.1.9 2 2 2h10v4h2v-4h4v-2H7V1H5v4H1v2h4zm14-2V7c0-1.1-.9-2-2-2H9v2h8v8z"}),"CropTwoTone")}}]);

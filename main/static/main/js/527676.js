@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[527676],{527676:(h,a,s)=>{s.r(a),s.d(a,{default:()=>n});var e=s(675003),t=s(474848);const n=(0,e.A)((0,t.jsx)("path",{d:"M21 3H3v18h18zM9 17H7v-7h2zm4 0h-2V7h2zm4 0h-2v-4h2z"}),"InsertChartSharp")}}]);

@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[626566],{626566:(a,e,s)=>{s.r(e),s.d(e,{default:()=>t});var h=s(675003),p=s(474848);const t=(0,h.A)((0,p.jsx)("path",{d:"M19 9h-4V3H9v6H5l7 7zM5 18v2h14v-2z"}),"GetApp")}}]);

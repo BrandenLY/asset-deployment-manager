@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[212078],{212078:(s,a,e)=>{e.r(a),e.d(a,{default:()=>t});var l=e(675003),n=e(474848);const t=(0,l.A)((0,n.jsx)("path",{d:"M19.59 7 12 14.59 6.41 9H11V7H3v8h2v-4.59l7 7 9-9z"}),"CallMissedOutlined")}}]);

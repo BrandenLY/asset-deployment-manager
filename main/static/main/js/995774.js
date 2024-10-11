@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[995774],{995774:(s,a,l)=>{l.r(a),l.d(a,{default:()=>n});var e=l(675003),u=l(474848);const n=(0,e.A)((0,u.jsx)("path",{d:"m6 2 .01 6L10 12l-3.99 4.01L6 22h12v-6l-4-4 4-3.99V2zm10 14.5V20H8v-3.5l4-4z"}),"HourglassTopOutlined")}}]);

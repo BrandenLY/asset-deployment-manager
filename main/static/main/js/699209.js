@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[699209],{699209:(e,h,s)=>{s.r(h),s.d(h,{default:()=>n});var a=s(675003),t=s(474848);const n=(0,a.A)((0,t.jsx)("path",{d:"M10 18h4v-2h-4zM3 6v2h18V6zm3 7h12v-2H6z"}),"FilterListTwoTone")}}]);

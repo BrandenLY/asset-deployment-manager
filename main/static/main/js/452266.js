@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[452266],{452266:(h,a,e)=>{e.r(a),e.d(a,{default:()=>m});var n=e(675003),c=e(474848);const m=(0,n.A)((0,c.jsx)("path",{d:"M6.5 10h-2v7h2zm6 0h-2v7h2zm8.5 9H2v2h19zm-2.5-9h-2v7h2zm-7-6.74L16.71 6H6.29zm0-2.26L2 6v2h19V6z"}),"AccountBalanceOutlined")}}]);

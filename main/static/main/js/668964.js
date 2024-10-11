@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[668964],{668964:(c,a,s)=>{s.r(a),s.d(a,{default:()=>f});var e=s(675003),t=s(474848);const f=(0,e.A)((0,t.jsx)("path",{d:"M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2m0 4-8 5-8-5V6l8 5 8-5z"}),"LocalPostOffice")}}]);

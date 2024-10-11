@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[951418],{951418:(a,h,e)=>{e.r(h),e.d(h,{default:()=>l});var s=e(675003),t=e(474848);const l=(0,s.A)((0,t.jsx)("path",{d:"M22 4H2v16h20zm-6.25 10.09L4 11.22V10h16v.53zM4 6h16v2H4z"}),"WalletSharp")}}]);

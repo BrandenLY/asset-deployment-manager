@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[143284],{143284:(h,a,s)=>{s.r(a),s.d(a,{default:()=>t});var e=s(675003),v=s(474848);const t=(0,e.A)([(0,v.jsx)("path",{d:"M16 8h4v2h-4zm0 4h4v2h-4z",opacity:".3"},"0"),(0,v.jsx)("path",{d:"M2 6v12h2V8h10v10h2v-2h4v2h2V6zm18 8h-4v-2h4zm0-4h-4V8h4z"},"1")],"DeskTwoTone")}}]);

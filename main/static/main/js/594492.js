@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[594492],{594492:(h,e,a)=>{a.r(e),a.d(e,{default:()=>u});var n=a(675003),s=a(474848);const u=(0,n.A)((0,s.jsx)("path",{d:"M3 5v14h18V5zm5.33 12H5V7h3.33zm5.34 0h-3.33V7h3.33zM19 17h-3.33V7H19z"}),"ViewColumnOutlined")}}]);

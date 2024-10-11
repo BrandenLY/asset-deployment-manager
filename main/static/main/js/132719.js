@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[132719],{132719:(h,s,a)=>{a.r(s),a.d(s,{default:()=>c});var e=a(675003),u=a(474848);const c=(0,e.A)((0,u.jsx)("path",{d:"M15 6H3v2h12zm0 4H3v2h12zM3 16h8v-2H3zM17 6v8.18c-.31-.11-.65-.18-1-.18-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3V8h3V6z"}),"QueueMusicSharp")}}]);

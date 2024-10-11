@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[63357],{63357:(h,a,e)=>{e.r(a),e.d(a,{default:()=>n});var s=e(675003),t=e(474848);const n=(0,s.A)([(0,t.jsx)("path",{d:"M7 19h6V5H7zm3-8h2v2h-2z",opacity:".3"},"0"),(0,t.jsx)("path",{d:"M19 19V4h-4V3H5v16H3v2h12V6h2v15h4v-2zm-6 0H7V5h6zm-3-8h2v2h-2z"},"1")],"MeetingRoomTwoTone")}}]);

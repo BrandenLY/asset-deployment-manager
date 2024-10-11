@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[319247],{319247:(h,e,a)=>{a.r(e),a.d(e,{default:()=>r});var s=a(675003),m=a(474848);const r=(0,s.A)((0,m.jsx)("path",{d:"M13 12h7v1.5h-7zm0-2.5h7V11h-7zm0 5h7V16h-7zM23 4H1v17h22zm-2 15h-9V6h9z"}),"ChromeReaderModeSharp")}}]);

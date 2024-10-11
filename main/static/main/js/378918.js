@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[378918],{378918:(c,a,e)=>{e.r(a),e.d(a,{default:()=>h});var s=e(675003),f=e(474848);const h=(0,s.A)((0,f.jsx)("path",{d:"m21 6.5-4 4V7c0-.55-.45-1-1-1H9.82L21 17.18zM3.27 2 2 3.27 4.73 6H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.21 0 .39-.08.54-.18L19.73 21 21 19.73z"}),"VideocamOff")}}]);

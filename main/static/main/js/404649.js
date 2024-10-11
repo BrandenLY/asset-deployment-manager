@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[404649],{404649:(a,e,h)=>{h.r(e),h.d(e,{default:()=>n});var s=h(675003),l=h(474848);const n=(0,s.A)((0,l.jsx)("path",{d:"M11.59 7.41 15.17 11H1v2h14.17l-3.59 3.59L13 18l6-6-6-6zM20 6v12h2V6z"}),"KeyboardTabSharp")}}]);

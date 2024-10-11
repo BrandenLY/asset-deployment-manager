@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[520957],{520957:(h,a,e)=>{e.r(a),e.d(a,{default:()=>l});var v=e(675003),s=e(474848);const l=(0,v.A)((0,s.jsx)("path",{d:"M21 3H3v18h18zM11 9v6H6.5v-1.5h3v-1h-2v-1h2v-1h-3V9zm7 6h-1.75l-1.75-2.25V15H13V9h1.5v2.25L16.25 9H18l-2.25 3z"}),"ThreeKSharp")}}]);

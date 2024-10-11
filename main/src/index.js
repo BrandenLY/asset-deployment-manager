@@ -23,6 +23,7 @@ import LocationDetailView from "./views/LocationDetailView";
 import { NotificationContextProvider } from "./context";
 import ModelsView from "./views/ModelsView";
 import ModelDetailView from "./views/ModelDetailView";
+import { useCustomTheme } from "./customHooks";
 
 const applicationRoutes = [
   // [ PATH: String, VIEW: React Component, TITLE: String ]
@@ -40,11 +41,12 @@ const applicationRoutes = [
 
 // Primary React Component
 const App = () => {
+  const theme = useCustomTheme();
 
   return (
     <React.StrictMode>
       <CustomQueryClientProvider>
-        <ThemeProvider theme={primaryDarkTheme}>
+        <ThemeProvider theme={theme}>
           <CssBaseline />
           <NotificationContextProvider>
             <Router>

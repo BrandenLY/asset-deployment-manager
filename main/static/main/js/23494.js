@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[23494],{23494:(a,h,l)=>{l.r(h),l.d(h,{default:()=>e});var n=l(675003),s=l(474848);const e=(0,n.A)((0,s.jsx)("path",{d:"M9.93 13.5h4.14L12 7.98zM22 2H2v20h20zm-6.05 16.5-1.14-3H9.17l-1.12 3H5.96l5.11-13h1.86l5.11 13z"}),"FontDownloadSharp")}}]);

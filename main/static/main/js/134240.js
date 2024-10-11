@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[134240],{134240:(h,a,e)=>{e.r(a),e.d(a,{default:()=>d});var s=e(675003),t=e(474848);const d=(0,s.A)((0,t.jsx)("path",{d:"M22 4H2v16h20zM4 6h2v12H4zm16 12h-2V6h2z"}),"WidthWideSharp")}}]);

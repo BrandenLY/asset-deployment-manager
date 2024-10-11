@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[705951],{705951:(h,a,e)=>{e.r(a),e.d(a,{default:()=>n});var s=e(675003),l=e(474848);const n=(0,s.A)((0,l.jsx)("path",{d:"M14 12v2.5l5.5 5.5H22zm0 8h3l-3-3zM8 4l-6 6h2v10h8V10h2zm1 10H7v-4h2z"}),"WbShadeSharp")}}]);

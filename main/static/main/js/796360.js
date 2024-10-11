@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[796360],{796360:(c,a,e)=>{e.r(a),e.d(a,{default:()=>t});var h=e(675003),s=e(474848);const t=(0,h.A)((0,s.jsx)("path",{d:"M21 2H3c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h7l-2 3v1h8v-1l-2-3h7c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2m0 12H3V4h18z"}),"DesktopMacOutlined")}}]);

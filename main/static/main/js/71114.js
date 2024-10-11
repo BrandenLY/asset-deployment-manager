@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[71114],{71114:(a,h,n)=>{n.r(h),n.d(h,{default:()=>e});var s=n(675003),t=n(474848);const e=(0,s.A)((0,t.jsx)("path",{d:"m14.5 11-3 6v-4h-2l3-6v4zM5 1h14v22H5zm2 5v12h10V6z"}),"ChargingStationSharp")}}]);

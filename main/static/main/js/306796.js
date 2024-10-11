@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[306796],{306796:(c,a,e)=>{e.r(a),e.d(a,{default:()=>t});var s=e(675003),h=e(474848);const t=(0,s.A)((0,h.jsx)("path",{d:"M20 18c1.1 0 1.99-.9 1.99-2L22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2zM4 6h16v10H4z"}),"Computer")}}]);

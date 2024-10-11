@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[500191],{500191:(h,s,v)=>{v.r(s),v.d(s,{default:()=>u});var a=v(675003),e=v(474848);const u=(0,a.A)([(0,e.jsx)("path",{d:"M22 11V9L12 2 2 9v2h2v9H2v2h20v-2h-2v-9zm-4 9H6V9h12z"},"0"),(0,e.jsx)("path",{d:"m10 14 2 3 2-3v4h2v-7h-2l-2 3-2-3H8v7h2z"},"1")],"MuseumOutlined")}}]);

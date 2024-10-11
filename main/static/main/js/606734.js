@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[606734],{606734:(a,h,s)=>{s.r(h),s.d(h,{default:()=>l});var e=s(675003),p=s(474848);const l=(0,e.A)((0,p.jsx)("path",{d:"M9 16h6v-6h4l-7-7-7 7h4zm-4 2h14v2H5z"}),"UploadSharp")}}]);

@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[719752],{719752:(a,c,s)=>{s.r(c),s.d(c,{default:()=>r});var e=s(675003),h=s(474848);const r=(0,e.A)([(0,h.jsx)("circle",{cx:"12",cy:"12",r:"3"},"0"),(0,h.jsx)("path",{d:"M9 2 7.17 4H2v16h20V4h-5.17L15 2zm3 15c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5"},"1")],"PhotoCameraSharp")}}]);

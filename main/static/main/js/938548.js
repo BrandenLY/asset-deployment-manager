@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[938548],{938548:(h,a,e)=>{e.r(a),e.d(a,{default:()=>m});var s=e(675003),i=e(474848);const m=(0,s.A)((0,i.jsx)("path",{d:"M16 20H2V4h14zm2-12h4V4h-4zm0 12h4v-4h-4zm0-6h4v-4h-4z"}),"ViewSidebarSharp")}}]);

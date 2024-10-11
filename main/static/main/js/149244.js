@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[149244],{149244:(a,e,s)=>{s.r(e),s.d(e,{default:()=>h});var n=s(675003),t=s(474848);const h=(0,n.A)((0,t.jsx)("path",{d:"M1 19h22V5H1zM19 7v10H5V7z"}),"StayCurrentLandscapeSharp")}}]);

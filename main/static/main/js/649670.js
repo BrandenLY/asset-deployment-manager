@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[649670],{649670:(s,a,e)=>{e.r(a),e.d(a,{default:()=>u});var n=e(675003),t=e(474848);const u=(0,n.A)((0,t.jsx)("path",{d:"m12 8-6 6 1.41 1.41L12 10.83l4.59 4.58L18 14z"}),"ExpandLessOutlined")}}]);

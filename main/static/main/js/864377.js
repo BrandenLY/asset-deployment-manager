@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[864377],{864377:(c,e,h)=>{h.r(e),h.d(e,{default:()=>a});var n=h(675003),s=h(474848);const a=(0,n.A)((0,s.jsx)("path",{d:"M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2m0 2v7h-4v-1h-4v1H6V4zM6 20v-7h12v7z"}),"SensorWindowOutlined")}}]);

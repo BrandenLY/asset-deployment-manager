@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[586177],{586177:(a,e,l)=>{l.r(e),l.d(e,{default:()=>n});var s=l(675003),h=l(474848);const n=(0,s.A)([(0,h.jsx)("path",{d:"M15.5 5H11l5 7-5 7h4.5l5-7z"},"0"),(0,h.jsx)("path",{d:"M8.5 5H4l5 7-5 7h4.5l5-7z"},"1")],"DoubleArrowTwoTone")}}]);

@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[710436],{710436:(h,a,m)=>{m.r(a),m.d(a,{default:()=>r});var e=m(675003),z=m(474848);const r=(0,e.A)((0,z.jsx)("path",{d:"M12 7V3H2v18h20V7zm-2 12H4v-2h6zm0-4H4v-2h6zm0-4H4V9h6zm0-4H4V5h6zm10 12h-8V9h8zm-2-8h-4v2h4zm0 4h-4v2h4z"}),"CorporateFareSharp")}}]);

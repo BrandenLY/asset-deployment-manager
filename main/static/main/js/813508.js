@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[813508],{813508:(e,a,h)=>{h.r(a),h.d(a,{default:()=>t});var n=h(675003),s=h(474848);const t=(0,n.A)((0,s.jsx)("path",{d:"M9 18h12v-2H9zM3 6v2h18V6zm6 7h12v-2H9z"}),"SegmentTwoTone")}}]);

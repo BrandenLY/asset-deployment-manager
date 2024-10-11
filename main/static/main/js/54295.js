@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[54295],{54295:(a,e,n)=>{n.r(e),n.d(e,{default:()=>t});var s=n(675003),h=n(474848);const t=(0,s.A)((0,h.jsx)("path",{d:"M4 9h16v2H4zm0 4h16v2H4z"}),"DragHandleTwoTone")}}]);

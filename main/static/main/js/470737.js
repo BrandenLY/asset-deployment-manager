@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[470737],{470737:(s,a,c)=>{c.r(a),c.d(a,{default:()=>u});var e=c(675003),h=c(474848);const u=(0,e.A)((0,h.jsx)("path",{d:"M4.27 3 3 4.27l9 9v.28c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4v-1.73L19.73 21 21 19.73zM14 7h4V3h-6v5.18l2 2z"}),"MusicOff")}}]);

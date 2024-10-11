@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[448652],{448652:(a,e,s)=>{s.r(e),s.d(e,{default:()=>u});var n=s(675003),t=s(474848);const u=(0,n.A)((0,t.jsx)("path",{d:"M18 9v4H6V9H4v6h16V9z"}),"SpaceBarOutlined")}}]);

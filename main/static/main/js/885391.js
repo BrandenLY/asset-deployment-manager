@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[885391],{885391:(a,h,s)=>{s.r(h),s.d(h,{default:()=>l});var e=s(675003),n=s(474848);const l=(0,e.A)((0,n.jsx)("path",{d:"M12 2C6.49 2 2 6.49 2 12s4.49 10 10 10 10-4.49 10-10S17.51 2 12 2m-1 8V6h2v4h3l-4 4-4-4zm6 7H7v-2h10z"}),"DownloadForOfflineSharp")}}]);

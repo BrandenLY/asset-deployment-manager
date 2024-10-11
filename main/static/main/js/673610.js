@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[673610],{673610:(h,a,e)=>{e.r(a),e.d(a,{default:()=>v});var s=e(675003),t=e(474848);const v=(0,s.A)((0,t.jsx)("path",{d:"M4 21h3v-3h10v3h3v-6H4zm15-11h3v3h-3zM2 10h3v3H2zm15 3H7V5c0-1.1.9-2 2-2h6c1.1 0 2 .9 2 2z"}),"EventSeatSharp")}}]);

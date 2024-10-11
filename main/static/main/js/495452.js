@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[495452],{495452:(a,s,e)=>{e.r(s),e.d(s,{default:()=>t});var h=e(675003),n=e(474848);const t=(0,h.A)((0,n.jsx)("path",{d:"m18 12 4-4-4-4v3H3v2h15zM6 12l-4 4 4 4v-3h15v-2H6z"}),"SyncAlt")}}]);

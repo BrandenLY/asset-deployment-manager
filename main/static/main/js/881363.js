@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[881363],{881363:(h,a,s)=>{s.r(a),s.d(a,{default:()=>l});var e=s(675003),p=s(474848);const l=(0,e.A)((0,p.jsx)("path",{d:"M6 22h12l-6-6zM23 3H1v16h6v-2H3V5h18v12h-4v2h6z"}),"AirplaySharp")}}]);

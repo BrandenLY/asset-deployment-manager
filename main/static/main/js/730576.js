@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[730576],{730576:(h,a,s)=>{s.r(a),s.d(a,{default:()=>d});var e=s(675003),n=s(474848);const d=(0,e.A)((0,n.jsx)("path",{d:"M3 3v18h18V3zm16 16H5V5h14zM11 7h2v2h-2zM7 7h2v2H7zm8 0h2v2h-2z"}),"Padding")}}]);

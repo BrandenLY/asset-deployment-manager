@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[323891],{323891:(a,h,e)=>{e.r(h),e.d(h,{default:()=>c});var n=e(675003),s=e(474848);const c=(0,n.A)((0,s.jsx)("path",{d:"m4.2 5-.7 1.9L17.6 12H3v8h18v-8.86zM7 17H5v-2h2zm12 0H9v-2h10z"}),"ScannerSharp")}}]);

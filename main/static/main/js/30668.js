@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[30668],{30668:(a,e,l)=>{l.r(e),l.d(e,{default:()=>f});var s=l(675003),h=l(474848);const f=(0,s.A)((0,h.jsx)("path",{d:"m22 12-4.97-7H8.66l10.7 10.73zM2 4l1 1v14h14l2 2 1.41-1.41L3.44 2.62z"}),"LabelOffSharp")}}]);

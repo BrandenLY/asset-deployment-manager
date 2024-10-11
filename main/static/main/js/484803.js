@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[484803],{484803:(h,a,s)=>{s.r(a),s.d(a,{default:()=>l});var e=s(675003),t=s(474848);const l=(0,e.A)((0,t.jsx)("path",{d:"M18 4h-6v9h6zM9.5 16H18v2H8L5 8V4h2v4zM8 19h10v2H8z"}),"FlightClassSharp")}}]);

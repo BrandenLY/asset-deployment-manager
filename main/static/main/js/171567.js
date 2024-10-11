@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[171567],{171567:(c,r,e)=>{e.r(r),e.d(r,{default:()=>l});var s=e(675003),a=e(474848);const l=(0,s.A)([(0,a.jsx)("circle",{cx:"7.2",cy:"14.4",r:"3.2"},"0"),(0,a.jsx)("circle",{cx:"14.8",cy:"18",r:"2"},"1"),(0,a.jsx)("circle",{cx:"15.2",cy:"8.8",r:"4.8"},"2")],"BubbleChartSharp")}}]);

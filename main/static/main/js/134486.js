@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[134486],{134486:(h,l,a)=>{a.r(l),a.d(l,{default:()=>t});var s=a(675003),e=a(474848);const t=(0,s.A)((0,e.jsx)("path",{d:"M3 2v12h3v9l7-12H9l4-9zm16 0h-2l-3.2 9h1.9l.7-2h3.2l.7 2h1.9zm-2.15 5.65L18 4l1.15 3.65z"}),"FlashAutoSharp")}}]);

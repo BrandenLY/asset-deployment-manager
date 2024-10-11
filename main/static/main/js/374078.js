@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[374078],{374078:(e,a,l)=>{l.r(a),l.d(a,{default:()=>h});var n=l(675003),s=l(474848);const h=(0,n.A)((0,s.jsx)("path",{d:"M20 15H4v-2h16zm0 2H4v2h16zm-5-6 5-3.55V5l-5 3.55L10 5 4 8.66V11l5.92-3.61z"}),"LegendToggleOutlined")}}]);

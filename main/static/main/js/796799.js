@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[796799],{796799:(h,a,s)=>{s.r(a),s.d(a,{default:()=>v});var e=s(675003),t=s(474848);const v=(0,e.A)((0,t.jsx)("path",{d:"M3 3v18h18V3zm15 5h-2.42v3.33H13v3.33h-2.58V18H6v-2h2.42v-3.33H11V9.33h2.58V6H18z"}),"StairsSharp")}}]);

@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[749620],{749620:(a,h,e)=>{e.r(h),e.d(h,{default:()=>d});var s=e(675003),n=e(474848);const d=(0,s.A)((0,n.jsx)("path",{d:"M22 3h-3V1h-2v2H7V1H5v2H2v20h20zm-2 18H4V8h16z"}),"CalendarTodaySharp")}}]);

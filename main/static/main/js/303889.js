@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[303889],{303889:(h,e,a)=>{a.r(e),a.d(e,{default:()=>u});var s=a(675003),t=a(474848);const u=(0,s.A)((0,t.jsx)("path",{d:"M3 5v14h18V5zm5.33 12H5V7h3.33zm5.34 0h-3.33v-4h3.33zM19 17h-3.33v-4H19zm0-6h-8.67V7H19z"}),"ViewQuiltOutlined")}}]);

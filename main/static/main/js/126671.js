@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[126671],{126671:(s,a,c)=>{c.r(a),c.d(a,{default:()=>n});var e=c(675003),k=c(474848);const n=(0,e.A)((0,k.jsx)("path",{d:"M6 13c-2.2 0-4 1.8-4 4s1.8 4 4 4 4-1.8 4-4-1.8-4-4-4m6-10C9.8 3 8 4.8 8 7s1.8 4 4 4 4-1.8 4-4-1.8-4-4-4m6 10c-2.2 0-4 1.8-4 4s1.8 4 4 4 4-1.8 4-4-1.8-4-4-4"}),"Workspaces")}}]);

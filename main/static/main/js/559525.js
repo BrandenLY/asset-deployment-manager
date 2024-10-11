@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[559525],{559525:(a,e,h)=>{h.r(e),h.d(e,{default:()=>u});var s=h(675003),t=h(474848);const u=(0,s.A)((0,t.jsx)("path",{d:"M22 2H2v20l4-4h16z"}),"ChatBubbleSharp")}}]);

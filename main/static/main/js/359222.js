@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[359222],{359222:(a,s,e)=>{e.r(s),e.d(s,{default:()=>p});var t=e(675003),n=e(474848);const p=(0,t.A)([(0,n.jsx)("path",{d:"M10 8.64v6.72L15.27 12z",opacity:".3"},"0"),(0,n.jsx)("path",{d:"m8 19 11-7L8 5zm2-10.36L15.27 12 10 15.36z"},"1")],"PlayArrowTwoTone")}}]);

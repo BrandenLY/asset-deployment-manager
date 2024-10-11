@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[83127],{83127:(a,h,s)=>{s.r(h),s.d(h,{default:()=>p});var t=s(675003),e=s(474848);const p=(0,t.A)([(0,e.jsx)("path",{d:"M5 5h7V3H3v18h9v-2H5z"},"0"),(0,e.jsx)("path",{d:"m21 12-4-4v3H9v2h8v3z"},"1")],"LogoutSharp")}}]);

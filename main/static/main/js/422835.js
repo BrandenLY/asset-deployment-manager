@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[422835],{422835:(c,a,s)=>{s.r(a),s.d(a,{default:()=>d});var e=s(675003),u=s(474848);const d=(0,e.A)((0,u.jsx)("path",{d:"M6 7c0 .55.45 1 1 1h7.59l-8.88 8.88c-.39.39-.39 1.02 0 1.41.39.39 1.02.39 1.41 0L16 9.41V17c0 .55.45 1 1 1s1-.45 1-1V7c0-.55-.45-1-1-1H7c-.55 0-1 .45-1 1"}),"ArrowOutwardRounded")}}]);

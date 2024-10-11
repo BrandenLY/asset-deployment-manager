@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[146525],{146525:(h,a,e)=>{e.r(a),e.d(a,{default:()=>n});var t=e(675003),s=e(474848);const n=(0,t.A)((0,s.jsx)("path",{d:"M3 12h18v2H3zm11-2V7h5V4H5v3h5v3zm-4 6h4v3h-4z"}),"FormatStrikethroughTwoTone")}}]);

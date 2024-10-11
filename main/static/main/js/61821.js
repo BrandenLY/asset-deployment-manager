@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[61821],{61821:(e,s,t)=>{t.r(s),t.d(s,{default:()=>l});var a=t(675003),h=t(474848);const l=(0,a.A)((0,h.jsx)("path",{d:"M11 7H2v2h9zm0 8H2v2h9zm5.34-4L12.8 7.46l1.41-1.41 2.12 2.12 4.24-4.24L22 5.34zm0 8-3.54-3.54 1.41-1.41 2.12 2.12 4.24-4.24L22 13.34z"}),"ChecklistRtlOutlined")}}]);

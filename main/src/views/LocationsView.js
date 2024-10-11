@@ -32,10 +32,8 @@ const LocationsView = props => {
     // Mutations
     const deleteLocationMutation = useMutation({
         mutationFn: async (data) => {
-            const updateUrl = new URL(`${backend.baseUrl}/${MODELNAME}/${data.id}/`);
-            const requestHeaders = new Headers();
-            requestHeaders.set('Content-Type', 'application/json');
-            requestHeaders.set('X-CSRFToken', backend.csrftoken);
+            const updateUrl = new URL(`${backend.api.baseUrl}/${MODELNAME}/${data.id}/`);
+            const requestHeaders = backend.api.getRequestHeaders();
         
             return fetch( updateUrl, {method:"DELETE", headers:requestHeaders} )
         },

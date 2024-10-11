@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[599860],{599860:(a,h,e)=>{e.r(h),e.d(h,{default:()=>s});var n=e(675003),r=e(474848);const s=(0,n.A)((0,r.jsx)("path",{d:"M23 3H1v18h22zm-2 16h-9v-6h9z"}),"BrandingWatermarkSharp")}}]);

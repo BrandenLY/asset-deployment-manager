@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[167965],{167965:(a,h,v)=>{v.r(h),v.d(h,{default:()=>r});var e=v(675003),s=v(474848);const r=(0,e.A)((0,s.jsx)("path",{d:"M18 14v-2h-6v6h6v-2l2 1.06v-4.12zM12 3 4 9v12h16v-2H6v-9l6-4.5 6 4.5v1h2V9z"}),"CameraOutdoorSharp")}}]);

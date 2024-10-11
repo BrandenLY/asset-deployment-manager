@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[307667],{307667:(a,e,s)=>{s.r(e),s.d(e,{default:()=>l});var h=s(675003),n=s(474848);const l=(0,h.A)((0,n.jsx)("path",{d:"M11.59 7.41 15.17 11H1v2h14.17l-3.59 3.59L13 18l6-6-6-6zM20 6v12h2V6z"}),"KeyboardTabTwoTone")}}]);

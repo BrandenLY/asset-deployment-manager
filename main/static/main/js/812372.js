@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[812372],{812372:(e,c,h)=>{h.r(c),h.d(c,{default:()=>s});var a=h(675003),n=h(474848);const s=(0,a.A)((0,n.jsx)("path",{d:"M18 1.01 8 1c-1.1 0-2 .9-2 2v3h2V5h10v14H8v-1H6v3c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V3c0-1.1-.9-1.99-2-1.99M10 15h2V8H5v2h3.59L3 15.59 4.41 17 10 11.41z"}),"AddToHomeScreenTwoTone")}}]);

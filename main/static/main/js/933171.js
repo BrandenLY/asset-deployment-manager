@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[933171],{933171:(e,a,l)=>{l.r(a),l.d(a,{default:()=>t});var s=l(675003),n=l(474848);const t=(0,s.A)((0,n.jsx)("path",{d:"M17 20.41 18.41 19 15 15.59 13.59 17zM7.5 8H11v5.59L5.59 19 7 20.41l6-6V8h3.5L12 3.5z"}),"CallMergeOutlined")}}]);

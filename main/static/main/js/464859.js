@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[464859],{464859:(s,a,c)=>{c.r(a),c.d(a,{default:()=>h});var e=c(675003),n=c(474848);const h=(0,e.A)((0,n.jsx)("path",{d:"M18 2H6c-1.1 0-2 .9-2 2v18h16V4c0-1.1-.9-2-2-2m-2.5 11.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5"}),"SensorDoor")}}]);

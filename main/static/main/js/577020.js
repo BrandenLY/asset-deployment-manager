@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[577020],{577020:(a,h,e)=>{e.r(h),e.d(h,{default:()=>p});var s=e(675003),n=e(474848);const p=(0,s.A)((0,n.jsx)("path",{d:"M5 1v22h14V1zm12 18H7V5h10z"}),"SmartphoneSharp")}}]);

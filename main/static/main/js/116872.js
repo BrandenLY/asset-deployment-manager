@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[116872],{116872:(c,a,e)=>{e.r(a),e.d(a,{default:()=>h});var n=e(675003),s=e(474848);const h=(0,n.A)((0,s.jsx)("path",{d:"M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2m0 16H5V5h14z"}),"CropDinTwoTone")}}]);

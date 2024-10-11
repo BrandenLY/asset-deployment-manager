@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[819706],{819706:(a,s,c)=>{c.r(s),c.d(s,{default:()=>n});var e=c(675003),h=c(474848);const n=(0,e.A)((0,h.jsx)("path",{d:"M13 3H6v18h4v-6h3c3.31 0 6-2.69 6-6s-2.69-6-6-6m.2 8H10V7h3.2c1.1 0 2 .9 2 2s-.9 2-2 2"}),"LocalParkingOutlined")}}]);

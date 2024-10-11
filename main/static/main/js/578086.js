@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[578086],{578086:(h,a,c)=>{c.r(a),c.d(a,{default:()=>n});var e=c(675003),t=c(474848);const n=(0,e.A)((0,t.jsx)("path",{d:"M21 6H3c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2m0 10H3V8h2v4h2V8h2v4h2V8h2v4h2V8h2v4h2V8h2z"}),"StraightenOutlined")}}]);

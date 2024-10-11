@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[486634],{486634:(a,e,s)=>{s.r(e),s.d(e,{default:()=>u});var n=s(675003),t=s(474848);const u=(0,n.A)((0,t.jsx)("path",{d:"M18 9.86v4.28L14.97 12zm-9 0v4.28L5.97 12zM20 6l-8.5 6 8.5 6zm-9 0-8.5 6 8.5 6z"}),"FastRewindOutlined")}}]);

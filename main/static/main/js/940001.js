@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[940001],{940001:(s,a,c)=>{c.r(a),c.d(a,{default:()=>t});var e=c(675003),h=c(474848);const t=(0,e.A)([(0,h.jsx)("path",{d:"M5 8h14v10H5z",opacity:".3"},"0"),(0,h.jsx)("path",{d:"M19 4H5c-1.11 0-2 .9-2 2v12c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.89-2-2-2m0 14H5V8h14z"},"1")],"WebAssetTwoTone")}}]);

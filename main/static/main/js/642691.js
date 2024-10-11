@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[642691],{642691:(h,a,e)=>{e.r(a),e.d(a,{default:()=>r});var s=e(675003),p=e(474848);const r=(0,s.A)((0,p.jsx)("path",{d:"M22 2H2v15h6v5l4-2 4 2v-5h6zm-2 13H4v-2h16zm0-5H4V4h16z"}),"CardMembershipSharp")}}]);

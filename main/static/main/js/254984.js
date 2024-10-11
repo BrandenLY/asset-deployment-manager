@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[254984],{254984:(a,s,e)=>{e.r(s),e.d(s,{default:()=>t});var h=e(675003),c=e(474848);const t=(0,h.A)((0,c.jsx)("path",{d:"M21 0H2v24h19zm-9.5 23c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5m7.5-4H4V3h15z"}),"TabletMacSharp")}}]);

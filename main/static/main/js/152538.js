@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[152538],{152538:(a,e,h)=>{h.r(e),h.d(e,{default:()=>n});var s=h(675003),t=h(474848);const n=(0,s.A)((0,t.jsx)("path",{d:"M3 19v-6h18v6zM3 5v6h18V5z"}),"ViewStreamSharp")}}]);

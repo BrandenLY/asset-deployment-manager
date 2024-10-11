@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[229e3],{229e3:(e,a,s)=>{s.r(a),s.d(a,{default:()=>n});var h=s(675003),l=s(474848);const n=(0,h.A)((0,l.jsx)("path",{d:"M12 3v10l3-3h6V3zm1.21 14.37c-2.83-1.44-5.15-3.75-6.59-6.59l2.53-2.53L8.54 3H3.03C2.45 13.18 10.82 21.55 21 20.97v-5.51l-5.27-.61z"}),"PermPhoneMsgSharp")}}]);

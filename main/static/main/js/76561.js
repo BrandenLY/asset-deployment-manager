@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[76561],{76561:(s,a,e)=>{e.r(a),e.d(a,{default:()=>c});var n=e(675003),t=e(474848);const c=(0,n.A)((0,t.jsx)("path",{d:"M12 2.02c-5.51 0-9.98 4.47-9.98 9.98s4.47 9.98 9.98 9.98 9.98-4.47 9.98-9.98S17.51 2.02 12 2.02M11.48 20v-6.26H8L13 4v6.26h3.35z"}),"OfflineBolt")}}]);

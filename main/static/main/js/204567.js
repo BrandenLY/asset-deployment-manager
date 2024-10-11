@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[204567],{204567:(a,h,c)=>{c.r(h),c.d(h,{default:()=>n});var e=c(675003),s=c(474848);const n=(0,e.A)((0,s.jsx)("path",{d:"M20 3H4v14h14v-7h2c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2m0 5h-2V5h2zM2 21h18v-2H2z"}),"LocalCafeSharp")}}]);

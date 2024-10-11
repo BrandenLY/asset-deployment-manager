@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[288555],{288555:(a,s,c)=>{c.r(s),c.d(s,{default:()=>t});var e=c(675003),h=c(474848);const t=(0,e.A)((0,h.jsx)("path",{d:"M11 2v20c-5.07-.5-9-4.79-9-10s3.93-9.5 9-10m2.03 0v8.99H22c-.47-4.74-4.24-8.52-8.97-8.99m0 11.01V22c4.74-.47 8.5-4.25 8.97-8.99z"}),"PieChartSharp")}}]);

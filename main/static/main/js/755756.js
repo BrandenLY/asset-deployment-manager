@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[755756],{755756:(a,h,s)=>{s.r(h),s.d(h,{default:()=>t});var e=s(675003),p=s(474848);const t=(0,e.A)((0,p.jsx)("path",{d:"M23 2H1v16h9l-2 3v1h8v-1l-2-3h9zm-2 12H3V4h18z"}),"DesktopMacSharp")}}]);

@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[982734],{982734:(s,a,e)=>{e.r(a),e.d(a,{default:()=>n});var h=e(675003),c=e(474848);const n=(0,h.A)((0,c.jsx)("path",{d:"M4 17h6v2H4zm13-6H4v2h13.25c1.1 0 2 .9 2 2s-.9 2-2 2H15v-2l-3 3 3 3v-2h2c2.21 0 4-1.79 4-4s-1.79-4-4-4M4 5h16v2H4z"}),"WrapTextTwoTone")}}]);

@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[845164],{845164:(h,a,e)=>{e.r(a),e.d(a,{default:()=>c});var v=e(675003),s=e(474848);const c=(0,v.A)((0,s.jsx)("path",{d:"M22 11V3h-7v3H9V3H2v8h7V8h2v10h4v3h7v-8h-7v3h-2V8h2v3z"}),"AccountTreeSharp")}}]);

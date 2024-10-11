@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[162253],{162253:(h,a,e)=>{e.r(a),e.d(a,{default:()=>n});var s=e(675003),m=e(474848);const n=(0,s.A)((0,m.jsx)("path",{d:"M16 3H3v18h18V8zM7 7h5v2H7zm10 10H7v-2h10zm0-4H7v-2h10zm-2-4V5l4 4z"}),"FeedSharp")}}]);

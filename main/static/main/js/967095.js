@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[967095],{967095:(s,a,e)=>{e.r(a),e.d(a,{default:()=>t});var h=e(675003),n=e(474848);const t=(0,h.A)((0,n.jsx)("path",{d:"M22 6h-3v9H6v3h12l4 4zm-5 7V2H2v15l4-4z"}),"QuestionAnswerSharp")}}]);

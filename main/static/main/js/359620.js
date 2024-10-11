@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[359620],{359620:(a,e,l)=>{l.r(e),l.d(e,{default:()=>i}),l(296540);var s=l(675003),h=l(474848);const i=(0,s.A)((0,h.jsx)("path",{d:"M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"}),"PlayCircleFilledWhiteSharp")}}]);

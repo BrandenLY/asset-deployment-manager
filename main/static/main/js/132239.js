@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[132239],{132239:(h,a,s)=>{s.r(a),s.d(a,{default:()=>u});var e=s(675003),t=s(474848);const u=(0,e.A)((0,t.jsx)("path",{d:"M3 21h8V3H3zM21 3h-8v8h8zm-8 18h8v-8h-8z"}),"AutoAwesomeMosaicSharp")}}]);

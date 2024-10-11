@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[630736],{630736:(a,s,e)=>{e.r(s),e.d(s,{default:()=>l});var n=e(675003),h=e(474848);const l=(0,n.A)((0,h.jsx)("path",{d:"M23 20V4H1v16zM8.5 12.5l2.5 3.01L14.5 11l4.5 6H5z"}),"PanoramaSharp")}}]);

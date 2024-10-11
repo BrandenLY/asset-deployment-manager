@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[856568],{856568:(h,s,a)=>{a.r(s),a.d(s,{default:()=>p});var e=a(675003),n=a(474848);const p=(0,e.A)((0,n.jsx)("path",{d:"M2 7h2v7H2zm18 3h2v7h-2zM6 2v20h12V2zm10 15H8V7h8z"}),"EdgesensorLowSharp")}}]);

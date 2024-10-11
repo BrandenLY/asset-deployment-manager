@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[349307],{349307:(a,c,h)=>{h.r(c),h.d(c,{default:()=>e});var s=h(675003),t=h(474848);const e=(0,s.A)((0,t.jsx)("path",{d:"m21 11-6-6v5H8c-2.76 0-5 2.24-5 5v4h2v-4c0-1.65 1.35-3 3-3h7v5z"}),"Shortcut")}}]);

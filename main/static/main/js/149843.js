@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[149843],{149843:(a,h,s)=>{s.r(h),s.d(h,{default:()=>c});var e=s(675003),l=s(474848);const c=(0,e.A)((0,l.jsx)("path",{d:"M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m6 13h-5l-1-2H9.5v5H8V7h6l1 2h3z"}),"FlagCircleSharp")}}]);

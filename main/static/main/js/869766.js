@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[869766],{869766:(e,a,c)=>{c.r(a),c.d(a,{default:()=>n});var s=c(675003),l=c(474848);const n=(0,s.A)((0,l.jsx)("path",{d:"M4.41 22H21c.55 0 1-.45 1-1V4.41c0-.89-1.08-1.34-1.71-.71L3.71 20.29c-.63.63-.19 1.71.7 1.71M20 20h-3V9.83l3-3z"}),"NetworkCellRounded")}}]);

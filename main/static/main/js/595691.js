@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[595691],{595691:(e,a,s)=>{s.r(a),s.d(a,{default:()=>h});var l=s(675003),n=s(474848);const h=(0,l.A)((0,n.jsx)("path",{d:"m16.997 20.41-3.408-3.407 1.4-1.407 3.41 3.408zM5.59 19 7 20.41l6-6V8h3.5L12 3.5 7.5 8H11v5.59z"}),"CallMergeTwoTone")}}]);

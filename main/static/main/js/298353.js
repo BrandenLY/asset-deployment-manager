@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[298353],{298353:(s,a,c)=>{c.r(a),c.d(a,{default:()=>n});var e=c(675003),h=c(474848);const n=(0,e.A)([(0,h.jsx)("path",{d:"M13.94 8.31C13.62 7.52 12.85 7 12 7s-1.62.52-1.94 1.31L7 16h3v6h4v-6h3z"},"0"),(0,h.jsx)("circle",{cx:"12",cy:"4",r:"2"},"1")],"WomanTwoTone")}}]);

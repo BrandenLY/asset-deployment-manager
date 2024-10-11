@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[895822],{895822:(e,a,l)=>{l.r(a),l.d(a,{default:()=>t});var n=l(675003),s=l(474848);const t=(0,n.A)((0,s.jsx)("path",{d:"m5 12 1.41 1.41L12 7.83l5.59 5.58L19 12l-7-7z"}),"KeyboardControlKeyOutlined")}}]);

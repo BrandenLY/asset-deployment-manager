@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[297148],{297148:(h,v,s)=>{s.r(v),s.d(v,{default:()=>d});var a=s(675003),e=s(474848);const d=(0,a.A)([(0,e.jsx)("path",{d:"M15 17h2v-3h1v-2l-1-5H2l-1 5v2h1v6h9v-6h4zm-6 1H4v-4h5zM2 4h15v2H2z"},"0"),(0,e.jsx)("path",{d:"M20 18v-3h-2v3h-3v2h3v3h2v-3h3v-2z"},"1")],"AddBusiness")}}]);

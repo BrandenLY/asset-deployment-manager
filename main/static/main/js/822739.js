@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[822739],{822739:(e,a,l)=>{l.r(a),l.d(a,{default:()=>u});var n=l(675003),s=l(474848);const u=(0,n.A)((0,s.jsx)("path",{fillRule:"evenodd",d:"M4 11h16v2H4z"}),"HorizontalRuleSharp")}}]);

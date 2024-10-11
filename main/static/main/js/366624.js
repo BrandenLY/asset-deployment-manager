@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[366624],{366624:(a,e,h)=>{h.r(e),h.d(e,{default:()=>t});var s=h(675003),n=h(474848);const t=(0,s.A)((0,n.jsx)("path",{d:"M16 9V7H8v10h8v-2h-6v-2h6v-2h-6V9z"}),"EMobiledataTwoTone")}}]);

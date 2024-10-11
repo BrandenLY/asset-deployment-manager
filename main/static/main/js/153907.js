@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[153907],{153907:(a,e,s)=>{s.r(e),s.d(e,{default:()=>r});var h=s(675003),n=s(474848);const r=(0,h.A)((0,n.jsx)("path",{d:"M22 4H2v16h20zm-2 4-8 5-8-5V6l8 5 8-5z"}),"MarkunreadSharp")}}]);

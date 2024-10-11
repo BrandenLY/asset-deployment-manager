@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[406239],{406239:(a,e,h)=>{h.r(e),h.d(e,{default:()=>t});var s=h(675003),l=h(474848);const t=(0,s.A)((0,l.jsx)("path",{d:"M2 22h20V2zm18-2h-3V9.83l3-3z"}),"NetworkCellSharp")}}]);

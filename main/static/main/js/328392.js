@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[328392],{328392:(a,e,s)=>{s.r(e),s.d(e,{default:()=>c});var h=s(675003),l=s(474848);const c=(0,h.A)((0,l.jsx)("path",{d:"M18 10.48V4H2v16h16v-6.48l4 3.98v-11zM5 16l2.38-3.17L9 15l2.62-3.5L15 16z"}),"VideoCameraBackSharp")}}]);

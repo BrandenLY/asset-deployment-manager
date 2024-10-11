@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[101874],{101874:(s,a,c)=>{c.r(a),c.d(a,{default:()=>u});var e=c(675003),t=c(474848);const u=(0,e.A)((0,t.jsx)("path",{d:"M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3zm-2 16c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2"}),"AudiotrackOutlined")}}]);

@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[538051],{538051:(a,h,s)=>{s.r(h),s.d(h,{default:()=>t});var e=s(675003),n=s(474848);const t=(0,e.A)((0,n.jsx)("path",{d:"M12.01 5.5 10 8h4zM18 10v4l2.5-1.99zM6 10l-2.5 2.01L6 14zm8 6h-4l2.01 2.5zm9-13H1v18h22zm-2 16.01H3V4.99h18z"}),"SettingsOverscanSharp")}}]);

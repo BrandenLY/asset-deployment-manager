@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[514262],{514262:(c,e,h)=>{h.r(e),h.d(e,{default:()=>u});var s=h(675003),a=h(474848);const u=(0,s.A)((0,a.jsx)("path",{d:"M3 5v14c0 1.1.89 2 2 2h6V3H5c-1.11 0-2 .9-2 2m16-2h-6v8h8V5c0-1.1-.9-2-2-2m-6 18h6c1.1 0 2-.9 2-2v-6h-8z"}),"AutoAwesomeMosaicRounded")}}]);

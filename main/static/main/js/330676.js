@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[330676],{330676:(a,h,e)=>{e.r(h),e.d(h,{default:()=>t});var s=e(675003),n=e(474848);const t=(0,s.A)((0,n.jsx)("path",{d:"M15 4v2h3v12h-3v2h5V4zM4 20h5v-2H6V6h3V4H4z"}),"DataArrayTwoTone")}}]);

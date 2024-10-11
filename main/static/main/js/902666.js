@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[902666],{902666:(h,c,a)=>{a.r(c),a.d(c,{default:()=>n});var e=a(675003),s=a(474848);const n=(0,e.A)((0,s.jsx)("path",{d:"M6 3h12v2H6zm11 3H7c-1.1 0-2 .9-2 2v11c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2m-1 9h-2.5v2.5h-3V15H8v-3h2.5V9.5h3V12H16z"}),"Medication")}}]);

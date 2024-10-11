@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[355086],{355086:(e,a,s)=>{s.r(a),s.d(a,{default:()=>r});var h=s(675003),n=s(474848);const r=(0,h.A)((0,n.jsx)("path",{d:"M4.01 2 4 22h16V8l-6-6zM13 9V3.5L18.5 9z"}),"InsertDriveFileSharp")}}]);

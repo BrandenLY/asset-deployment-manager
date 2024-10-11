@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[534597],{534597:(h,a,e)=>{e.r(a),e.d(a,{default:()=>p});var v=e(675003),s=e(474848);const p=(0,v.A)((0,s.jsx)("path",{d:"M3 3v6h2V5h4V3zm2 12H3v6h6v-2H5zm14 4h-4v2h6v-6h-2zm2-16h-6v2h4v4h2z"}),"CropFreeSharp")}}]);

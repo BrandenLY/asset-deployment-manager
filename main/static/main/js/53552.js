@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[53552],{53552:(a,c,e)=>{e.r(c),e.d(c,{default:()=>u});var s=e(675003),h=e(474848);const u=(0,s.A)((0,h.jsx)("path",{d:"M18 4H6c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2m0 14H6V6h12z"}),"CropSquare")}}]);

@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[312913],{312913:(a,s,e)=>{e.r(s),e.d(s,{default:()=>n});var h=e(675003),t=e(474848);const n=(0,h.A)((0,t.jsx)("path",{d:"M21.99 6.86 12 1 2 6.86V20h20zM12 13 3.74 7.84 12 3l8.26 4.84z"}),"DraftsSharp")}}]);

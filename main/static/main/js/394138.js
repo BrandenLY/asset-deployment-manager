@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[394138],{394138:(c,e,h)=>{h.r(e),h.d(e,{default:()=>d});var a=h(675003),s=h(474848);const d=(0,a.A)((0,s.jsx)("path",{d:"M20 2H4c-1.11 0-2 .89-2 2v11c0 1.11.89 2 2 2h4v5l4-2 4 2v-5h4c1.11 0 2-.89 2-2V4c0-1.11-.89-2-2-2m0 13H4v-2h16zm0-5H4V5c0-.55.45-1 1-1h14c.55 0 1 .45 1 1z"}),"CardMembershipRounded")}}]);

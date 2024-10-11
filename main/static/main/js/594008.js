@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[594008],{594008:(h,a,c)=>{c.r(a),c.d(a,{default:()=>e});var s=c(675003),v=c(474848);const e=(0,s.A)((0,v.jsx)("path",{d:"M23 3H1v5h2V5h18v14h-7v2h9zM1 18v3h3c0-1.66-1.34-3-3-3m0-4v2c2.76 0 5 2.24 5 5h2c0-3.87-3.13-7-7-7m0-4v2c4.97 0 9 4.03 9 9h2c0-6.08-4.93-11-11-11"}),"CastSharp")}}]);

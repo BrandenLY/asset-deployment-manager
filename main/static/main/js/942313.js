@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[942313],{942313:(a,l,s)=>{s.r(l),s.d(l,{default:()=>h});var e=s(675003),t=s(474848);const h=(0,e.A)((0,t.jsx)("path",{d:"m14 4 2.29 2.29-2.88 2.88 1.42 1.42 2.88-2.88L20 10V4zm-4 0H4v6l2.29-2.29 4.71 4.7V20h2v-8.41l-5.29-5.3z"}),"CallSplit")}}]);

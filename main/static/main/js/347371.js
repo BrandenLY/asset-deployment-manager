@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[347371],{347371:(h,e,s)=>{s.r(e),s.d(e,{default:()=>n});var a=s(675003),l=s(474848);const n=(0,a.A)((0,l.jsx)("path",{d:"M22 7h-9v2h9zm0 8h-9v2h9zM5.54 11 2 7.46l1.41-1.41 2.12 2.12 4.24-4.24 1.41 1.41zm0 8L2 15.46l1.41-1.41 2.12 2.12 4.24-4.24 1.41 1.41z"}),"ChecklistTwoTone")}}]);

@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[243513],{243513:(h,a,s)=>{s.r(a),s.d(a,{default:()=>p});var c=s(675003),e=s(474848);const p=(0,c.A)((0,e.jsx)("path",{d:"M16 6V4c0-1.1-.9-2-2-2h-4c-1.1 0-2 .9-2 2v2H2v15h20V6zm-6-2h4v2h-4zM9 18V9l7.5 4z"}),"ShopSharp")}}]);

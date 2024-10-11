@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[846421],{846421:(h,a,e)=>{e.r(a),e.d(a,{default:()=>m});var s=e(675003),z=e(474848);const m=(0,s.A)((0,z.jsx)("path",{d:"M14 16h5V8h-5zm2-6h1v4h-1zm-8 6h5V8H8zm2-6h1v4h-1zM5 8h2v8H5zM2 4v16h20V4zm18 14H4V6h16z"}),"MoneySharp")}}]);

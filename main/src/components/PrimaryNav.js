@@ -1,5 +1,5 @@
 import React, {useContext, useState} from 'react';
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Drawer from '@mui/material/Drawer';
@@ -9,14 +9,15 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemIcon from '@mui/material/ListItemIcon';
-import { Menu, LocalShipping, Assignment, Close, LibraryBooks, Place, DevicesOther, People, Groups, Group, PersonAdd, Article, DeviceUnknown } from '@mui/icons-material';
+import { Menu, LocalShipping, Assignment, Close, LibraryBooks, Place, DevicesOther, People, Groups, Group, PersonAdd, Article, DeviceUnknown, Logout } from '@mui/icons-material';
 import Typography from '@mui/material/Typography';
-import { Divider, useTheme } from '@mui/material';
+import { Button, Divider, useTheme } from '@mui/material';
 import { useCurrentUser } from '../customHooks';
 import { backendApiContext } from '../context';
 
 const PrimaryNav = props => {
 
+    const theme = useTheme();
     const [expanded, setExpanded] = useState(false);
     const drawerWidth = "300px";
     const navHeight = "70px";
@@ -27,7 +28,8 @@ const PrimaryNav = props => {
             className="PrimaryNav"
             sx={{
                 gridArea: "nav", 
-                bgcolor: "primary.dark", 
+                backgroundColor: "primary.dark",
+                backgroundImage: `linear-gradient(9deg, ${theme.palette.primary.light} 0%, ${theme.palette.primary.dark} 100%) !important;`,
                 padding: 1, 
                 display: "flex",
                 justifyContent: "space-between", 
@@ -40,7 +42,7 @@ const PrimaryNav = props => {
             color="primary"
         >
             <NavLogo />
-            <IconButton onClick={() => setExpanded(!expanded)} size="large">
+            <IconButton onClick={() => setExpanded(!expanded)} size="large" sx={{color: theme.palette.primary.contrastText}}>
                 {expanded ? 
                 <Close fontSize="inherit"></Close>
                 :
@@ -153,8 +155,8 @@ const NavDrawer = props =>{
                         }) }
                     </List>
                 </Box>
-                <Box position="absolute" bottom={0} width="100%" border="1px solid red">
-                    <Typography>Test</Typography>
+                <Box position="absolute" bottom={0} width="100%">
+                    <Button variant="outlined" color="error" starIcon={<Logout />} onClick={() => {window.location.href="/logout"}}>Logout</Button>
                 </Box>
             </Box>
         </Drawer>

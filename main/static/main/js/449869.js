@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[449869],{449869:(a,c,e)=>{e.r(c),e.d(c,{default:()=>t});var h=e(675003),s=e(474848);const t=(0,h.A)((0,s.jsx)("path",{d:"M17 1.01 7 1c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V3c0-1.1-.9-1.99-2-1.99M17 19H7V5h10zm-1-6h-3V8h-2v5H8l4 4z"}),"SystemUpdate")}}]);

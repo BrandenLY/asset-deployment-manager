@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[639504],{639504:(h,e,v)=>{v.r(e),v.d(e,{default:()=>n});var u=v(675003),a=v(474848);const n=(0,u.A)((0,a.jsx)("path",{d:"M13.5 3H7v9H5v2h2v2H5v2h2v3h2v-3h4v-2H9v-2h4.5c3.04 0 5.5-2.46 5.5-5.5S16.54 3 13.5 3m0 9H9V5h4.5C15.43 5 17 6.57 17 8.5S15.43 12 13.5 12"}),"CurrencyRubleOutlined")}}]);

@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[507923],{507923:(h,a,c)=>{c.r(a),c.d(a,{default:()=>s});var e=c(675003),n=c(474848);const s=(0,e.A)((0,n.jsx)("path",{d:"M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2M9 17H7V7h2zm4-5h-2V7h2zm4 3h-2V7h2z"}),"ViewKanban")}}]);

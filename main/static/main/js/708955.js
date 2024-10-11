@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[708955],{708955:(a,e,h)=>{h.r(e),h.d(e,{default:()=>r});var s=h(675003),n=h(474848);const r=(0,s.A)((0,n.jsx)("path",{d:"M22 6H10v6H8V4h6V0H6v6H2v16h20z"}),"MarkunreadMailboxSharp")}}]);

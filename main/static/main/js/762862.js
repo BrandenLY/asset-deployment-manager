@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[762862],{762862:(a,h,e)=>{e.r(h),e.d(h,{default:()=>n});var s=e(675003),t=e(474848);const n=(0,s.A)((0,t.jsx)("path",{d:"M2 2v20l4-4h16V2zm15 11-2-1.99V14H7V6h8v2.99L17 7z"}),"VideoChatSharp")}}]);

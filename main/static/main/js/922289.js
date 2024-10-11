@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[922289],{922289:(a,h,e)=>{e.r(h),e.d(h,{default:()=>n});var s=e(675003),l=e(474848);const n=(0,s.A)((0,l.jsx)("path",{d:"M23 6h-9.59l3.29-3.29L16 2l-4 4-4-4-.71.71L10.59 6H1v16h22zm-2 14H3V8h18zM9 10v8l7-4z"}),"LiveTvSharp")}}]);

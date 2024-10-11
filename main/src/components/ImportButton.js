@@ -32,12 +32,9 @@ function ImportButton(props) {
     // Mutations
     const api = useMutation({
         mutationFn: async ( data ) => {
-            const updateUrl = new URL(
-              `${backend.baseUrl}/${model}${data.id ? `/${data.id}/` : "/"}`
-            );
-            const requestHeaders = new Headers();
-            requestHeaders.set("Content-Type", "application/json");
-            requestHeaders.set("X-CSRFToken", backend.csrftoken);
+            console.log(backend.api.baseUrl, model, data);
+            const updateUrl = new URL(`${backend.api.baseUrl}/${model}/${data.id ? data.id + "/" : ""}`);
+            const requestHeaders = backend.api.getRequestHeaders();
           
             return fetch(updateUrl, {
               method: data.hasOwnProperty('id') ? 'PUT' : 'POST',
@@ -143,11 +140,9 @@ function ImportButton(props) {
             })
 
             // Perform advanced backend validation.
-            const updateUrl = new URL(`${backend.baseUrl}/${model}/validate/`);
+            const updateUrl = new URL(`${backend.api.baseUrl}/${model}/validate/`);
             
-            const requestHeaders = new Headers();
-            requestHeaders.set("Content-Type", "application/json");
-            requestHeaders.set("X-CSRFToken", backend.csrftoken);
+            const requestHeaders = backend.api.getRequestHeaders();
 
             const res = await fetch(updateUrl, {
             method: "POST",
@@ -157,12 +152,14 @@ function ImportButton(props) {
 
             if (!res.ok){
                 const data = await res.json();
-                const fieldErrors = Object.entries(data['errors'])
-                .map( ([fieldName, errors]) => `${fieldName}: ${errors.join(', ')}`);
-
-                const errorMessage = `Row ${data['row']}: ${fieldErrors}`;
-
-                uploadErrors.push(errorMessage);
+                if (data.hasOwnProperty('errors')){
+                    const fieldErrors = Object.entries(data['errors'])
+                    .map( ([fieldName, errors]) => `${fieldName}: ${errors.join(', ')}`);
+    
+                    const errorMessage = `Row ${data['row']}: ${fieldErrors}`;
+    
+                    uploadErrors.push(errorMessage);
+                }
             }
 
             // Update error state and end execution

@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[869147],{869147:(h,s,t)=>{t.r(s),t.d(s,{default:()=>n});var a=t(675003),e=t(474848);const n=(0,a.A)((0,e.jsx)("path",{d:"m12.36 6 .08.39.32 1.61H18v6h-3.36l-.08-.39-.32-1.61H7V6zM14 4H5v17h2v-7h5.6l.4 2h7V6h-5.6z"}),"AssistantPhotoOutlined")}}]);

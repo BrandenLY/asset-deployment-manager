@@ -26,7 +26,7 @@ SECRET_KEY = "d7T1JA8dBBaFa0yMY+KVNfb3i/8aMLIrYepgxTN8sTk="
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['192.168.0.69', '127.0.0.1']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -137,10 +137,7 @@ MEDIA_ROOT = BASE_DIR / "USER_MEDIA"
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/'
-
-STATICFILES_DIRS = [
-    BASE_DIR / "main" / "static",
-]
+STATIC_ROOT = BASE_DIR / "static"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field

@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[452677],{452677:(h,a,e)=>{e.r(a),e.d(a,{default:()=>n});var l=e(675003),s=e(474848);const n=(0,l.A)((0,s.jsx)("path",{d:"M14 12v2.5l5.5 5.5H22zm0 8h3l-3-3zM8 4l-6 6h2v10h8V10h2zm1 10H7v-4h2z"}),"WbShadeOutlined")}}]);

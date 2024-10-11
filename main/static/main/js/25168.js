@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[25168],{25168:(h,c,e)=>{e.r(c),e.d(c,{default:()=>v});var a=e(675003),s=e(474848);const v=(0,a.A)((0,s.jsx)("path",{d:"M17 17h2v4c0 1.1-.9 2-2 2H7c-1.1 0-2-.9-2-2V3c0-1.1.9-1.99 2-1.99L17 1c1.1 0 2 .9 2 2v4h-2V6H7v12h10zm5-5-4-4v3h-5v2h5v3z"}),"SendToMobile")}}]);

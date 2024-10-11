@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[56702],{56702:(h,a,e)=>{e.r(a),e.d(a,{default:()=>n});var s=e(675003),m=e(474848);const n=(0,s.A)((0,m.jsx)("path",{d:"M21.99 2H2v16h16l4 4zM18 14H6v-2h12zm0-3H6V9h12zm0-3H6V6h12z"}),"CommentSharp")}}]);

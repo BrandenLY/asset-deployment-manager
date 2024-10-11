@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[127992],{127992:(a,e,h)=>{h.r(e),h.d(e,{default:()=>p});var s=h(675003),n=h(474848);const p=(0,s.A)((0,n.jsx)("path",{d:"M23 3H1v18h22zm-2 13H3V5h18z"}),"VideoLabelSharp")}}]);

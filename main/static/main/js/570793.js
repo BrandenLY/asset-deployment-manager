@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[570793],{570793:(a,e,h)=>{h.r(e),h.d(e,{default:()=>c});var s=h(675003),t=h(474848);const c=(0,s.A)((0,t.jsx)("path",{d:"M20 19V3H4v16H2v2h20v-2zm-10 0V5h4v14z"}),"VerticalShadesSharp")}}]);

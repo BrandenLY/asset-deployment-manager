@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[85831],{85831:(a,e,n)=>{n.r(e),n.d(e,{default:()=>l});var s=n(675003),h=n(474848);const l=(0,s.A)((0,h.jsx)("path",{d:"M20.13 5.41 18.72 4l-9.19 9.19-4.25-4.24-1.41 1.41 5.66 5.66zM5 18h14v2H5z"}),"FileDownloadDoneSharp")}}]);

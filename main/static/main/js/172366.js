@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[172366],{172366:(h,a,e)=>{e.r(a),e.d(a,{default:()=>r});var s=e(675003),v=e(474848);const r=(0,s.A)((0,v.jsx)("path",{d:"M20 2v6H6V6H4v4h10v5h2v8h-6v-8h2v-3H2V4h4V2z"}),"ImagesearchRollerSharp")}}]);

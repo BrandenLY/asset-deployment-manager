@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[573335],{573335:(a,e,h)=>{h.r(e),h.d(e,{default:()=>n});var s=h(675003),t=h(474848);const n=(0,s.A)((0,t.jsx)("path",{d:"M5 4v3h5.5v12h3V7H19V4z"}),"TitleSharp")}}]);

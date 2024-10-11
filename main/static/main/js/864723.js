@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[864723],{864723:(a,e,n)=>{n.r(e),n.d(e,{default:()=>h});var s=n(675003),t=n(474848);const h=(0,s.A)((0,t.jsx)("path",{d:"m22 12-4-4v3H3v2h15v3z"}),"TrendingFlat")}}]);

@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[264883],{264883:(a,e,n)=>{n.r(e),n.d(e,{default:()=>t});var s=n(675003),h=n(474848);const t=(0,s.A)((0,h.jsx)("path",{d:"M19 3H5.01L5 21l7-3 7 3zm-2 15-5-2.18L7 18V5h10z"}),"TurnedInNotSharp")}}]);

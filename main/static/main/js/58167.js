@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[58167],{58167:(c,e,a)=>{a.r(e),a.d(e,{default:()=>n});var s=a(675003),i=a(474848);const n=(0,s.A)((0,i.jsx)("circle",{cx:"12",cy:"18",r:"2"}),"Wifi1BarRounded")}}]);

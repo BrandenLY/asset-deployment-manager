@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[82284],{82284:(v,h,l)=>{l.r(h),l.d(h,{default:()=>a});var s=l(675003),V=l(474848);const a=(0,s.A)((0,V.jsx)("path",{d:"M21 3v2h-2V3h-2v2h-2V3h-2v4l2 2v1H9V9l2-2V3H9v2H7V3H5v2H3V3H1v4l2 2v6l-2 2v4h9v-3c0-1.1.9-2 2-2s2 .9 2 2v3h9v-4l-2-2V9l2-2V3z"}),"Fort")}}]);

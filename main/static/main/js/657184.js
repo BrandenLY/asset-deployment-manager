@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[657184],{657184:(h,a,e)=>{e.r(a),e.d(a,{default:()=>m});var n=e(675003),s=e(474848);const m=(0,n.A)((0,s.jsx)("path",{d:"M4 7h16v2H4zm0 6h16v-2H4zm0 4h7v-2H4zm0 4h7v-2H4zm11.41-2.83L14 16.75l-1.41 1.41L15.41 21 20 16.42 18.58 15zM4 3v2h16V3z"}),"GradingTwoTone")}}]);

@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[229094],{229094:(h,z,m)=>{m.r(z),m.d(z,{default:()=>H});var a=m(675003),e=m(474848);const H=(0,a.A)((0,e.jsx)("path",{d:"M22 3H2.01L2 17h20zM11 6h2v2h-2zm0 3h2v2h-2zM8 6h2v2H8zm0 3h2v2H8zm-1 2H5V9h2zm0-3H5V6h2zm9 7H8v-2h8zm0-4h-2V9h2zm0-3h-2V6h2zm3 3h-2V9h2zm0-3h-2V6h2zm-7 15 4-4H8z"}),"KeyboardHideSharp")}}]);

@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[58670],{58670:(a,s,c)=>{c.r(s),c.d(s,{default:()=>h});var t=c(675003),e=c(474848);const h=(0,t.A)([(0,e.jsx)("path",{d:"M9.5 7.5v9l7-4.5z"},"0"),(0,e.jsx)("path",{d:"M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2m0 14.01H4V5.99h16z"},"1")],"SmartDisplayOutlined")}}]);

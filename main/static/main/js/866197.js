@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[866197],{866197:(a,e,s)=>{s.r(e),s.d(e,{default:()=>n});var c=s(675003),k=s(474848);const n=(0,c.A)((0,k.jsx)("path",{d:"M17 3H7c-1.1 0-2 .9-2 2v16l7-3 7 3V5c0-1.1-.9-2-2-2m0 15-5-2.18L7 18V5h10z"}),"BookmarkBorderTwoTone")}}]);

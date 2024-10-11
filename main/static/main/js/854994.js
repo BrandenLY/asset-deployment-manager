@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[854994],{854994:(h,a,e)=>{e.r(a),e.d(a,{default:()=>m});var n=e(675003),s=e(474848);const m=(0,n.A)((0,s.jsx)("path",{d:"M1 21h22L12 2zm3.47-2L12 5.99 19.53 19zM11 16h2v2h-2zm0-6h2v4h-2z"}),"WarningAmberTwoTone")}}]);

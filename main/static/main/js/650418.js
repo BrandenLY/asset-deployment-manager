@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[650418],{650418:(h,a,s)=>{s.r(a),s.d(a,{default:()=>n});var e=s(675003),v=s(474848);const n=(0,e.A)((0,v.jsx)("path",{d:"M21 3H3v18h18zM5.5 7.5h2v-2H9v2h2V9H9v2H7.5V9h-2zM19 19H5L19 5zm-2-2v-1.5h-5V17z"}),"IsoSharp")}}]);

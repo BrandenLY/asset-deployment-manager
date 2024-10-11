@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[509481],{509481:(a,e,s)=>{s.r(e),s.d(e,{default:()=>k});var c=s(675003),h=s(474848);const k=(0,c.A)((0,h.jsx)("path",{d:"M21 7h-6V5h6zm-2 3.9c-.32.07-.66.1-1 .1-2.76 0-5-2.24-5-5 0-1.13.37-2.16 1-3H7c-1.1 0-2 .9-2 2v16l7-3 7 3z"}),"BookmarkRemove")}}]);

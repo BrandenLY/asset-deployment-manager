@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[139178],{139178:(e,a,n)=>{n.r(a),n.d(a,{default:()=>h});var s=n(675003),t=n(474848);const h=(0,s.A)((0,t.jsx)("path",{d:"M15.98 6 9 12.77V8H6v10h10v-3h-4.85L18 8.03z"}),"TransitEnterexitTwoTone")}}]);

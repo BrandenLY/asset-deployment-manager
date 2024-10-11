@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[200636],{200636:(a,h,s)=>{s.r(h),s.d(h,{default:()=>n});var e=s(675003),l=s(474848);const n=(0,e.A)((0,l.jsx)("path",{d:"M2.5 19h19v2h-19zm16.84-3.15c.8.21 1.62-.26 1.84-1.06.21-.8-.26-1.62-1.06-1.84l-5.31-1.42-2.76-9.02L10.12 2v8.28L5.15 8.95l-.93-2.32-1.45-.39v5.17z"}),"FlightLandSharp")}}]);

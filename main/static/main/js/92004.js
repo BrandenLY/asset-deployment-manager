@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[92004],{92004:(a,c,e)=>{e.r(c),e.d(c,{default:()=>t});var h=e(675003),s=e(474848);const t=(0,h.A)((0,s.jsx)("path",{d:"M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2m0 14H4v-6h16zm0-10H4V6h16z"}),"CreditCardOutlined")}}]);

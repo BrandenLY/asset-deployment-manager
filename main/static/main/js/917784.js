@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[917784],{917784:(h,t,a)=>{a.r(t),a.d(t,{default:()=>n});var e=a(675003),s=a(474848);const n=(0,e.A)((0,s.jsx)("path",{d:"M9 3 5 6.99h3V14h2V6.99h3zm7 14.01V10h-2v7.01h-3L15 21l4-3.99z"}),"ImportExportOutlined")}}]);

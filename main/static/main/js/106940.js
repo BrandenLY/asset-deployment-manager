@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[106940],{106940:(e,h,a)=>{a.r(h),a.d(h,{default:()=>v});var s=a(675003),u=a(474848);const v=(0,s.A)((0,u.jsx)("path",{d:"M23 3H1v16h7v2h8v-2h7zm-2 14H3V5h18zm-5-7v2H8v-2z"}),"RemoveFromQueueSharp")}}]);

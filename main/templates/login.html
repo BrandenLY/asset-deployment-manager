@@ -4,15 +4,9 @@
 {% block 'temp-content' %}
         <style>
             body{
-                --c1: #d7263d;
-                --c2: #010B13;
-                --c3: #0D161C;
-                --c4: #0779C5;
-                --c5: #FCF7F8;
                 margin: 0;
-                background-color: var(--c2);
-                color: var(--c5);
-                font-family: Roboto;
+                font-family: "Roboto", sans-serif;
+                color: #07002B;
             }
             #main-content{
                 width: 100%;
@@ -29,7 +23,7 @@
                 justify-content: flex-end;
                 padding: 60px 35px 30px 35px;
                 border-radius: 5px;
-                background-color: rgba(200,200,200,0.15);
+                background-color: rgba(0,0,0,0.15);
                 -webkit-box-shadow: 15px 15px 23px -22px rgba(0,0,0,0.75);
                 -moz-box-shadow: 15px 15px 23px -22px rgba(0,0,0,0.75);
                 box-shadow: 15px 15px 23px -22px rgba(0,0,0,0.75);
@@ -101,11 +95,19 @@
                 text-transform: uppercase;
                 font-weight: bold;
                 font-size: 20px;
-                background-color: var(--c4);
-                color: var(--c5);
+                background-color: #BF104E;
+                color: white;
+                cursor: pointer;
+            }
+            #login-form>input[type="submit"]:hover,
+            #login-form>input[type="submit"]:active,
+            #login-form>input[type="submit"]:focus{
+                -webkit-box-shadow: 15px 15px 23px -22px rgba(0,0,0,0.75);
+                -moz-box-shadow: 15px 15px 23px -22px rgba(0,0,0,0.75);
+                box-shadow: 15px 15px 23px -22px rgba(0,0,0,0.75);
             }
         </style>
-        <span style="font-size: 35px;">CONFIG<sub style="color:var(--c1);">View</sub></span>
+        <span style="font-size: 35px;">IMS<sub style="color:#BF104E;">Demo</sub></span>
         <form id="login-form" action="" method="post">
             {% if form.non_field_errors %}
             <div class="non-field-errors">
@@ -115,7 +117,7 @@
             </div>
             {% endif %}
             {% csrf_token %}
-            <h3 style="font-size: 25px; color: var(--c4);">Login</h3>
+            <h3>Login</h3>
             <div>
                 {{form.username.label_tag}}
                 {{form.username}}

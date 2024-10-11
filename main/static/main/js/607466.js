@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[607466],{607466:(h,a,e)=>{e.r(a),e.d(a,{default:()=>n});var s=e(675003),t=e(474848);const n=(0,s.A)([(0,t.jsx)("path",{d:"M9 7h6v10H9z",opacity:".3"},"0"),(0,t.jsx)("path",{d:"M2 7h4v10H2zm5 12h10V5H7zM9 7h6v10H9zm9 0h4v10h-4z"},"1")],"ViewCarouselTwoTone")}}]);

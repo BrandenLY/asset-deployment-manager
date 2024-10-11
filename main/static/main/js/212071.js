@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[212071],{212071:(e,a,i)=>{i.r(a),i.d(a,{default:()=>t});var n=i(675003),s=i(474848);const t=(0,n.A)((0,s.jsx)("path",{d:"M6 19h12v2H6z"}),"MinimizeOutlined")}}]);

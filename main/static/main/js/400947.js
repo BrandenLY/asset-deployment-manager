@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[400947],{400947:(h,s,a)=>{a.r(s),a.d(s,{default:()=>l});var t=a(675003),e=a(474848);const l=(0,t.A)([(0,e.jsx)("path",{d:"m14.24 12 .4 2H18V8h-5.24l-.4-2H7v6z",opacity:".3"},"0"),(0,e.jsx)("path",{d:"M7 14h5.6l.4 2h7V6h-5.6L14 4H5v17h2zm0-8h5.36l.4 2H18v6h-3.36l-.4-2H7z"},"1")],"AssistantPhotoTwoTone")}}]);

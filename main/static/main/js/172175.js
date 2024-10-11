@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[172175],{172175:(c,a,e)=>{e.r(a),e.d(a,{default:()=>l});var h=e(675003),s=e(474848);const l=(0,h.A)((0,s.jsx)("path",{d:"M2 6H0v5h.01L0 20c0 1.1.9 2 2 2h18v-2H2zm20-2h-8l-2-2H6c-1.1 0-1.99.9-1.99 2L4 16c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2M7 15l4.5-6 3.5 4.51 2.5-3.01L21 15z"}),"PermMedia")}}]);

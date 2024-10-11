@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[855165],{855165:(a,h,s)=>{s.r(h),s.d(h,{default:()=>n});var e=s(675003),l=s(474848);const n=(0,e.A)((0,l.jsx)("path",{d:"M10 8v8l5-4zm11-5H3v18h18zm-2 16H5V5h14z"}),"SlideshowSharp")}}]);

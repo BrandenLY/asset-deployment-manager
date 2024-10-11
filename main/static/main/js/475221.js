@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[475221],{475221:(h,v,a)=>{a.r(v),a.d(v,{default:()=>m});var s=a(675003),e=a(474848);const m=(0,s.A)((0,e.jsx)("path",{d:"M23 3H1v16h7v2h8v-2h7zm-2 14H3V5h18zm-2-9H8v2h11zm0 4H8v2h11zM7 8H5v2h2zm0 4H5v2h2z"}),"DvrSharp")}}]);

@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[291432],{69051:(a,h,e)=>{e.r(h),e.d(h,{default:()=>n});var s=e(675003),p=e(474848);const n=(0,s.A)((0,p.jsx)("path",{d:"M16 1H2v16h2V3h12zm-1 4 6 6v12H6V5zm-1 7h5.5L14 6.5z"}),"FileCopySharp")}}]);

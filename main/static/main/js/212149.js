@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[212149],{212149:(h,e,s)=>{s.r(e),s.d(e,{default:()=>t});var a=s(675003),n=s(474848);const t=(0,a.A)((0,n.jsx)("path",{d:"M12.5 12h3v7h3v-7h3V9h-9zm3-8h-13v3h5v12h3V7h5z"}),"TextFieldsTwoTone")}}]);

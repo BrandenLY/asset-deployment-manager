@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[811203],{811203:(e,a,s)=>{s.r(a),s.d(a,{default:()=>u});var n=s(675003),t=s(474848);const u=(0,n.A)((0,t.jsx)("path",{d:"M19 13H5v-2h14z"}),"RemoveOutlined")}}]);

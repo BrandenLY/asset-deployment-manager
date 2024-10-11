@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[960664],{960664:(e,a,n)=>{n.r(a),n.d(a,{default:()=>u});var s=n(675003),t=n(474848);const u=(0,s.A)((0,t.jsx)("path",{d:"M19 7v4H5.83l3.58-3.59L8 6l-6 6 6 6 1.41-1.41L5.83 13H21V7z"}),"KeyboardReturnOutlined")}}]);

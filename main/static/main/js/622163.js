@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[622163],{622163:(a,e,s)=>{s.r(e),s.d(e,{default:()=>n});var c=s(675003),l=s(474848);const n=(0,c.A)((0,l.jsx)("path",{d:"M21 11H6.83l3.58-3.59L9 6l-6 6 6 6 1.41-1.41L6.83 13H21z"}),"KeyboardBackspaceOutlined")}}]);

@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[317347],{317347:(a,c,e)=>{e.r(c),e.d(c,{default:()=>t});var h=e(675003),s=e(474848);const t=(0,h.A)([(0,s.jsx)("path",{d:"M5 6h14v12H5z",opacity:".3"},"0"),(0,s.jsx)("path",{d:"M21 4H3c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h18c1.1 0 1.99-.9 1.99-2L23 6c0-1.1-.9-2-2-2m-2 14H5V6h14z"},"1")],"TabletTwoTone")}}]);

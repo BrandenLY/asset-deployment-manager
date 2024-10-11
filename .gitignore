@@ -15,7 +15,6 @@ node_modules/
 
 # production
 /build
-main/static/main/js
 
 # misc
 .DS_Store

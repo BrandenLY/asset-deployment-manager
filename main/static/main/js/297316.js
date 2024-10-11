@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[297316],{297316:(h,e,m)=>{m.r(e),m.d(e,{default:()=>v});var a=m(675003),s=m(474848);const v=(0,a.A)((0,s.jsx)("path",{d:"M11 11h2v2h-2zm0-4h2v2h-2zm10-4H3v18h18zm-2 16H5V5h14zm-4-8h2v2h-2zm-8 0h2v2H7zm4 4h2v2h-2z"}),"BorderOuterTwoTone")}}]);

@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[130437],{130437:(e,s,v)=>{v.r(s),v.d(s,{default:()=>l});var a=v(675003),h=v(474848);const l=(0,a.A)((0,h.jsx)("path",{d:"M20 19V3H4v16H2v2h8.25c0 .97.78 1.75 1.75 1.75s1.75-.78 1.75-1.75H22v-2zM18 5v10H6V5zM6 19v-2h5v2zm7 0v-2h5v2z"}),"RollerShadesClosedOutlined")}}]);

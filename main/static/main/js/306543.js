@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[306543],{306543:(e,a,s)=>{s.r(a),s.d(a,{default:()=>n});var t=s(675003),c=s(474848);const n=(0,t.A)((0,c.jsx)("path",{d:"M12.34 2.02C6.59 1.82 2 6.42 2 12c0 5.52 4.48 10 10 10 3.71 0 6.93-2.02 8.66-5.02-7.51-.25-12.09-8.43-8.32-14.96"}),"Bedtime")}}]);

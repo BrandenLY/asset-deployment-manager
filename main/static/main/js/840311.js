@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[840311],{840311:(s,c,a)=>{a.r(c),a.d(c,{default:()=>h});var e=a(675003),n=a(474848);const h=(0,e.A)((0,n.jsx)("path",{d:"M18 8c0-3.31-2.69-6-6-6S6 4.69 6 8c0 4.5 6 11 6 11s6-6.5 6-11m-8 0c0-1.1.9-2 2-2s2 .9 2 2-.89 2-2 2c-1.1 0-2-.9-2-2M5 20v2h14v-2z"}),"PinDrop")}}]);

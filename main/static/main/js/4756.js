@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[4756],{4756:(h,a,e)=>{e.r(a),e.d(a,{default:()=>t});var s=e(675003),v=e(474848);const t=(0,s.A)((0,v.jsx)("path",{d:"M14 2H4v20h16V8zm2 14h-3v3h-2v-3H8v-2h3v-3h2v3h3zm-3-7V3.5L18.5 9z"}),"NoteAddSharp")}}]);

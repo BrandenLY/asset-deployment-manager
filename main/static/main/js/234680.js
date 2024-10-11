@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[234680],{234680:(a,h,s)=>{s.r(h),s.d(h,{default:()=>n});var e=s(675003),t=s(474848);const n=(0,e.A)((0,t.jsx)("path",{d:"M15 4v2h3v12h-3v2h5V4zM4 20h5v-2H6V6h3V4H4z"}),"DataArray")}}]);

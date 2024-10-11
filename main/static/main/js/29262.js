@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[29262],{29262:(a,e,s)=>{s.r(e),s.d(e,{default:()=>n});var c=s(675003),l=s(474848);const n=(0,c.A)((0,l.jsx)("path",{d:"M13 13.9c2.28-.46 4-2.48 4-4.9 0-2.76-2.24-5-5-5S7 6.24 7 9c0 2.42 1.72 4.44 4 4.9v4.27l-1.59-1.59L8 18l4 4 4-4-1.41-1.41L13 18.17z"}),"SwipeDownAltSharp")}}]);

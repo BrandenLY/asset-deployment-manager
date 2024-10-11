@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[661446],{661446:(a,e,h)=>{h.r(e),h.d(e,{default:()=>n});var s=h(675003),i=h(474848);const n=(0,s.A)((0,i.jsx)("path",{d:"M14 2H4v20h16V8zm-1 7V3.5L18.5 9zm1 5 2-1.06v4.12L14 16v2H8v-6h6z"}),"VideoFileSharp")}}]);

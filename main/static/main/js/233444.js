@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[233444],{233444:(h,v,a)=>{a.r(v),a.d(v,{default:()=>n});var s=a(675003),e=a(474848);const n=(0,s.A)((0,e.jsx)("path",{d:"M15.5 7h-7v10h7zm-2 8h-3V9h3zM1 15h4v-2H1V7h6v2H3v2h4v6H1zm16 0h4v-2h-4V7h6v2h-4v2h4v6h-6z"}),"SosSharp")}}]);

@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[818126],{818126:(a,s,e)=>{e.r(s),e.d(s,{default:()=>l});var v=e(675003),h=e(474848);const l=(0,v.A)((0,h.jsx)("path",{d:"M6.99 11 3 15l3.99 4v-3H14v-2H6.99zM21 9l-3.99-4v3H10v2h7.01v3z"}),"SwapHoriz")}}]);

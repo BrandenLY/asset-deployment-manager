@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[621552],{621552:(a,s,e)=>{e.r(s),e.d(s,{default:()=>i});var n=e(675003),t=e(474848);const i=(0,n.A)((0,t.jsx)("path",{d:"M12 4C7.31 4 3.07 5.9 0 8.98L12 21 24 8.98C20.93 5.9 16.69 4 12 4"}),"SignalWifiStatusbar4BarTwoTone")}}]);

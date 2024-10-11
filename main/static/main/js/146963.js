@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[146963],{146963:(h,a,e)=>{e.r(a),e.d(a,{default:()=>c});var s=e(675003),t=e(474848);const c=(0,s.A)([(0,t.jsx)("path",{d:"M6 5h2v14H6zm10 0h2v14h-2z",opacity:".3"},"0"),(0,t.jsx)("path",{d:"M20 19V3H4v16H2v2h20v-2zM8 19H6V5h2zm6 0h-4V5h4zm4 0h-2V5h2z"},"1")],"VerticalShadesTwoTone")}}]);

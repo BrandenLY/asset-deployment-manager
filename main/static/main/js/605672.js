@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[605672],{605672:(h,a,e)=>{e.r(a),e.d(a,{default:()=>n});var s=e(675003),d=e(474848);const n=(0,s.A)((0,d.jsx)("path",{d:"M16 11V3H8v6H2v12h20V11zm-6-6h4v14h-4zm-6 6h4v8H4zm16 8h-4v-6h4z"}),"LeaderboardOutlined")}}]);

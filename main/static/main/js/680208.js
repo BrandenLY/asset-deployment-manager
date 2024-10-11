@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmain=self.webpackChunkmain||[]).push([[680208],{680208:(h,a,c)=>{c.r(a),c.d(a,{default:()=>n});var e=c(675003),s=c(474848);const n=(0,e.A)((0,s.jsx)("path",{d:"M10 10.02h5V21h-5zM17 21h3c1.1 0 2-.9 2-2v-9h-5zm3-18H5c-1.1 0-2 .9-2 2v3h19V5c0-1.1-.9-2-2-2M3 19c0 1.1.9 2 2 2h3V10H3z"}),"TableChartRounded")}}]);
