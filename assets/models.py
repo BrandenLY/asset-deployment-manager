@@ -206,6 +206,7 @@ class Shipment(TrackedModel):
     
 class EquipmentHold(TrackedModel):
     model = models.ForeignKey(Model, on_delete=models.PROTECT)
+    quantity = models.PositiveIntegerField('Quantity', default=1)
     start_date = models.DateField('Start date')
     end_date = models.DateField('End date')
     event = models.ForeignKey('main.Event', on_delete=models.CASCADE, blank=True, null=True)

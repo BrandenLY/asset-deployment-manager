@@ -135,6 +135,7 @@ class EquipmentHoldSerializer(CustomBaseSerializer):
         model = EquipmentHold
         fields = [
             'model',
+            'quantity',
             'start_date',
             'end_date',
             'event'

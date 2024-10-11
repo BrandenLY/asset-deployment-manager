@@ -24,10 +24,11 @@ import { NotificationContextProvider } from "./context";
 import ModelsView from "./views/ModelsView";
 import ModelDetailView from "./views/ModelDetailView";
 import { useCustomTheme } from "./customHooks";
+import Dashboard from "./views/Dashboard";
 
 const applicationRoutes = [
   // [ PATH: String, VIEW: React Component, TITLE: String ]
-  ['/', ShipmentsView, 'Homepage'],
+  ['/', Dashboard, 'Homepage'],
   ['/shipments', ShipmentsView, 'Manage Shipments'],
   ['/shipments/:id', ShipmentDetailView, 'Shipment Details'],
   ['/assets', AssetsView, 'Manage Assets'],

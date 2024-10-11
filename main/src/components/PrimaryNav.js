@@ -1,5 +1,5 @@
 import React, {useContext, useState} from 'react';
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Drawer from '@mui/material/Drawer';
@@ -9,12 +9,36 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemIcon from '@mui/material/ListItemIcon';
-import { Menu, LocalShipping, Assignment, Close, LibraryBooks, Place, DevicesOther, People, Groups, Group, PersonAdd, Article, DeviceUnknown, Logout } from '@mui/icons-material';
+import { Menu, LocalShipping, Close, Place, DevicesOther, Group, PersonAdd, Article, DeviceUnknown, Logout, Home, Summarize, Assessment } from '@mui/icons-material';
 import Typography from '@mui/material/Typography';
-import { Button, Divider, useTheme } from '@mui/material';
-import { useCurrentUser } from '../customHooks';
+import { Button, useTheme } from '@mui/material';
 import { backendApiContext } from '../context';
 
+const PageLinks = [
+    {
+        groupHeading: 'Track & Manage',
+        links: [
+            // Link Format: Link Button Text, Icon element, linkto url, required permission.
+            ['Dashboard', <Home /> ,'/'],
+            ['Shipments', <LocalShipping /> ,'/shipments', 'view_shipment'],
+            ['Models', <DeviceUnknown/>, '/models', 'view_model'],
+            ['Locations', <Place /> ,'/locations', 'view_location'],
+            ['Equipment', <DevicesOther/> ,'/assets', 'view_asset'],
+            ['Reserve Equipment', <Summarize/> ,'/equipmentholds', 'view_equipmenthold']
+        ]
+    },
+    {
+        groupHeading: 'Admin Tools',
+        links: [
+            ['Reporting', <Assessment /> ,'/reports'],
+            ['Users', <PersonAdd /> ,'/users', 'view_location', "---DELETE-THIS-ARRAY-STRING-TO-ENABLE-LINK"],
+            ['Groups & Permissions', <Group /> ,'/permissions', 'view_asset', "---DELETE-THIS-ARRAY-STRING-TO-ENABLE-LINK"],
+            ['Admin Logs', <Article /> ,'/logs', 'view_location', "---DELETE-THIS-ARRAY-STRING-TO-ENABLE-LINK"]
+        ]
+    }
+]
+
+// Primary Component
 const PrimaryNav = props => {
 
     const theme = useTheme();
@@ -67,29 +91,7 @@ const NavLogo = props => {
     );
 }
 
-const PageLinks = [
-    {
-        groupHeading: 'Track & Manage',
-        links: [
-            // Link Format: Link Button Text, Icon element, linkto url, required permission.
-            ['Shipments', <LocalShipping /> ,'/shipments', 'view_shipment'],
-            ['Assets', <DevicesOther/> ,'/assets', 'view_asset'],
-            ['Models', <DeviceUnknown/>, '/models', 'view_model'],
-            ['Locations', <Place /> ,'/locations', 'view_location']
-        ]
-    },
-    {
-        groupHeading: 'Admin Tools',
-        links: [
-            ['Staffing', <Groups /> ,'/staffing', 'view_shipment', "---DELETE-THIS-ARRAY-STRING-TO-ENABLE-LINK"],
-            ['Groups & Permissions', <Group /> ,'/permissions', 'view_asset', "---DELETE-THIS-ARRAY-STRING-TO-ENABLE-LINK"],
-            ['Users', <PersonAdd /> ,'/users', 'view_location', "---DELETE-THIS-ARRAY-STRING-TO-ENABLE-LINK"],
-            ['Admin Logs', <Article /> ,'/logs', 'view_location', "---DELETE-THIS-ARRAY-STRING-TO-ENABLE-LINK"]
-        ]
-    }
-]
-
-// Primary Component
+// Secondary Component
 const NavDrawer = props =>{
 
     const {expanded, navHeight, drawerWidth, onClose} = props;
@@ -134,8 +136,9 @@ const NavDrawer = props =>{
 
                                     { linkGroup.links.map( ([linkText, linkIcon, linkUrl, linkPermission, linkDisabled]) =>{
                                         
-                                        const userCanViewLink = backend.auth.user ? backend.auth.user.checkPermission(linkPermission) : false;
-                                        if (!userCanViewLink){
+                                        const userCanViewLink = backend.auth.user && linkPermission ? backend.auth.user.checkPermission(linkPermission) : false;
+                                        
+                                        if (!userCanViewLink && linkPermission){
                                             return null;
                                         }
                                         
