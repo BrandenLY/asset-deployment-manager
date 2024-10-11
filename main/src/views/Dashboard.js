@@ -38,7 +38,7 @@ const QuickLink = props => {
     const userCanView = backend.auth.user ? backend.auth.user.checkPermission(linkPerm) : linkPerm == undefined;
 
     return(
-        <Button variant="contained" startIcon={linkIcon} onClick={navigateTo} disabled={!userCanView} sx={{paddingY:3, paddingX:3}}>
+        <Button variant="contained" color="secondary" startIcon={linkIcon} onClick={navigateTo} disabled={!userCanView} sx={{paddingY:3, paddingX:3, fontSize: "1.15rem"}}>
             {linkText}
         </Button>
     );
