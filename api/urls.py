@@ -33,6 +33,7 @@ from .views import CurrentUserView
 from .views import ScanView
 from .views import LogEntryView
 from .views import ObjectAdminLogEntries
+from .views import EquipmentHoldView
 
 router = DefaultRouter()
 
@@ -45,6 +46,7 @@ router.register(r"asseticon", AssetIconView)
 router.register(r"model", ModelView)
 router.register(r"location", LocationView)
 router.register(r"shipment", ShipmentView)
+router.register(r"equipmenthold", EquipmentHoldView)
 
 urlpatterns = [
     path('current-user/', CurrentUserView.as_view(), name='current-user'),
