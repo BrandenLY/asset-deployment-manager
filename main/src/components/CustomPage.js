@@ -1,6 +1,6 @@
 import { Home } from '@mui/icons-material';
 import { Alert, Box, Breadcrumbs, Button, Link, Snackbar, Typography } from '@mui/material';
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Link as RouterLink, useLocation, useNavigate } from 'react-router-dom';
 import { BackendContextProvider, notificationContext } from '../context';
 import { ErrorBoundary } from './ErrorBoundary';
@@ -61,7 +61,9 @@ const CustomPage = props => {
   const notifications = useContext(notificationContext);
   
   // CALLBACK FUNCTIONS
-
+    useEffect(() => {
+        console.log('render page')
+    })
   // FORMATTED DATA
   const classNames = ['page', className].join(' ');
   

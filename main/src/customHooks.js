@@ -241,7 +241,7 @@ export const useCustomTheme = props => {
 
     const baseTheme = createTheme();
     const [theme, setTheme] = useState(baseTheme);
-    const [, forceUpdate] = useReducer(x => x + 1, 0);
+    const [_, forceUpdate] = useReducer(x => x + 1, 0);
     
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
     // Formatted Data
@@ -378,7 +378,7 @@ export const useCustomTheme = props => {
                 }
             }
         }));
-    }) // Update styles
+    }, [_]) // Update styles
 
     useEffect(() => {
         
