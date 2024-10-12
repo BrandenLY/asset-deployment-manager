@@ -1,7 +1,7 @@
 import { Delete, OpenInNew, QrCodeScanner } from '@mui/icons-material';
 import { Box } from "@mui/material";
 import { useInfiniteQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ModelListControls from "../components/ModelListControls";
 import ScanTool from "../components/ScanTool";
@@ -60,6 +60,10 @@ const ShipmentsView = props => {
     const shipments = useInfiniteQuery({
         queryKey: [MODELNAME],
     });
+
+    useEffect(() => {
+        console.log('render shipmentsview')
+    })
 
     // Shipment Row Actions
 

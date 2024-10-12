@@ -7,10 +7,13 @@ import DashboardWidget from "../components/DashboardWidget";
 
 const Dashboard = props => {
     
+    // Formatted Data
+    const hideMargin = useMediaQuery("(max-width: 750px")
+
     return(
         <Box className="Dashboard">
 
-            <Box className="QuickAccess" display="flex" justifyContent="space-evenly" flexWrap="wrap" gap={2} margin={2} padding={2}>
+            <Box className="QuickAccess" display="flex" justifyContent="space-evenly" flexWrap="wrap" rowGap={2} margin={hideMargin ? 0 : 2} padding={2}>
                 {QuickAccessLinks.map( linkInfo => {  
                     return(<QuickLink {...linkInfo}></QuickLink>)
                 })}
@@ -56,7 +59,8 @@ const QuickLink = props => {
                 size="large"
                 sx={{
                     border: `3px solid ${theme.palette.secondary.dark}`,
-                    padding: `clamp(${theme.spacing(1)}, ${theme.spacing(3)}, ${theme.spacing(3)})`
+                    padding: `clamp(${theme.spacing(0.25)}, "unset", ${theme.spacing(3)})`,
+                    fontSize: `clamp(${theme.spacing(0.25)}, "unset" , ${theme.spacing(3)})`
                 }}
             >
                 {linkIcon}

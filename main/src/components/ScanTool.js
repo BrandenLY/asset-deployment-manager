@@ -114,46 +114,49 @@ const ScanTool = props => {
         console.log(inputData);
         console.log(scanLog);
         console.log(displayScanUi);
-    })
+    }, [initialData, inputElement.current, destination, destinationContentType, destination, scanLog, displayScanUi])
 
-    useEffect(() => {
-        return () => {
-            if (scanLog.length > 0){
-                queryClient.invalidateQueries({queryKey:['shipment']})
-            }
-        }
-    },[]) // Provide cleanup function
+    // useEffect(() => {
+    //     return () => {
+    //         if (scanLog.length > 0){
+    //             queryClient.invalidateQueries({queryKey:['shipment']})
+    //         }
+    //     }
+    // },[scanLog]) // Provide cleanup function
 
-    useEffect(() => {
-        if (inputElement.current != null){
-            inputElement.current.scrollIntoView({behavior: 'smooth', block: 'center'});
-            inputElement.current.focus();
-        }
-    }) // Focus input on render
+    // useEffect(() => {
+    //     if (inputElement.current != null){
+    //         inputElement.current.scrollIntoView({behavior: 'smooth', block: 'center'});
+    //         inputElement.current.focus();
+    //     }
+    // }, [inputElement.current]) // Focus input on render
 
-    useEffect(() => {
+    // useEffect(() => {
 
-        if (destination != initialData){
+    //     if (destination != initialData){
 
-            // Set Defaults
-            setDestinationContentType("shipment");
-            setDestination(shipment);
+    //         // Set Defaults
+    //         setDestinationContentType("shipment");
+    //         setDestination(shipment);
 
-            // Clear State
-            setScanLog({});
-        }
+    //         // Clear State
+    //         setScanLog({});
+    //     }
 
-    }, [initialData, destination, shipment]) // Reset component defaults
+    // }, [initialData, shipment]) // Reset component defaults
 
     // Callback Functions
     const updateDestination = newDestination => {
+        console.log('update destination')
         setDestination(newDestination);
     }
     const updateInputValue = e => {
+        console.log('set input data')
         setInputData(e.target.value);
     }
     const submitAssetCode = e => {
 
+        console.log('submit asset code')
         // Ignore blank values
         if (inputData == "" && e.target.value == ""){
             return false;
@@ -190,15 +193,18 @@ const ScanTool = props => {
     }
 
     const openScanDialog = e => {
+        console.log('open dialog')
         setDisplayScanUi(true);
     }
     const closeScanDialog = e => {
+        console.log('close dialog')
         setDisplayScanUi(false);
     }
 
     const handleQrScannerFeedback = data => {
 
-        if(data.result == "success"){
+        if(data.result == "success" && displayScanUi == true){
+            console.log(data.decodedResult, data.decodedData);
             scanAssetMutation.mutate(data.decodedData);
             setDisplayScanUi(false);
         }
