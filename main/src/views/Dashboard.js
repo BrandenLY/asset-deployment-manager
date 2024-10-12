@@ -3,18 +3,23 @@ import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { backendApiContext } from "../context";
 import { Assessment, DevicesOther, LocalShipping, QrCodeScanner, Summarize } from "@mui/icons-material";
+import DashboardWidget from "../components/DashboardWidget";
 
 const Dashboard = props => {
     return(
         <Box className="Dashboard">
 
-            <Box className="QuickAccess" display="flex" justifyContent="center" gap={2} margin={2} padding={2}>
+            <Box className="QuickAccess" display="flex" justifyContent="center" flexWrap="wrap" gap={2} margin={2} padding={2}>
                 {QuickAccessLinks.map( linkInfo => {  
                     return(<QuickLink {...linkInfo}></QuickLink>)
                 })}
             </Box>
 
             <Grid container>
+
+                <DashboardWidget title="Available Equipment">
+                    test
+                </DashboardWidget>
 
             </Grid>
 

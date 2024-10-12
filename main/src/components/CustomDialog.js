@@ -20,9 +20,11 @@ const CustomDialog = (props) => {
         open,
         title,
         subtitle="",
+        actions=[],
+        fullWidth=true,
         children:innerContent,
         onClose:externalOnClose,
-        actions={}
+        paperstyles={}
     } = props;
 
     // Hooks
@@ -33,16 +35,13 @@ const CustomDialog = (props) => {
         externalOnClose(e);
     }
 
-  return (
-    <React.Fragment>
-
-        {/* DIALOG COMPONENT */}
+    return (
         <Dialog
             open={open}
-            fullWidth={true}
+            fullWidth={fullWidth}
             maxWidth={!clientIsMobile ? 'md' : false}
             maxHeight
-            PaperProps={{sx:{padding:2, maxHeight: "78vh"}}}
+            PaperProps={{sx:{...paperstyles, padding:2, maxHeight: "78vh"}}}
             onClose={closeDialog}
         >
             <Box sx={{display: 'flex', alignItems: 'center', gap:3, justifyContent:'space-between'}}>
@@ -62,9 +61,7 @@ const CustomDialog = (props) => {
                 {actions}
             </DialogActions>
         </Dialog>
-
-    </React.Fragment>
-  );
+    );
 };
 
 export default CustomDialog;

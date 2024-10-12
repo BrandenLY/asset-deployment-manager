@@ -1,8 +1,12 @@
+import { Box } from '@mui/material'
 import React from 'react'
+import ScanTool from '../components/ScanTool'
 
 const ScanView = () => {
   return (
-    <div>ScanView</div>
+    <Box display="flex">
+      <ScanTool/>
+    </Box>
   )
 }
 
