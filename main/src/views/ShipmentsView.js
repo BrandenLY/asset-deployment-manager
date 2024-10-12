@@ -61,10 +61,6 @@ const ShipmentsView = props => {
         queryKey: [MODELNAME],
     });
 
-    useEffect(() => {
-        console.log('render shipmentsview')
-    })
-
     // Shipment Row Actions
 
     const openShipment = shipment => {

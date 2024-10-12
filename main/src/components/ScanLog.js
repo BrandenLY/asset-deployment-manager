@@ -90,7 +90,7 @@ const LogRow = props => {
 
 const ScanLog = props => {
     // Destructuring Props
-    const {data, scanLogRows} = props;
+    const {data} = props;
 
     // HOOKS
     const scanList = useRef(null);
@@ -103,11 +103,12 @@ const ScanLog = props => {
 
     // Formatted Data
     const LogEntries = Object.entries(data);
+
   return (
     <>
         {LogEntries.length > 0 &&
            <Paper elevation={3}>
-                <List ref={scanList} dense={true} subheader={<ListSubheader>Scans ({LogEntries.length})</ListSubheader>} sx={{minWidth: "225px", maxHeight: 32*(scanLogRows + 1)+48, overflowY: "scroll"}} color="inherit">
+                <List ref={scanList} dense={true} subheader={<ListSubheader>Scans ({LogEntries.length})</ListSubheader>} sx={{minWidth: "225px", maxHeight: 32*(LogEntries.length + 1)+48, overflowY: "scroll"}} color="inherit">
                     {LogEntries.map(
                         ([logName, logData]) => <LogRow logName={logName} log={logData}/>
                     )}

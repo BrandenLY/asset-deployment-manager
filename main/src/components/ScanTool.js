@@ -13,7 +13,7 @@ const ScanTool = props => {
   
     // Props Destructuring
     const { 
-        initialData, // You should pass the object you want to scan into if it is known.
+        shipment, // You should pass the object you want to scan into if it is known.
         elevation = 1,
         visible = true,
         variant = "block",
@@ -29,24 +29,19 @@ const ScanTool = props => {
     const notifications = useContext(notificationContext);
 
     // State
-    const [ destination, setDestination ] = useState(initialData); // Individual 'shipment' or 'asset' Id
+    const [ destination, setDestination ] = useState(shipment); // Individual 'shipment' or 'asset' Id
     const [ destinationContentType, setDestinationContentType ] = useState("shipment"); // Either 'shipment' or 'asset'
     
     const [ inputData, setInputData ] = useState(""); // The code to be entered
     const [ scanLog, setScanLog ] = useState({}); // Log of Scans Sent to Backend
     const [ displayScanUi, setDisplayScanUi ] = useState(false); // Whether or not to show the scan dialog.
 
-    // Queries
-    const {data: shipment} = useQuery({
-        queryKey: ['shipment', destination?.id],
-        initialData: initialData,
-        enabled: !!destination,
-    })
-
     // Mutations
     const scanAssetMutation = useMutation({
         mutationFn: async (vars) => {
             
+            console.log('mutate', vars)
+
             const { method , payload } = vars;
 
             // Scanning logic is handled primarily by the backend, we will just pass back the shipment id and asset code.
@@ -67,6 +62,10 @@ const ScanTool = props => {
             })
         },
         onSettled: async (data, error, vars, context) => {
+
+            if(error){
+                notifications.add({message: new String(error), severity: "error"})
+            }
             
             // Backend has returned a http 200 response status
             if (data.ok){
@@ -83,9 +82,8 @@ const ScanTool = props => {
                 
                 // Update Scan Destination
                 if (_data.is_container){
-                    setDestinationId(_data.id);
+                    setDestination(_data);
                     setDestinationContentType('asset');
-                    setDestinationName(_data.label);
                 }
 
                 // Execute callback
@@ -107,49 +105,21 @@ const ScanTool = props => {
 
     // Effects
     useEffect(() => {
-        console.log(initialData);
-        console.log(inputElement.current);
-        console.log(destination);
-        console.log(destinationContentType);
-        console.log(inputData);
-        console.log(scanLog);
-        console.log(displayScanUi);
-    }, [initialData, inputElement.current, destination, destinationContentType, destination, scanLog, displayScanUi])
+        return () => {
+            if (scanLog.length > 0){
+                queryClient.invalidateQueries({queryKey:['shipment']})
+            }
+        }
+    },[scanLog]) // Provide cleanup function
 
-    // useEffect(() => {
-    //     return () => {
-    //         if (scanLog.length > 0){
-    //             queryClient.invalidateQueries({queryKey:['shipment']})
-    //         }
-    //     }
-    // },[scanLog]) // Provide cleanup function
-
-    // useEffect(() => {
-    //     if (inputElement.current != null){
-    //         inputElement.current.scrollIntoView({behavior: 'smooth', block: 'center'});
-    //         inputElement.current.focus();
-    //     }
-    // }, [inputElement.current]) // Focus input on render
-
-    // useEffect(() => {
-
-    //     if (destination != initialData){
-
-    //         // Set Defaults
-    //         setDestinationContentType("shipment");
-    //         setDestination(shipment);
-
-    //         // Clear State
-    //         setScanLog({});
-    //     }
-
-    // }, [initialData, shipment]) // Reset component defaults
+    useEffect(() => {
+        if (inputElement.current != null){
+            inputElement.current.scrollIntoView({behavior: 'smooth', block: 'center'});
+            inputElement.current.focus();
+        }
+    }, [inputElement.current]) // Focus input on render
 
     // Callback Functions
-    const updateDestination = newDestination => {
-        console.log('update destination')
-        setDestination(newDestination);
-    }
     const updateInputValue = e => {
         console.log('set input data')
         setInputData(e.target.value);
@@ -203,9 +173,19 @@ const ScanTool = props => {
 
     const handleQrScannerFeedback = data => {
 
-        if(data.result == "success" && displayScanUi == true){
-            console.log(data.decodedResult, data.decodedData);
-            scanAssetMutation.mutate(data.decodedData);
+        if(data.result == "success" && scanAssetMutation.isIdle){
+
+            console.log('make mutation from qr')
+            
+            const payload = {
+                shipment : shipment.id,
+                destination_content_type: destinationContentType,
+                destination_object_id: destination.id,
+                asset_code: data.decodedData
+            }
+
+            scanAssetMutation.mutate({method:"POST", payload});
+
             setDisplayScanUi(false);
         }
 
@@ -228,7 +208,7 @@ const ScanTool = props => {
 
             <Box sx={styles.boxStyles} width="calc(100% - 44px)">
                 <Box display="flex" alignItems="center" justifyContent="center" rowGap={1} flexWrap="wrap" flexGrow={1} position="relative" width="min-content">
-                    <IconButton color={theme.palette.primary.light} onClick={openScanDialog}>
+                    <IconButton color="primary" onClick={openScanDialog}>
                         <CameraAlt/>
                     </IconButton>
                     <TextField 
@@ -266,6 +246,7 @@ const ScanTool = props => {
             }
 
             <Box sx={styles.boxStyles}>
+                <ScanLog data={ScanLog} />
             </Box>
 
             <CustomDialog
@@ -295,7 +276,7 @@ const QrScanner = props => {
     useEffect(() => {
 
         // Instantiate QR Reader
-        QrReader.current = new Html5Qrcode(parentId, true);
+        QrReader.current = new Html5Qrcode(parentId, false);
         const QrConfig = { 
             fps: 10, 
             qrbox: {width: 200, height:200}, 

@@ -61,9 +61,7 @@ const CustomPage = props => {
   const notifications = useContext(notificationContext);
   
   // CALLBACK FUNCTIONS
-    useEffect(() => {
-        console.log('render page')
-    })
+
   // FORMATTED DATA
   const classNames = ['page', className].join(' ');
   
