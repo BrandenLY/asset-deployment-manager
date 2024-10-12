@@ -40,26 +40,24 @@ const ScanTool = props => {
     const {data: shipment} = useQuery({
         queryKey: ['shipment', destination?.id],
         initialData: initialData,
-        enabled: destination
+        enabled: !!destination,
     })
 
     // Mutations
     const scanAssetMutation = useMutation({
         mutationFn: async (vars) => {
             
+            const { method , payload } = vars;
+
             // Scanning logic is handled primarily by the backend, we will just pass back the shipment id and asset code.
             const scanUrl = new URL(`${backend.api.baseUrl}/scan/`);
             const requestHeaders = backend.api.getRequestHeaders();
-        
-            // Format Payload
-            const payload = {
-                destination_content_type: destinationContentType,
-                destination_object_id: destination.id,
-                asset_code: vars,
-                shipment: shipment?.id,
-            }
 
-            return await fetch( scanUrl, {method:"POST", headers:requestHeaders, body:JSON.stringify(payload)})
+            return await fetch( scanUrl, {
+                method:method,
+                headers:requestHeaders,
+                body:JSON.stringify(payload)
+            })
         },
         onMutate: vars => {
             setScanLog(prev=>{
@@ -109,6 +107,16 @@ const ScanTool = props => {
 
     // Effects
     useEffect(() => {
+        console.log(initialData);
+        console.log(inputElement.current);
+        console.log(destination);
+        console.log(destinationContentType);
+        console.log(inputData);
+        console.log(scanLog);
+        console.log(displayScanUi);
+    })
+
+    useEffect(() => {
         return () => {
             if (scanLog.length > 0){
                 queryClient.invalidateQueries({queryKey:['shipment']})
@@ -125,24 +133,25 @@ const ScanTool = props => {
 
     useEffect(() => {
 
-        // Set Defaults
-        setDestinationContentType("shipment");
-        setDestination(shipment);
+        if (destination != initialData){
 
-        // Clear State
-        setScanLog({});
+            // Set Defaults
+            setDestinationContentType("shipment");
+            setDestination(shipment);
 
-    }, [initialData]) // Reset component defaults
+            // Clear State
+            setScanLog({});
+        }
+
+    }, [initialData, destination, shipment]) // Reset component defaults
 
     // Callback Functions
     const updateDestination = newDestination => {
         setDestination(newDestination);
     }
-
     const updateInputValue = e => {
         setInputData(e.target.value);
     }
-
     const submitAssetCode = e => {
 
         // Ignore blank values
@@ -152,15 +161,31 @@ const ScanTool = props => {
 
         // Do scan logic
         if(e.type == "keydown"){
-            scanAssetMutation.mutate(e.target.value, destination.id, destinationContentType)
+
+            const payload =  {
+                destination_content_type: destinationContentType,
+                destination_object_id: destination.id,
+                asset_code: e.target.value,
+                shipment: shipment?.id,
+            }
+
+            scanAssetMutation.mutate({ method: "POST", payload })
         }
         
         if(e.type == "click"){
-            scanAssetMutation.mutate(assetCode)
+
+            const payload =  {
+                destination_content_type: destinationContentType,
+                destination_object_id: destination.id,
+                asset_code: inputData,
+                shipment: shipment?.id,
+            }
+
+            scanAssetMutation.mutate({ method: "POST", payload })
         }
         
         // Clear State
-        setAssetCode("");
+        setInputData("");
         e.preventDefault();
     }
 
@@ -186,6 +211,7 @@ const ScanTool = props => {
     const inlineHelperText = `Currently scanning into ${destinationContentType} ${destinationName}`
     const styles = getScanToolStyles(variant);
     const scanUiDialogId = "scan-tool-camera-dialog";
+
     // Render primary form
     return(
         <Paper sx={styles.paperStyles} elevation={elevation}>
@@ -194,9 +220,9 @@ const ScanTool = props => {
                 <Typography variant="body2" sx={{marginX:1}}>or, enter an asset code</Typography>
             </Box>
 
-            <Box sx={styles.boxStyles} position="relative" left="23px">
-                <Box display="flex" alignItems="center" flexWrap="wrap">
-                    <IconButton color="primary" onClick={openScanDialog}>
+            <Box sx={styles.boxStyles} width="calc(100% - 44px)">
+                <Box display="flex" alignItems="center" justifyContent="center" rowGap={1} flexWrap="wrap" flexGrow={1} position="relative" width="min-content">
+                    <IconButton color={theme.palette.primary.light} onClick={openScanDialog}>
                         <CameraAlt/>
                     </IconButton>
                     <TextField 
@@ -205,7 +231,8 @@ const ScanTool = props => {
                         variant="outlined"
                         value={inputData}
                         onChange={updateInputValue}
-                        helperText={variant == "inline" ? inlineHelperText : ""}  
+                        helperText={variant == "inline" ? inlineHelperText : ""}
+                        sx={{minWidth: "200px"}}
                     />
                     <Button variant="outlined" onClick={submitAssetCode} sx={{marginLeft:1}}>
                         Submit
@@ -221,10 +248,13 @@ const ScanTool = props => {
                             <Typography variant="code">{destinationName}</Typography>
                         </Typography>
                     </Box>
+                    
+                    { destinationAssetCounts &&
+                        <Box sx={styles.boxStyles}>
+                            <Typography variant="subtitle2">{destinationAssetCounts} Assets</Typography>
+                        </Box>
+                    }
 
-                    <Box sx={styles.boxStyles}>
-                        <Typography variant="subtitle2">{destinationAssetCounts} Assets</Typography>
-                    </Box>
 
                 </React.Fragment>
             }

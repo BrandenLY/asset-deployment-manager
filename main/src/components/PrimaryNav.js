@@ -52,7 +52,7 @@ const PrimaryNav = props => {
             className="PrimaryNav"
             sx={{
                 gridArea: "nav", 
-                backgroundColor: "primary.dark",
+                backgroundColor: "primary",
                 backgroundImage: `linear-gradient(9deg, ${theme.palette.primary.light} 0%, ${theme.palette.primary.dark} 100%) !important;`,
                 padding: 1, 
                 display: "flex",

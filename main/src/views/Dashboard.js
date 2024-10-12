@@ -1,4 +1,4 @@
-import { Box, Button, Grid } from "@mui/material";
+import { Box, Button, Grid, IconButton, useMediaQuery, useTheme } from "@mui/material";
 import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { backendApiContext } from "../context";
@@ -6,10 +6,11 @@ import { Assessment, DevicesOther, LocalShipping, QrCodeScanner, Summarize } fro
 import DashboardWidget from "../components/DashboardWidget";
 
 const Dashboard = props => {
+    
     return(
         <Box className="Dashboard">
 
-            <Box className="QuickAccess" display="flex" justifyContent="center" flexWrap="wrap" gap={2} margin={2} padding={2}>
+            <Box className="QuickAccess" display="flex" justifyContent="space-evenly" flexWrap="wrap" gap={2} margin={2} padding={2}>
                 {QuickAccessLinks.map( linkInfo => {  
                     return(<QuickLink {...linkInfo}></QuickLink>)
                 })}
@@ -32,6 +33,7 @@ const QuickLink = props => {
     // Props Destructuring
     const {linkIcon, linkText, linkRoute, linkPerm} = props;
 
+    const theme = useTheme();
     const navigate = useNavigate();
     const backend = useContext(backendApiContext);
 
@@ -41,9 +43,40 @@ const QuickLink = props => {
 
     // Formatted Data
     const userCanView = backend.auth.user ? backend.auth.user.checkPermission(linkPerm) : linkPerm == undefined;
+    const shrinkQuicklinks = useMediaQuery("(max-width:1265px");
+    const displayQuicklinks = useMediaQuery("(min-width:981px)");
+    const displayIconQuicklinks = useMediaQuery("(max-width:998px)");
+
+    if (displayIconQuicklinks){ // Return Mobile friendly components
+        return(
+            <IconButton
+                color="secondary"
+                onClick={navigateTo}
+                disabled={!userCanView}
+                size="large"
+                sx={{
+                    border: `3px solid ${theme.palette.secondary.dark}`,
+                    padding: `clamp(${theme.spacing(1)}, ${theme.spacing(3)}, ${theme.spacing(3)})`
+                }}
+            >
+                {linkIcon}
+            </IconButton>
+        )
+    }
 
     return(
-        <Button variant="contained" color="secondary" startIcon={linkIcon} onClick={navigateTo} disabled={!userCanView} sx={{paddingY:3, paddingX:3, fontSize: "1.15rem"}}>
+        <Button 
+            variant="contained"
+            color="secondary"
+            startIcon={linkIcon}
+            onClick={navigateTo}
+            disabled={!userCanView}
+            sx={{
+                paddingY: `clamp(${theme.spacing(1.66)}, ${theme.spacing(3)}, ${theme.spacing(3)})`,
+                paddingX: `clamp(${theme.spacing(1.33)}, ${theme.spacing(3)}, ${theme.spacing(3)})`,
+                fontSize: "clamp(0.90rem, 1.15rem)"
+            }}
+        >
             {linkText}
         </Button>
     );

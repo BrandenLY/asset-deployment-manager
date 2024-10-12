@@ -90,7 +90,7 @@ const ShipmentsView = props => {
 
             {selectedShipment&&
 
-                <ScanTool shipment={selectedShipment}/>
+                <ScanTool initialData={selectedShipment}/>
             
             }
 

@@ -32,7 +32,6 @@ function ImportButton(props) {
     // Mutations
     const api = useMutation({
         mutationFn: async ( data ) => {
-            console.log(backend.api.baseUrl, model, data);
             const updateUrl = new URL(`${backend.api.baseUrl}/${model}/${data.id ? data.id + "/" : ""}`);
             const requestHeaders = backend.api.getRequestHeaders();
           
@@ -45,7 +44,6 @@ function ImportButton(props) {
         onSettled: (res, error, vars) => {
             if (error){
                 notifications.add({message:'Import has failed; an unexpected error occurred.', severity:"error"})
-                console.log(error)
                 return;
             }
 
@@ -55,10 +53,8 @@ function ImportButton(props) {
                     notifications.add({message:`Error: ${JSON.stringify(resData.details ? resData.details : resData)}`, severity:"error"})
                     return
                 }
-
                 notifications.add({message: `Successfully imported ${model} data.`});
-
-                queryClient.invalidateQueries()
+                queryClient.invalidateQueries({queryKey: [model]})
             })
         }
     })

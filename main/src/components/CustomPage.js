@@ -15,7 +15,7 @@ const CustomBreadcrumbs = props => {
             <Breadcrumbs>
             <Link component={RouterLink} to={'/'}>
                 <Home/>
-                <span>Home</span>
+                <Box component="span">Home</Box>
             </Link>
 
             {pathnames.map( (value, index) => {
@@ -24,11 +24,11 @@ const CustomBreadcrumbs = props => {
 
                 return last ? (
                     <Typography>
-                        <span>{value}</span>
+                        <Box component="span">{value}</Box>
                     </Typography>
                 ) : (
                     <Link component={RouterLink} to={to}>
-                        <span>{value}</span>
+                        <Box component="span">{value}</Box>
                     </Link>
                 );
             })}

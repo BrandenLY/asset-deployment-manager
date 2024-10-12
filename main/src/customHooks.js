@@ -241,237 +241,154 @@ export const useCustomTheme = props => {
 
     const baseTheme = createTheme();
     const [theme, setTheme] = useState(baseTheme);
+    const [, forceUpdate] = useReducer(x => x + 1, 0);
+    
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-
-    const handleColorSchemeChange = useCallback(event =>{
-        
-        setTheme(createTheme({
-            palette: {
-                mode: event.matches ? "dark" : "light",
-                primary: {
-                main: event.matches ? "#07002B" : "#230465",
-                light: "#230465",
-                dark: "#07002B",
-                contrastText: "#CBC6DE"
-                },
-                secondary: {
-                main: "#BF104E",
-                light: "#F35588",
-                dark: "#BF104E",
-                contrastText: "#FFFFFF"
-                },
-                text:{
-                primary: event.matches ? "rgba(236, 233, 250, 0.87)" : "rgba(7, 0, 43, 0.87)",
-                secondary: event.matches ? "rgba(236, 233, 250, 0.6)" : "rgba(7, 0, 43, 0.6)",
-                disabled: event.matches ? "rgba(236, 233, 250, 0.38)" : "rgba(7, 0, 43, 0.38)"
-                },
-                conditions : {
-                working: {
-                    main: baseTheme.palette.success.dark,
-                    contrastText: baseTheme.palette.success.contrastText 
-                },
-                damaged: {
-                    main: baseTheme.palette.error.dark,
-                    contrastText: baseTheme.palette.error.contrastText
-                },
-                faulty: {
-                    main: baseTheme.palette.warning.dark,
-                    contrastText: baseTheme.palette.warning.contrastText
-                },
-                lost: {
-                    main: baseTheme.palette.error.dark,
-                    contrastText: baseTheme.palette.error.contrastText
-                },
-                }
-            },
-            typography: {
-                h1: {
-                fontSize: "2.5rem",
-                },
-                h2: {
-                fontSize: "2.25rem",
-                },
-                h3: {
-                fontSize: "2rem",
-                },
-                h4: {
-                fontSize: "1.75rem",
-                },
-                h5: {
-                fontSize: "1.5rem",
-                },
-                h6: {
-                fontSize: "1.25rem",
-                },
-                navtitle: {
-                fontSize: "1.75rem",
-                fontWeight: "500",
-                textTransform: "uppercase",
-                },
-                projectDetailHeading: {
-                fontSize: "1.25rem",
-                },
-                ProjectDetailLabel: {
-                fontSize: "medium",
-                fontWeight: "bold",
-                display: "flex",
-                alignItems: "center",
-                gap: "5px",
-                },
-                personInitial: {
-                textTransform: "uppercase",
-                },
-                formHeader: {
-                opacity: "75%",
-                fontSize: "1.6rem",
-                lineHeight: "40px",
-                },
-                formErrorText: {
-                color: baseTheme.palette.error.dark,
-                },
-                moreInfoIcon: {
-                display: "block",
-                fontSize: "8px",
-                fontWeight: baseTheme.typography.fontWeightBold,
-                width: "14px",
-                height: "14px",
-                borderRadius: "14px",
-                lineHeight: "14px",
-                backgroundColor: "RGBA(08,08,08,0.46)",
-                textAlign: "center",
-                cursor: "pointer"
-                },
-                code: {
-                backgroundColor: "rgb(18, 18, 18)",
-                borderRadius: 2,
-                padding: baseTheme.spacing(1),
-                paddingTop: 0,
-                paddingBottom: 0,
-                display: "inline-block"
-                }
-            },
-        }));
-
-    }, [])
+    // Formatted Data
+    const primaryDark = "#07002B";
+    const primaryLight = "#44148e";
+    const secondaryDark = "#BF104E";
+    const secondaryLight = "#F35588";
 
     useEffect(() => {
         setTheme(createTheme({
             palette: {
-                mode: mediaQuery ? "dark" : "light",
+                mode: mediaQuery.matches ? "dark" : "light",
                 primary: {
-                main: mediaQuery ? "#07002B" : "#230465",
-                light: "#230465",
-                dark: "#07002B",
-                contrastText: "#CBC6DE"
+                    main: mediaQuery.matches ? primaryDark : primaryLight,
+                    light: primaryLight,
+                    dark: "#07002B",
+                    contrastText: "#CBC6DE"
                 },
                 secondary: {
-                main: "#BF104E",
-                light: "#F35588",
-                dark: "#BF104E",
-                contrastText: "#FFFFFF"
+                    main: secondaryDark,
+                    light: secondaryLight,
+                    dark: secondaryDark,
+                    contrastText: "#FFFFFF"
                 },
                 text:{
-                primary: mediaQuery ? "rgba(236, 233, 250, 0.87)" : "rgba(7, 0, 43, 0.87)",
-                secondary: mediaQuery ? "rgba(236, 233, 250, 0.6)" : "rgba(7, 0, 43, 0.6)",
-                disabled: mediaQuery ? "rgba(236, 233, 250, 0.38)" : "rgba(7, 0, 43, 0.38)"
+                    primary: mediaQuery.matches ? "rgba(250, 240, 250, 0.87)" : "rgba(7, 0, 43, 0.87)",
+                    secondary: mediaQuery.matches ? "rgba(250, 240, 250, 0.6)" : "rgba(7, 0, 43, 0.6)",
+                    disabled: mediaQuery.matches ? "rgba(250, 240, 250, 0.38)" : "rgba(7, 0, 43, 0.38)"
                 },
                 conditions : {
-                working: {
-                    main: baseTheme.palette.success.dark,
-                    contrastText: baseTheme.palette.success.contrastText 
-                },
-                damaged: {
-                    main: baseTheme.palette.error.dark,
-                    contrastText: baseTheme.palette.error.contrastText
-                },
-                faulty: {
-                    main: baseTheme.palette.warning.dark,
-                    contrastText: baseTheme.palette.warning.contrastText
-                },
-                lost: {
-                    main: baseTheme.palette.error.dark,
-                    contrastText: baseTheme.palette.error.contrastText
-                },
+                    working: {
+                        main: baseTheme.palette.success.dark,
+                        contrastText: baseTheme.palette.success.contrastText 
+                    },
+                    damaged: {
+                        main: baseTheme.palette.error.dark,
+                        contrastText: baseTheme.palette.error.contrastText
+                    },
+                    faulty: {
+                        main: baseTheme.palette.warning.dark,
+                        contrastText: baseTheme.palette.warning.contrastText
+                    },
+                    lost: {
+                        main: baseTheme.palette.error.dark,
+                        contrastText: baseTheme.palette.error.contrastText
+                    },
                 }
             },
             typography: {
                 h1: {
-                fontSize: "2.5rem",
+                    fontSize: "2.5rem",
                 },
                 h2: {
-                fontSize: "2.25rem",
+                    fontSize: "2.25rem",
                 },
                 h3: {
-                fontSize: "2rem",
+                    fontSize: "2rem",
                 },
                 h4: {
-                fontSize: "1.75rem",
+                    fontSize: "1.75rem",
                 },
                 h5: {
-                fontSize: "1.5rem",
+                    fontSize: "1.5rem",
                 },
                 h6: {
-                fontSize: "1.25rem",
+                    fontSize: "1.25rem",
                 },
                 navtitle: {
-                fontSize: "1.75rem",
-                fontWeight: "500",
-                textTransform: "uppercase",
+                    fontSize: "1.75rem",
+                    fontWeight: "500",
+                    textTransform: "uppercase",
                 },
                 projectDetailHeading: {
-                fontSize: "1.25rem",
+                    fontSize: "1.25rem",
                 },
                 ProjectDetailLabel: {
-                fontSize: "medium",
-                fontWeight: "bold",
-                display: "flex",
-                alignItems: "center",
-                gap: "5px",
+                    fontSize: "medium",
+                    fontWeight: "bold",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "5px",
                 },
                 personInitial: {
-                textTransform: "uppercase",
+                    textTransform: "uppercase",
                 },
                 formHeader: {
-                opacity: "75%",
-                fontSize: "1.6rem",
-                lineHeight: "40px",
+                    opacity: "75%",
+                    fontSize: "1.6rem",
+                    lineHeight: "40px",
                 },
                 formErrorText: {
-                color: baseTheme.palette.error.dark,
+                    color: baseTheme.palette.error.dark,
                 },
                 moreInfoIcon: {
-                display: "block",
-                fontSize: "8px",
-                fontWeight: baseTheme.typography.fontWeightBold,
-                width: "14px",
-                height: "14px",
-                borderRadius: "14px",
-                lineHeight: "14px",
-                backgroundColor: "RGBA(08,08,08,0.46)",
-                textAlign: "center",
-                cursor: "pointer"
+                    display: "block",
+                    fontSize: "8px",
+                    fontWeight: baseTheme.typography.fontWeightBold,
+                    width: "14px",
+                    height: "14px",
+                    borderRadius: "14px",
+                    lineHeight: "14px",
+                    backgroundColor: "RGBA(08,08,08,0.46)",
+                    textAlign: "center",
+                    cursor: "pointer"
                 },
                 code: {
-                backgroundColor: "rgb(18, 18, 18)",
-                borderRadius: 2,
-                padding: baseTheme.spacing(1),
-                paddingTop: 0,
-                paddingBottom: 0,
-                display: "inline-block"
+                    backgroundColor: "rgba(18, 18, 18, 0.33)",
+                    borderRadius: 2,
+                    padding: baseTheme.spacing(1),
+                    paddingTop: 0,
+                    paddingBottom: 0,
+                    display: "inline-block",
+                    color: "rgba(250, 240, 250, 0.87)"
                 }
             },
+            components: {
+                MuiButton: {
+                    styleOverrides: {
+                        containedPrimary: {
+                            backgroundColor: primaryLight
+                        },
+                        outlinedPrimary: {
+                            color: primaryLight,
+                            borderColor: primaryLight
+                        }
+                    }
+                },
+                MuiLink: {
+                    styleOverrides: {
+                        root: {
+                            color: secondaryDark
+                        }
+                    }
+                }
+            }
         }));
-    }, [])
+    }) // Update styles
 
     useEffect(() => {
         
-        mediaQuery.addEventListener('change', handleColorSchemeChange);
+        mediaQuery.addEventListener('change', forceUpdate);
 
         return (() => {
-            mediaQuery.removeEventListener('change', handleColorSchemeChange);
+            mediaQuery.removeEventListener('change', forceUpdate);
         })
 
-    }, [])
+    }, [])// Register event listener & cleanup function
 
     return theme;
 }
