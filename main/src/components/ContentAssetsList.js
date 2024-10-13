@@ -10,7 +10,7 @@ import Section from './Section';
 
 const ASSETMODELNAME = 'asset';
 
-const AssetSectionTitle = props => {
+export const AssetSectionTitle = props => {
 
     const {asset} = props;
 
@@ -67,7 +67,7 @@ const AssetSectionTitle = props => {
     )
 }
 
-const AssetTableRow = props => {
+export const AssetTableRow = props => {
 
     const {asset, defaultExpanded = false, paperProps, selectRow = () => console.error('AssetTableRow', 'You must provide an implementation for `selectRow`.')} = props;
 
@@ -229,7 +229,7 @@ const ContentAssetsList = props => {
     const updateAsset = useMutation({
         mutationFn: (data, method="PUT") => {
 
-            const updateUrl = new URL(`${window.location.protocol}${window.location.host}/api/asset/${data.id}/`);
+            const updateUrl = new URL(`${backend.api.baseUrl}/asset/${data.id}/`);
             const requestHeaders = backend.api.getRequestHeaders(updateUrl);
 
             // Updates

@@ -1,16 +1,18 @@
-import { Box, Button, Dialog, FormControl, IconButton, InputLabel, OutlinedInput, Paper, TextField, Typography, useTheme } from "@mui/material";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { CameraAlt } from "@mui/icons-material";
+import { Box, Button, IconButton, Paper, TextField, Typography } from "@mui/material";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { Html5Qrcode} from "html5-qrcode";
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { backendApiContext, getCookie, notificationContext } from "../context";
+import { backendApiContext, notificationContext } from "../context";
+import CustomDialog from "./CustomDialog";
 import { ModelAutoComplete } from "./ModelAutoComplete";
 import ScanLog from "./ScanLog";
-import { CameraAlt } from "@mui/icons-material";
-import {Html5Qrcode, Html5QrcodeScanner} from "html5-qrcode";
-import CustomDialog from "./CustomDialog";
 
 // Primary Component
 const ScanTool = props => {
-  
+    
+    console.assert(props.shipment != undefined, "Scan tool expected to receive shipment prop but instead received undefined.")
+
     // Props Destructuring
     const { 
         shipment, // You should pass the object you want to scan into if it is known.
@@ -21,7 +23,6 @@ const ScanTool = props => {
     } = props;
     
     // Hooks
-    const theme = useTheme();
     const inputElement = useRef(null);
 
     const queryClient = useQueryClient();
@@ -55,9 +56,12 @@ const ScanTool = props => {
             })
         },
         onMutate: vars => {
-            setScanLog(prev=>{
+            
+            const submittedAssetCode = vars.payload.asset_code;
+
+            setScanLog( prev => {
                 let data = {...prev};
-                data[vars] = null;
+                data[submittedAssetCode] = null;
                 return data;
             })
         },
@@ -71,12 +75,13 @@ const ScanTool = props => {
             if (data.ok){
 
                 // Parse data
+                const submittedAssetCode = vars.payload.asset_code;
                 const _data = await data.json();
 
                 // Update State
                 setScanLog(prev => {
                     let data = {...prev}
-                    data[vars] = {data:_data, error};
+                    data[submittedAssetCode] = {data:_data, error};
                     return data;
                 })
                 
@@ -92,10 +97,11 @@ const ScanTool = props => {
             }
             // Backend has returned an error (400/500) response status.
             else{
+                const submittedAssetCode = vars.payload.asset_code;
                 const _data = await data.json();
                 setScanLog(prev => {
                     let data = {...prev}
-                    data[vars] = {data:null, error:_data['detail']};
+                    data[submittedAssetCode] = {data:null, error:_data['detail']};
                     return data;
                 })
             }
@@ -105,6 +111,25 @@ const ScanTool = props => {
 
     // Effects
     useEffect(() => {
+        return(() => {
+            setDestination(undefined);
+            setDestinationContentType('shipment');
+            setInputData("");
+            setScanLog({});
+            setDisplayScanUi(false);
+        })
+    }, [])
+
+    useEffect(() => {
+        if (destination != shipment){
+
+            setDestination(shipment)
+            setDestinationContentType('shipment')
+        
+        }
+    }, [shipment]) // reset destination state when shipment changes
+
+    useEffect(() => {
         return () => {
             if (scanLog.length > 0){
                 queryClient.invalidateQueries({queryKey:['shipment']})
@@ -113,20 +138,43 @@ const ScanTool = props => {
     },[scanLog]) // Provide cleanup function
 
     useEffect(() => {
+
+        const filterEvents = e => {
+            if (e.key == "Enter"){
+                submitAssetCode(e);
+            }
+        }
+
         if (inputElement.current != null){
+
+            inputElement.current.addEventListener('keydown', filterEvents);
             inputElement.current.scrollIntoView({behavior: 'smooth', block: 'center'});
             inputElement.current.focus();
+
         }
+
+        return(() => {
+
+            if(inputElement.current != null){
+                inputElement.current.removeEventListener('keydown', filterEvents);
+            }
+
+        })
+
     }, [inputElement.current]) // Focus input on render
 
+    useEffect(() => {
+        if(inputElement.current){
+            inputElement.current.focus();
+        }
+    })
     // Callback Functions
     const updateInputValue = e => {
-        console.log('set input data')
         setInputData(e.target.value);
     }
+
     const submitAssetCode = e => {
 
-        console.log('submit asset code')
         // Ignore blank values
         if (inputData == "" && e.target.value == ""){
             return false;
@@ -139,7 +187,7 @@ const ScanTool = props => {
                 destination_content_type: destinationContentType,
                 destination_object_id: destination.id,
                 asset_code: e.target.value,
-                shipment: shipment?.id,
+                shipment: shipment.id,
             }
 
             scanAssetMutation.mutate({ method: "POST", payload })
@@ -151,7 +199,7 @@ const ScanTool = props => {
                 destination_content_type: destinationContentType,
                 destination_object_id: destination.id,
                 asset_code: inputData,
-                shipment: shipment?.id,
+                shipment: shipment.id,
             }
 
             scanAssetMutation.mutate({ method: "POST", payload })
@@ -176,13 +224,19 @@ const ScanTool = props => {
         if(data.result == "success" && scanAssetMutation.isIdle){
 
             console.log('make mutation from qr')
-            
+            console.log(scanAssetMutation)
+            console.log(shipment) // undefined
+            console.log(destinationContentType)
+            console.log(destination) // undefined
+            console.log(data)
+
             const payload = {
                 shipment : shipment.id,
                 destination_content_type: destinationContentType,
                 destination_object_id: destination.id,
                 asset_code: data.decodedData
             }
+            console.log(payload)
 
             scanAssetMutation.mutate({method:"POST", payload});
 
@@ -194,32 +248,36 @@ const ScanTool = props => {
     // Formatted Data
     const destinationName = destination?.label;
     const destinationAssetCounts = destination?.assets.length;
+    const destinationContentTypeDisplay = destinationContentType == 'asset' ? 'container' : destinationContentType;
+    const scanLogHasRow = Object.entries(scanLog).length > 0; 
     const inlineHelperText = `Currently scanning into ${destinationContentType} ${destinationName}`
     const styles = getScanToolStyles(variant);
     const scanUiDialogId = "scan-tool-camera-dialog";
 
     // Render primary form
     return(
-        <Paper sx={styles.paperStyles} elevation={elevation}>
+        <Paper sx={{...styles.paperStyles, display: visible ?  "flex" : "none"}} elevation={elevation}>
             <Box sx={{...styles.boxStyles, gap:0, flexDirection:'column', minWidth: variant=="in-line" ? "200px" : "unset"}}>
                 <Typography variant="body1" sx={{marginX:1, textAlign: variant == 'block' ? 'center' : 'left'}}>Scan an asset tag</Typography>
                 <Typography variant="body2" sx={{marginX:1}}>or, enter an asset code</Typography>
             </Box>
 
             <Box sx={styles.boxStyles} width="calc(100% - 44px)">
-                <Box display="flex" alignItems="center" justifyContent="center" rowGap={1} flexWrap="wrap" flexGrow={1} position="relative" width="min-content">
-                    <IconButton color="primary" onClick={openScanDialog}>
-                        <CameraAlt/>
-                    </IconButton>
-                    <TextField 
-                        label="Asset code"
-                        inputRef={inputElement}
-                        variant="outlined"
-                        value={inputData}
-                        onChange={updateInputValue}
-                        helperText={variant == "inline" ? inlineHelperText : ""}
-                        sx={{minWidth: "200px"}}
-                    />
+                <Box display="flex" alignItems="center" justifyContent="center" rowGap={1} flexWrap={"wrap"} flexGrow={1} position="relative">
+                    <Box display="flex">
+                        <IconButton color="primary" onClick={openScanDialog}>
+                            <CameraAlt/>
+                        </IconButton>
+                        <TextField 
+                            label="Asset code"
+                            inputRef={inputElement}
+                            variant="outlined"
+                            value={inputData}
+                            onChange={updateInputValue}
+                            helperText={variant == "inline" ? inlineHelperText : ""}
+                            sx={{minWidth: "200px"}}
+                        />
+                    </Box>
                     <Button variant="outlined" onClick={submitAssetCode} sx={{marginLeft:1}}>
                         Submit
                     </Button>
@@ -230,24 +288,23 @@ const ScanTool = props => {
                 <React.Fragment>
                     
                     <Box sx={styles.boxStyles}>
-                        <Typography variant="subtitle1">Currently scanning into<br/>
+                        <Typography variant="subtitle1">Currently scanning into {destinationContentTypeDisplay}<br/>
                             <Typography variant="code">{destinationName}</Typography>
                         </Typography>
                     </Box>
                     
-                    { destinationAssetCounts &&
+                    { destinationAssetCounts > 0 &&
                         <Box sx={styles.boxStyles}>
                             <Typography variant="subtitle2">{destinationAssetCounts} Assets</Typography>
                         </Box>
                     }
 
+                    <Box sx={styles.boxStyles}>
+                        <ScanLog data={scanLog}/>
+                    </Box>
 
                 </React.Fragment>
             }
-
-            <Box sx={styles.boxStyles}>
-                <ScanLog data={ScanLog} />
-            </Box>
 
             <CustomDialog
                 open={displayScanUi}
@@ -320,7 +377,6 @@ const getScanToolStyles = variant => {
     const isInline = variant == "in-line";
 
     let paperStyles = {
-        display:"flex",
         marginY:1,
         padding:1,
         gap:1,

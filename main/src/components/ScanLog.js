@@ -105,17 +105,13 @@ const ScanLog = props => {
     const LogEntries = Object.entries(data);
 
   return (
-    <>
-        {LogEntries.length > 0 &&
-           <Paper elevation={3}>
-                <List ref={scanList} dense={true} subheader={<ListSubheader>Scans ({LogEntries.length})</ListSubheader>} sx={{minWidth: "225px", maxHeight: 32*(LogEntries.length + 1)+48, overflowY: "scroll"}} color="inherit">
-                    {LogEntries.map(
-                        ([logName, logData]) => <LogRow logName={logName} log={logData}/>
-                    )}
-                </List>
-            </Paper> 
-        }
-    </>
+    <Paper elevation={3}>
+        <List ref={scanList} dense={true} subheader={<ListSubheader>Scans ({LogEntries.length})</ListSubheader>} sx={{minWidth: "225px", maxHeight: 32*(LogEntries.length + 1)+48, overflowY: "scroll"}} color="inherit">
+            {LogEntries.map(
+                ([logName, logData]) => <LogRow logName={logName} log={logData}/>
+            )}
+        </List>
+    </Paper> 
   )
 }
 

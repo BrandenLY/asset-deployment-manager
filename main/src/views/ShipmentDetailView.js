@@ -78,6 +78,12 @@ const ShipmentDetailView = props =>{
 
     // Effects
     useEffect(() => {
+        return(() => {
+            shipmentQuery.remove();
+        })
+    }, [])
+
+    useEffect(() => {
 
         if (!contentTypes.isSuccess){
             return;
