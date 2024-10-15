@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from "react";
+import React, {useContext, useEffect, useRef, useState} from "react";
 import { Box, Paper, Typography, IconButton, Popover, List, ListItemButton, ListItemIcon, ListItemText, Link, Stack, Skeleton, FormControl, FormHelperText, MenuItem, Select } from "@mui/material";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableFooter, TablePagination, TableRow } from "@mui/material";
 import { MoreVert, ArrowUpward, ArrowDownward, ViewColumn, FirstPage, LastPage, NavigateNext, NavigateBefore, Loop } from '@mui/icons-material';
@@ -7,6 +7,7 @@ import { Link as RouterLink } from "react-router-dom";
 import { useModelOptions } from "../customHooks";
 import ActionButton from "./ActionButton";
 import { ErrorBoundary } from "./ErrorBoundary";
+import { notificationContext } from "../context";
 
 const minimumRecordsPerPage = 25;
 
@@ -243,15 +244,47 @@ const SortingGrid = props => {
         throw new Error("Sorting grid missing required prop(s).")
     }
 
+    // Hooks
+    const notifications = useContext(notificationContext); 
+
     const [activeColumns, setActiveColumns] = useState(initialColumns);
     const [sortKey, setSortKey] = useState(defaultSortKey); // The datapoint to sort based on.  
     const [sortDirection, setSortDirection] = useState(true); // true: sort ascending, false: sort descending.
     const [recordsPerPage, setRecordsPerPage] = useState(minimumRecordsPerPage);
     const [page, setPage] = useState(1);
 
+    const updateSortKey = key => {
+
+        try{
+            const sample = data[0][key];
+            
+            switch(typeof(sample)){
+                case "undefined":
+                    throw new Error('Cannot sort on undefined');
+                case "symbol":
+                    throw new Error('Cannot sort on symbol');
+                default:
+                    setSortKey(key)
+            }
+
+        }
+
+        catch{
+            notifications.add({message: `Unable to sort on column ${key}`})
+        }
+
+    }
+
+    const incrementPage = e => {
+        setPage(prev => prev + 1);
+    }
 
     // Formmatted Data
     const columnCount = rowActions ? activeColumns.length + 1 : activeColumns.length;
+    const pageRows = data?.slice((page - 1) * recordsPerPage, page * recordsPerPage);
+    const hasNextPage = Math.ceil(data?.length / recordsPerPage) > page;
+    const hasPrevPage = page > 1;
+    const lastPageNum = Math.ceil(data?.length / recordsPerPage);
 
     return(
         <Paper 
@@ -280,13 +313,14 @@ const SortingGrid = props => {
                     </TableHead>
 
                     <TableBody>
+
                         {/* Add result rows */}
-                        { data?.length > 0 &&
-                            data.map( rowObject => <RowComponent data={rowObject} columns={activeColumns} modelName={modelName} actions={rowActions} {...rowProps}/> )
+                        { pageRows?.length > 0 &&
+                            pageRows.map( rowObject => <RowComponent data={rowObject} columns={activeColumns} modelName={modelName} actions={rowActions} {...rowProps}/> )
                         }
 
                         {/* No Results */}
-                        { data?.length == 0 && 
+                        { pageRows?.length == 0 && 
                             <TableRow>
                                 <TableCell sx={{textAlign:"center", paddingTop:0.5, paddingBottom: 0.5}} colspan={columnCount}>
                                 <Box minHeight="200px" display="flex" alignItems="center" justifyContent="center">No results</Box>
@@ -295,13 +329,14 @@ const SortingGrid = props => {
                         }
 
                         {/* Loading */}
-                        { !data && 
+                        { !pageRows && 
                             <TableRow>
                                 <TableCell sx={{textAlign:"center", paddingTop:0.5, paddingBottom: 0.5}} colspan={columnCount}>
                                     <Box minHeight="200px" display="flex" alignItems="center" justifyContent="center"><Loop sx={{animation: 'rotate 2s linear infinite'}}/></Box>
                                 </TableCell>
                             </TableRow>
                         }
+
                     </TableBody>
 
                 </Table>
@@ -327,10 +362,10 @@ const SortingGrid = props => {
                             {`${Math.max(recordsPerPage * page - recordsPerPage, 1)} - ${Math.min(recordsPerPage * page, count)} of ${count}`}
                         </FormHelperText>
                         <Box sx={{display: "flex", alignItems: "center"}}>
-                            <IconButton size="small" sx={{padding:0}}>
+                            <IconButton disabled={page == 1} size="small" sx={{padding:0}} onClick={() => setPage(1)}>
                                 <FirstPage sx={{color:"rgba(255,255,255,0.7)"}}/>
                             </IconButton>
-                            <IconButton size="small" sx={{padding:0}}>
+                            <IconButton disabled={!hasPrevPage} size="small" sx={{padding:0}} onClick={() => setPage(prev => prev - 1 )}>
                                 <NavigateBefore sx={{color:"rgba(255,255,255,0.7)"}}/>
                             </IconButton>
                             <Box>
@@ -338,10 +373,10 @@ const SortingGrid = props => {
                                     {page}
                                 </FormHelperText>
                             </Box>
-                            <IconButton size="small" sx={{padding:0}}>
+                            <IconButton disabled={!hasNextPage} size="small" sx={{padding:0}} onClick={() => setPage(prev => prev + 1 )}>
                                 <NavigateNext sx={{color:"rgba(255,255,255,0.7)"}}/>
                             </IconButton>
-                            <IconButton size="small" sx={{padding:0}}>
+                            <IconButton disabled={page == lastPageNum} size="small" sx={{padding:0}} onClick={() => setPage(lastPageNum)}>
                                 <LastPage sx={{color:"rgba(255,255,255,0.7)"}}/>
                             </IconButton>
                         </Box>
