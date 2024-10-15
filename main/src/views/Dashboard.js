@@ -13,7 +13,7 @@ const Dashboard = props => {
     return(
         <Box className="Dashboard">
 
-            <Box className="QuickAccess" display="flex" justifyContent="space-evenly" flexWrap="wrap" rowGap={2} margin={hideMargin ? 0 : 2} padding={2}>
+            <Box className="QuickAccess" display="flex" justifyContent="space-between" flexWrap="wrap" gap={2} margin={hideMargin ? 0 : 2} padding={2}>
                 {QuickAccessLinks.map( linkInfo => {  
                     return(<QuickLink {...linkInfo}></QuickLink>)
                 })}
@@ -59,8 +59,6 @@ const QuickLink = props => {
                 size="large"
                 sx={{
                     border: `3px solid ${theme.palette.secondary.dark}`,
-                    padding: `clamp(${theme.spacing(0.25)}, "unset", ${theme.spacing(3)})`,
-                    fontSize: `clamp(${theme.spacing(0.25)}, "unset" , ${theme.spacing(3)})`
                 }}
             >
                 {linkIcon}
@@ -76,9 +74,7 @@ const QuickLink = props => {
             onClick={navigateTo}
             disabled={!userCanView}
             sx={{
-                paddingY: `clamp(${theme.spacing(1.66)}, ${theme.spacing(3)}, ${theme.spacing(3)})`,
-                paddingX: `clamp(${theme.spacing(1.33)}, ${theme.spacing(3)}, ${theme.spacing(3)})`,
-                fontSize: "clamp(0.90rem, 1.15rem)"
+                flexGrow: 1,
             }}
         >
             {linkText}

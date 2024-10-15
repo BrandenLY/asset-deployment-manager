@@ -113,7 +113,7 @@ const ScanView = () => {
   }
 
   const updateShipment = (e, value) => {
-    console.log(e, value);
+
     if (value == null){
       setSelectedShipmentId(null);
       return;
