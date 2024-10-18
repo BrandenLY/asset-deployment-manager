@@ -95,7 +95,7 @@ const ShipmentsView = props => {
             }
 
             <SortingGrid 
-                title="Manage Shipments"
+                title="Shipments"
                 modelName={MODELNAME}
                 data={allLoadedShipments}
                 count={shipmentCount}

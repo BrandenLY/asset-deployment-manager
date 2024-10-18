@@ -73,7 +73,9 @@ const CustomPage = props => {
 
             <Box className="page-content" sx={{gridArea:"content", padding: 1.5}}>
                 {/* Page Title */}
-                <Typography variant="h2" sx={{margin: 1}}>{props.title}</Typography>
+                <Typography variant="h2" sx={{margin: 1}}>
+                    <Box display="flex" gap={1} alignItems="center">{props.title}</Box>
+                </Typography>
                 {/* Nav Breadcrumbs */}
                 <Typography variant="subtitle1" sx={{margin: 1}}> <CustomBreadcrumbs/> </Typography>
                 {/* Page Content */}

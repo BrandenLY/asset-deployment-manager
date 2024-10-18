@@ -86,7 +86,7 @@ const QuickAccessLinks = [
     {
         linkIcon: <Summarize />,
         linkText: "Reserve Equipment",
-        linkRoute: "/equipmentholds"
+        linkRoute: "/reserve"
     },
     {
         linkIcon: <QrCodeScanner />,

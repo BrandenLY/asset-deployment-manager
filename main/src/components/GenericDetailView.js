@@ -196,6 +196,7 @@ const GenericDetailView = props => {
                             RowComponent={ChangeLogTableRow}
                             rowProps={{'objectContentType' : model}}
                             count={historyData.length}
+                            maxRowsPerPage={5}
                         />
                     </Section>
 

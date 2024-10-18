@@ -71,10 +71,13 @@ export const AssetTableRow = props => {
 
     const {asset, defaultExpanded = false, paperProps, selectRow = () => console.error('AssetTableRow', 'You must provide an implementation for `selectRow`.')} = props;
 
-    const [expanded, setExpanded] = useState(defaultExpanded);
-
+    // Hooks
     const theme = useTheme();
 
+    // State
+    const [expanded, setExpanded] = useState(defaultExpanded);
+
+    // Callback Functions
     const toggleExpanded = e => {
         setExpanded( prev => !prev )
     }
@@ -83,14 +86,16 @@ export const AssetTableRow = props => {
         selectRow(a);
     }
 
+    // Formatted Data
+    const clientDeviceIsSmall = useMediaQuery(theme.breakpoints.down('sm'));
+
     if(asset.is_container){
         return(
             <Paper elevation={2} {...paperProps}>
                 <Box 
-                    className="asset-table-row-title"
+                    className="asset-table-row"
                     display="flex"
                     alignItems="center"
-                    gap={theme.spacing(1)}
                     padding={theme.spacing(1)}
                     width="100%"
                 >
@@ -105,7 +110,7 @@ export const AssetTableRow = props => {
                         alignItems="center"
                         gap={theme.spacing(1)}
                         padding={theme.spacing(1)}
-                        paddingLeft={theme.spacing(3)}
+                        paddingLeft={clientDeviceIsSmall ? theme.spacing(0.5) : theme.spacing(1.5)}
                         borderRadius={theme.shape.borderRadius}
                         backgroundColor={theme.palette.divider}
                         border={`3px solid ${theme.palette.divider}`}

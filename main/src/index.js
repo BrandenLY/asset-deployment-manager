@@ -4,7 +4,7 @@ import { createRoot } from "react-dom/client";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 // MATERIAL UI
-import {ThemeProvider, CssBaseline} from "@mui/material";
+import {ThemeProvider, CssBaseline, Typography} from "@mui/material";
 import primaryDarkTheme from "./themes/primary-dark";
 
 // TANSTACK QUERY
@@ -29,23 +29,88 @@ import EquipmentHoldsDetailView from "./views/EquipmentHoldsDetailView";
 
 import { useCustomTheme } from "./customHooks";
 import { NotificationContextProvider } from "./context";
+import { DocumentScanner, QrCodeScanner, Summarize } from "@mui/icons-material";
+import ReserveEquipmentView from "./views/ReserveEquipmentView";
+
+const betaFlagStyles = {color:"crimson", padding:1, backgroundColor:"rgba(18,18,18,0.66"};
+const titleIconSize = "45pt";
 
 const applicationRoutes = [
-  // [ PATH: String, VIEW: React Component, TITLE: String ]
-  ['/', Dashboard, 'Homepage'],
-  ['/reports', Reporting, 'Homepage'],
-  ['/scan', ScanView, 'Scan'],
-  ['/shipments', ShipmentsView, 'Manage Shipments'],
-  ['/shipments/:id', ShipmentDetailView, 'Shipment Details'],
-  ['/assets', AssetsView, 'Manage Assets'],
-  ['/assets/:id', AssetDetailView, 'Asset Details'],
-  ['/models', ModelsView, 'Manage Models'],
-  ['/models/:id', ModelDetailView, 'Model Details'],
-  ['/locations', LocationsView, 'Manage Locations'],
-  ['/locations/:id', LocationDetailView, 'Location Details'],
-  ['/equipmentholds', EquipmentHolds, 'Manage Equipment Reservations'],
-  ['/equipmentholds/:id', EquipmentHoldsDetailView, 'Equipment Reservation Details'],
-  ['*', PageNotFound, null] // Fallback/Default Route.
+  { 
+    path: '/',
+    component: Dashboard,
+    pageTitle: <>Homepage <Typography sx={betaFlagStyles}>BETA</Typography></>
+  },
+  {
+    path: '/reports',
+    component: Reporting,
+    pageTitle: <>Reporting <Typography sx={betaFlagStyles}>BETA</Typography></>
+  },
+  {
+    path: '/scan',
+    component: ScanView,
+    pageTitle: <><QrCodeScanner fontSize={titleIconSize}/> Scan <Typography sx={betaFlagStyles}>BETA</Typography></>
+  },
+  {
+    path: '/reserve',
+    component: ReserveEquipmentView,
+    pageTitle: <><Summarize fontSize={titleIconSize}/> Reserve Equipment <Typography sx={betaFlagStyles}>BETA</Typography></>
+  },
+  {
+    path:'/shipments',
+    component:ShipmentsView, 
+    pageTitle: 'Manage Shipments'
+  },
+  {
+    path:'/shipments/:id',
+    component:ShipmentDetailView,
+    pageTitle: 'Shipment Details'
+  },
+  {
+    path:'/assets',
+    component:AssetsView,
+    pageTitle: 'Manage Assets'
+  },
+  {
+    path:'/assets/:id',
+    component:AssetDetailView,
+    pageTitle: 'Asset Details'
+  },
+  {
+    path:'/models',
+    component:ModelsView,
+    pageTitle: 'Manage Models'
+  },
+  {
+    path:'/models/:id',
+    component:ModelDetailView,
+    pageTitle: 'Model Details'
+  },
+  {
+    path:'/locations',
+    component:LocationsView,
+    pageTitle: 'Manage Locations'
+  },
+  {
+    path:'/locations/:id',
+    component:LocationDetailView,
+    pageTitle: 'Location Details'
+  },
+  {
+    path:'/equipmentholds',
+    component:EquipmentHolds,
+    pageTitle: 'Manage Equipment Reservations'
+  },
+  {
+    path:'/equipmentholds/:id',
+    component:EquipmentHoldsDetailView,
+    pageTitle: 'Equipment Reservation Details'
+  },
+  {
+    path:'*',
+    component:PageNotFound,
+    pageTitle: null
+  }
 ]
 
 // Primary React Component
@@ -62,12 +127,12 @@ const App = () => {
               <Routes>
 
                 {/* Display Routes */}
-                {applicationRoutes.map(([path, view, title]) => {
+                {applicationRoutes.map(({path, component, pageTitle}) => {
                   return(
                     <Route 
                       path={path}
                       element={
-                        <CustomPage view={view} title={title}/>
+                        <CustomPage view={component} title={pageTitle}/>
                       }
                     />
                   )

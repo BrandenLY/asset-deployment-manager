@@ -2,8 +2,12 @@ import { Box, Button, IconButton, Popover, Typography } from '@mui/material';
 import React from 'react'
 
 const ActionButton = props => {
-    const { actionElement:ActionElement=Button, elementProps={}, callbackFn, popoverText
- } = props;
+    const { 
+        popoverText,
+        actionElement:ActionElement=Button,
+        elementProps={},
+        callbackFn,
+    } = props;
 
     const [anchorEl, setAnchorEl] = React.useState(null);
 
