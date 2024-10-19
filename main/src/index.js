@@ -34,27 +34,27 @@ import ReserveEquipmentView from "./views/ReserveEquipmentView";
 
 const betaFlagStyles = {color:"crimson", padding:1, backgroundColor:"rgba(18,18,18,0.66"};
 const titleIconSize = "45pt";
-
+const BetaFlag = <Typography sx={betaFlagStyles}>BETA</Typography>;
 const applicationRoutes = [
   { 
     path: '/',
     component: Dashboard,
-    pageTitle: <>Homepage <Typography sx={betaFlagStyles}>BETA</Typography></>
+    pageTitle: <>Homepage {BetaFlag}</>
   },
   {
     path: '/reports',
     component: Reporting,
-    pageTitle: <>Reporting <Typography sx={betaFlagStyles}>BETA</Typography></>
+    pageTitle: <>Reporting {BetaFlag}</>
   },
   {
     path: '/scan',
     component: ScanView,
-    pageTitle: <><QrCodeScanner fontSize={titleIconSize}/> Scan <Typography sx={betaFlagStyles}>BETA</Typography></>
+    pageTitle: <><QrCodeScanner fontSize={titleIconSize}/> Scan {BetaFlag}</>
   },
   {
     path: '/reserve',
     component: ReserveEquipmentView,
-    pageTitle: <><Summarize fontSize={titleIconSize}/> Reserve Equipment <Typography sx={betaFlagStyles}>BETA</Typography></>
+    pageTitle: <><Summarize fontSize={titleIconSize}/> Reserve Equipment {BetaFlag}</>
   },
   {
     path:'/shipments',
@@ -69,12 +69,12 @@ const applicationRoutes = [
   {
     path:'/assets',
     component:AssetsView,
-    pageTitle: 'Manage Assets'
+    pageTitle: 'Manage Equipment'
   },
   {
     path:'/assets/:id',
     component:AssetDetailView,
-    pageTitle: 'Asset Details'
+    pageTitle: 'Equipment Details'
   },
   {
     path:'/models',

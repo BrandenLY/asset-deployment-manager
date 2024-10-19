@@ -52,7 +52,7 @@ const AssetsView = props =>{
         <Box className="AssetsView">
             <ModelListControls model={MODELNAME} createObjectsFormLayout={CREATEASSETSFORMLAYOUT} />
             <SortingGrid 
-                title="Manage Equipment"
+                title="Equipment"
                 modelName={MODELNAME}
                 data={allLoadedAssets}
                 count={assetCount}
