@@ -84,31 +84,26 @@ const QuickLink = props => {
 
 const QuickAccessLinks = [
     {
-        linkIcon: <Summarize />,
-        linkText: "Reserve Equipment",
-        linkRoute: "/reserve"
-    },
-    {
         linkIcon: <QrCodeScanner />,
-        linkText: "Scan Tool",
+        linkText: "Scan",
         linkRoute: "/scan",
         linkPerm: "scan_to_parent"
     },
     {
         linkIcon: <LocalShipping />,
-        linkText: "View Shipments",
+        linkText: "Shipments",
         linkRoute: "/shipments",
         linkPerm: "view_shipment"
     },
     {
         linkIcon: <DevicesOther />,
-        linkText: "View Equipment",
+        linkText: "Equipment",
         linkRoute: "/assets",
         linkPerm: "view_asset"
     },
     {
         linkIcon: <Assessment />,
-        linkText: "Reporting",
+        linkText: "Reports",
         linkRoute: "/reports"
     }
 ]

@@ -1,5 +1,5 @@
-import React, { useContext } from "react";
-import { Box } from "@mui/material";
+import React, { useContext, useState } from "react";
+import { Box, Paper, Typography } from "@mui/material";
 import { useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
 import { useModelOptions } from "../customHooks";
 import { useNavigate } from "react-router-dom";
@@ -29,6 +29,8 @@ const AssetsView = props =>{
     const notifications = useContext(notificationContext);
 
     // State
+    const [newReservationEndDate, setNewReservationEndDate] = useState(null);
+    const [newReservationsStartDate, setNewReservationStartDate] = useState(null);
 
     // Mutations
 
@@ -47,9 +49,10 @@ const AssetsView = props =>{
     // Formatted Data
     const allLoadedAssets = assets.data?.pages.map(p => p.results).flat();
     const assetCount = assets.data?.pages.reduce((count, page) => count + page.results.length, 0);
+    const requiresDateSelections = newReservationEndDate != null && newReservationsStartDate != null;
 
     return (
-        <Box className="AssetsView">
+        <Box className="AssetsView" display="flex" flexDirection="column" alignItems="stretch" gap={3}>
             <ModelListControls model={MODELNAME} createObjectsFormLayout={CREATEASSETSFORMLAYOUT} />
             <SortingGrid 
                 title="Equipment"
@@ -58,9 +61,15 @@ const AssetsView = props =>{
                 count={assetCount}
                 initialColumns={SORTINGGRIDDEFAULTCOLUMNS}
                 rowActions={{
-                    open   : {icon:OpenInNew, callbackFn:openAsset},
+                    open : {icon:OpenInNew, callbackFn:openAsset},
                 }}
-            /> 
+            />
+            <Paper>
+                <Box>
+                    <Typography variant="h4">Reserve Equipment</Typography>
+                    { requiresDateSelections ? <Typography variant="subtitle1">Select the dates of reservation.</Typography> : null}
+                </Box>
+            </Paper>
         </Box>
     );
 };
