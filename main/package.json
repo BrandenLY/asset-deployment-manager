@@ -16,9 +16,11 @@
     "@babel/preset-env": "^7.22.10",
     "@babel/preset-react": "^7.22.5",
     "babel-loader": "^9.1.3",
+    "css-loader": "^7.1.2",
     "html5-qrcode": "^2.3.8",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "style-loader": "^4.0.0",
     "webpack": "^5.88.2",
     "webpack-cli": "^5.1.4"
   },
@@ -31,8 +33,11 @@
     "@mui/icons-material": "^5.14.3",
     "@mui/material": "^5.14.4",
     "@tanstack/react-query": "^4.33.0",
-    "chart.js": "^4.3.3",
+    "chart.js": "^4.4.5",
     "react-chartjs-2": "^5.2.0",
+    "react-draggable": "^4.4.6",
+    "react-grid-layout": "^1.5.0",
+    "react-resizable": "^3.0.5",
     "react-router-dom": "^6.14.2",
     "xlsx": "file:vendor/xlsx-0.20.3.tgz"
   }

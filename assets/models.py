@@ -141,7 +141,7 @@ class Location(TrackedModel):
     zipcode = models.CharField(_("Zipcode"), max_length=20)
     longitude = models.DecimalField(_("Longitude"), max_digits=13, decimal_places=8, blank=True, null=True)
     latitude = models.DecimalField(_("Latitude"), max_digits=12, decimal_places=8, blank=True, null=True)
-
+    is_warehouse = models.BooleanField(_("Is distribution center"), default=False)
     class Meta:
         ordering = ["name"]
 

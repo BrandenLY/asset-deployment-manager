@@ -145,7 +145,7 @@ const SortingGrid = props => {
                 <Typography variant="h4">{title}</Typography>
             </Box>
 
-            <TableContainer sx={{flexGrow: 1}}>
+            <TableContainer sx={{flexGrow: 1, flexShrink: 0}}>
                 <Table sx={{overflowX:'auto'}}>
 
                     <TableHead>

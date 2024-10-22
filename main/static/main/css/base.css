@@ -92,3 +92,16 @@ header .container-fluid{
       transform: rotate(360deg);
     }
   }
+
+.layout{
+    position: relative;
+    width: 100%;
+    min-height: 70vh;
+}
+
+.layout > div{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }

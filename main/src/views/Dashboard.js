@@ -1,17 +1,80 @@
 import { Box, Button, Grid, IconButton, useMediaQuery, useTheme } from "@mui/material";
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useReducer, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { backendApiContext } from "../context";
 import { Assessment, DevicesOther, LocalShipping, QrCodeScanner, Summarize } from "@mui/icons-material";
 import DashboardWidget from "../components/DashboardWidget";
+import { useInfiniteQuery } from "@tanstack/react-query";
+import SortingGrid from "../components/SortingGrid";
+import GridLayout from 'react-grid-layout';
+import 'react-grid-layout/css/styles.css';
+import 'react-resizable/css/styles.css';
+
+const STATICGRIDLAYOUT = [
+    { i: 'equipmentAvailable', x: 0, y: 0, w: 4, h: 11 },
+    { i: 'futureShipments', x: 4, y: 0, w: 8, h: 11 },
+  ];
+
+const breakpoints = {};
+
+const equipmentAvailableReducer = (prev, action) => {
+    
+    switch(action.type){
+
+    }
+}
 
 const Dashboard = props => {
     
+    // Hooks
+    const theme = useTheme();
+
+    // State
+    const dashboardElement = useRef(undefined);
+    const [dashboardWidth, setDashboardWidth] = useState(window.innerWidth * 0.80);
+    const [dashboardLayout, setDashboardLayout] = useState(STATICGRIDLAYOUT); 
+    const [equipmentAvailableChart, dispatchEquipmentAvailable] = useReducer(equipmentAvailableReducer, {});
+
+    // Queries
+    const models = useInfiniteQuery({queryKey: ['model']});
+    const shipments = useInfiniteQuery({queryKey: ['shipment']});
+
+    // Effects
+    useEffect(() => {
+
+        window.addEventListener('resize', onResize);
+        return( () => {
+            window.removeEventListener('resize', onResize);
+        })
+
+    }, []) // Setup window resize event listener
+    
+    useEffect(() => {
+        if(dashboardElement.current){
+            const containerRect = dashboardElement.current.getBoundingClientRect();
+            setDashboardWidth(containerRect.width);
+        }
+    }, [dashboardElement.current]) // Update dashboard width when component loads.
+    
+    // Callback Functions
+    const onLayoutChange = (newLayout) => {
+        console.log('New Layout:', newLayout);
+        setDashboardLayout(newLayout);
+    }; // Update layout state on update
+
+    const onResize = event => {
+        if(dashboardElement.current){
+            const containerRect = dashboardElement.current.getBoundingClientRect();
+            setDashboardWidth(containerRect.width);
+        }
+    }; // Update react-grid-layout width
+
     // Formatted Data
-    const hideMargin = useMediaQuery("(max-width: 750px")
+    const hideMargin = useMediaQuery("(max-width: 750px");
+    console.log(shipments);
 
     return(
-        <Box className="Dashboard">
+        <Box className="Dashboard" ref={dashboardElement}>
 
             <Box className="QuickAccess" display="flex" justifyContent="space-between" flexWrap="wrap" gap={2} margin={hideMargin ? 0 : 2} padding={2}>
                 {QuickAccessLinks.map( linkInfo => {  
@@ -19,13 +82,38 @@ const Dashboard = props => {
                 })}
             </Box>
 
-            <Grid container>
+            <GridLayout 
+                className="layout"
+                layout={dashboardLayout}
+                onLayoutChange={onLayoutChange}
+                cols={12} 
+                rowHeight={30}
+                width={dashboardWidth}
+            >
+                <div key="equipmentAvailable">
+                    <DashboardWidget
+                        title="Available Equipment"
+                        description=""
+                    >
 
-                <DashboardWidget title="Available Equipment">
-                    test
-                </DashboardWidget>
-
-            </Grid>
+                    </DashboardWidget>
+                </div>
+                <div key="futureShipments">
+                    <DashboardWidget
+                        title="Scheduled Shipments"
+                        description=""
+                    >
+                        <SortingGrid
+                            modelName="shipment"
+                            data={shipments.isSuccess ? shipments.data.pages[0].results : []}
+                            count={shipments.isSuccess ? shipments.data.pages[0].results.length : 0}
+                            initialColumns={['id', 'label', 'departure_date']}
+                            maxRowsPerPage={10}
+                            paperProps={{sx:{minHeight: "100%"}, elevation:2}}
+                        />
+                    </DashboardWidget>
+                </div>
+            </GridLayout>
 
         </Box>
     );
@@ -48,21 +136,21 @@ const QuickLink = props => {
     const userCanView = backend.auth.user ? backend.auth.user.checkPermission(linkPerm) : linkPerm == undefined;
     const shrinkQuicklinks = useMediaQuery("(max-width:1265px");
     const displayQuicklinks = useMediaQuery("(min-width:981px)");
-    const displayIconQuicklinks = useMediaQuery("(max-width:998px)");
+    const displayIconQuicklinks = useMediaQuery("(max-width:630px)");
 
     if (displayIconQuicklinks){ // Return Mobile friendly components
         return(
-            <IconButton
+            <Button 
+                variant="contained"
                 color="secondary"
                 onClick={navigateTo}
                 disabled={!userCanView}
-                size="large"
                 sx={{
-                    border: `3px solid ${theme.palette.secondary.dark}`,
+                    flexGrow: 1,
                 }}
             >
                 {linkIcon}
-            </IconButton>
+            </Button>
         )
     }
 

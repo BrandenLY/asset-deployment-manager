@@ -84,7 +84,8 @@ class LocationSerializer(CustomBaseSerializer):
             "country",
             "zipcode",
             "longitude",
-            "latitude"
+            "latitude",
+            "is_warehouse"
         ]
 
 class ShipmentSerializer(CustomBaseSerializer):

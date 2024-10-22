@@ -1,5 +1,5 @@
 import { CameraAlt } from "@mui/icons-material";
-import { Box, Button, IconButton, Paper, TextField, Typography } from "@mui/material";
+import { Box, Button, IconButton, Paper, TextField, Typography, useTheme } from "@mui/material";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Html5Qrcode} from "html5-qrcode";
 import React, { useContext, useEffect, useRef, useState } from "react";
@@ -25,6 +25,7 @@ const ScanTool = props => {
     // Hooks
     const inputElement = useRef(null);
 
+    const theme = useTheme();
     const queryClient = useQueryClient();
     const backend = useContext(backendApiContext);
     const notifications = useContext(notificationContext);
@@ -264,8 +265,8 @@ const ScanTool = props => {
 
             <Box sx={styles.boxStyles} width="calc(100% - 44px)">
                 <Box display="flex" alignItems="center" justifyContent="center" rowGap={1} flexWrap={"wrap"} flexGrow={1} position="relative">
-                    <Box display="flex">
-                        <IconButton color="primary" onClick={openScanDialog}>
+                    <Box display="flex" gap={1}>
+                        <IconButton onClick={openScanDialog} sx={{alignSelf: "center"}}>
                             <CameraAlt/>
                         </IconButton>
                         <TextField 
