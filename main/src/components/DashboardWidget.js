@@ -21,12 +21,12 @@ const DashboardWidget = props => {
             display="flex"
             width="100%"
         >
-            <Paper sx={{padding:2, height:"100%", width:"100%", maxWidth:"100%"}}>
-                <Box><Typography>{title}</Typography></Box>
+            <Paper variant="outlined" sx={{padding:2, height:"100%", width:"100%", maxWidth:"100%"}}>
+                <Box><Typography variant="widgetTitle">{title}</Typography></Box>
                 <Box
                     marginTop={1}
                     paddingBottom={1}
-                    height={`calc(100% - ${theme.spacing(2)})`}
+                    height={`calc(100% - ${theme.spacing(3)})`}
                 >
                     {children}
                 </Box>

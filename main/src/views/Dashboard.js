@@ -4,23 +4,69 @@ import { useNavigate } from "react-router-dom";
 import { backendApiContext } from "../context";
 import { Assessment, DevicesOther, LocalShipping, QrCodeScanner, Summarize } from "@mui/icons-material";
 import DashboardWidget from "../components/DashboardWidget";
-import { useInfiniteQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useQueries } from "@tanstack/react-query";
 import SortingGrid from "../components/SortingGrid";
 import GridLayout from 'react-grid-layout';
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
+import { Bar } from 'react-chartjs-2';
+import {
+  Chart as ChartJS,
+  BarElement,
+  CategoryScale,
+  LinearScale,
+  Tooltip,
+  Legend
+} from 'chart.js';
 
+// Register required chart.js modules
+ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend);
+
+// Default Layout
 const STATICGRIDLAYOUT = [
     { i: 'equipmentAvailable', x: 0, y: 0, w: 4, h: 11 },
     { i: 'futureShipments', x: 4, y: 0, w: 8, h: 11 },
   ];
 
-const breakpoints = {};
-
+// Available Equipment Bar Chart state reducer
 const equipmentAvailableReducer = (prev, action) => {
     
+    // Declare state var
+    let newState = {};
+
+    if (prev){ // Start with previous state
+
+        newState = {...prev};
+    }
+
+    // Perform Data manipulations
     switch(action.type){
 
+        case 'getInitialState':
+            return({
+                data: {
+                    labels: [],
+                    datasets:[]
+                },
+                options: {
+                    indexAxis: 'y', // Horizontal chart
+                    maintainAspectRatio: false,
+                    responsive: true,
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                        }
+                    }
+                }
+            })
+        
+        case 'setLabels':
+            newState.data.labels = action.value;
+            return newState;
+
+        case 'addDataset':
+            newState.data.datasets.push(action.value);
+            return newState;
     }
 }
 
@@ -28,16 +74,44 @@ const Dashboard = props => {
     
     // Hooks
     const theme = useTheme();
+    const backend = useContext(backendApiContext);
 
     // State
     const dashboardElement = useRef(undefined);
     const [dashboardWidth, setDashboardWidth] = useState(window.innerWidth * 0.80);
     const [dashboardLayout, setDashboardLayout] = useState(STATICGRIDLAYOUT); 
-    const [equipmentAvailableChart, dispatchEquipmentAvailable] = useReducer(equipmentAvailableReducer, {});
+    const [equipmentAvailableChart, dispatchEquipmentAvailable] = useReducer(equipmentAvailableReducer, equipmentAvailableReducer(null, {type:'getInitialState'}));
 
     // Queries
     const models = useInfiniteQuery({queryKey: ['model']});
     const shipments = useInfiniteQuery({queryKey: ['shipment']});
+
+    const allLoadedModels = models.data?.pages.map(p => p.results).flat();
+    const allModelsAreLoaded = models.isSuccess && !models.hasNextPage;
+
+    const modelAssetQueries = useQueries({
+        queries: allModelsAreLoaded ? 
+        allLoadedModels.map( model => {
+            return({
+                queryKey: ['asset', 'by-model', model.id],
+                queryFn: async () => {
+
+                    console.log('executing query')
+
+                    const formattedUrl = new URL(`${backend.api.baseUrl}/asset/`);
+                
+                    formattedUrl.searchParams.set('model', model.id);
+
+                    const res = await fetch(formattedUrl);
+                    const data = await res.json();
+
+                    return data;
+
+                  }
+            })
+        })
+        : [],
+    });
 
     // Effects
     useEffect(() => {
@@ -56,9 +130,29 @@ const Dashboard = props => {
         }
     }, [dashboardElement.current]) // Update dashboard width when component loads.
     
+    useEffect(() => {
+        if(!models.isFetching && models.hasNextPage){
+            models.fetchNextPage();
+        }
+    },[models.isFetching]) // Load all models
+
+    useEffect(() => {
+        if (allModelsAreLoaded && modelAssetQueries.map(Q => Q.isSuccess).every(Q => Q)){
+            const counts = modelAssetQueries.map( Q => Q.data?.results.length);
+            const backgroundColors = [...counts].map(c => theme.palette.primary.light);
+
+            dispatchEquipmentAvailable({type: 'addDataset', value: {label:'In warehouse', data:counts, backgroundColor:backgroundColors, borderColor:backgroundColors}})
+        }
+    }, [...modelAssetQueries.map(Q => Q.isSuccess)]) // 
+
+    useEffect(() => {
+        if(allModelsAreLoaded && equipmentAvailableChart.data.labels.length == 0){
+            dispatchEquipmentAvailable({type: 'setLabels', value: allLoadedModels.map(m => m.label)})
+        }
+    }, [allModelsAreLoaded])
+
     // Callback Functions
     const onLayoutChange = (newLayout) => {
-        console.log('New Layout:', newLayout);
         setDashboardLayout(newLayout);
     }; // Update layout state on update
 
@@ -71,8 +165,8 @@ const Dashboard = props => {
 
     // Formatted Data
     const hideMargin = useMediaQuery("(max-width: 750px");
-    console.log(shipments);
 
+    
     return(
         <Box className="Dashboard" ref={dashboardElement}>
 
@@ -89,15 +183,23 @@ const Dashboard = props => {
                 cols={12} 
                 rowHeight={30}
                 width={dashboardWidth}
+                preventCollision={true}
             >
+
                 <div key="equipmentAvailable">
                     <DashboardWidget
                         title="Available Equipment"
                         description=""
                     >
 
+                        { equipmentAvailableChart?.data.datasets.length > 0 ?
+                        <Bar data={equipmentAvailableChart.data} options={equipmentAvailableChart.options} />
+                        : null
+                        }
+
                     </DashboardWidget>
                 </div>
+
                 <div key="futureShipments">
                     <DashboardWidget
                         title="Scheduled Shipments"
@@ -109,10 +211,12 @@ const Dashboard = props => {
                             count={shipments.isSuccess ? shipments.data.pages[0].results.length : 0}
                             initialColumns={['id', 'label', 'departure_date']}
                             maxRowsPerPage={10}
-                            paperProps={{sx:{minHeight: "100%"}, elevation:2}}
+                            paperProps={{sx:{minHeight: "100%", border:"none !important", padding: "none !important", margin: "none !important"}, variant:"outlined"}}
+                            disableControls={true}
                         />
                     </DashboardWidget>
                 </div>
+
             </GridLayout>
 
         </Box>
