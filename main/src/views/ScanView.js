@@ -137,9 +137,14 @@ const ScanView = () => {
   }
 
   const getSelectedAssets = () => {
-    return shipment.current?.assets
-    .map( a => [a, ...a.assets]).flat()
-    .filter( a => a._meta.selected )
+    if (shipment.current){
+      return shipment.current?.assets
+      .map( a => [a, ...a.assets]).flat()
+      .filter( a => a._meta.selected )
+    }
+    else{
+      return new Array()
+    }
   }
 
   const removeSelectedAssets = e => {
