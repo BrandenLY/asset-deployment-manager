@@ -163,7 +163,7 @@ const ScanView = () => {
   const canRemoveAssetsFromObj = backend.auth.user ? backend.auth.user.checkPermission(`change_asset`) : false;
   const hasAssetSelections = shipment.current ? shipment.current.assets
   .map( a => [a, ...a.assets]).flat()
-  .map( a => a._meta.selected )
+  .map( a => a._meta?.selected )
   .includes(true)
   : false;
 
