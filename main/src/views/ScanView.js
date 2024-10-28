@@ -84,17 +84,17 @@ const ScanView = () => {
     if (selectedShipment.data != undefined){
 
       setShipment(prev => {
+
         let newState = {...prev};
         newState.current = {...selectedShipment.data};
 
         // Add selection state
         newState.current.assets = newState.current.assets.map(asset => {
-          let assetData = {...asset};
-          assetData._meta = { ...assetData._meta, selected:false };
-          return assetData;
+          return parseAssetData(asset);
         })
 
         return newState;
+      
       })
 
     }
@@ -157,6 +157,12 @@ const ScanView = () => {
     refetchState();
   }
 
+  const parseAssetData = data => {
+    let tmpData = {...data,_meta:{selected:false}}
+    tmpData['assets'] = tmpData['assets'].map( a => ({...a,_meta:{selected:false}}));
+    return(tmpData);
+  }
+  
   // Formatted Data
   const selectShipmentInputId = 'scan-tool-shipment-select';
   const shipmentIsSelected = shipment.current != null;
@@ -197,7 +203,7 @@ const ScanView = () => {
       </Box>
       }
 
-      {(shipmentIsSelected && shipment.current.assets.length > 0) &&
+      {(shipmentIsSelected && shipment.current != null) &&
       <Box padding={1} margin={1}>
         <Box>
           <Typography variant="h5">3. Review</Typography>

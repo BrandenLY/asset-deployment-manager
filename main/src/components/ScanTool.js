@@ -222,14 +222,9 @@ const ScanTool = props => {
 
     const handleQrScannerFeedback = data => {
 
-        if(data.result == "success" && scanAssetMutation.isIdle){
+        console.log(data);
 
-            console.log('make mutation from qr')
-            console.log(scanAssetMutation)
-            console.log(shipment) // undefined
-            console.log(destinationContentType)
-            console.log(destination) // undefined
-            console.log(data)
+        if(data.result == "success" ){
 
             const payload = {
                 shipment : shipment.id,
@@ -315,7 +310,7 @@ const ScanTool = props => {
                 paperStyles={{maxWidth: "fit-content !important"}}
             >
                 <Box display="flex" id={scanUiDialogId} marginX="auto" width="200px" height="200px" border={`6px solid rgba(0,0,0,0.25)`} overflow="clip">
-                    <QrScanner parentId={scanUiDialogId} onSettled={handleQrScannerFeedback}/>
+                    <QrScanner parentId={scanUiDialogId} onSettled={handleQrScannerFeedback} onClose={() => {setDisplayScanUi(false)}}/>
                 </Box>
             </CustomDialog>
 
@@ -327,7 +322,7 @@ const ScanTool = props => {
 const QrScanner = props => {
     
     // Props destructuring
-    const { parentId, onSettled=() => {}} = props;
+    const { parentId, onSettled=() => {}, onClose=()=>{}} = props;
 
     const QrReader = useRef(null);
 
@@ -349,7 +344,12 @@ const QrScanner = props => {
             completeFailure
         )
         .catch( error => {
+            
+            console.log(error);
+
             onSettled({result: "error", error})
+            QrReader.current.stop();
+            onClose();
         })
 
         // Cleanup
@@ -362,12 +362,14 @@ const QrScanner = props => {
     },[])
 
     const completeSuccess = (decodedData, decodedResult) => {
-        onSettled({result: "success", decodedData, decodedResult})
+        onSettled({result: "success", decodedData, decodedResult});
         QrReader.current.stop();
+        onClose();
     }
 
     const completeFailure = error => {
-        onSettled({result: "error", error})
+        console.log(error);
+        return; // Do nothing
     }
 
     return(<React.Fragment />)
