@@ -2,7 +2,8 @@
 /db.sqlite3
 _pycache_/
 *.py[cod]
-migrations/
+**/migrations/*
+**/static/*
 .venv/
 
 # dependencies
