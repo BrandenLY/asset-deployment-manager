@@ -86,7 +86,7 @@ const IntegerSelector = props => {
 
         <input 
             ref={inputEl}
-            class="simple-number-input"
+            className="simple-number-input"
             type="number"
             inputMode="numeric" /* Removes some styles on mobile */
             value={number}

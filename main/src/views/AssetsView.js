@@ -1,7 +1,6 @@
 import React, { useContext, useState } from "react";
 import { Box, FormControl, InputLabel, OutlinedInput, Paper, TextField, Typography } from "@mui/material";
 import { useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
-import { useModelOptions } from "../customHooks";
 import { useNavigate } from "react-router-dom";
 import { OpenInNew } from "@mui/icons-material";
 import SortingGrid from "../components/SortingGrid";
@@ -28,10 +27,6 @@ const AssetsView = props =>{
     const backend = useContext(backendApiContext);
     const notifications = useContext(notificationContext);
 
-    // State
-    const [newReservationEndDate, setNewReservationEndDate] = useState(null);
-    const [newReservationsStartDate, setNewReservationStartDate] = useState(null);
-
     // Mutations
 
     // Queries
@@ -49,7 +44,6 @@ const AssetsView = props =>{
     // Formatted Data
     const allLoadedAssets = assets.data?.pages.map(p => p.results).flat();
     const assetCount = assets.data?.pages.reduce((count, page) => count + page.results.length, 0);
-    const requiresDateSelections = newReservationEndDate == null || newReservationsStartDate == null;
 
     return (
         <Box className="AssetsView" display="flex" flexDirection="column" alignItems="stretch" gap={3}>
@@ -64,56 +58,6 @@ const AssetsView = props =>{
                     open : {icon:OpenInNew, callbackFn:openAsset},
                 }}
             />
-            <Paper sx={{padding:2}}>
-                <Box>
-                    <Typography variant="h4">Reserve Equipment</Typography>
-                    { requiresDateSelections ? <Typography variant="subtitle1">Select the dates of reservation.</Typography> : null }
-                </Box>
-                <Box>
-                    <Box display="flex" gap={1} justifyContent="center" alignItems="center" paddingY={2}>
-
-
-                        <FormControl>
-                            <InputLabel shrink variant="outlined" error={null}>
-                                Start date
-                            </InputLabel>
-                            
-                            <OutlinedInput
-                                type="date"
-                                value={newReservationsStartDate}
-                                label="Start date"
-                                notched={true}
-                                onChange={(e) => {setNewReservationStartDate(e.target.value)}}
-                                required={true}
-                                sx={{appearance:"none"}}
-                            />
-                        </FormControl>
-
-                        <Box>
-                            <Typography>
-                                To
-                            </Typography>
-                        </Box>
-
-                        <FormControl>
-                            <InputLabel shrink variant="outlined" error={null}>
-                                End date
-                            </InputLabel>
-                            
-                            <OutlinedInput
-                                type="date"
-                                value={newReservationEndDate}
-                                label="End date"
-                                notched={true}
-                                onChange={(e) => {setNewReservationEndDate(e.target.value)}}
-                                required={true}
-                                sx={{appearance:"none"}}
-                            />
-                        </FormControl>
-
-                    </Box>
-                </Box>
-            </Paper>
         </Box>
     );
 };

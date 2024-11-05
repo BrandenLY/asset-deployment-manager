@@ -105,3 +105,22 @@ header .container-fluid{
     justify-content: center;
     overflow: hidden;
   }
+
+input.simple-number-input[type="number"]::-webkit-inner-spin-button,
+input.simple-number-input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    appearance: none;
+    margin: 0;
+}
+
+input.simple-number-input[type="number"] {
+    background-color: transparent;
+    border: none;
+    text-align: center;
+    -moz-appearance: textfield;
+    appearance: none;
+}
+
+input.simple-number-input[type="number"]:focus-visible {
+    outline: none;
+}

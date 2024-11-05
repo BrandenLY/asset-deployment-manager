@@ -1,11 +1,15 @@
-import React from 'react'
+import React from "react";
+import { Box } from "@mui/material";
 
-const MODELNAME = 'equipmenthold';
 
-const EquipmentHoldsDetailView = () => {
+const EquipmentHoldsDetailView = props => {
+
   return (
-    <div>EquipmentHoldsDetailView</div>
+    <Box>
+
+    </Box>
   )
+
 }
 
-export default EquipmentHoldsDetailView
+export default EquipmentHoldsDetailView 
