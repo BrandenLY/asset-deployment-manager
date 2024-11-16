@@ -1,20 +1,24 @@
-import React, { useContext, useState } from "react";
 import { Box, FormControl, InputLabel, OutlinedInput, Paper, TextField, Typography } from "@mui/material";
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { useInfiniteQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import SortingGrid from "../components/SortingGrid";
-import ModelListControls from "../components/ModelListControls";
-import { backendApiContext, notificationContext } from "../context";
-import Section from '../components/Section';
+import dayjs from 'dayjs';
+import React, { useContext, useState } from "react";
 import IntegerSelector from '../components/IntegerSelector';
+import ModelListControls from "../components/ModelListControls";
+import Section from '../components/Section';
+import SortingGrid from "../components/SortingGrid";
+import { backendApiContext, notificationContext } from "../context";
 
 const MODELNAME = 'equipmenthold';
 const SORTINGGRIDDEFAULTCOLUMNS = [];
 const CREATEEQUIPMENTHOLDFORMLAYOUT = [];
 
 const EquipmentHolds = props => {
-  
+
   // Props Destructuring
-  const {addNotif} = props;
+  const { addNotif } = props;
 
   // Hooks
   const backend = useContext(backendApiContext);
@@ -22,19 +26,19 @@ const EquipmentHolds = props => {
   // State
   const [reserveQty, setReserveQty] = useState({});
   const [newReservationEndDate, setNewReservationEndDate] = useState(null);
-  const [newReservationsStartDate, setNewReservationStartDate] = useState(null);
+  const [newReservationStartDate, setNewReservationStartDate] = useState(null);
 
   // Queries
-  const models = useInfiniteQuery({queryKey:['model']});
-  const equipmentholds = useInfiniteQuery({queryKey:[MODELNAME]});
+  const models = useInfiniteQuery({ queryKey: ['model'] });
+  const equipmentholds = useInfiniteQuery({ queryKey: [MODELNAME] });
 
   // Mutations
   const pushReservations = useMutation({
-    mutationFn : (reservation) => {
+    mutationFn: (reservation) => {
 
       const updateUrl = new URL(`${backend.api.baseUrl}/${MODELNAME}/`);
       const requestHeaders = backend.api.getRequestHeaders();
-    
+
       return fetch(updateUrl, {
         method: 'POST',
         headers: requestHeaders,
@@ -43,16 +47,16 @@ const EquipmentHolds = props => {
 
     },
     onSuccess: (data, error, variables, context) => {
-      
+
     }
   })
 
   // Callback Functions
   const updateModelQty = (modelId, qty) => {
     setReserveQty(prev => {
-      let newQty = {...prev};
+      let newQty = { ...prev };
       newQty[modelId] = qty;
-      return(newQty);
+      return (newQty);
     })
   }
 
@@ -60,7 +64,7 @@ const EquipmentHolds = props => {
   const allLoadedEquipmentHolds = equipmentholds.data?.pages.map(p => p.results).flat();
   const equipmentHoldCount = equipmentholds.data?.pages.reduce((count, page) => count + page.results.length, 0);
   const allLoadedModels = models.data?.pages.map(p => p.results).flat();
-  const requiresDateSelections = newReservationEndDate == null || newReservationsStartDate == null;
+  const requiresDateSelections = newReservationEndDate == null || newReservationStartDate == null;
 
   console.log(models, allLoadedModels);
 
@@ -73,46 +77,27 @@ const EquipmentHolds = props => {
         <Box padding={1}>
           <Typography variant="h5">1. Select the dates of reservation</Typography>
           <Box display="flex" gap={1} justifyContent="center" alignItems="center" paddingY={2}>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
 
-
-              <FormControl>
-                  <InputLabel shrink variant="outlined" error={null}>
-                      Start date
-                  </InputLabel>
-                  
-                  <OutlinedInput
-                      type="date"
-                      value={newReservationsStartDate}
-                      label="Start date"
-                      notched={true}
-                      onChange={(e) => {setNewReservationStartDate(e.target.value)}}
-                      required={true}
-                      sx={{appearance:"none"}}
-                  />
-              </FormControl>
+              <DatePicker
+                label="Start date"
+                value={dayjs(newReservationStartDate)}
+                onChange={(value, ctx) => setNewReservationStartDate(value.toDate())}
+              />
 
               <Box>
-                  <Typography>
-                      To
-                  </Typography>
+                <Typography>
+                  To
+                </Typography>
               </Box>
 
-              <FormControl>
-                  <InputLabel shrink variant="outlined" error={null}>
-                      End date
-                  </InputLabel>
-                  
-                  <OutlinedInput
-                      type="date"
-                      value={newReservationEndDate}
-                      label="End date"
-                      notched={true}
-                      onChange={(e) => {setNewReservationEndDate(e.target.value)}}
-                      required={true}
-                      sx={{appearance:"none"}}
-                  />
-              </FormControl>
-
+              <DatePicker
+                label="End date"
+                value={dayjs(newReservationEndDate)}
+                onChange={(value, ctx) => setNewReservationEndDate(value.toDate())}
+              />
+              
+            </LocalizationProvider>
           </Box>
         </Box>
 
@@ -126,11 +111,11 @@ const EquipmentHolds = props => {
                   const mQty = reserveQty[m.id]
                   const value = mQty != undefined ? mQty : 0;
 
-                  return(
+                  return (
                     <EquipmentSelectionRow
-                      key={m.id} 
-                      model={m} 
-                      onChange={qty => { updateModelQty(m.id, qty) }} 
+                      key={m.id}
+                      model={m}
+                      onChange={qty => { updateModelQty(m.id, qty) }}
                       value={value}
                     />
                   )
@@ -142,11 +127,11 @@ const EquipmentHolds = props => {
         }
 
       </Section>
+      <ModelListControls model={MODELNAME} createObjectsFormLayout={CREATEEQUIPMENTHOLDFORMLAYOUT} />
       <Section
         title="Existing Reservations"
-        actions={[<ModelListControls model={MODELNAME} createObjectsFormLayout={CREATEEQUIPMENTHOLDFORMLAYOUT}/>]}
       >
-        <SortingGrid 
+        <SortingGrid
           title="Equipment Reservations"
           modelName={MODELNAME}
           data={allLoadedEquipmentHolds}
@@ -162,13 +147,13 @@ const EquipmentHolds = props => {
 const EquipmentSelectionRow = props => {
 
   // Props Destructuring
-  const {model, value, onChange} = props;
+  const { model, value, onChange } = props;
 
-  return(
+  return (
     <Box display="flex" maxWidth="450px" width="100%">
       <Box flexGrow={1} display="flex" alignItems="center">{model.label}</Box>
       <Box>
-        <IntegerSelector onChange={onChange} value={value}/>
+        <IntegerSelector onChange={onChange} value={value} />
       </Box>
     </Box>
   );
