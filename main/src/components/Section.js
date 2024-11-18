@@ -34,8 +34,8 @@ const Section = props => {
             ...paperProps.sx
         }}
     >
-        <Box className="section-heading" display="flex" gap={theme.spacing(1)} padding={theme.spacing(1)}>
-            <Box className="section-controls" display="flex" alignItems="center" gap={theme.spacing(1.5)} flexGrow={1}>
+        <Box className="section-heading" display="flex" gap={theme.spacing(1)} padding={theme.spacing(1)} alignItems="center">
+            <Box className="section-controls" display="flex" gap={theme.spacing(1.5)} flexGrow={1}>
                 <IconButton onClick={toggleExpansion}>
                     { expanded ? <ExpandLess /> : <ExpandMore />}
                 </IconButton>
