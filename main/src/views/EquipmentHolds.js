@@ -1,136 +1,184 @@
-import React, { useContext, useState } from "react";
-import { Box, FormControl, InputLabel, OutlinedInput, Paper, TextField, Typography } from "@mui/material";
+import { Box, Button, FormControl, InputLabel, OutlinedInput, Paper, TextField, Typography } from "@mui/material";
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { useInfiniteQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import SortingGrid from "../components/SortingGrid";
-import ModelListControls from "../components/ModelListControls";
-import { backendApiContext, notificationContext } from "../context";
-import Section from '../components/Section';
+import dayjs from 'dayjs';
+import React, { useCallback, useContext, useReducer, useState } from "react";
 import IntegerSelector from '../components/IntegerSelector';
+import ModelListControls from "../components/ModelListControls";
+import Section from '../components/Section';
+import SortingGrid from "../components/SortingGrid";
+import { backendApiContext, notificationContext } from "../context";
 
 const MODELNAME = 'equipmenthold';
 const SORTINGGRIDDEFAULTCOLUMNS = [];
 const CREATEEQUIPMENTHOLDFORMLAYOUT = [];
+const DEFAULTRESERVATIONSTATE = {startDate: null, endDate: null, quantities:{}};
+
+const RESERVATIONSREDUCER = (prev, action) => {
+
+  let state = {...prev};
+
+  switch(action.type){
+    
+    case 'initial':
+      // When initially loading, prev is actually the preferred initial state
+      break;
+
+    case 'setStartDate':
+      state.startDate = action.date;
+      break;
+
+    case 'setEndDate':
+      state.endDate = action.date;
+      break;
+
+    case 'setQuantity':
+      state.quantities[action.modelId] = action.quantity;
+      break;
+
+  }
+
+  return state;
+
+}
 
 const EquipmentHolds = props => {
-  
+
   // Props Destructuring
-  const {addNotif} = props;
+  const {  } = props;
 
   // Hooks
   const backend = useContext(backendApiContext);
+  const notifications = useContext(notificationContext);
 
   // State
-  const [reserveQty, setReserveQty] = useState({});
-  const [newReservationEndDate, setNewReservationEndDate] = useState(null);
-  const [newReservationsStartDate, setNewReservationStartDate] = useState(null);
+  const [reservations, dispatchReservations] = useReducer(
+    RESERVATIONSREDUCER, 
+    {startDate:null, endDate:null, quantities:{}},
+    initialArg => RESERVATIONSREDUCER(initialArg, {type: 'initial'})
+  )
 
   // Queries
-  const models = useInfiniteQuery({queryKey:['model']});
-  const equipmentholds = useInfiniteQuery({queryKey:[MODELNAME]});
+  const models = useInfiniteQuery({ queryKey: ['model'] });
+  const equipmentholds = useInfiniteQuery({ queryKey: [MODELNAME] });
 
   // Mutations
   const pushReservations = useMutation({
-    mutationFn : (reservation) => {
+    mutationFn: (reservation) => {
 
       const updateUrl = new URL(`${backend.api.baseUrl}/${MODELNAME}/`);
       const requestHeaders = backend.api.getRequestHeaders();
-    
+
       return fetch(updateUrl, {
         method: 'POST',
         headers: requestHeaders,
-        body: JSON.stringify(data),
+        body: JSON.stringify(reservation),
       });
 
     },
-    onSuccess: (data, error, variables, context) => {
-      
+    onSettled: (data, error, variables, context) => {
+      console.log(data, error, variables, context);
     }
   })
 
   // Callback Functions
-  const updateModelQty = (modelId, qty) => {
-    setReserveQty(prev => {
-      let newQty = {...prev};
-      newQty[modelId] = qty;
-      return(newQty);
-    })
-  }
+  const resetState = useCallback(e => {
+    dispatchReservations({type: 'reset'});
+  }, [dispatchReservations]);
 
+  const submitReservations = useCallback(e => {
+
+    const reservations = {...reservations};
+    const nonZeroModelQuantities = Object.entries(reservations.quantities).filter(([_, qty]) => qty > 0);
+
+    nonZeroModelQuantities.forEach(([modelId, qty]) => {
+      
+      // Make mutation
+      // pushReservations()
+
+    });
+
+  }, [pushReservations, reservations]);
+
+  const updateModelQty = useCallback((modelId, quantity) => {  
+    dispatchReservations({type:'setQuantity', modelId, quantity});
+  }, [dispatchReservations]);
+
+  
   // Formatted Data
   const allLoadedEquipmentHolds = equipmentholds.data?.pages.map(p => p.results).flat();
   const equipmentHoldCount = equipmentholds.data?.pages.reduce((count, page) => count + page.results.length, 0);
   const allLoadedModels = models.data?.pages.map(p => p.results).flat();
-  const requiresDateSelections = newReservationEndDate == null || newReservationsStartDate == null;
-
-  console.log(models, allLoadedModels);
-
+  const requiresDateSelection = reservations.endDate == null || reservations.startDate == null;
+  const reservationsIsModified = JSON.stringify(reservations) != JSON.stringify(DEFAULTRESERVATIONSTATE);
+  const reservationsHaveNonZeroQty = Object.entries(reservations.quantities).map(([_, qty]) => qty > 0).includes(true);
+  const reservationsHasRequiredData = (reservations.startDate != null && reservations.endDate != null) && reservationsHaveNonZeroQty;
+  
+  const submitButton = <Button variant="outlined" color="primary" onClick={submitReservations}>Submit</Button>;
+  const resetButton = <Button variant="outlined" color="error" onClick={resetState}>Reset</Button>;
+  
   return (
     <Box className="EquipmentHoldView">
+
       <Section
         title="Reserve Equipment"
         defaultExpanded={true}
+        actions={[
+          reservationsIsModified ? resetButton : null,
+        ]}
       >
         <Box padding={1}>
           <Typography variant="h5">1. Select the dates of reservation</Typography>
           <Box display="flex" gap={1} justifyContent="center" alignItems="center" paddingY={2}>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
 
-
-              <FormControl>
-                  <InputLabel shrink variant="outlined" error={null}>
-                      Start date
-                  </InputLabel>
-                  
-                  <OutlinedInput
-                      type="date"
-                      value={newReservationsStartDate}
-                      label="Start date"
-                      notched={true}
-                      onChange={(e) => {setNewReservationStartDate(e.target.value)}}
-                      required={true}
-                      sx={{appearance:"none"}}
-                  />
-              </FormControl>
+              <DatePicker
+                label="Start date"
+                value={dayjs(reservations.startDate)}
+                onChange={
+                  (value, ctx) => {
+                    dispatchReservations({type: 'setStartDate', date: value.toDate()});
+                  }
+                }
+              />
 
               <Box>
-                  <Typography>
-                      To
-                  </Typography>
+                <Typography>
+                  To
+                </Typography>
               </Box>
 
-              <FormControl>
-                  <InputLabel shrink variant="outlined" error={null}>
-                      End date
-                  </InputLabel>
-                  
-                  <OutlinedInput
-                      type="date"
-                      value={newReservationEndDate}
-                      label="End date"
-                      notched={true}
-                      onChange={(e) => {setNewReservationEndDate(e.target.value)}}
-                      required={true}
-                      sx={{appearance:"none"}}
-                  />
-              </FormControl>
-
+              <DatePicker
+                label="End date"
+                value={dayjs(reservations.endDate)}
+                onChange={
+                  (value, ctx) => {
+                    dispatchReservations({type: 'setEndDate', date: value.toDate()})
+                  }
+                }
+              />
+              
+            </LocalizationProvider>
           </Box>
         </Box>
 
-        {!requiresDateSelections &&
+        {!requiresDateSelection &&
           <Box padding={1}>
             <Typography variant="h5">2. Select reservation quantities</Typography>
             <Box display="flex" gap={1} justifyContent="center" alignItems="center" flexDirection="column">
               {allLoadedModels &&
                 allLoadedModels.map(m => {
 
-                  const mQty = reserveQty[m.id]
+                  const mQty = reservations.quantities[m.id]
                   const value = mQty != undefined ? mQty : 0;
 
-                  return(
+                  return (
                     <EquipmentSelectionRow
-                      key={m.id} 
-                      model={m} 
-                      onChange={qty => { updateModelQty(m.id, qty) }} 
+                      key={m.id}
+                      model={m}
+                      onChange={qty => { updateModelQty(m.id, qty) }}
                       value={value}
                     />
                   )
@@ -141,19 +189,29 @@ const EquipmentHolds = props => {
           </Box>
         }
 
+        <Box display="flex" justifyContent="center" gap={1}>
+          {reservationsHasRequiredData ? submitButton : null}
+          {reservationsIsModified ? resetButton : null}
+        </Box>
+
       </Section>
+
+      <ModelListControls model={MODELNAME} createObjectsFormLayout={CREATEEQUIPMENTHOLDFORMLAYOUT} />
+      
       <Section
         title="Existing Reservations"
-        actions={[<ModelListControls model={MODELNAME} createObjectsFormLayout={CREATEEQUIPMENTHOLDFORMLAYOUT}/>]}
       >
-        <SortingGrid 
+
+        <SortingGrid
           title="Equipment Reservations"
           modelName={MODELNAME}
           data={allLoadedEquipmentHolds}
           count={equipmentHoldCount}
           initialColumns={SORTINGGRIDDEFAULTCOLUMNS}
         />
+
       </Section>
+
     </Box>
   )
 
@@ -162,13 +220,13 @@ const EquipmentHolds = props => {
 const EquipmentSelectionRow = props => {
 
   // Props Destructuring
-  const {model, value, onChange} = props;
+  const { model, value, onChange } = props;
 
-  return(
+  return (
     <Box display="flex" maxWidth="450px" width="100%">
       <Box flexGrow={1} display="flex" alignItems="center">{model.label}</Box>
       <Box>
-        <IntegerSelector onChange={onChange} value={value}/>
+        <IntegerSelector onChange={onChange} value={value} />
       </Box>
     </Box>
   );

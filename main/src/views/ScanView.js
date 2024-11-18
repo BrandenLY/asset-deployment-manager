@@ -84,17 +84,16 @@ const ScanView = () => {
     if (selectedShipment.data != undefined){
 
       setShipment(prev => {
+
         let newState = {...prev};
+        newState.errors = [];
         newState.current = {...selectedShipment.data};
 
         // Add selection state
-        newState.current.assets = newState.current.assets.map(asset => {
-          let assetData = {...asset};
-          assetData._meta = { ...assetData._meta, selected:false };
-          return assetData;
-        })
+        newState.current.assets = newState.current.assets.map(asset => parseAssetData(asset));
 
         return newState;
+
       })
 
     }
@@ -108,6 +107,12 @@ const ScanView = () => {
   }, [selectedShipmentId]) // Refetch Query
 
   // Callback Functions
+  const parseAssetData = data => {
+    let tmpData = {...data,_meta:{selected:false}}
+    tmpData['assets'] = tmpData['assets'].map( a => ({...a,_meta:{selected:false}}));
+    return(tmpData);
+  }
+
   const refetchState = () => {
     selectedShipment.refetch();
   }
