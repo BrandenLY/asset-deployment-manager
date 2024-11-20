@@ -15,7 +15,7 @@ import AssetIcon from "../components/AssetIcon";
 const MODELNAME = 'equipmenthold';
 const SORTINGGRIDDEFAULTCOLUMNS = [];
 const CREATEEQUIPMENTHOLDFORMLAYOUT = [];
-const DEFAULTRESERVATIONSTATE = {startDate: null, endDate: null, quantities:{}};
+const DEFAULTRESERVATIONSTATE = {startDate: null, endDate: null, quantities:{}, trackedUpdates:[]};
 
 const RESERVATIONSREDUCER = (prev, action) => {
 
@@ -40,6 +40,10 @@ const RESERVATIONSREDUCER = (prev, action) => {
 
     case 'setQuantity':
       state.quantities[action.modelId] = action.quantity;
+      break;
+
+    case 'trackUpdate':
+      state.trackedUpdates.push(action.mutation);
       break;
 
   }
@@ -98,9 +102,20 @@ const EquipmentHolds = props => {
     const nonZeroModelQuantities = Object.entries(reservations.quantities).filter(([_, qty]) => qty > 0);
 
     nonZeroModelQuantities.forEach(([modelId, qty]) => {
-      
-      // Make mutation
-      // pushReservations()
+
+      // Format Payload
+      const formattedReservation = {
+        model: modelId,
+        quantity: qty,
+        start_date: reservations.startDate,
+        end_date: reservations.endDate,
+      }
+
+      // Update state
+      dispatchReservations({
+        type: "trackUpdate",
+        mutation: pushReservations.mutate(formattedReservation) // Make mutation
+      })
 
     });
 
@@ -199,19 +214,18 @@ const EquipmentHolds = props => {
         </Box>
 
       </Section>
-
-      <ModelListControls model={MODELNAME} createObjectsFormLayout={CREATEEQUIPMENTHOLDFORMLAYOUT} />
       
       <Section
         title="Existing Reservations"
       >
-
+        <ModelListControls model={MODELNAME} createObjectsFormLayout={CREATEEQUIPMENTHOLDFORMLAYOUT} buttonProps={{variant: "outlined"}}/>
         <SortingGrid
           title="Equipment Reservations"
           modelName={MODELNAME}
           data={allLoadedEquipmentHolds}
           count={equipmentHoldCount}
           initialColumns={SORTINGGRIDDEFAULTCOLUMNS}
+          paperProps={{elevation:2}}
         />
 
       </Section>
