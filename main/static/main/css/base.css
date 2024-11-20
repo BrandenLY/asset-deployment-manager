@@ -124,3 +124,17 @@ input.simple-number-input[type="number"] {
 input.simple-number-input[type="number"]:focus-visible {
     outline: none;
 }
+
+/* Hide arrows in Chrome, Safari, Edge, and Opera */
+input.no-controls[type="number"]::-webkit-outer-spin-button,
+input.no-controls[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  appearance: none;
+  margin: 0;
+}
+
+/* Hide arrows in Firefox */
+input.no-controls[type="number"] {
+  -moz-appearance: textfield;
+  appearance: none;
+}
