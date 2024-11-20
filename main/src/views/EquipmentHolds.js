@@ -25,7 +25,10 @@ const RESERVATIONSREDUCER = (prev, action) => {
     
     case 'initial':
       // When initially loading, prev is actually the preferred initial state
-      break;
+      return state;
+    
+    case 'reset':
+      return {...DEFAULTRESERVATIONSTATE};
 
     case 'setStartDate':
       state.startDate = action.date;
@@ -233,8 +236,8 @@ const EquipmentSelectionRow = props => {
         { modelIcon.isSuccess ? <AssetIcon iconName={modelIcon.data.source_name}/> : null }
 
         <Box>
-          <Typography variant="">{model.label}</Typography>
-          <Typography>Manufacturer: {model.manufacturer}</Typography>
+          <Typography fontSize="1.15rem" fontWeight="bold">{model.label}</Typography>
+          <Typography fontSize="0.85rem" fontWeight="lighter">Manufacturer: {model.manufacturer}</Typography>
           { model.isContainer ? <Typography variant="code">Container</Typography> : null }
         </Box>
 
