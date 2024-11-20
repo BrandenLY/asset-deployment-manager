@@ -1,6 +1,8 @@
 import { ExpandLess, ExpandMore } from '@mui/icons-material';
-import { Box, Button, OutlinedInput, useTheme } from '@mui/material'
+import { Box, Button, IconButton, OutlinedInput, TextField, useTheme } from '@mui/material'
 import React, { useEffect, useRef, useState } from 'react'
+import StyledNumberInput from './StyledNumberInput';
+
 
 const IntegerSelector = props => {
 
@@ -36,37 +38,9 @@ const IntegerSelector = props => {
         })
     }
 
-    const setNumberValue = e => {
-        setNumber(new Number(e.target.value));
+    const setNumberValue = (e, value) => {
+        setNumber(value);
     }
-
-    // Effects
-    useEffect(() => {
-        const handleChange = e => {
-            console.log(e);
-
-            if (e.isComposing){
-                return; // Wait for entry to be complete.
-            }
-
-            try{
-                setNumber(new Number(e.data));
-            }
-            catch{
-                setNumber(0);
-            }
-        }
-
-        if(inputEl.current){
-            inputEl.current.addEventListener("input", handleChange);
-        }
-
-        return(() => {
-            if(inputEl.current){
-                inputEl.current.removeEventListener("input", handleChange);
-            }
-        })
-    }, [inputEl.current]); // Register input event handlers for input element
 
     useEffect(() => {
         onChange(number);
@@ -79,29 +53,12 @@ const IntegerSelector = props => {
     },[value]) // Sync state with prop
     
   return (
-    <Box display="flex" flexDirection="column" border={`3px solid ${theme.palette.divider}`} maxWidth="100px">
-        <Button onClick={increment} disableRipple color="inherit" sx={{borderRadius:0}}>
-            <ExpandLess color="inherit" />
-        </Button>
-
-        <input 
-            ref={inputEl}
-            className="simple-number-input"
-            type="number"
-            inputMode="numeric" /* Removes some styles on mobile */
-            value={number}
-            style={{
-                color: theme.palette.text.primary,
-                fontFamily: 'inherit',
-                fontSize: 'inherit',
-                fontStyle: 'inherit'
-            }}
-        />
-
-        <Button onClick={decrement} disableRipple color="inherit" sx={{borderRadius:0}}>
-            <ExpandMore color="inherit"/>
-        </Button>
-    </Box>
+    <StyledNumberInput 
+        value={number}
+        onIncrement={increment}
+        onDecrement={decrement}
+        onChange={setNumberValue}
+    />
   )
 }
 
