@@ -279,7 +279,7 @@ function ImportButton(props) {
     return (
         <React.Fragment>
 
-            <ActionButton elementProps={{ startIcon: <Upload />, variant: "contained" }} callbackFn={openDialog} popoverText={`Import ${model} data from a spreadsheet`}>
+            <ActionButton elementProps={{ startIcon: <Upload />, variant: "contained", ...props }} callbackFn={openDialog} popoverText={`Import ${model} data from a spreadsheet`}>
                 Import
             </ActionButton>
 

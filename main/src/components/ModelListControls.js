@@ -7,15 +7,15 @@ import ExportButton from './ExportButton';
 const ModelListControls = props => {
 
     // Props
-    const {model, createObjectsFormLayout} = props;
+    const {model, createObjectsFormLayout, buttonProps} = props;
 
     // Hooks
     return(
         <Box display="flex" justifyContent="flex-end" flexWrap="wrap" gap={1} paddingY={1}>
-            <CreateObjectsButton model={model} formLayout={createObjectsFormLayout} buttonProps={undefined} buttonIcon={undefined}/>
+            <CreateObjectsButton model={model} formLayout={createObjectsFormLayout} buttonProps={buttonProps} buttonIcon={undefined}/>
             <Box display="flex" gap={1}>
-                <ImportButton model={model} />
-                <ExportButton model={model} />
+                <ImportButton model={model} {...buttonProps}/>
+                <ExportButton model={model} {...buttonProps}/>
             </Box>
         </Box>
     )
