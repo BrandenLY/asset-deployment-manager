@@ -31,6 +31,7 @@ import { useCustomTheme } from "./customHooks";
 import { NotificationContextProvider } from "./context";
 import { DocumentScanner, QrCodeScanner, Summarize } from "@mui/icons-material";
 import ReserveEquipmentView from "./views/ReserveEquipmentView";
+import UsersView from "./views/UsersView";
 
 const betaFlagStyles = {color:"crimson", padding:1, backgroundColor:"rgba(18,18,18,0.66"};
 const titleIconSize = "45pt";
@@ -55,6 +56,11 @@ const applicationRoutes = [
     path: '/reserve',
     component: ReserveEquipmentView,
     pageTitle: <><Summarize fontSize={titleIconSize}/> Reserve Equipment {BetaFlag}</>
+  },
+  {
+    path:'/users',
+    component:UsersView, 
+    pageTitle: 'Manage Users'
   },
   {
     path:'/shipments',
@@ -99,12 +105,12 @@ const applicationRoutes = [
   {
     path:'/equipmentholds',
     component:EquipmentHolds,
-    pageTitle: 'Manage Equipment Reservations'
+    pageTitle: 'Manage Equipment Holds'
   },
   {
     path:'/equipmentholds/:id',
     component:EquipmentHoldsDetailView,
-    pageTitle: 'Equipment Reservation Details'
+    pageTitle: 'Equipment Hold Details'
   },
   {
     path:'*',
