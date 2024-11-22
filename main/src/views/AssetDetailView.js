@@ -36,7 +36,8 @@ const AssetDetailView = props => {
                 ['knox_id'],
                 ['location'],
                 ['note'],
-                ['date_created', 'last_modified']
+                ['date_created'],
+                ['last_modified']
             ]}
         >
 
