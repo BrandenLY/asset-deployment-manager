@@ -1,4 +1,9 @@
 import { Autocomplete, Checkbox, FormControl, FormControlLabel, FormHelperText, InputLabel, OutlinedInput, TextField } from '@mui/material';
+import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import dayjs from 'dayjs';
+
 import React, { useState, useEffect } from 'react'
 import { ModelAutoComplete } from './ModelAutoComplete';
 
@@ -102,24 +107,27 @@ const DynamicInput = props => {
                 _formattedValue = toHtmlInputDate(fieldDetails.current) 
             }
             return(
-                <CustomFormControl  fieldError={fieldDetails.errors.toString()} helpText={fieldDetails.help_text}>
-                    <InputLabel shrink variant="outlined" error={fieldError} for={htmlInputId}>
-                        {fieldDetails.label}
-                    </InputLabel>
-                    
-                    <OutlinedInput
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <DateTimePicker
+                        format="LLL"
                         id={htmlInputId}
-                        type="datetime-local"
-                        disabled={fieldIsDisabled}
-                        value={_formattedValue}
                         label={fieldDetails.label}
-                        notched={true}
-                        onChange={(_e, newValue) => {updateValues(_e, _e.target.value)}}
                         error={fieldError}
-                        required={fieldDetails.required}
-                        sx={{appearance:"none"}}
+                        disabled={fieldIsDisabled}
+                        value={dayjs(_formattedValue)}
+                        onChange={(value, ctx) => {updateValues(null, value.toDate())}}
+                        slotProps={{
+                            field: {
+                                fullWidth:true,
+                                required: fieldDetails.required,
+                            },
+                            textField: {
+                                error: fieldError,
+                                helperText:fieldError ? fieldDetails.errors.toString(): fieldDetails.help_text
+                            },
+                        }}
                     />
-                </CustomFormControl>
+                </LocalizationProvider>
             );
         case 'related object':
             // Autocomplete/Select Style Input.

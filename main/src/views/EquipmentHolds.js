@@ -1,4 +1,4 @@
-import { Box, Button, FormControl, InputLabel, OutlinedInput, Paper, TextField, Typography } from "@mui/material";
+import { Box, Button, FormControl, InputLabel, OutlinedInput, Paper, TextField, Typography, useTheme } from "@mui/material";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -13,8 +13,12 @@ import { backendApiContext, notificationContext } from "../context";
 import AssetIcon from "../components/AssetIcon";
 
 const MODELNAME = 'equipmenthold';
-const SORTINGGRIDDEFAULTCOLUMNS = [];
-const CREATEEQUIPMENTHOLDFORMLAYOUT = [];
+const SORTINGGRIDDEFAULTCOLUMNS = ['id', 'label'];
+const CREATEEQUIPMENTHOLDFORMLAYOUT = [
+  ['start_date', 'end_date'],
+  ['model', 'quantity'],
+  ['event']
+];
 const DEFAULTRESERVATIONSTATE = {startDate: null, endDate: null, quantities:{}, trackedUpdates:[]};
 
 const RESERVATIONSREDUCER = (prev, action) => {
@@ -43,9 +47,12 @@ const RESERVATIONSREDUCER = (prev, action) => {
       break;
 
     case 'trackUpdate':
-      state.trackedUpdates.push(action.mutation);
+      state.trackedUpdates = [...state.trackedUpdates, action.data];
       break;
 
+    case 'resolveUpdate':
+      
+      break;
   }
 
   return state;
@@ -58,13 +65,14 @@ const EquipmentHolds = props => {
   const {  } = props;
 
   // Hooks
+  const theme = useTheme();
   const backend = useContext(backendApiContext);
   const notifications = useContext(notificationContext);
 
   // State
   const [reservations, dispatchReservations] = useReducer(
     RESERVATIONSREDUCER, 
-    {startDate:null, endDate:null, quantities:{}},
+    {...DEFAULTRESERVATIONSTATE},
     initialArg => RESERVATIONSREDUCER(initialArg, {type: 'initial'})
   )
 
@@ -86,8 +94,29 @@ const EquipmentHolds = props => {
       });
 
     },
+    onMutate: variables => {
+
+      const trackingData = {...variables, resolved: false, result: null, error: null};
+
+      // Update state
+      dispatchReservations({type: "trackUpdate", data:trackingData});
+
+    },
     onSettled: (data, error, variables, context) => {
-      console.log(data, error, variables, context);
+
+      if(!data.ok){
+        notifications.add({message: 'Failed to create equipment reservation', severity: 'error'});
+        return;
+      }
+
+      if(error){
+        console.error(error);
+        notifications.add({message: 'Failed to create equipment reservation', severity: 'error'});
+        return;
+      }
+
+      notifications.add({message: 'Successfully created equipment reservations'});
+
     }
   })
 
@@ -98,8 +127,8 @@ const EquipmentHolds = props => {
 
   const submitReservations = useCallback(e => {
 
-    const reservations = {...reservations};
-    const nonZeroModelQuantities = Object.entries(reservations.quantities).filter(([_, qty]) => qty > 0);
+    const _reservations = {...reservations};
+    const nonZeroModelQuantities = Object.entries(_reservations.quantities).filter(([_, qty]) => qty > 0);
 
     nonZeroModelQuantities.forEach(([modelId, qty]) => {
 
@@ -107,15 +136,12 @@ const EquipmentHolds = props => {
       const formattedReservation = {
         model: modelId,
         quantity: qty,
-        start_date: reservations.startDate,
-        end_date: reservations.endDate,
+        start_date: `${_reservations.startDate.getFullYear()}-${_reservations.startDate.getMonth() + 1}-${_reservations.startDate.getDate()}`,
+        end_date: `${_reservations.endDate.getFullYear()}-${_reservations.endDate.getMonth() + 1}-${_reservations.endDate.getDate()}`,
       }
 
-      // Update state
-      dispatchReservations({
-        type: "trackUpdate",
-        mutation: pushReservations.mutate(formattedReservation) // Make mutation
-      })
+      // Make mutation
+      pushReservations.mutate(formattedReservation);
 
     });
 
@@ -124,7 +150,6 @@ const EquipmentHolds = props => {
   const updateModelQty = useCallback((modelId, quantity) => {  
     dispatchReservations({type:'setQuantity', modelId, quantity});
   }, [dispatchReservations]);
-
   
   // Formatted Data
   const allLoadedEquipmentHolds = equipmentholds.data?.pages.map(p => p.results).flat();
@@ -137,7 +162,7 @@ const EquipmentHolds = props => {
   
   const submitButton = <Button variant="outlined" color="primary" onClick={submitReservations}>Submit</Button>;
   const resetButton = <Button variant="outlined" color="error" onClick={resetState}>Reset</Button>;
-  
+
   return (
     <Box className="EquipmentHoldView">
 
@@ -184,7 +209,7 @@ const EquipmentHolds = props => {
         </Box>
 
         {!requiresDateSelection &&
-          <Box padding={1}>
+          <Box padding={1} margin={`${theme.spacing(1)} 0`}>
             <Typography variant="h5">2. Select reservation quantities</Typography>
             <Box display="flex" gap={1} justifyContent="center" alignItems="center" flexDirection="column">
               {allLoadedModels &&

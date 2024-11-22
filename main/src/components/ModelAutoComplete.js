@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Autocomplete, TextField } from "@mui/material";
 import { useInfiniteQuery } from "@tanstack/react-query";
 
@@ -6,17 +6,27 @@ export const ModelAutoComplete = props => {
 
     const {field, dataModel, disabled, inputId, onChange, helpText, inputProps={}} = props;
 
-    // fetch
+    // Queries
     const data = useInfiniteQuery({
         queryKey: [dataModel],
         enabled: !disabled
-    })
+    });
 
-    const dataOptions = data.data?.pages.map(p => p.results).flat().map( result => result);
+    // Effects
+    useEffect(() => {
+
+        if (data.isFetching || !data.hasNextPage){
+            return;
+        }
+
+        data.fetchNextPage();
+
+    },[data.isFetching, data.hasNextPage])
 
     // Formatted Data
     const error = field.errors.length > 0;
     const errors = field.errors.toString();
+    const dataOptions = data.data?.pages.map(p => p.results).flat().map( result => result);
 
     return (
         <Autocomplete
@@ -29,6 +39,7 @@ export const ModelAutoComplete = props => {
             onChange={onChange}
             error={error}
             label={field.label}
+            loading={data.hasNextPage ? true : data.isFetching}
         />
     );
 };

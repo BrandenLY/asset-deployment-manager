@@ -135,6 +135,8 @@ class EquipmentHoldSerializer(CustomBaseSerializer):
     class Meta:
         model = EquipmentHold
         fields = [
+            'id',
+            'label',
             'model',
             'quantity',
             'start_date',

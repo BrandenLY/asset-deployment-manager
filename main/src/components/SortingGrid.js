@@ -1,5 +1,5 @@
 import React, {useCallback, useContext, useEffect, useRef, useState} from "react";
-import { Box, Paper, Typography, IconButton, Popover, List, ListItemButton, ListItemIcon, ListItemText, Link, Stack, Skeleton, FormControl, FormHelperText, MenuItem, Select, ListItem, FormControlLabel, Checkbox } from "@mui/material";
+import { Box, Paper, Typography, IconButton, Popover, List, ListItemButton, ListItemIcon, ListItemText, Link, Stack, Skeleton, FormControl, FormHelperText, MenuItem, Select, ListItem, FormControlLabel, Checkbox, useTheme } from "@mui/material";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableFooter, TablePagination, TableRow } from "@mui/material";
 import { MoreVert, ArrowUpward, ArrowDownward, ViewColumn, FirstPage, LastPage, NavigateNext, NavigateBefore, Loop } from '@mui/icons-material';
 import { useQueries, useQuery } from "@tanstack/react-query";
@@ -465,13 +465,19 @@ const SortingGridColumnHeader = props => {
 
 const SortingGridRow = props => {
 
+    // Props destructuring
     const {data, columns, actions, modelName, disableControls = false} = props;
-    const modelOptions = useModelOptions(modelName);
-    const fieldOptions = modelOptions.data?.model_fields
+
+    // Hooks
+    const theme = useTheme();
     const queriesOrdering = useRef();
+    const modelOptions = useModelOptions(modelName);
+
+    const fieldOptions = modelOptions.data?.model_fields;
     
     queriesOrdering.current = [];
 
+    // Queries
     const queries = useQueries({
         queries: modelOptions.isFetched ?
             columns.filter(columnName => {
@@ -487,10 +493,11 @@ const SortingGridRow = props => {
                 })
             })
         :
-            [] // If shipment options haven't loaded, an empty array will be returned instead.
+            [] // If models options haven't loaded, an empty array will be returned instead.
     });
 
-    const getDisplayValue = (column) =>{
+    // Callback Function
+    const getDisplayValue = useCallback((column) =>{
 
         if (data[column] == undefined){
             return "";
@@ -511,7 +518,7 @@ const SortingGridRow = props => {
             default:
                 return JSON.stringify(data[column]);
         }
-    }
+    }, []);
     
     return (
         <TableRow key={data.id}>
@@ -520,7 +527,7 @@ const SortingGridRow = props => {
                     <TableCell sx={{paddingTop:0.5, paddingBottom: 0.5}}>
                         <Typography variant="body2" noWrap>
                         { c == 'id' ?
-                            <Link component={RouterLink} to={`/${modelName}s/${data.id}/`}>
+                            <Link component={RouterLink} to={`/${modelName}s/${data.id}/`} sx={{zIndex: theme.zIndex.appBar}}>
                                 { !!fieldOptions ? getDisplayValue(c) : null }
                             </Link>
                         :
