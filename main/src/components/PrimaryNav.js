@@ -9,22 +9,29 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemIcon from '@mui/material/ListItemIcon';
-import { Menu, LocalShipping, Close, Place, DevicesOther, Group, PersonAdd, Article, DeviceUnknown, Logout, Home, Summarize, Assessment } from '@mui/icons-material';
+import { Menu, LocalShipping, Close, Place, DevicesOther, Group, PersonAdd, Article, DeviceUnknown, Logout, Home, Summarize, Assessment, QrCodeScanner } from '@mui/icons-material';
 import Typography from '@mui/material/Typography';
 import { Button, useTheme } from '@mui/material';
 import { backendApiContext } from '../context';
 
 const PageLinks = [
     {
-        groupHeading: 'Track & Manage',
+        groupHeading: 'Manage',
         links: [
             // Link Format: Link Button Text, Icon element, linkto url, required permission.
             ['Dashboard', <Home /> ,'/'],
+            ['Scan', <QrCodeScanner/>, '/scan'],
+            ['Reserve Equipment', <Summarize/> ,'/equipmentholds', 'view_equipmenthold']
+        ]
+    },
+    {
+        groupHeading: 'Track',
+        links: [
+            // Link Format: Link Button Text, Icon element, linkto url, required permission.
             ['Shipments', <LocalShipping /> ,'/shipments', 'view_shipment'],
-            ['Models', <DeviceUnknown/>, '/models', 'view_model'],
             ['Locations', <Place /> ,'/locations', 'view_location'],
             ['Equipment', <DevicesOther/> ,'/assets', 'view_asset'],
-            ['Reserve Equipment', <Summarize/> ,'/equipmentholds', 'view_equipmenthold']
+            ['Models', <DeviceUnknown/>, '/models', 'view_model'],
         ]
     },
     {
@@ -118,7 +125,7 @@ const NavDrawer = props =>{
             onClose={onClose}
         >
             <Box width="100%" height="100%" position="relative" paddingTop={navHeight}>
-                <Box component="nav">
+                <Box component="nav" maxHeight="calc(100% - 36px)" sx={{overflowY: 'auto'}}>
                     <List>
 
                         { PageLinks.map( linkGroup => {
@@ -149,7 +156,8 @@ const NavDrawer = props =>{
                                                     <ListItemText primary={linkText} />
                                                 </ListItemButton>
                                             </ListItem>
-                                        )    
+                                        )
+
                                     })}
 
                                 </Box>
