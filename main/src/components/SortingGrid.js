@@ -1,12 +1,11 @@
-import React, {useCallback, useContext, useEffect, useRef, useState} from "react";
+import React, {useCallback, useContext, useRef, useState} from "react";
 import { Box, Paper, Typography, IconButton, Popover, List, ListItemButton, ListItemIcon, ListItemText, Link, Stack, Skeleton, FormControl, FormHelperText, MenuItem, Select, ListItem, FormControlLabel, Checkbox, useTheme } from "@mui/material";
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableFooter, TablePagination, TableRow } from "@mui/material";
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import { MoreVert, ArrowUpward, ArrowDownward, ViewColumn, FirstPage, LastPage, NavigateNext, NavigateBefore, Loop } from '@mui/icons-material';
-import { useQueries, useQuery } from "@tanstack/react-query";
+import { useQueries } from "@tanstack/react-query";
 import { Link as RouterLink } from "react-router-dom";
 import { useModelOptions } from "../customHooks";
 import ActionButton from "./ActionButton";
-import { ErrorBoundary } from "./ErrorBoundary";
 import { notificationContext } from "../context";
 
 // Constants
@@ -55,9 +54,11 @@ const universalSort = (arr, key, direction) => {
 
       });
 }
+
 // Primary Component
 const SortingGrid = props => {
 
+    // Props Destructuring
     const {
         title,
         data,
@@ -518,7 +519,7 @@ const SortingGridRow = props => {
             default:
                 return JSON.stringify(data[column]);
         }
-    }, []);
+    }, [modelOptions]);
     
     return (
         <TableRow key={data.id}>
