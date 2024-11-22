@@ -2,258 +2,50 @@ import { Box, Button, FormControl, InputLabel, OutlinedInput, Paper, TextField, 
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useInfiniteQuery, useMutation, useQuery } from "@tanstack/react-query";
 import dayjs from 'dayjs';
-import React, { useCallback, useContext, useReducer, useState } from "react";
+import React, { useCallback, useContext, useReducer } from "react";
+import AssetIcon from "../components/AssetIcon";
 import IntegerSelector from '../components/IntegerSelector';
 import ModelListControls from "../components/ModelListControls";
 import Section from '../components/Section';
 import SortingGrid from "../components/SortingGrid";
 import { backendApiContext, notificationContext } from "../context";
-import AssetIcon from "../components/AssetIcon";
+import ReserveTool from "../components/ReserveTool";
 
 const MODELNAME = 'equipmenthold';
-const SORTINGGRIDDEFAULTCOLUMNS = ['id', 'label'];
+const SORTINGGRIDDEFAULTCOLUMNS = ['id', 'model', 'quantity', 'start_date', 'end_date'];
 const CREATEEQUIPMENTHOLDFORMLAYOUT = [
   ['start_date', 'end_date'],
   ['model', 'quantity'],
   ['event']
 ];
-const DEFAULTRESERVATIONSTATE = {startDate: null, endDate: null, quantities:{}, trackedUpdates:[]};
-
-const RESERVATIONSREDUCER = (prev, action) => {
-
-  let state = {...prev};
-
-  switch(action.type){
-    
-    case 'initial':
-      // When initially loading, prev is actually the preferred initial state
-      return state;
-    
-    case 'reset':
-      return {...DEFAULTRESERVATIONSTATE};
-
-    case 'setStartDate':
-      state.startDate = action.date;
-      break;
-
-    case 'setEndDate':
-      state.endDate = action.date;
-      break;
-
-    case 'setQuantity':
-      state.quantities[action.modelId] = action.quantity;
-      break;
-
-    case 'trackUpdate':
-      state.trackedUpdates = [...state.trackedUpdates, action.data];
-      break;
-
-    case 'resolveUpdate':
-      
-      break;
-  }
-
-  return state;
-
-}
 
 const EquipmentHolds = props => {
 
   // Props Destructuring
-  const {  } = props;
-
-  // Hooks
-  const theme = useTheme();
-  const backend = useContext(backendApiContext);
-  const notifications = useContext(notificationContext);
-
-  // State
-  const [reservations, dispatchReservations] = useReducer(
-    RESERVATIONSREDUCER, 
-    {...DEFAULTRESERVATIONSTATE},
-    initialArg => RESERVATIONSREDUCER(initialArg, {type: 'initial'})
-  )
+  const { } = props;
 
   // Queries
-  const models = useInfiniteQuery({ queryKey: ['model'] });
   const equipmentholds = useInfiniteQuery({ queryKey: [MODELNAME] });
 
-  // Mutations
-  const pushReservations = useMutation({
-    mutationFn: (reservation) => {
 
-      const updateUrl = new URL(`${backend.api.baseUrl}/${MODELNAME}/`);
-      const requestHeaders = backend.api.getRequestHeaders();
-
-      return fetch(updateUrl, {
-        method: 'POST',
-        headers: requestHeaders,
-        body: JSON.stringify(reservation),
-      });
-
-    },
-    onMutate: variables => {
-
-      const trackingData = {...variables, resolved: false, result: null, error: null};
-
-      // Update state
-      dispatchReservations({type: "trackUpdate", data:trackingData});
-
-    },
-    onSettled: (data, error, variables, context) => {
-
-      if(!data.ok){
-        notifications.add({message: 'Failed to create equipment reservation', severity: 'error'});
-        return;
-      }
-
-      if(error){
-        console.error(error);
-        notifications.add({message: 'Failed to create equipment reservation', severity: 'error'});
-        return;
-      }
-
-      notifications.add({message: 'Successfully created equipment reservations'});
-
-    }
-  })
-
-  // Callback Functions
-  const resetState = useCallback(e => {
-    dispatchReservations({type: 'reset'});
-  }, [dispatchReservations]);
-
-  const submitReservations = useCallback(e => {
-
-    const _reservations = {...reservations};
-    const nonZeroModelQuantities = Object.entries(_reservations.quantities).filter(([_, qty]) => qty > 0);
-
-    nonZeroModelQuantities.forEach(([modelId, qty]) => {
-
-      // Format Payload
-      const formattedReservation = {
-        model: modelId,
-        quantity: qty,
-        start_date: `${_reservations.startDate.getFullYear()}-${_reservations.startDate.getMonth() + 1}-${_reservations.startDate.getDate()}`,
-        end_date: `${_reservations.endDate.getFullYear()}-${_reservations.endDate.getMonth() + 1}-${_reservations.endDate.getDate()}`,
-      }
-
-      // Make mutation
-      pushReservations.mutate(formattedReservation);
-
-    });
-
-  }, [pushReservations, reservations]);
-
-  const updateModelQty = useCallback((modelId, quantity) => {  
-    dispatchReservations({type:'setQuantity', modelId, quantity});
-  }, [dispatchReservations]);
-  
   // Formatted Data
   const allLoadedEquipmentHolds = equipmentholds.data?.pages.map(p => p.results).flat();
   const equipmentHoldCount = equipmentholds.data?.pages.reduce((count, page) => count + page.results.length, 0);
-  const allLoadedModels = models.data?.pages.map(p => p.results).flat();
-  const requiresDateSelection = reservations.endDate == null || reservations.startDate == null;
-  const reservationsIsModified = JSON.stringify(reservations) != JSON.stringify(DEFAULTRESERVATIONSTATE);
-  const reservationsHaveNonZeroQty = Object.entries(reservations.quantities).map(([_, qty]) => qty > 0).includes(true);
-  const reservationsHasRequiredData = (reservations.startDate != null && reservations.endDate != null) && reservationsHaveNonZeroQty;
-  
-  const submitButton = <Button variant="outlined" color="primary" onClick={submitReservations}>Submit</Button>;
-  const resetButton = <Button variant="outlined" color="error" onClick={resetState}>Reset</Button>;
 
   return (
     <Box className="EquipmentHoldView">
 
-      <Section
-        title="Reserve Equipment"
-        defaultExpanded={true}
-        actions={[
-          reservationsIsModified ? resetButton : null,
-        ]}
-      >
-        <Box padding={1}>
-          <Typography variant="h5">1. Select the dates of reservation</Typography>
-          <Box display="flex" gap={1} justifyContent="center" alignItems="center" paddingY={2}>
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-
-              <DatePicker
-                label="Start date"
-                value={dayjs(reservations.startDate)}
-                onChange={
-                  (value, ctx) => {
-                    dispatchReservations({type: 'setStartDate', date: value.toDate()});
-                  }
-                }
-              />
-
-              <Box>
-                <Typography>
-                  To
-                </Typography>
-              </Box>
-
-              <DatePicker
-                label="End date"
-                value={dayjs(reservations.endDate)}
-                onChange={
-                  (value, ctx) => {
-                    dispatchReservations({type: 'setEndDate', date: value.toDate()})
-                  }
-                }
-              />
-              
-            </LocalizationProvider>
-          </Box>
-        </Box>
-
-        {!requiresDateSelection &&
-          <Box padding={1} margin={`${theme.spacing(1)} 0`}>
-            <Typography variant="h5">2. Select reservation quantities</Typography>
-            <Box display="flex" gap={1} justifyContent="center" alignItems="center" flexDirection="column">
-              {allLoadedModels &&
-                allLoadedModels.map(m => {
-
-                  const mQty = reservations.quantities[m.id]
-                  const value = mQty != undefined ? mQty : 0;
-
-                  return (
-                    <EquipmentSelectionRow
-                      key={m.id}
-                      model={m}
-                      onChange={qty => { updateModelQty(m.id, qty) }}
-                      value={value}
-                    />
-                  )
-
-                })
-              }
-            </Box>
-          </Box>
-        }
-
-        <Box display="flex" justifyContent="center" gap={1}>
-          {reservationsHasRequiredData ? submitButton : null}
-          {reservationsIsModified ? resetButton : null}
-        </Box>
-
-      </Section>
-      
-      <Section
-        title="Existing Reservations"
-      >
-        <ModelListControls model={MODELNAME} createObjectsFormLayout={CREATEEQUIPMENTHOLDFORMLAYOUT} buttonProps={{variant: "outlined"}}/>
-        <SortingGrid
-          title="Equipment Reservations"
-          modelName={MODELNAME}
-          data={allLoadedEquipmentHolds}
-          count={equipmentHoldCount}
-          initialColumns={SORTINGGRIDDEFAULTCOLUMNS}
-          paperProps={{elevation:2}}
-        />
-
-      </Section>
+      <ModelListControls model={MODELNAME} createObjectsFormLayout={CREATEEQUIPMENTHOLDFORMLAYOUT} />
+      <SortingGrid
+        title="Equipment Reservations"
+        modelName={MODELNAME}
+        data={allLoadedEquipmentHolds}
+        count={equipmentHoldCount}
+        initialColumns={SORTINGGRIDDEFAULTCOLUMNS}
+        paperProps={{ elevation: 2 }}
+      />
 
     </Box>
   )
@@ -265,19 +57,19 @@ const EquipmentSelectionRow = props => {
   // Props Destructuring
   const { model, value, onChange } = props;
 
-  const modelIcon = useQuery({queryKey: ['asseticon', model.icon]});
-  
+  const modelIcon = useQuery({ queryKey: ['asseticon', model.icon] });
+
   return (
     <Box display="flex" maxWidth="450px" width="100%">
 
       <Box flexGrow={1} gap={1} display="flex" alignItems="flex-start">
-        
-        { modelIcon.isSuccess ? <AssetIcon iconName={modelIcon.data.source_name}/> : null }
+
+        {modelIcon.isSuccess ? <AssetIcon iconName={modelIcon.data.source_name} /> : null}
 
         <Box>
           <Typography fontSize="1.15rem" fontWeight="bold">{model.label}</Typography>
           <Typography fontSize="0.85rem" fontWeight="lighter">Manufacturer: {model.manufacturer}</Typography>
-          { model.isContainer ? <Typography variant="code">Container</Typography> : null }
+          {model.isContainer ? <Typography variant="code">Container</Typography> : null}
         </Box>
 
       </Box>
