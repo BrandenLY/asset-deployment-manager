@@ -21,7 +21,7 @@ const PageLinks = [
             // Link Format: Link Button Text, Icon element, linkto url, required permission.
             ['Dashboard', <Home /> ,'/'],
             ['Scan', <QrCodeScanner/>, '/scan'],
-            ['Reserve Equipment', <Summarize/> ,'/equipmentholds', 'view_equipmenthold']
+            ['Reserve Equipment', <Summarize/> , '/reserve', 'add_equipmenthold']
         ]
     },
     {
@@ -32,13 +32,14 @@ const PageLinks = [
             ['Locations', <Place /> ,'/locations', 'view_location'],
             ['Equipment', <DevicesOther/> ,'/assets', 'view_asset'],
             ['Models', <DeviceUnknown/>, '/models', 'view_model'],
+            ['Equipment Holds', <Summarize/>, '/equipmentholds', 'view_equipmenthold']
         ]
     },
     {
         groupHeading: 'Admin Tools',
         links: [
             ['Reporting', <Assessment /> ,'/reports'],
-            ['Users', <PersonAdd /> ,'/users', 'view_location', "---DELETE-THIS-ARRAY-STRING-TO-ENABLE-LINK"],
+            ['Users', <PersonAdd /> ,'/users', 'view_location'],
             ['Groups & Permissions', <Group /> ,'/permissions', 'view_asset', "---DELETE-THIS-ARRAY-STRING-TO-ENABLE-LINK"],
             ['Admin Logs', <Article /> ,'/logs', 'view_location', "---DELETE-THIS-ARRAY-STRING-TO-ENABLE-LINK"]
         ]
