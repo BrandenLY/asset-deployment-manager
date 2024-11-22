@@ -1,13 +1,28 @@
 import React from "react";
 import { Box } from "@mui/material";
+import GenericDetailView from "../components/GenericDetailView";
 
+const MODELNAME = 'equipmenthold';
 
 const EquipmentHoldsDetailView = props => {
 
   return (
-    <Box>
+    <GenericDetailView
+      {...props}
+      model={MODELNAME}
+      detailFormLayout={[
+        ['id', null],
+        ['quantity', null],
+        ['model'],
+        ['start_date', 'end_date'],
+        ['event']
+      ]}
+    >
 
-    </Box>
+      {/* Model/Page specific content can be added here */}
+
+    </GenericDetailView>
+
   )
 
 }
