@@ -8,6 +8,7 @@ import ScanTool from "../components/ScanTool";
 import SortingGrid from "../components/SortingGrid";
 import { backendApiContext, notificationContext } from "../context";
 
+// Constants
 const MODELNAME = 'shipment';
 const SORTINGGRIDDEFAULTCOLUMNS = ["id", "label", "status", "departure_date", "arrival_date"]
 const CREATESHIPMENTSFORMLAYOUT = [
@@ -17,6 +18,7 @@ const CREATESHIPMENTSFORMLAYOUT = [
     ['arrival_date', 'departure_date']
 ]
 
+// Primary Component
 const ShipmentsView = props => {
 
     // Hooks 
@@ -62,7 +64,6 @@ const ShipmentsView = props => {
     });
 
     // Shipment Row Actions
-
     const openShipment = shipment => {
         navigate(`/shipments/${shipment.id}`);
     }
@@ -101,9 +102,9 @@ const ShipmentsView = props => {
                 count={shipmentCount}
                 initialColumns={SORTINGGRIDDEFAULTCOLUMNS}
                 rowActions={{
-                    'open'   : {'icon': OpenInNew, 'callbackFn' : openShipment},
-                    'scan'   : {'icon': QrCodeScanner, 'callbackFn' : scanShipment},
-                    'delete' : {'icon': Delete, 'callbackFn' : deleteShipment}
+                    open   : {icon: OpenInNew, callbackFn : openShipment},
+                    scan   : {icon: QrCodeScanner, callbackFn : scanShipment},
+                    delete : {icon: Delete, callbackFn : deleteShipment}
                 }}
             />
 
