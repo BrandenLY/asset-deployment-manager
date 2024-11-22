@@ -78,7 +78,7 @@ const LocationsView = props => {
         <Box className="LocationView">
             <ModelListControls model={MODELNAME} createObjectsFormLayout={CREATELOCATIONSFORMLAYOUT} />
             <SortingGrid 
-                title="Manage Locations"
+                title="Locations"
                 modelName={MODELNAME}
                 data={allLoadedLocations}
                 count={locationCount}

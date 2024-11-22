@@ -50,7 +50,7 @@ const ModelsView = props =>{
         <Box className="ModelsView">
             <ModelListControls model={MODELNAME} createObjectsFormLayout={CREATEASSETSFORMLAYOUT} />
             <SortingGrid 
-                title="Manage Models"
+                title="Models"
                 modelName={MODELNAME}
                 data={allLoadedModels}
                 count={modelCount}
