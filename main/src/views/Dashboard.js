@@ -2,7 +2,7 @@ import { Box, Button, useMediaQuery, useTheme } from "@mui/material";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { backendApiContext } from "../context";
-import { Assessment, DevicesOther, LocalShipping, QrCodeScanner } from "@mui/icons-material";
+import { Assessment, DevicesOther, LocalShipping, QrCodeScanner, Summarize } from "@mui/icons-material";
 import DashboardWidget from "../components/DashboardWidget";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import SortingGrid from "../components/SortingGrid";
@@ -170,16 +170,16 @@ const QuickAccessLinks = [
         linkPerm: "scan_to_parent"
     },
     {
+        linkIcon: <Summarize />,
+        linkText: "Reserve",
+        linkRoute: "/reserve",
+        linkPerm: "add_equipmenthold"
+    },
+    {
         linkIcon: <LocalShipping />,
         linkText: "Shipments",
         linkRoute: "/shipments",
         linkPerm: "view_shipment"
-    },
-    {
-        linkIcon: <DevicesOther />,
-        linkText: "Equipment",
-        linkRoute: "/assets",
-        linkPerm: "view_asset"
     },
     {
         linkIcon: <Assessment />,
