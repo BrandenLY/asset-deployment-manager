@@ -2,12 +2,14 @@ import { Box, Button, Paper, Typography, useTheme } from "@mui/material";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { useInfiniteQuery, useMutation } from "@tanstack/react-query";
+import { useInfiniteQuery, useMutation, useQuery } from "@tanstack/react-query";
 import dayjs from 'dayjs';
 import React, { useCallback, useContext, useReducer } from "react";
 import { backendApiContext, notificationContext } from "../context";
+import IntegerSelector from "./IntegerSelector";
+import AssetIcon from "./AssetIcon";
 
-
+// Constants
 const DEFAULTRESERVATIONSTATE = { startDate: null, endDate: null, quantities: {}, trackedUpdates: [] };
 
 const RESERVATIONSREDUCER = (prev, action) => {
@@ -48,6 +50,7 @@ const RESERVATIONSREDUCER = (prev, action) => {
 
 }
 
+// Primary Component
 const ReserveTool = props => {
 
     // Hooks
@@ -218,6 +221,38 @@ const ReserveTool = props => {
             </Box>
         </Box>
     );
+}
+
+// Supplementary components
+const EquipmentSelectionRow = props => {
+
+    // Props Destructuring
+    const { model, value, onChange } = props;
+  
+    const modelIcon = useQuery({ queryKey: ['asseticon', model.icon] });
+  
+    return (
+      <Box display="flex" maxWidth="450px" width="100%">
+  
+        <Box flexGrow={1} gap={1} display="flex" alignItems="flex-start">
+  
+          {modelIcon.isSuccess ? <AssetIcon iconName={modelIcon.data.source_name} /> : null}
+  
+          <Box>
+            <Typography fontSize="1.15rem" fontWeight="bold">{model.label}</Typography>
+            <Typography fontSize="0.85rem" fontWeight="lighter">Manufacturer: {model.manufacturer}</Typography>
+            {model.isContainer ? <Typography variant="code">Container</Typography> : null}
+          </Box>
+  
+        </Box>
+  
+        <Box>
+          <IntegerSelector onChange={onChange} value={value} />
+        </Box>
+  
+      </Box>
+    );
+  
 }
 
 export default ReserveTool

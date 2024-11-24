@@ -1,4 +1,4 @@
-import { Home } from '@mui/icons-material';
+import { Error, Home } from '@mui/icons-material';
 import { Alert, Box, Breadcrumbs, Button, Link, Snackbar, Typography } from '@mui/material';
 import React, { useContext, useEffect } from 'react';
 import { Link as RouterLink, useLocation, useNavigate } from 'react-router-dom';
@@ -45,8 +45,10 @@ export const PageError = props => {
     return (
         <Box
         sx={{height:"100%", display:"flex", justifyContent:"center", alignItems:"center", flexDirection:"column", gap:2, marginY:"auto"}}>
-            <Typography sx={{fontSize:75}}>OOPS!</Typography>
-            <Typography sx={{fontSize:100}}>{"(סּ︵סּ)"}</Typography>
+            <Box>
+                <Typography sx={{fontSize:100, lineHeight:"100px", textAlign:"center"}}><Error sx={{fontSize: 'inherit'}}/></Typography>
+                <Typography sx={{fontSize:70}}>OOPS!</Typography>
+            </Box>
             <Typography sx={{fontSize:25}}>An unknown error occurred.</Typography>
             <Button onClick={e => navigate("/")}>Return Home</Button>
         </Box>

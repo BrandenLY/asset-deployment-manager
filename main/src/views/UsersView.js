@@ -34,17 +34,19 @@ const USERDETAILSFORMREDUCER = (prev, action) => {
             // Loop over model_fields to populate state key/val pairs
             Object.entries(action.use.data.model_fields).forEach(([fieldName, fieldDetails]) => {
                 payload[fieldName] = {...fieldDetails, current: null, errors: []};
-            })
-        
+            });
+            break;
+
         case 'updateUserDetails':
-            
+
             Object.entries(action.user).forEach(([fieldName, value]) => {
                 if (payload.hasOwnProperty(fieldName)){
                     payload[fieldName].current = value;
                 } else {
                     throw new Error(`Cannot update form state field '${fieldName}'; Invalid field.`)
                 }
-            })
+            });
+            break;
     }
 
     return payload;
@@ -143,6 +145,13 @@ const UsersView = props => {
                 <ModelForm
                     model="user"
                     formState={userDetailsFormState}
+                    layout={[
+                        ['id', null],
+                        ['email', null],
+                        ['first_name', 'last_name'],
+                        ['is_active'],
+                        ['date_joined', 'last_login']
+                    ]}
                 />
                 <Typography variant="h5">Groups</Typography>
                 <Typography variant="h5">Permissions</Typography>

@@ -44,42 +44,10 @@ const EquipmentHolds = props => {
         data={allLoadedEquipmentHolds}
         count={equipmentHoldCount}
         initialColumns={SORTINGGRIDDEFAULTCOLUMNS}
-        paperProps={{ elevation: 2 }}
       />
 
     </Box>
   )
-
-}
-
-const EquipmentSelectionRow = props => {
-
-  // Props Destructuring
-  const { model, value, onChange } = props;
-
-  const modelIcon = useQuery({ queryKey: ['asseticon', model.icon] });
-
-  return (
-    <Box display="flex" maxWidth="450px" width="100%">
-
-      <Box flexGrow={1} gap={1} display="flex" alignItems="flex-start">
-
-        {modelIcon.isSuccess ? <AssetIcon iconName={modelIcon.data.source_name} /> : null}
-
-        <Box>
-          <Typography fontSize="1.15rem" fontWeight="bold">{model.label}</Typography>
-          <Typography fontSize="0.85rem" fontWeight="lighter">Manufacturer: {model.manufacturer}</Typography>
-          {model.isContainer ? <Typography variant="code">Container</Typography> : null}
-        </Box>
-
-      </Box>
-
-      <Box>
-        <IntegerSelector onChange={onChange} value={value} />
-      </Box>
-
-    </Box>
-  );
 
 }
 
