@@ -92,6 +92,7 @@ const DynamicInput = props => {
                     <Checkbox
                         checked={fieldDetails.current}
                         onChange={e => {updateValues(e, e.target.checked)}}
+                        disabled={fieldIsDisabled}
                     />
                 }
             />

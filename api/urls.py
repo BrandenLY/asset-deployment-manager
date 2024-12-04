@@ -21,6 +21,8 @@ from rest_framework.routers import DefaultRouter, Route
 
 from .views import ContentTypeView
 from .views import UserView
+from .views import GroupView
+from .views import PermissionView
 from .views import EventView
 # from .views import MilestoneView
 # from .views import ServiceView
@@ -33,12 +35,14 @@ from .views import CurrentUserView
 from .views import ScanView
 from .views import LogEntryView
 from .views import ObjectAdminLogEntries
-from .views import EquipmentHoldView
+from .views import ReservationView
 
 router = DefaultRouter()
 
 router.register(r"contenttype", ContentTypeView)
 router.register(r"user", UserView)
+router.register(r"group", GroupView)
+router.register(r"permission", PermissionView)
 router.register(r"logentry", LogEntryView)
 router.register(r"event", EventView)
 router.register(r"asset", AssetView)
@@ -46,7 +50,7 @@ router.register(r"asseticon", AssetIconView)
 router.register(r"model", ModelView)
 router.register(r"location", LocationView)
 router.register(r"shipment", ShipmentView)
-router.register(r"equipmenthold", EquipmentHoldView)
+router.register(r"equipmenthold", ReservationView)
 
 urlpatterns = [
     path('current-user/', CurrentUserView.as_view(), name='current-user'),

@@ -151,12 +151,14 @@ const CreateObjectsButton = props => {
 
             }
 
-            dispatch({type: 'deleteFormInstance', index: vars.formIndex})
-            notifications.add({message: `Successfully created shipment ${formNumber}`})
-            queryClient.invalidateQueries({queryKey:[model]})
+            dispatch({type: 'deleteFormInstance', index: vars.formIndex});
+            notifications.add({message: `Successfully created shipment ${formNumber}`});
+            queryClient.invalidateQueries({queryKey:[model]});
+            onDialogClose();
 
         }
     })
+
     // Effects
     useEffect(() => {
         if(modelOptions.data != undefined && creationForms != undefined){

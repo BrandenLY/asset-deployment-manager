@@ -6,6 +6,8 @@
 #  
 from .MainViews import ContentTypeView
 from .MainViews import UserView, CurrentUserView
+from .MainViews import GroupView
+from .MainViews import PermissionView
 from .MainViews import LogEntryView, ObjectAdminLogEntries
 from .MainViews import EventView
 #       _                 _         _       _             __                     
@@ -18,6 +20,6 @@ from .AssetsViews import AssetView
 from .AssetsViews import AssetIconView
 from .AssetsViews import ModelView
 from .AssetsViews import LocationView
-from .AssetsViews import EquipmentHoldView
+from .AssetsViews import ReservationView
 from .AssetsViews import ShipmentView
 from .AssetsViews import ScanView

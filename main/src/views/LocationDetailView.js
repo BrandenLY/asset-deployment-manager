@@ -28,7 +28,8 @@ const LocationDetailView = props => {
                 ['state', 'zipcode'],
                 ['country'],
                 ['longitude'],
-                ['latitude']
+                ['latitude'],
+                ['is_warehouse']
             ]}
         >
 

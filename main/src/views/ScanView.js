@@ -177,9 +177,7 @@ const ScanView = () => {
     <Box padding={1}>
 
       <Box padding={1} margin={1}>
-        <Box>
-          <Typography variant="h5">1. Select a shipment</Typography>
-        </Box>
+        <Typography variant="h5">1. Select a shipment</Typography>
         <Paper sx={{padding:2, marginY:1}}>
           <Box display="flex" justifyContent="center" margin={1}>
             <ModelAutoComplete 
@@ -195,18 +193,14 @@ const ScanView = () => {
 
       {shipmentIsSelected && 
       <Box padding={1} margin={1}>
-        <Box>
-          <Typography variant="h5">2. Scan</Typography>
-        </Box>
+        <Typography variant="h5">2. Scan</Typography>
         <ScanTool shipment={shipment.current} onSuccessfulScan={refetchState}/>
       </Box>
       }
 
       {(shipmentIsSelected && shipment.current.assets.length > 0) &&
       <Box padding={1} margin={1}>
-        <Box>
-          <Typography variant="h5">3. Review</Typography>
-        </Box>
+        <Typography variant="h5">3. Review</Typography>
         <Box>
           <Section
             title={`Assets (${shipment.current.assets.length})`}

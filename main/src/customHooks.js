@@ -364,8 +364,8 @@ export const useCustomTheme = props => {
                             backgroundColor: primaryLight
                         },
                         outlinedPrimary: {
-                            color: primaryLight,
-                            borderColor: primaryLight
+                            color: mediaQuery.matches ? primaryDark : primaryLight,
+                            borderColor: mediaQuery.matches ? primaryDark : primaryLight
                         }
                     }
                 },

@@ -16,7 +16,8 @@ const CREATELOCATIONSFORMLAYOUT = [
     ['city'],
     ['state', 'zipcode'],
     ['country'],
-    ['longitude', 'latitude']
+    ['longitude', 'latitude'],
+    ['is_warehouse']
 ]
 
 const LocationsView = props => {

@@ -1,12 +1,14 @@
-import { Box, Typography, useTheme } from '@mui/material';
-import { useInfiniteQuery } from '@tanstack/react-query';
-import React, { useCallback, useEffect, useReducer, useState } from 'react'
+import { Box, Button, Typography, useTheme } from '@mui/material';
+import { useInfiniteQuery, useMutation } from '@tanstack/react-query';
+import React, { useCallback, useContext, useEffect, useReducer, useState } from 'react'
 import SortingGrid from '../components/SortingGrid';
 import ModelListControls from '../components/ModelListControls';
-import { OpenInFull, Person } from '@mui/icons-material';
+import { Edit, OpenInFull, Person } from '@mui/icons-material';
 import CustomDialog from '../components/CustomDialog';
 import { useModelOptions } from '../customHooks';
 import ModelForm from '../components/ModelForm';
+import UserGroupSelector from '../components/UserGroupSelector';
+import { backendApiContext, notificationContext } from '../context';
 
 // Constants
 const MODELNAME = 'user';
@@ -23,6 +25,7 @@ const DEFAULTUSERDETAILSFORMSTATE = {}
 const USERDETAILSFORMREDUCER = (prev, action) => {
 
     let payload = {...prev};
+    console.log(action);
 
     switch(action.type){
         
@@ -47,6 +50,14 @@ const USERDETAILSFORMREDUCER = (prev, action) => {
                 }
             });
             break;
+        
+        case 'addGroup':
+            payload.groups.current = [...payload.groups.current, action.group]
+            break;
+
+        case 'removeGroup':
+            payload.groups.current = [...payload.groups.current].filter(g => g != action.group)
+            break;
     }
 
     return payload;
@@ -60,6 +71,8 @@ const UsersView = props => {
 
     // Hooks
     const theme = useTheme();
+    const backend = useContext(backendApiContext);
+    const notifications = useContext(notificationContext);
     const userOptions = useModelOptions(MODELNAME);
 
     // State
@@ -74,6 +87,28 @@ const UsersView = props => {
 
     // Queries
     const users = useInfiniteQuery({queryKey: [MODELNAME]});
+
+    // Mutations
+    const updateUser = useMutation({
+        mutationFn: payload => {
+
+            const updateUrl = new URL(`${backend.api.baseUrl}/user/${payload.id}`);
+            const requestHeaders = backend.api.getRequestHeaders(updateUrl);
+        
+            return fetch( updateUrl, {
+                method:'PUT',
+                headers: requestHeaders,
+                body: JSON.stringify(payload)
+            })
+
+        },
+        onError: (error, payload, context) => {
+
+        },
+        onSuccess: (data, payload, context) => {
+
+        }
+    })
 
     // Effects
     useEffect(() => { // Ensure all users are loaded
@@ -101,7 +136,7 @@ const UsersView = props => {
         // Update state
         dispatchUserDetails({type: 'updateUserDetails', user: selectedUser});
         
-    }, [selectedUser, userDetailsFormState]);
+    }, [selectedUser]);
 
     useEffect(() => { // Update form state with user model fields
         if(userOptions.isSuccess){
@@ -110,21 +145,39 @@ const UsersView = props => {
     }, [userOptions.isSuccess]);
 
     // Callback Functions
-    const selectUserForEdit = useCallback((user) => {
+    const selectUserForEdit = useCallback(user => {
         setSelectedUser(user);
         setShowEditDialog(true);
     }, []); // Updates selected user and displays edit dialog.
 
-    const closeEditDialog = useCallback((e) => {
+    const closeEditDialog = useCallback(e => {
         setShowEditDialog(false);
     }, []); // Hide user edit dialog.
 
+    const selectUserGroup = useCallback(group => {
+        dispatchUserDetails({type: 'addGroup', group})
+    }, []);
+
+    const deselectUserGroup = useCallback(group => {
+        dispatchUserDetails({type: 'removeGroup', group})
+    }, []);
+
+    const saveUserDetails = useCallback(e => {
+
+        // Format Payload
+        const payload = {}
+        console.log(userDetailsFormState)
+
+        // Mutate
+
+    }, [])
+
     // Formatted Data
     const allLoadedUsers = users.data?.pages.map(p => p.results).flat();
-    const userCount = users.isSuccess ? users.data?.pages.reduce((count, page) => count + page.results.length, 0) : null;
+    const userCount = users.data?.pages.reduce((count, page) => count + page.results.length, 0);
 
     return (
-        <Box className="UsersView">
+        <Box className="UsersView"> 
             <ModelListControls model={MODELNAME} createObjectsFormLayout={CREATEOBJECTSFORMLAYOUT}/>
             <SortingGrid
                 title="Users"
@@ -133,7 +186,7 @@ const UsersView = props => {
                 count={userCount}
                 initialColumns={SORTINGGRIDDEFAULTCOLUMNS}
                 rowActions={{
-                    edit: {icon: OpenInFull, callbackFn: selectUserForEdit}
+                    edit: {icon: Edit, callbackFn: selectUserForEdit}
                 }}
             />
             <CustomDialog 
@@ -141,6 +194,7 @@ const UsersView = props => {
                 title={<Box display="flex" alignItems="center"><Person sx={{fontSize: 'inherit', marginRight: theme.spacing(1)}}/> Edit user details</Box>}
                 onClose={closeEditDialog}
             >
+
                 <Typography variant="h5">Personal Details</Typography>
                 <ModelForm
                     model="user"
@@ -154,7 +208,16 @@ const UsersView = props => {
                     ]}
                 />
                 <Typography variant="h5">Groups</Typography>
-                <Typography variant="h5">Permissions</Typography>
+                 <UserGroupSelector
+                    userFormDetails={userDetailsFormState}
+                    onSelect={selectUserGroup}
+                    onDeselect={deselectUserGroup}
+                />
+                
+                <Box display="flex" justifyContent="center">
+                    <Button variant="outlined" onClick={saveUserDetails}>Save</Button>
+                </Box>
+
             </CustomDialog>
         </Box>
     )

@@ -8,12 +8,15 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from django.utils.encoding import force_str
-from django.contrib.admin.models import ADDITION, CHANGE, DELETION, LogEntryManager, LogEntry
+from django.contrib.auth.models import Permission, Group
+from django.contrib.admin.models import LogEntryManager, LogEntry
 from django.contrib.contenttypes.models import ContentType
 from .BaseView import BaseView
 from main.models import User
 from main.models import Event
 from ..serializers import UserSerializer
+from ..serializers import GroupSerializer
+from ..serializers import PermissionSerializer
 from ..serializers import EventSerializer
 from ..serializers import LogEntrySerializer
 from ..serializers import ContentTypeSerializer
@@ -146,6 +149,22 @@ class UserView(BaseView):
         
         except self.model.DoesNotExist as e:
             return Response({"error" : f"{self.model.__name__} with id:{id} does not exist."}, status=status.HTTP_404_NOT_FOUND)
+        
+class GroupView(BaseView):
+    """
+    Simple Viewset for Viewing User Groups
+    """
+    model = Group
+    queryset = model.objects.all()
+    serializer_class = GroupSerializer
+        
+class PermissionView(BaseView):
+    """
+    Simple Viewset for Viewing User Permissions
+    """
+    model = Permission
+    queryset = model.objects.all()
+    serializer_class = PermissionSerializer
         
 class EventView(BaseView):
     """

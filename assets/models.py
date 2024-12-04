@@ -203,10 +203,19 @@ class Shipment(TrackedModel):
     
     def __repr__(self):
         return str(self)
-    
-class EquipmentHold(TrackedModel):
-    model = models.ForeignKey(Model, on_delete=models.PROTECT)
-    quantity = models.PositiveIntegerField('Quantity', default=1)
+
+class Reservation(TrackedModel):
     start_date = models.DateField('Start date')
     end_date = models.DateField('End date')
     event = models.ForeignKey('main.Event', on_delete=models.CASCADE, blank=True, null=True)
+
+    class Meta:
+        ordering = ['start_date', 'end_date']
+
+    def __str__(self):
+        return f"Equipment Reserveration for {self.start_date}"
+    
+class ReservationItem(TrackedModel):
+    model = models.ForeignKey(Model, on_delete=models.PROTECT)
+    quantity = models.PositiveIntegerField('Quantity', default=1)
+    reservation = models.ForeignKey(Reservation, on_delete=models.CASCADE, related_name='reservation_items')

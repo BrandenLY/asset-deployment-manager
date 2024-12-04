@@ -10,7 +10,7 @@ import IntegerSelector from "./IntegerSelector";
 import AssetIcon from "./AssetIcon";
 
 // Constants
-const DEFAULTRESERVATIONSTATE = { startDate: null, endDate: null, quantities: {}, trackedUpdates: [] };
+const DEFAULTRESERVATIONSTATE = { startDate: null, endDate: null, quantities: {} };
 
 const RESERVATIONSREDUCER = (prev, action) => {
 
@@ -37,10 +37,6 @@ const RESERVATIONSREDUCER = (prev, action) => {
             state.quantities[action.modelId] = action.quantity;
             break;
 
-        case 'trackUpdate':
-            state.trackedUpdates = [...state.trackedUpdates, action.data];
-            break;
-
         case 'resolveUpdate':
 
             break;
@@ -50,11 +46,22 @@ const RESERVATIONSREDUCER = (prev, action) => {
 
 }
 
+const MODELNAME = 'equipmenthold';
+
+const FORMATDATE = date => {
+
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-indexed
+    const day = String(date.getDate()).padStart(2, '0');
+  
+    return `${year}-${month}-${day}`;
+
+}
+
 // Primary Component
 const ReserveTool = props => {
 
     // Hooks
-    const theme = useTheme();
     const backend = useContext(backendApiContext);
     const notifications = useContext(notificationContext);
 
@@ -72,6 +79,8 @@ const ReserveTool = props => {
     const pushReservations = useMutation({
         mutationFn: (reservation) => {
 
+            console.log('Mutating', reservation);
+
             const updateUrl = new URL(`${backend.api.baseUrl}/${MODELNAME}/`);
             const requestHeaders = backend.api.getRequestHeaders();
 
@@ -82,23 +91,15 @@ const ReserveTool = props => {
             });
 
         },
-        onMutate: variables => {
-
-            const trackingData = { ...variables, resolved: false, result: null, error: null };
-
-            // Update state
-            dispatchReservations({ type: "trackUpdate", data: trackingData });
-
-        },
         onSettled: (data, error, variables, context) => {
 
-            if (!data.ok) {
+            if (error) {
+                console.error(error);
                 notifications.add({ message: 'Failed to create equipment reservation', severity: 'error' });
                 return;
             }
 
-            if (error) {
-                console.error(error);
+            if (!data.ok) {
                 notifications.add({ message: 'Failed to create equipment reservation', severity: 'error' });
                 return;
             }
@@ -116,27 +117,33 @@ const ReserveTool = props => {
     const submitReservations = useCallback(e => {
 
         const _reservations = { ...reservations };
-        const nonZeroModelQuantities = Object.entries(_reservations.quantities).filter(([_, qty]) => qty > 0);
+        const reservationPayload = {}
+        
+        // Format Payload
+        reservationPayload.start_date = FORMATDATE(_reservations.startDate);
+        reservationPayload.end_date = FORMATDATE(_reservations.endDate);
 
-        nonZeroModelQuantities.forEach(([modelId, qty]) => {
-
-            // Format Payload
-            const formattedReservation = {
+        reservationPayload.reservation_items = Object.entries(_reservations.quantities)
+        .filter(([modelId, qty]) => qty > 0)
+        .map( ([modelId, qty]) => {
+            return {
                 model: modelId,
-                quantity: qty,
-                start_date: `${_reservations.startDate.getFullYear()}-${_reservations.startDate.getMonth() + 1}-${_reservations.startDate.getDate()}`,
-                end_date: `${_reservations.endDate.getFullYear()}-${_reservations.endDate.getMonth() + 1}-${_reservations.endDate.getDate()}`,
+                quantity: qty
             }
-
-            // Make mutation
-            pushReservations.mutate(formattedReservation);
-
         });
+
+        console.log('Attempting mutation', reservationPayload);
+        pushReservations.mutate(reservationPayload);
 
     }, [pushReservations, reservations]);
 
     const updateModelQty = useCallback((modelId, quantity) => {
-        dispatchReservations({ type: 'setQuantity', modelId, quantity });
+        if ( quantity < 0){
+            dispatchReservations({ type: 'setQuantity', modelId, quantity:0 });
+        }
+        else{
+            dispatchReservations({ type: 'setQuantity', modelId, quantity });
+        }
     }, [dispatchReservations]);
 
     // Formatted Data
@@ -150,8 +157,8 @@ const ReserveTool = props => {
     const resetButton = <Button variant="outlined" color="error" onClick={resetState}>Reset</Button>;
 
     return (
-        <Box padding={1} margin={1}>
-            <Box>
+        <Box padding={1}>
+            <Box padding={1} margin={1}>
                 <Typography variant="h5">1. Select the dates of reservation</Typography>
                 <Paper sx={{padding:2, marginY:1}}>
                     <Box display="flex" gap={1} justifyContent="center" alignItems="center" paddingY={2}>
@@ -189,10 +196,10 @@ const ReserveTool = props => {
             </Box>
 
             {!requiresDateSelection &&
-                <Box padding={1} margin={`${theme.spacing(1)} 0`}>
+                <Box padding={1} margin={1}>
                     <Typography variant="h5">2. Select reservation quantities</Typography>
                     <Paper sx={{padding:2, marginY:1}}>
-                        <Box display="flex" gap={1} justifyContent="center" alignItems="center" flexDirection="column">
+                        <Box display="flex" gap={1} justifyContent="center" alignItems="center" flexDirection="column" width="100%">
                             {allLoadedModels &&
                                 allLoadedModels.map(m => {
 

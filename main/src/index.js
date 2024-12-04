@@ -5,7 +5,6 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 // MATERIAL UI
 import {ThemeProvider, CssBaseline, Typography} from "@mui/material";
-import primaryDarkTheme from "./themes/primary-dark";
 
 // TANSTACK QUERY
 import CustomQueryClientProvider from "./queryConfig";

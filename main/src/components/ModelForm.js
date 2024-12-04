@@ -36,6 +36,8 @@ const ModelForm = props => {
 
     }
 
+    console.log(layout);
+    
     return(
         <Grid container spacing={1} sx={GridStyles}>
             {

@@ -1,17 +1,9 @@
 from rest_framework import serializers
 from api.serializers.base_serializers import CustomBaseSerializer
 from main.models import User
-from django.contrib.auth.models import Permission
-
-class PermissionSerializer(CustomBaseSerializer):
-
-    class Meta:
-        model=Permission
-        fields=["id", "label", "codename", "name"]
-
+from django.contrib.auth.models import Permission, Group
 
 class UserSerializer(CustomBaseSerializer):
-    user_permissions = PermissionSerializer(many=True)
     class Meta:
         model = User
         fields = [
@@ -39,3 +31,16 @@ class UserSerializer(CustomBaseSerializer):
         user.set_password(validated_data['password'])
         user.save()
         return user
+
+class GroupSerializer(CustomBaseSerializer):
+
+    class Meta:
+        model=Group
+        fields=["id", "label", "name"]
+
+class PermissionSerializer(CustomBaseSerializer):
+
+    class Meta:
+        model=Permission
+        fields=["id", "label", "codename", "name"]
+

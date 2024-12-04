@@ -11,13 +11,13 @@ from assets.models import AssetIcon
 from assets.models import Model
 from assets.models import Location
 from assets.models import Shipment
-from assets.models import EquipmentHold
+from assets.models import Reservation
 from ..serializers import AssetSerializer
 from ..serializers import AssetIconSerializer
 from ..serializers import ModelSerializer
 from ..serializers import LocationSerializer
 from ..serializers import ShipmentSerializer
-from ..serializers import EquipmentHoldSerializer
+from ..serializers import ReservationSerializer
 from ..permissions import ScanToolPermission
 from ..filters import AssetFilter
 
@@ -61,13 +61,13 @@ class LocationView(BaseView):
     queryset = model.objects.all()
     serializer_class = LocationSerializer
 
-class EquipmentHoldView(BaseView):
+class ReservationView(BaseView):
     """
     Simple Viewset for Viewing Equipment Hold data
     """
-    model = EquipmentHold
+    model = Reservation
     queryset = model.objects.all()
-    serializer_class = EquipmentHoldSerializer
+    serializer_class = ReservationSerializer
 
 class ShipmentView(BaseView):
     """
