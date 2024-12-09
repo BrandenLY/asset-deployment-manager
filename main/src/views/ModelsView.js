@@ -42,18 +42,13 @@ const ModelsView = props =>{
         navigate(`/models/${model.id}`);
     }
 
-    // Formatted Data
-    const allLoadedModels = models.data?.pages.map(p => p.results).flat();
-    const modelCount = models.data?.pages.reduce((count, page) => count + page.results.length, 0);
-
     return (
         <Box className="ModelsView">
             <ModelListControls model={MODELNAME} createObjectsFormLayout={CREATEASSETSFORMLAYOUT} />
             <SortingGrid 
                 title="Models"
                 modelName={MODELNAME}
-                data={allLoadedModels}
-                count={modelCount}
+                dataQuery={models}
                 initialColumns={SORTINGGRIDDEFAULTCOLUMNS}
                 rowActions={{
                     open   : {icon:OpenInNew, callbackFn:openAsset},

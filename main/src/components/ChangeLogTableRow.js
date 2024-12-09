@@ -3,6 +3,7 @@ import React, {useRef, useState, useEffect} from 'react'
 import { useModelOptions } from '../customHooks';
 import { TableRow, TableCell, Typography, Link, Skeleton} from '@mui/material';
 import { Add, Delete, Edit } from '@mui/icons-material';
+import { NavLink as RouterLink } from 'react-router-dom';
 
 const ChangeLogTableRow = props => {
 

@@ -79,10 +79,6 @@ const ShipmentsView = props => {
         }
     }
 
-    // Formatted Data
-    const allLoadedShipments = shipments.data?.pages.map(p => p.results).flat();
-    const shipmentCount = shipments.data?.pages.reduce((count, page) => count + page.results.length, 0);
-
     // JSX 
     return (
         <Box className="ManageShipmentView">
@@ -98,8 +94,7 @@ const ShipmentsView = props => {
             <SortingGrid 
                 title="Shipments"
                 modelName={MODELNAME}
-                data={allLoadedShipments}
-                count={shipmentCount}
+                dataQuery={shipments}
                 initialColumns={SORTINGGRIDDEFAULTCOLUMNS}
                 rowActions={{
                     open   : {icon: OpenInNew, callbackFn : openShipment},

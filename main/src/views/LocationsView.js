@@ -70,10 +70,6 @@ const LocationsView = props => {
             deleteLocationMutation.mutate(location);
         }
     }
-
-    // Formatted Data
-    const allLoadedLocations = locations.data?.pages.map(p => p.results).flat();
-    const locationCount = locations.data?.pages.reduce((count, page) => count + page.results.length, 0);
     
     return (
         <Box className="LocationView">
@@ -81,8 +77,7 @@ const LocationsView = props => {
             <SortingGrid 
                 title="Locations"
                 modelName={MODELNAME}
-                data={allLoadedLocations}
-                count={locationCount}
+                dataQuery={locations}
                 initialColumns={SORTINGGRIDDEFAULTCOLUMNS}
                 rowActions={{
                     open   : {icon:OpenInNew, callbackFn:openLocation},

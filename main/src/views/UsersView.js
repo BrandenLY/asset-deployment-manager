@@ -25,7 +25,6 @@ const DEFAULTUSERDETAILSFORMSTATE = {}
 const USERDETAILSFORMREDUCER = (prev, action) => {
 
     let payload = {...prev};
-    console.log(action);
 
     switch(action.type){
         
@@ -57,6 +56,10 @@ const USERDETAILSFORMREDUCER = (prev, action) => {
 
         case 'removeGroup':
             payload.groups.current = [...payload.groups.current].filter(g => g != action.group)
+            break;
+        
+        case 'updateField':
+            payload[action.fieldName].current = action.value;
             break;
     }
 
@@ -91,8 +94,9 @@ const UsersView = props => {
     // Mutations
     const updateUser = useMutation({
         mutationFn: payload => {
+            console.log('mutating', payload);
 
-            const updateUrl = new URL(`${backend.api.baseUrl}/user/${payload.id}`);
+            const updateUrl = new URL(`${backend.api.baseUrl}/user/${payload.id}/`);
             const requestHeaders = backend.api.getRequestHeaders(updateUrl);
         
             return fetch( updateUrl, {
@@ -102,11 +106,20 @@ const UsersView = props => {
             })
 
         },
-        onError: (error, payload, context) => {
-
+        onError: async (error, payload, context) => {
+            const message = new String(error);
+            notifications.add({message, severity:'error'})
         },
-        onSuccess: (data, payload, context) => {
+        onSuccess: async (data, payload, context) => {
+            if(!data.ok){
+                const message = await data.json();
+                message = new String(message);
 
+                notifications.add({message, severity:'error'});
+                return;
+            }
+
+            notifications.add({message: 'Successfully updated user.'})
         }
     })
 
@@ -162,19 +175,33 @@ const UsersView = props => {
         dispatchUserDetails({type: 'removeGroup', group})
     }, []);
 
+    const updateUserField = useCallback((e, fieldName, newValue) => {
+        dispatchUserDetails({type: 'updateField', fieldName, value:newValue})
+    }, [])
+
     const saveUserDetails = useCallback(e => {
 
         // Format Payload
         const payload = {}
-        console.log(userDetailsFormState)
+
+        Object.entries(userDetailsFormState)
+        .filter(([fieldName, fieldDetails]) => {
+            return fieldDetails.read_only === false; // Remove read_only fields
+        })
+        .filter(([fieldName, fieldDetails]) => {
+            return fieldName !== 'password'; // Passwords should be validated
+        })
+        .forEach(([fieldName, fieldDetails]) => {
+            payload[fieldName] = fieldDetails.current; // Update payload with field data
+        });
+
+        // Ensure id is also populated.
+        payload.id = userDetailsFormState.id.current;
 
         // Mutate
+        updateUser.mutate(payload);
 
-    }, [])
-
-    // Formatted Data
-    const allLoadedUsers = users.data?.pages.map(p => p.results).flat();
-    const userCount = users.data?.pages.reduce((count, page) => count + page.results.length, 0);
+    }, [userDetailsFormState])
 
     return (
         <Box className="UsersView"> 
@@ -182,8 +209,7 @@ const UsersView = props => {
             <SortingGrid
                 title="Users"
                 modelName={MODELNAME}
-                data={allLoadedUsers}
-                count={userCount}
+                dataQuery={users}
                 initialColumns={SORTINGGRIDDEFAULTCOLUMNS}
                 rowActions={{
                     edit: {icon: Edit, callbackFn: selectUserForEdit}
@@ -199,12 +225,11 @@ const UsersView = props => {
                 <ModelForm
                     model="user"
                     formState={userDetailsFormState}
+                    onChange={updateUserField}
                     layout={[
-                        ['id', null],
                         ['email', null],
                         ['first_name', 'last_name'],
                         ['is_active'],
-                        ['date_joined', 'last_login']
                     ]}
                 />
                 <Typography variant="h5">Groups</Typography>

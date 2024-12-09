@@ -41,18 +41,13 @@ const AssetsView = props =>{
         navigate(`/assets/${asset.id}`);
     }
 
-    // Formatted Data
-    const allLoadedAssets = assets.data?.pages.map(p => p.results).flat();
-    const assetCount = assets.data?.pages.reduce((count, page) => count + page.results.length, 0);
-
     return (
         <Box className="AssetsView" display="flex" flexDirection="column" alignItems="stretch" gap={3}>
             <ModelListControls model={MODELNAME} createObjectsFormLayout={CREATEASSETSFORMLAYOUT} />
             <SortingGrid 
                 title="Equipment"
                 modelName={MODELNAME}
-                data={allLoadedAssets}
-                count={assetCount}
+                dataQuery={assets}
                 initialColumns={SORTINGGRIDDEFAULTCOLUMNS}
                 rowActions={{
                     open : {icon:OpenInNew, callbackFn:openAsset},

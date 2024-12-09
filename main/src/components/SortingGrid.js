@@ -22,7 +22,7 @@ const RecordsPerPageOptions = [
 
 const sortingGridPaperStyles = {
     display: "flex",
-    gap:1,
+    gap: 1,
     padding: 2,
     flexDirection: 'column',
     alignItems: 'stretch'
@@ -62,6 +62,7 @@ const SortingGrid = props => {
     const {
         title,
         data,
+        dataQuery,
         modelName,
         count,
         rowActions,
@@ -76,9 +77,17 @@ const SortingGrid = props => {
     } = props;
 
     // Validation
-    if ( !modelName == undefined || !data == undefined){
-        throw new Error("Sorting grid missing required prop(s).")
-    }
+    const requiredProps = ['modelName', 'dataQuery']
+    requiredProps.forEach( propName => { // Loop over and check for each required propertyName in props
+        if(propName in props){
+            // Valid
+            return;
+        }
+        else{
+            // Invalid/missing prop
+            throw new Error(`Sorting grid did not receive required property '${propName}'`)
+        }
+    });
 
     // Hooks
     const modelOptions = useModelOptions(modelName);
@@ -122,13 +131,65 @@ const SortingGrid = props => {
         setActiveColumns(columns);
     }
 
+
     // Formmatted Data
-    const sortedData = data ? universalSort(data, sortKey, sortDirection) : [];
+    let pageResults = undefined;
+    let dataCount = 0;
+    let lastPageNum = 1;
+
+    if(dataQuery.isSuccess){
+
+        const currentPage = dataQuery.data?.pages.at(page - 1); // Pages is 0-indexed while page state is 1-indexed
+        const currentPageIsFetched = currentPage != undefined;
+
+        if(currentPageIsFetched){
+            pageResults = currentPage.results;
+            dataCount = currentPage.count; 
+            lastPageNum = Math.ceil(data?.length / recordsPerPage);
+        }
+
+        console.log('is current page fetched', currentPageIsFetched, currentPage);
+    }
+
+    // Query Navigation Callback Functions
+    const navigateFirstPage = e => {
+        setPage(1);
+    }
+    const navigatePreviousPage = e => {
+        setPage(prev => prev - 1 );
+    }
+    const navigateNextPage = e => {
+
+        const nextPageNum = page + 1;
+        const nextPage = dataQuery.data?.pages.at(nextPageNum - 1); // Pages is 0-indexed while page state is 1-indexed
+        const nextPageIsFetched = nextPage != undefined;
+
+        if(nextPageIsFetched == false){
+            dataQuery.fetchNextPage(); // Fetch next page
+        }
+
+        setPage(nextPageNum);
+    }
+
+    const navigateLastPage = e => {
+
+        const lastPageNum = page + 1;
+        const lastPage = dataQuery.data?.pages.at(lastPageNum - 1); // Pages is 0-indexed while page state is 1-indexed
+        const lastPageIsFetched = lastPage != undefined;
+
+        if(lastPageIsFetched == false){
+            dataQuery.fetchNextPage({pageParam: lastPageNum});
+        }
+
+        setPage(lastPageNum);
+    }
+
+    // const sortedData = data ? universalSort(data, sortKey, sortDirection) : [];
     const columnCount = rowActions ? activeColumns.length + 1 : activeColumns.length;
-    const pageRows = sortedData.slice((page - 1) * recordsPerPage, page * recordsPerPage);
-    const hasNextPage = Math.ceil(data?.length / recordsPerPage) > page;
+
+    const hasNextPage = (Math.ceil(data?.length / recordsPerPage) > page) || dataQuery.hasNextPage;
     const hasPrevPage = page > 1;
-    const lastPageNum = Math.ceil(data?.length / recordsPerPage);
+
     const databaseColumns = modelOptions.isSuccess ? 
     Object.entries(modelOptions.data.model_fields)
     .map( ([fieldName, _]) => fieldName) :
@@ -167,12 +228,12 @@ const SortingGrid = props => {
                     <TableBody>
 
                         {/* Add result rows */}
-                        { pageRows?.length > 0 &&
-                            pageRows.map( rowObject => <RowComponent data={rowObject} columns={activeColumns} modelName={modelName} actions={rowActions} {...rowProps}/> )
+                        { pageResults &&
+                            pageResults.map( rowObject => <RowComponent data={rowObject} columns={activeColumns} modelName={modelName} actions={rowActions} {...rowProps}/> )
                         }
 
                         {/* No Results */}
-                        { pageRows?.length == 0 && 
+                        { pageResults?.length == 0 && 
                             <TableRow>
                                 <TableCell sx={{textAlign:"center", paddingTop:0.5, paddingBottom: 0.5}} colspan={columnCount}>
                                 <Box minHeight="200px" display="flex" alignItems="center" justifyContent="center">No results</Box>
@@ -181,7 +242,7 @@ const SortingGrid = props => {
                         }
 
                         {/* Loading */}
-                        { !pageRows && 
+                        { (dataQuery.isLoading || dataQuery.isFetching) && 
                             <TableRow>
                                 <TableCell sx={{textAlign:"center", paddingTop:0.5, paddingBottom: 0.5}} colspan={columnCount}>
                                     <Box minHeight="200px" display="flex" alignItems="center" justifyContent="center"><Loop sx={{animation: 'rotate 2s linear infinite'}}/></Box>
@@ -216,7 +277,7 @@ const SortingGrid = props => {
 
                     <Box sx={{display: "flex", alignItems: "center", gap:2}}>
                         <FormHelperText>
-                            {`${Math.max((recordsPerPage * page) + 1 - recordsPerPage, 1)} - ${Math.min(recordsPerPage * page, count)} of ${count}`}
+                            {`${Math.max((recordsPerPage * page) + 1 - recordsPerPage, 1)} - ${Math.min(recordsPerPage * page, count)} of ${dataCount}`}
                         </FormHelperText>
                         <Box sx={{display: "flex", alignItems: "center"}}>
                             
@@ -228,7 +289,7 @@ const SortingGrid = props => {
                                     size: "small",
                                     sx: {padding:0},
                                 }}
-                                callbackFn={() => setPage(1)}
+                                callbackFn={navigateFirstPage}
                             >
                                 <FirstPage />
                             </ActionButton>
@@ -241,7 +302,7 @@ const SortingGrid = props => {
                                     size: "small",
                                     sx: {padding:0},
                                 }}
-                                callbackFn={() => setPage(prev => prev - 1 )}
+                                callbackFn={navigatePreviousPage}
                             >
                                 <NavigateBefore />
                             </ActionButton>
@@ -260,7 +321,7 @@ const SortingGrid = props => {
                                     size: "small",
                                     sx: {padding:0},
                                 }}
-                                callbackFn={() => setPage(prev => prev + 1 )}
+                                callbackFn={navigateNextPage}
                             >
                                 <NavigateNext />
                             </ActionButton>
@@ -274,7 +335,7 @@ const SortingGrid = props => {
                                     sx: {padding:0},
                                     onClick: () => setPage(lastPageNum)
                                 }}
-                                callbackFn={() => setPage(lastPageNum)}
+                                callbackFn={navigateLastPage}
                             >
                                 <LastPage/>
                             </ActionButton>

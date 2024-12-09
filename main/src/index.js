@@ -31,6 +31,7 @@ import { NotificationContextProvider } from "./context";
 import { DocumentScanner, QrCodeScanner, Summarize } from "@mui/icons-material";
 import ReserveEquipmentView from "./views/ReserveEquipmentView";
 import UsersView from "./views/UsersView";
+import AdminLogsView from "./views/AdminLogsView";
 
 const betaFlagStyles = {color:"crimson", padding:1, backgroundColor:"rgba(18,18,18,0.66"};
 const titleIconSize = "45pt";
@@ -110,6 +111,11 @@ const applicationRoutes = [
     path:'/equipmentholds/:id',
     component:EquipmentHoldsDetailView,
     pageTitle: 'Equipment Hold Details'
+  },
+  {
+    path:'/logs',
+    component:AdminLogsView,
+    pageTitle: 'Manage Admin Logs'
   },
   {
     path:'*',

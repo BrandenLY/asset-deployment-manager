@@ -24,7 +24,6 @@ const Dashboard = props => {
     const [dashboardWidth, setDashboardWidth] = useState(window.innerWidth * 0.80);
     const [dashboardLayout, setDashboardLayout] = useState(STATICGRIDLAYOUT); 
 
-
     const shipments = useInfiniteQuery({queryKey: ['shipment']});
 
     // Effects
@@ -95,8 +94,7 @@ const Dashboard = props => {
                     >
                         <SortingGrid
                             modelName="shipment"
-                            data={shipments.isSuccess ? shipments.data.pages[0].results : []}
-                            count={shipments.isSuccess ? shipments.data.pages[0].results.length : 0}
+                            dataQuery={shipments}
                             initialColumns={['id', 'label', 'departure_date']}
                             maxRowsPerPage={10}
                             paperProps={{sx:{minHeight: "100%", border:"none !important", padding: "none !important", margin: "none !important"}, variant:"outlined"}}

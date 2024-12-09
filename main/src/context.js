@@ -139,7 +139,10 @@ export const NotificationContextProvider = props => {
         close: clearOnScreenNotification,
         clear: clearAllNotifications,
         active: onScreenNotification,
-        displayDuration: NotificationDisplayTimeInSeconds * 1000
+        displayDuration: NotificationDisplayTimeInSeconds * 1000,
+        ERROR: 'error',
+        SUCCESS: 'success',
+        WARNING: 'warning',
     }
 
     return(

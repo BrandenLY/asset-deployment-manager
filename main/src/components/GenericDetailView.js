@@ -147,7 +147,7 @@ const GenericDetailView = props => {
                         
                             <Button
                                 color="error"
-                                variant="outlined"
+                                variant="contained"
                                 startIcon={<Delete/>} 
                                 onClick={deleteObj}
                             >

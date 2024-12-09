@@ -77,6 +77,9 @@ class User(AbstractUser):
 
     objects = UserManager()
 
+    def __str__(self):
+        return f"{self.email}"
+
 class Comment(models.Model):
     mentions = models.ManyToManyField(get_user_model())
     text = models.TextField(_("Text"))

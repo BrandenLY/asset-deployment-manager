@@ -99,7 +99,7 @@ const DynamicInput = props => {
             )
         case 'computed value':
             return(
-                <TextField disabled={fieldIsDisabled} inputProps={{sx:{width:"100%"}}} sx={{flexGrow:"2"}} label={fieldName} value={fieldDetails.current}/>
+                <TextField disabled={fieldIsDisabled} sx={{flexGrow:"2", width:"100%"}} label={fieldName} value={fieldDetails.current}/>
             );
         case 'datetime':
             // Const datetime input type with customized label styling.

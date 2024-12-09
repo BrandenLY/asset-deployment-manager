@@ -41,7 +41,7 @@ const PageLinks = [
             ['Reporting', <Assessment /> ,'/reports'],
             ['Users', <PersonAdd /> ,'/users', 'view_location'],
             ['Groups & Permissions', <Group /> ,'/permissions', 'view_asset', "---DELETE-THIS-ARRAY-STRING-TO-ENABLE-LINK"],
-            ['Admin Logs', <Article /> ,'/logs', 'view_location', "---DELETE-THIS-ARRAY-STRING-TO-ENABLE-LINK"]
+            ['Admin Logs', <Article /> ,'/logs', 'view_location']
         ]
     }
 ]

@@ -29,11 +29,6 @@ const EquipmentHolds = props => {
   // Queries
   const equipmentholds = useInfiniteQuery({ queryKey: [MODELNAME] });
 
-
-  // Formatted Data
-  const allLoadedEquipmentHolds = equipmentholds.data?.pages.map(p => p.results).flat();
-  const equipmentHoldCount = equipmentholds.data?.pages.reduce((count, page) => count + page.results.length, 0);
-
   return (
     <Box className="EquipmentHoldView">
 
@@ -41,8 +36,7 @@ const EquipmentHolds = props => {
       <SortingGrid
         title="Equipment Reservations"
         modelName={MODELNAME}
-        data={allLoadedEquipmentHolds}
-        count={equipmentHoldCount}
+        dataQuery={equipmentholds}
         initialColumns={SORTINGGRIDDEFAULTCOLUMNS}
       />
 
