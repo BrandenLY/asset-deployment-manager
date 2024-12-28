@@ -13,7 +13,7 @@ const defaultQueryFn = async ({ queryKey, pageParam }) => {
       !!queryKey.at(1) ? queryKey.at(1) + "/" : ""
     }`
   );
-  
+
   if(pageParam != undefined){
     formattedUrl.searchParams.set('page', pageParam);
   }
@@ -21,6 +21,7 @@ const defaultQueryFn = async ({ queryKey, pageParam }) => {
   const res = await fetch(formattedUrl);
   const data = await res.json();
   return data;
+  
 };
 
 const defaultMutationFn = async ({ model, data }) => {

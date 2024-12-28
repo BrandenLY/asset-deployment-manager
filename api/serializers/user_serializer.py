@@ -21,7 +21,7 @@ class UserSerializer(CustomBaseSerializer):
             "groups",
             "user_permissions"
         ]
-        read_only_fields = ["date_joined","last_login",]
+        read_only_fields = ["date_joined","last_login","created_by", "modified_by"]
         extra_kwargs = {"password": {"write_only": True, "required": False} }
 
     def create(self, validated_data):
@@ -51,15 +51,14 @@ class UserSerializer(CustomBaseSerializer):
         instance.save()
         return instance
 
-class GroupSerializer(CustomBaseSerializer):
-
-    class Meta:
-        model=Group
-        fields=["id", "label", "name"]
-
 class PermissionSerializer(CustomBaseSerializer):
 
     class Meta:
         model=Permission
         fields=["id", "label", "codename", "name"]
 
+class GroupSerializer(CustomBaseSerializer):
+
+    class Meta:
+        model=Group
+        fields=["id", "label", "name", "permissions"]

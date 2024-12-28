@@ -42,7 +42,7 @@ const AssetsView = props =>{
     }
 
     return (
-        <Box className="AssetsView" display="flex" flexDirection="column" alignItems="stretch" gap={3}>
+        <Box className="AssetsView">
             <ModelListControls model={MODELNAME} createObjectsFormLayout={CREATEASSETSFORMLAYOUT} />
             <SortingGrid 
                 title="Equipment"

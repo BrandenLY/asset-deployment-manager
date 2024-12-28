@@ -33,9 +33,9 @@ import ReserveEquipmentView from "./views/ReserveEquipmentView";
 import UsersView from "./views/UsersView";
 import AdminLogsView from "./views/AdminLogsView";
 
-const betaFlagStyles = {color:"crimson", padding:1, backgroundColor:"rgba(18,18,18,0.66"};
+const betaFlagStyles = {padding:1, backgroundColor:"rgba(18,18,18,0.66"};
 const titleIconSize = "45pt";
-const BetaFlag = <Typography sx={betaFlagStyles}>BETA</Typography>;
+const BetaFlag = <Typography color="primary" sx={betaFlagStyles}>BETA</Typography>;
 const applicationRoutes = [
   { 
     path: '/',

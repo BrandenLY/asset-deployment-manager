@@ -1,5 +1,5 @@
 import { AttachFile, Loop, Upload } from '@mui/icons-material';
-import { Box, Button, FormControl, FormHelperText, InputLabel, Link, OutlinedInput, Typography, useTheme } from '@mui/material';
+import { Box, Button, FormControl, FormHelperText, InputLabel, Link, OutlinedInput, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, useTheme } from '@mui/material';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import * as XLSX from 'xlsx';
 import { backendApiContext, notificationContext } from '../context';
@@ -279,7 +279,7 @@ function ImportButton(props) {
     return (
         <React.Fragment>
 
-            <ActionButton elementProps={{ startIcon: <Upload />, variant: "contained", ...props }} callbackFn={openDialog} popoverText={`Import ${model} data from a spreadsheet`}>
+            <ActionButton elementProps={{ startIcon: <Upload />, variant: "contained", color:'primary', ...props }} callbackFn={openDialog} popoverText={`Import ${model} data from a spreadsheet`}>
                 Import
             </ActionButton>
 
@@ -353,12 +353,37 @@ function ImportButton(props) {
                     <Box {...importStepProps}>
                         <Typography variant="h5">Preview and confirm your upload.</Typography>
                         
-                            <SortingGrid
+                            {/* <SortingGrid
                                 modelName={model}
                                 data={payloadData.slice(0,5)}
                                 initialColumns={writableColumnName}
                                 disableControls={true}
-                            />
+                            /> */}
+
+                            <TableContainer component={Paper} elevation={2}>
+                                <Table aria-label="data preview">
+                                    <TableHead>
+                                        <TableRow>
+                                            {writableColumnName.map( columnName => {
+                                                return(
+                                                    <TableCell>{columnName}</TableCell>
+                                                )
+                                            })}
+                                        </TableRow>
+                                        <TableBody>
+                                            { payloadData.slice(0,5).map( rowData => {
+                                                
+                                                return(
+                                                    <TableRow>
+                                                        {writableColumnName.map( columnName => <TableCell>{rowData[columnName]}</TableCell>)}
+                                                    </TableRow>
+                                                );
+
+                                            })}
+                                        </TableBody>
+                                    </TableHead>
+                                </Table>
+                            </TableContainer>
                     </Box>
                     : null
                     }

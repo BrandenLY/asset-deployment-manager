@@ -80,7 +80,7 @@ const ChangeLogTableRow = props => {
 
         const columnOptions = modelOptions.data?.model_fields[column];
 
-        switch(columnOptions.type){
+        switch(columnOptions?.type){
             case 'datetime':
                 return (new Date(data[column])).toLocaleTimeString(undefined, { year: 'numeric', month: 'short', day: '2-digit'});
             case 'choice':

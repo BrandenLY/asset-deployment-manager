@@ -1,6 +1,6 @@
 import { Delete } from '@mui/icons-material';
 import { Box, Button, Skeleton, Typography, useTheme, } from '@mui/material';
-import { useMutation, useQueries, useQuery } from '@tanstack/react-query';
+import { useMutation, useQueries, useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { backendApiContext, notificationContext } from '../context';
@@ -132,7 +132,6 @@ const GenericDetailView = props => {
     // Formatted Data
     const viewContainerName = `${model}-detail-view`;
     const viewContainerContentName = `${model}-detail-content`;
-    const historyData = history.isSuccess ? history.data : [];
     const userCanDelete = backend.auth.user ? backend.auth.user.checkPermission(`delete_${model}`) : false;
 
     return (
@@ -189,13 +188,12 @@ const GenericDetailView = props => {
                         title={`History`}
                     >
                         <SortingGrid
-                            modelName={"logentry"} 
-                            data={historyData}
+                            modelName={model} 
+                            dataQuery={history} 
                             initialColumns={["action", "user", "change_message", "action_time"]}
                             paperProps={{elevation:2}}
-                            RowComponent={ChangeLogTableRow}
+                            rowComponent={ChangeLogTableRow}
                             rowProps={{'objectContentType' : model}}
-                            count={historyData.length}
                             maxRowsPerPage={5}
                         />
                     </Section>

@@ -203,6 +203,7 @@ const UsersView = props => {
 
     }, [userDetailsFormState])
 
+
     return (
         <Box className="UsersView"> 
             <ModelListControls model={MODELNAME} createObjectsFormLayout={CREATEOBJECTSFORMLAYOUT}/>
@@ -212,7 +213,7 @@ const UsersView = props => {
                 dataQuery={users}
                 initialColumns={SORTINGGRIDDEFAULTCOLUMNS}
                 rowActions={{
-                    edit: {icon: Edit, callbackFn: selectUserForEdit}
+                    edit: {icon: Edit, callbackFn: selectUserForEdit, requiredPermission:'change_user'},
                 }}
             />
             <CustomDialog 

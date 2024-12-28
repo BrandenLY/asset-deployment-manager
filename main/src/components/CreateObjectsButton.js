@@ -108,7 +108,7 @@ const CreateObjectsButton = props => {
         onSettled: async (res, error, vars, ctx) => {
 
             if (error){
-                notifications.add({message: error, severity: "error"})
+                notifications.add({message: new String(error), severity: "error"})
                 return;
             }
 
@@ -196,6 +196,10 @@ const CreateObjectsButton = props => {
             let postData = {};
 
             Object.entries(shipmentFormObj).forEach( ([fieldName,fieldData], _index) => {
+
+                if (fieldData.read_only){
+                    return;
+                }
 
                 if ( fieldData.type == 'related object'){
                     postData[fieldName] = fieldData.current?.id;

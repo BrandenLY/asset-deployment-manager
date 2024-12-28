@@ -110,7 +110,7 @@ const AvailableEquipmentChart = (props) => {
     useEffect(() => {
         if (allModelsAreLoaded && modelAssetQueries.map(Q => Q.isSuccess).every(Q => Q)){
             const counts = modelAssetQueries.map( Q => Q.data?.results.length);
-            const backgroundColors = [...counts].map(c => theme.palette.primary.light);
+            const backgroundColors = [...counts].map(c => theme.palette.secondary.main);
 
             dispatchEquipmentAvailable({type: 'addDataset', value: {label:'In warehouse', data:counts, backgroundColor:backgroundColors, borderColor:backgroundColors}})
         }

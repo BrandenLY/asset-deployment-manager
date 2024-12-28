@@ -166,7 +166,7 @@ const ReserveTool = props => {
 
                             <DatePicker
                                 label="Start date"
-                                value={dayjs(reservations.startDate)}
+                                value={reservations.startDate ? dayjs(reservations.startDate) : null}
                                 onChange={
                                     (value, ctx) => {
                                         dispatchReservations({ type: 'setStartDate', date: value.toDate() });
@@ -182,7 +182,7 @@ const ReserveTool = props => {
 
                             <DatePicker
                                 label="End date"
-                                value={dayjs(reservations.endDate)}
+                                value={reservations.endDate ? dayjs(reservations.endDate) : null}
                                 onChange={
                                     (value, ctx) => {
                                         dispatchReservations({ type: 'setEndDate', date: value.toDate() })

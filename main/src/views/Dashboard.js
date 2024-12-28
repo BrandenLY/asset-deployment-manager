@@ -132,7 +132,7 @@ const QuickLink = props => {
         return(
             <Button 
                 variant="contained"
-                color="secondary"
+                color='inherit'
                 onClick={navigateTo}
                 disabled={!userCanView}
                 sx={{
@@ -147,7 +147,7 @@ const QuickLink = props => {
     return(
         <Button 
             variant="contained"
-            color="secondary"
+            color='inherit'
             startIcon={linkIcon}
             onClick={navigateTo}
             disabled={!userCanView}

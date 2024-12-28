@@ -20,7 +20,11 @@ export class ErrorBoundary extends React.Component {
       //   in App
       console.log(info.componentStack);
     }
-  
+
+    resetError = () => {
+      this.setState({ hasError: false, error: null });
+    };
+    
     render() {
       if (this.state.hasError) {
         // You can render any custom fallback UI

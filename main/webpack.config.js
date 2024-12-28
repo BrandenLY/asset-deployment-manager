@@ -10,6 +10,10 @@ module.exports = {
   module: {
     rules: [
       {
+        test: /\.svg$/,
+        use: ['@svgr/webpack'],
+      },
+      {
         test: /\.css$/,  // Match all .css files
         use: ['style-loader', 'css-loader'],  // Loaders to handle CSS
       },

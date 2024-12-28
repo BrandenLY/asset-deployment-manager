@@ -52,7 +52,7 @@ const LocationsView = props => {
         }
     })
 
-    // Queries
+    // Queries 
     const locations = useInfiniteQuery({
         queryKey: [MODELNAME],
     });

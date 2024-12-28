@@ -1,10 +1,11 @@
 import { Error, Home } from '@mui/icons-material';
 import { Alert, Box, Breadcrumbs, Button, Link, Snackbar, Typography } from '@mui/material';
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useRef } from 'react';
 import { Link as RouterLink, useLocation, useNavigate } from 'react-router-dom';
 import { BackendContextProvider, notificationContext } from '../context';
 import { ErrorBoundary } from './ErrorBoundary';
 import PrimaryNav from './PrimaryNav';
+import { useResetErrorOnNavigate } from '../customHooks';
 
 const CustomBreadcrumbs = props => {
     const location = useLocation()
@@ -56,24 +57,30 @@ export const PageError = props => {
 }
 
 const CustomPage = props => {
+  
   // PROPS
   const { className, view: View } = props;
-  
-  // NOTIFICATION STATE
+
+  // Hooks
+  const errorBoundaryRef = useRef();
   const notifications = useContext(notificationContext);
+  useResetErrorOnNavigate(() => errorBoundaryRef.current?.resetError());
   
   // CALLBACK FUNCTIONS
 
   // FORMATTED DATA
   const classNames = ['page', className].join(' ');
-  
+  const navMinWidth = "80px";
+  const navMaxWidth = "280px";
+
   return (
     <BackendContextProvider>
 
-        <Box className={classNames} sx={{padding:2}}>
-            <PrimaryNav></PrimaryNav>
+        <Box className={classNames}>
+            
+            <PrimaryNav {...{navMinWidth, navMaxWidth}} />
 
-            <Box className="page-content" sx={{gridArea:"content", padding: 1.5}}>
+            <Box className="page-content" sx={{gridArea:"content", padding: 3, overflow: 'auto', marginLeft: navMinWidth}}>
                 {/* Page Title */}
                 <Typography variant="h2" sx={{margin: 1}}>
                     <Box display="flex" gap={1} alignItems="center">{props.title}</Box>
@@ -81,7 +88,7 @@ const CustomPage = props => {
                 {/* Nav Breadcrumbs */}
                 <Typography variant="subtitle1" sx={{margin: 1}}> <CustomBreadcrumbs/> </Typography>
                 {/* Page Content */}
-                <ErrorBoundary fallback={<PageError/>} >
+                <ErrorBoundary ref={errorBoundaryRef} fallback={<PageError/>} >
                     { View ? <View addNotif={notifications.add} remNotif={notifications.close}/> : "" }
                 </ErrorBoundary>
             </Box>

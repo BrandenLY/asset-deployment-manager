@@ -6,7 +6,7 @@ import { useQueries } from "@tanstack/react-query";
 import { Link as RouterLink } from "react-router-dom";
 import { useModelOptions } from "../customHooks";
 import ActionButton from "./ActionButton";
-import { notificationContext } from "../context";
+import { backendApiContext, notificationContext } from "../context";
 
 // Constants
 const minimumRecordsPerPage = 25;
@@ -61,7 +61,6 @@ const SortingGrid = props => {
     // Props Destructuring
     const {
         title,
-        data,
         dataQuery,
         modelName,
         count,
@@ -70,7 +69,7 @@ const SortingGrid = props => {
         initialColumns=["id", "label"],
         additionalAvailableColumns=[],
         paperProps={},
-        RowComponent=SortingGridRow,
+        rowComponent:RowComponent=SortingGridRow,
         rowProps={},
         disableControls=false,
         maxRowsPerPage=null
@@ -99,6 +98,126 @@ const SortingGrid = props => {
     const [recordsPerPage, setRecordsPerPage] = useState(maxRowsPerPage ? maxRowsPerPage : minimumRecordsPerPage);
     const [page, setPage] = useState(1);
 
+    // Formmatted Data
+    const queryType = dataQuery.data?.hasOwnProperty('pages') ? 'Infinite' : 'Regular';
+    let pageResults = undefined;
+    let dataCount = 0;
+    let lastPageNum = 1;
+
+    if(dataQuery.isSuccess){
+
+        switch(queryType){
+
+            case 'Infinite':
+                // FIXME: WHEN LOADING PAGES OUT OF ORDER, EXAMPLE LOADING FIRST PAGE,
+                // NAVIGATING TO THE LAST PAGE AND THEN NAVIGATING BACK TO THE THIRD,
+                // IT IS NOT CERTAIN THAT THE THIRD PAGE'S DATA WILL BE AT THE INDEX OF THE PAGE NUMBER - 1.
+                const currentPageIndex = dataQuery.data?.pageParams.indexOf(page == 1 ? undefined : String(page));
+
+                if(currentPageIndex == -1){
+                    break;
+                }
+                
+                const currentPage = dataQuery.data?.pages?.at(currentPageIndex); // Pages is 0-indexed while page state is 1-indexed
+                const currentPageIsFetched = currentPage != undefined;
+                
+                if(currentPageIsFetched){
+                    pageResults = currentPage.results;
+                    dataCount = currentPage.count;
+                }
+                else{
+                    // dataQuery.fetchNextPage({pageParam: page, cancelRefetch: false});
+                    pageResults = dataQuery.data?.pages?.at(page - 1);
+                    dataCount = dataQuery.data?.pages?.at(page - 1)?.count;
+                }
+                break;
+            
+            case 'Regular':
+                pageResults = dataQuery.data.slice(recordsPerPage * page - recordsPerPage, recordsPerPage * page);
+                dataCount = dataQuery.data.length;
+                break;
+        }
+
+        lastPageNum = Math.ceil(dataCount / recordsPerPage);
+    }
+
+    // Query Navigation Callback Functions
+    const navigateFirstPage = e => {
+        setPage(1);
+    }
+
+    const navigatePreviousPage = async e => {
+        
+        switch(queryType){
+            case 'Infinite':
+                // For infinite queries, check to see if we've already loaded the previous page's data
+                const prevPageNum = page - 1;
+                const prevPageIndex = dataQuery.data?.pageParams.indexOf(prevPageNum == 1 ? undefined : String(prevPageNum));
+
+                if(prevPageIndex == -1){
+                    console.log('awaiting previous page')
+                    await dataQuery.fetchNextPage({pageParam:String(prevPageNum)});
+                    console.log('received previous page')
+                }
+
+                setPage(page => page - 1);
+                break;
+
+            case 'Regular':
+                // For regular queries, an additional fetch is not required, as all data is returned in the first response.
+                setPage(page => page - 1);
+                break;
+        }
+    }
+
+    const navigateNextPage = async e => {
+
+        switch(queryType){
+            case 'Infinite':
+                // For infinite queries, check to see if we've already loaded the next page's data
+                const nextPageNum = page + 1;
+                const nextPageIndex = dataQuery.data?.pageParams.indexOf(String(nextPageNum))
+        
+                if(nextPageIndex == -1){
+                    await dataQuery.fetchNextPage(); // Fetch next page
+                }
+        
+                setPage(nextPageNum);
+                break;
+            
+            case 'Regular':
+                // For regular queries, an additional fetch is not required, as all data is returned in the first response.
+                setPage(page => page + 1);
+                break;
+        }
+
+    }
+
+    const navigateLastPage = async e => {
+
+        switch(queryType){
+
+            case 'Infinite':
+                // For infinite queries, check to see if we've already loaded the last page's data
+                const lastPage = dataQuery.data?.pages.at(lastPageNum - 1); // Pages is 0-indexed while page state is 1-indexed
+
+                if(lastPage == undefined){
+                    await dataQuery.fetchNextPage({pageParam: String(lastPageNum)});
+                }
+
+                setPage(lastPageNum);
+                break;
+
+            case 'Regular':
+                // For regular queries, an additional fetch is not required, as all data is returned in the first response.
+                setPage(lastPageNum);
+                break;
+
+            
+        }
+    }
+
+    // Misc. Callback Functions
     const updateSortKey = key => {
 
         try{
@@ -119,82 +238,25 @@ const SortingGrid = props => {
         }
 
     }
-
     const updateSortDirection = direction => {
         // true: sort ascending, false: sort descending
         if (sortDirection != direction){
             setSortDirection(direction);
         }
     }
-
     const updateActiveColumns = columns => {
         setActiveColumns(columns);
     }
 
-
     // Formmatted Data
-    let pageResults = undefined;
-    let dataCount = 0;
-    let lastPageNum = 1;
-
-    if(dataQuery.isSuccess){
-
-        const currentPage = dataQuery.data?.pages.at(page - 1); // Pages is 0-indexed while page state is 1-indexed
-        const currentPageIsFetched = currentPage != undefined;
-
-        if(currentPageIsFetched){
-            pageResults = currentPage.results;
-            dataCount = currentPage.count; 
-            lastPageNum = Math.ceil(data?.length / recordsPerPage);
-        }
-
-        console.log('is current page fetched', currentPageIsFetched, currentPage);
-    }
-
-    // Query Navigation Callback Functions
-    const navigateFirstPage = e => {
-        setPage(1);
-    }
-    const navigatePreviousPage = e => {
-        setPage(prev => prev - 1 );
-    }
-    const navigateNextPage = e => {
-
-        const nextPageNum = page + 1;
-        const nextPage = dataQuery.data?.pages.at(nextPageNum - 1); // Pages is 0-indexed while page state is 1-indexed
-        const nextPageIsFetched = nextPage != undefined;
-
-        if(nextPageIsFetched == false){
-            dataQuery.fetchNextPage(); // Fetch next page
-        }
-
-        setPage(nextPageNum);
-    }
-
-    const navigateLastPage = e => {
-
-        const lastPageNum = page + 1;
-        const lastPage = dataQuery.data?.pages.at(lastPageNum - 1); // Pages is 0-indexed while page state is 1-indexed
-        const lastPageIsFetched = lastPage != undefined;
-
-        if(lastPageIsFetched == false){
-            dataQuery.fetchNextPage({pageParam: lastPageNum});
-        }
-
-        setPage(lastPageNum);
-    }
-
     // const sortedData = data ? universalSort(data, sortKey, sortDirection) : [];
     const columnCount = rowActions ? activeColumns.length + 1 : activeColumns.length;
-
-    const hasNextPage = (Math.ceil(data?.length / recordsPerPage) > page) || dataQuery.hasNextPage;
+    const hasNextPage = page < lastPageNum;
     const hasPrevPage = page > 1;
-
     const databaseColumns = modelOptions.isSuccess ? 
     Object.entries(modelOptions.data.model_fields)
     .map( ([fieldName, _]) => fieldName) :
     []
-
     const availableColumns = databaseColumns.concat(additionalAvailableColumns);
     
     return(
@@ -221,7 +283,16 @@ const SortingGrid = props => {
                                 {...props}
                             /> ) }
 
-                            { rowActions ? <TableCell sx={{verticalAlign:"bottom"}}><Box sx={{display: "flex",gap: "5px",alignItems: "center",}}><Typography sx={{fontWeight: "bold",}}>Actions</Typography></Box></TableCell> : null}
+                            { rowActions ? 
+                                <TableCell sx={{verticalAlign:"bottom"}}>
+                                    <Box sx={{display: "flex",gap: "5px",alignItems: "center",}}>
+                                        <Typography sx={{fontWeight: "bold",}}>Actions</Typography>
+                                    </Box>
+                                </TableCell> 
+                            : 
+                                null
+                            }
+
                         </TableRow>
                     </TableHead>
 
@@ -242,7 +313,7 @@ const SortingGrid = props => {
                         }
 
                         {/* Loading */}
-                        { (dataQuery.isLoading || dataQuery.isFetching) && 
+                        { (dataQuery.isLoading || dataQuery.isFetching || dataQuery.isRefetching || pageResults == undefined) && 
                             <TableRow>
                                 <TableCell sx={{textAlign:"center", paddingTop:0.5, paddingBottom: 0.5}} colspan={columnCount}>
                                     <Box minHeight="200px" display="flex" alignItems="center" justifyContent="center"><Loop sx={{animation: 'rotate 2s linear infinite'}}/></Box>
@@ -277,7 +348,7 @@ const SortingGrid = props => {
 
                     <Box sx={{display: "flex", alignItems: "center", gap:2}}>
                         <FormHelperText>
-                            {`${Math.max((recordsPerPage * page) + 1 - recordsPerPage, 1)} - ${Math.min(recordsPerPage * page, count)} of ${dataCount}`}
+                            {`${Math.max((recordsPerPage * page) + 1 - recordsPerPage, 1)} - ${Math.min(recordsPerPage * page, dataCount)} of ${dataCount}`}
                         </FormHelperText>
                         <Box sx={{display: "flex", alignItems: "center"}}>
                             
@@ -333,7 +404,6 @@ const SortingGrid = props => {
                                     disabled: page == lastPageNum,
                                     size: "small",
                                     sx: {padding:0},
-                                    onClick: () => setPage(lastPageNum)
                                 }}
                                 callbackFn={navigateLastPage}
                             >
@@ -533,6 +603,7 @@ const SortingGridRow = props => {
     // Hooks
     const theme = useTheme();
     const queriesOrdering = useRef();
+    const backend = useContext(backendApiContext);
     const modelOptions = useModelOptions(modelName);
 
     const fieldOptions = modelOptions.data?.model_fields;
@@ -607,8 +678,21 @@ const SortingGridRow = props => {
                             { Object.keys(actions).map( actionKey => {
                                 const IconElement = actions[actionKey].icon;
                                 const actionCallback = actions[actionKey].callbackFn;
+                                const actionPermission = actions[actionKey].requiredPermission;
+                                let hasPermission = false;
+
+                                if(actionPermission){
+                                    hasPermission = backend.auth.user ? backend.auth.user.checkPermission(actionPermission) : false;
+                                }
+                                else{
+                                    hasPermission = true;
+                                }
+
                                 return (
-                                    <ActionButton actionElement={IconButton} callbackFn={() => {actionCallback(data)}} popoverText={`${actionKey} ${modelName}`}>
+                                    <ActionButton 
+                                        actionElement={IconButton}
+                                        elementProps={{disabled: !hasPermission}}
+                                        callbackFn={() => {actionCallback(data)}} popoverText={`${actionKey} ${modelName}`}>
                                         <IconElement/>
                                     </ActionButton>
                                 )

@@ -45,11 +45,9 @@ const AdminLogsView = props => {
     // Asset Row Actions
 
     // Formatted Data
-    const allLoadedLogs = logs.data?.pages.map(p => p.results).flat();
-    const logCount = logs.data?.pages[0]?.count;
 
     return (
-        <Box className="AdminLogsView" display="flex" flexDirection="column" alignItems="stretch" gap={3}>
+        <Box className="AdminLogsView">
             <SortingGrid 
                 title="Logs"
                 modelName={MODELNAME}

@@ -206,7 +206,7 @@ function ExportButton(props) {
     return (
         <React.Fragment>
 
-            <ActionButton elementProps={{ startIcon: <Download />, variant: "contained", ...props}} callbackFn={openDialog} popoverText={`Export ${model} data to a spreadsheet`}>
+            <ActionButton elementProps={{ startIcon: <Download />, variant: "contained", color:'primary',  ...props}} callbackFn={openDialog} popoverText={`Export ${model} data to a spreadsheet`}>
                 Export
             </ActionButton>
 

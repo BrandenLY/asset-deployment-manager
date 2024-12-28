@@ -4,6 +4,7 @@ import { FormControl, InputLabel, OutlinedInput, Autocomplete, TextField, create
 import { ModelAutoComplete } from './components/ModelAutoComplete';
 import { backendApiContext } from './context';
 import DynamicInput from './components/DynamicInput';
+import { useLocation } from 'react-router-dom';
 
 
 // CUSTOM HOOKS
@@ -177,61 +178,158 @@ export const useModelOptions = (modelName) => {
     })
 }
 
-const userReducer = (prev, dispatchData) => {
+const userReducer = (prev, action) => {
 
-    switch (dispatchData.action){
+    // Initialize state
+    if(action.type == 'initializeState'){
+        return {userDetailsLoaded:false, userPermissionsLoaded:false, userGroupsLoaded:false, groupPermissionsLoaded:false};
+    }
+
+    // Copy previous state
+    let payload = {...prev};
+
+    // Manipulate State
+    switch (action.type){
 
         case 'addCallback':
-            let tmp = {...prev};
-            tmp[dispatchData.fnName] = dispatchData.fn;
+            payload[action.fnName] = action.fn;
+            break;
 
-            return tmp;
+        case 'updateUserDetails':
+            payload = {...payload,...action.query.data};
+            payload.userDetailsLoaded = true;
+            break;
+        
+        case 'updateUserPermissions':
+            payload.user_permissions = action.queries.map(query => query.data);
+            payload.userGroupsLoaded = true;
+            break;
 
-        case 'updateQueryInfo':
-            return {...prev, ...dispatchData.queryData};
+        case 'updateUserGroups':
+            payload.groups = action.queries.map(query => query.data);
+            payload.userGroupsLoaded = true;
+            break;
+        
+        case 'updateGroupPermissions':
+            const allGroupPermissions = action.queries.map(query => query.data);
 
-        case 'initializeState':
-            let initialState = {...dispatchData.queryData}
-            return initialState;
+            payload.groups.forEach( (group, groupIndex) => {
+
+                let richGroupData = {...group, permissions:[]};
+                group.permissions.forEach( (permission, permIndex) => {
+                    const permissionData = allGroupPermissions.find(value => value.id == permission);
+                    richGroupData.permissions[permIndex] = permissionData;
+                });
+
+                payload.groups[groupIndex] = richGroupData;
+
+            });
+
+            payload.groupPermissionsLoaded = true;
+            break;
     }
+    
+    return payload;
 
 }
 
 export const useCurrentUser = props => {
+    
+    // State
+    const [state, dispatch] = useReducer(userReducer, null);
 
+    // Queries
     const userQuery = useQuery({
         queryKey:['user', 'current-user'],
         staleTime: 'Infinity'
     });
-    const [state, dispatch] = useReducer(userReducer, null);
+    const userQuerySuccessful = userQuery.isSuccess;
 
-    useEffect(() => {
-        dispatch({action:'initalizeState', queryData:userQuery});
+    const userPermissions = useQueries({
+        queries: userQuerySuccessful ? userQuery.data.user_permissions.map( permission => ({
+            queryKey: ['permission', permission],
+            staleTime: 'Infinity'
+        })) : []
+    })
+    const allUserPermissionQueriesSuccessful = userPermissions.length && userPermissions.every(query => query.isSuccess);
+
+    const userGroups = useQueries({
+        queries: userQuerySuccessful ? userQuery.data.groups.map( group => ({
+            queryKey: ['group', group],
+            staleTime: 1800000, // 30 min
+            refetchOnWindowFocus: true
+        })) : []
+    });
+    const allGroupQueriesSuccessful = userGroups.length && userGroups.every(query => query.isSuccess);
+
+    const groupPermissions = useQueries({
+        queries: allGroupQueriesSuccessful ? userGroups.map(groupQuery => groupQuery.data.permissions)
+        .flat()
+        .map( permission => ({
+            queryKey: ['permission', permission],
+            staleTime: 'Infinity'
+        })) : []
+    });
+    const allGroupPermissionQueriesSuccessful = groupPermissions.length && groupPermissions.every(query => query.isSuccess); 
+
+    // Effects
+    useEffect(() => { // Initialize State
+        dispatch({type:'initalizeState', queryData:userQuery});
     },[])
 
-    useEffect(() => {
-        dispatch({action:'updateQueryInfo', queryData:userQuery});
+    useEffect(() => { // Update state with user details
+        if(userQuery.isFetched){
+            dispatch({type:'updateUserDetails', query:userQuery});
+        }
     },[userQuery.isFetched]);
 
-    useEffect(() => {
-        dispatch({action:'addCallback', fnName:"checkPermission", fn:checkPermission})
-    }, [state?.data]);
+    useEffect(() => { // Update state with user permissions
+        if(allUserPermissionQueriesSuccessful){
+            dispatch({type:'updateUserPermissions', queries:userPermissions});
+        }
+    }, [allUserPermissionQueriesSuccessful]);
 
-    // Check to see if a user has permission to perform a specific action.
+    useEffect(() => { // Update state with user groups
+        if(allGroupQueriesSuccessful){
+            dispatch({type:'updateUserGroups', queries:userGroups});
+        }
+    }, [allGroupQueriesSuccessful]);
+
+    useEffect(() => { // Update state with user group permissions
+        if(allGroupPermissionQueriesSuccessful){
+            dispatch({type:'updateGroupPermissions', queries:groupPermissions});
+        }
+    }, [allGroupPermissionQueriesSuccessful]);
+
+    useEffect(() => { // Update callback function for checking user permissions
+        dispatch({type:'addCallback', fnName:"checkPermission", fn:checkPermission})
+    }, [state?.userDetailsLoaded, state?.userPermissionsLoaded, state?.userGroupsLoaded, state?.groupPermissionsLoaded, dispatch, checkPermission]);
+
+    // Verify user has specific permission codename
     const checkPermission = useCallback(permissionCode => {
 
-        if (state === null){
+        if (state == null){
             return false;
         }
 
-        if (state.data?.is_superuser){
+        if (!state.userGroupsLoaded || !state.groupPermissionsLoaded){
+            return false;
+        }
+
+        if (state.is_superuser){
             return true;
         }
 
-        const perm = state.data.user_permissions.find( p => p.codename == permissionCode );
-        return(perm != undefined);
+        if (permissionCode == 'IsAdminUser'){
+            return state.isStaff;
+        } 
 
-    }, [state?.data])
+        const allGroupPermissions = state.groups.map(g => g.permissions).flat();
+        const allAvailablePermissions = [...allGroupPermissions, ...state.user_permissions];
+        
+        return(allAvailablePermissions.map(p => p.codename).includes(permissionCode));
+
+    }, [state?.userDetailsLoaded, state?.userPermissionsLoaded, state?.userGroupsLoaded, state?.groupPermissionsLoaded]);
 
     return state;
 }
@@ -240,15 +338,17 @@ export const useCustomTheme = props => {
 
 
     const baseTheme = createTheme();
+
     const [theme, setTheme] = useState(baseTheme);
     const [_, forceUpdate] = useReducer(x => x + 1, 0);
     
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+
     // Formatted Data
-    const primaryDark = "#07002B";
-    const primaryLight = "#44148e";
-    const secondaryDark = "#BF104E";
-    const secondaryLight = "#F35588";
+    const primaryDark = "#1F35FF";
+    const primaryLight = "#1F35FF";
+    const secondaryDark = "#DE70FF";
+    const secondaryLight = "#E697FF";
 
     useEffect(() => {
         setTheme(createTheme({
@@ -258,13 +358,13 @@ export const useCustomTheme = props => {
                     main: mediaQuery.matches ? primaryDark : primaryLight,
                     light: primaryLight,
                     dark: "#07002B",
-                    contrastText: "#CBC6DE"
+                    contrastText: "#FFFFFF"
                 },
                 secondary: {
                     main: secondaryDark,
                     light: secondaryLight,
                     dark: secondaryDark,
-                    contrastText: "#FFFFFF"
+                    contrastText: "#000000"
                 },
                 text:{
                     primary: mediaQuery.matches ? "rgba(250, 240, 250, 0.87)" : "rgba(7, 0, 43, 0.87)",
@@ -291,23 +391,37 @@ export const useCustomTheme = props => {
                 }
             },
             typography: {
+                fontFamily: [
+                    'Lato',
+                    'sans-serif',
+                    '"Apple Color Emoji"',
+                    '"Segoe UI"',
+                    '"Segoe UI Emoji"',
+                    '"Segoe UI Symbol"',
+                ].join(','),
                 h1: {
                     fontSize: "2.5rem",
+                    fontWeight: "bold",
                 },
                 h2: {
                     fontSize: "2.25rem",
+                    fontWeight: "bold",
                 },
                 h3: {
                     fontSize: "2rem",
+                    fontWeight: "bold",
                 },
                 h4: {
                     fontSize: "1.75rem",
+                    fontWeight: "bold",
                 },
                 h5: {
                     fontSize: "1.5rem",
+                    fontWeight: "bold",
                 },
                 h6: {
                     fontSize: "1.25rem",
+                    fontWeight: "bold",
                 },
                 navtitle: {
                     fontSize: "1.75rem",
@@ -360,6 +474,7 @@ export const useCustomTheme = props => {
             components: {
                 MuiButton: {
                     styleOverrides: {
+                        root: {fontWeight:'bold'},
                         containedPrimary: {
                             backgroundColor: primaryLight
                         },
@@ -392,3 +507,12 @@ export const useCustomTheme = props => {
 
     return theme;
 }
+
+export const useResetErrorOnNavigate = resetError => {
+
+    const location = useLocation();
+  
+    useEffect(() => {
+      resetError();
+    }, [location, resetError]);
+};

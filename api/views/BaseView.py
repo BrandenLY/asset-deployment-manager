@@ -79,7 +79,14 @@ class BaseView(viewsets.GenericViewSet,
 
         with transaction.atomic():
 
-            instance = serializer.save(created_by=request.user, modified_by=None)
+            serializerClass = self.get_serializer_class()()
+            serializerFields = serializerClass.get_fields()
+
+            if 'created_by' in serializerFields and 'modified_by' in serializerFields:
+                instance = serializer.save(created_by=request.user, modified_by=None)
+            else:
+                instance = serializer.save()
+
             instance_content_type = ContentType.objects.get(model=instance.__class__.__name__.lower())
 
             # FIXME: Deprecated, use LogEntryManager.log_actions()
@@ -119,7 +126,7 @@ class BaseView(viewsets.GenericViewSet,
         for field in serializer.instance.__class__._meta.get_fields():
             change_map[field.name] = (change_map[field.name][0], getattr(serializer.instance, field.name, None))
         
-        changed_fields = [field for field, changes in change_map.items() if changes[0] is not changes[1] and field is not 'last_modified' and field is not 'modified_by']
+        changed_fields = [field for field, changes in change_map.items() if changes[0] != changes[1] and field != 'last_modified' and field != 'modified_by']
             
         with transaction.atomic():
             serializer.save()
