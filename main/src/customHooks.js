@@ -237,6 +237,7 @@ export const useCurrentUser = props => {
     
     // State
     const [state, dispatch] = useReducer(userReducer, null);
+    const {check} = usePermissionCheck(state);
 
     // Queries
     const userQuery = useQuery({
@@ -301,37 +302,56 @@ export const useCurrentUser = props => {
         }
     }, [allGroupPermissionQueriesSuccessful]);
 
-    useEffect(() => { // Update callback function for checking user permissions
-        dispatch({type:'addCallback', fnName:"checkPermission", fn:checkPermission})
-    }, [state?.userDetailsLoaded, state?.userPermissionsLoaded, state?.userGroupsLoaded, state?.groupPermissionsLoaded, dispatch, checkPermission]);
+    // useEffect(() => { // Update callback function for checking user permissions
+    //     dispatch({type:'addCallback', fnName:"checkPermission", fn:check})
+    // }, [check]);
 
-    // Verify user has specific permission codename
-    const checkPermission = useCallback(permissionCode => {
-
-        if (state == null){
-            return false;
-        }
-
-        if (!state.userGroupsLoaded || !state.groupPermissionsLoaded){
-            return false;
-        }
-
-        if (state.is_superuser){
-            return true;
-        }
-
-        if (permissionCode == 'IsAdminUser'){
-            return state.isStaff;
-        } 
-
-        const allGroupPermissions = state.groups.map(g => g.permissions).flat();
-        const allAvailablePermissions = [...allGroupPermissions, ...state.user_permissions];
-        
-        return(allAvailablePermissions.map(p => p.codename).includes(permissionCode));
-
-    }, [state?.userDetailsLoaded, state?.userPermissionsLoaded, state?.userGroupsLoaded, state?.groupPermissionsLoaded]);
 
     return state;
+}
+export const usePermissionCheck = user => {
+    
+    console.log('PERMISSION HOOK EXECUTION', user);
+
+    const performCheck = useCallback((permissionCode) => {
+        
+        console.log('PERMISSION CHECK FUNCTION EXECUTION', user, permissionCode);
+
+        // Ensure user is loaded
+        if (user == null || user == undefined){
+            return false; // Deny Permission
+        }
+
+        // Bypass for superusers
+        if (user.is_superuser){
+            return true; // Allow Permission
+        }
+        
+        // Bypass for staff verification
+        if (permissionCode == 'IsAdminUser'){
+            return user.is_staff; // Allow/Deny based on user's staff status.
+        }
+
+        // Ensure user groups and group permissions are loaded
+        if (!user.userGroupsLoaded || !user.groupPermissionsLoaded){
+            return false; // Deny Permission
+        }
+        // Ensure user permissions are loaded
+        if(!user.user_permissions){
+            return false; // Deny Permission
+        }
+
+        const allGroupPermissions = user.groups.map(g => g.permissions).flat();
+        const allAvailablePermissions = [...allGroupPermissions, ...user.user_permissions];
+        const userHasPermissionCode = allAvailablePermissions.map(p => p.codename).includes(permissionCode);
+
+        console.log(`${permissionCode} - ${userHasPermissionCode}`);
+
+        return(userHasPermissionCode);
+
+    }, [user]);
+
+    return { check:performCheck }
 }
 
 export const useCustomTheme = props => {
@@ -428,6 +448,15 @@ export const useCustomTheme = props => {
                     fontWeight: "500",
                     textTransform: "uppercase",
                 },
+                brandFont1: {
+                    fontFamily: 'Lato',
+                    fontWeight: 'bold',
+                    fontSize: '2em'
+                },
+                brandFont1: {
+                    fontFamily: 'Montserrat',
+                    fontSize: '1.5em'
+                },
                 projectDetailHeading: {
                     fontSize: "1.25rem",
                 },
@@ -490,7 +519,22 @@ export const useCustomTheme = props => {
                             color: secondaryDark
                         }
                     }
-                }
+                },
+                MuiCheckbox: {
+                    styleOverrides: {
+                        root: {
+                            color: 'inherit', // Makes the checkbox use the text color
+                        },
+                    },
+                    defaultProps: {
+                        sx: {
+                            color: 'text.primary', // Ensure it aligns with the primary text color
+                            '&.Mui-checked': {
+                            color: 'text.primary',
+                            },
+                        },
+                    },
+                },
             }
         }));
     }, [_]) // Update styles

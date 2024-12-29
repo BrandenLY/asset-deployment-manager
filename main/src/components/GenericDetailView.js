@@ -4,7 +4,7 @@ import { useMutation, useQueries, useInfiniteQuery, useQuery } from '@tanstack/r
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { backendApiContext, notificationContext } from '../context';
-import { useModelOptions } from '../customHooks';
+import { useModelOptions, usePermissionCheck } from '../customHooks';
 import ChangeLogTableRow from './ChangeLogTableRow';
 import DetailsPanel from './DetailsPanel';
 import Section from './Section';
@@ -21,6 +21,7 @@ const GenericDetailView = props => {
     const locationParams = useParams();
     const objOptions = useModelOptions(model);
     const backend = useContext(backendApiContext);
+    const {check:checkUserPermission} = usePermissionCheck(backend.auth.user);
     const notifications = useContext(notificationContext);
 
     const [data, setData] = useState(false);
@@ -132,7 +133,7 @@ const GenericDetailView = props => {
     // Formatted Data
     const viewContainerName = `${model}-detail-view`;
     const viewContainerContentName = `${model}-detail-content`;
-    const userCanDelete = backend.auth.user ? backend.auth.user.checkPermission(`delete_${model}`) : false;
+    const userCanDelete = checkUserPermission(`delete_${model}`);
 
     return (
         <Box id={viewContainerName} position="relative">

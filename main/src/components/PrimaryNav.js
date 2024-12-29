@@ -13,7 +13,7 @@ import { Menu, LocalShipping, Close, Place, DevicesOther, Group, PersonAdd, Arti
 import Typography from '@mui/material/Typography';
 import { Avatar, Button, Link, ListItemAvatar, ListSubheader, Popover, useTheme } from '@mui/material';
 import { backendApiContext } from '../context';
-import { useCurrentUser } from '../customHooks';
+import { useCurrentUser, usePermissionCheck } from '../customHooks';
 
 // Constant Variables
 const PageLinks = [
@@ -88,7 +88,7 @@ const PrimaryNav = props => {
         >
             
             {/* SITE LOGO */}
-            <Box display="flex" justifyContent="center" padding={2}>
+            <Box display="flex" justifyContent="center" padding={2} gap={2} alignItems="center">
 
                 <Box width={expanded ? '70px' : '50px'} height={expanded ? '70px' : '50px'}>
                     <svg id="Logo-v2" style={{objectFit:'contain'}} data-name="Logo-v2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 257.66 256.71">
@@ -104,8 +104,8 @@ const PrimaryNav = props => {
 
                 { expanded ?
                     <Box>
-                        <Typography variant="logoFont1">Catapult</Typography><br/>
-                        <Typography variant="logoFont2">Systems</Typography>
+                        <Typography variant="brandFont1">Catapult</Typography><br/>
+                        <Typography variant="brandFont2">Inventory Management</Typography>
                     </Box>
                 :
                     null
@@ -173,6 +173,7 @@ const CustomNavLink = props => {
     const theme = useTheme();
     const location = useLocation();
     const backend = useContext(backendApiContext);
+    const {check:checkUserPermission} = usePermissionCheck(backend.auth.user);
     const navigate = useNavigate();
 
     const ListItemButtonElement = useRef(null);
@@ -227,7 +228,7 @@ const CustomNavLink = props => {
     let userCanViewLink = false;
 
     if(linkPerm){
-        userCanViewLink = backend.auth.user ? backend.auth.user.checkPermission(linkPerm) : false;
+        userCanViewLink = checkUserPermission(linkPerm);
     }
     else{
         userCanViewLink = true;
@@ -242,7 +243,7 @@ const CustomNavLink = props => {
                 onClick={handleLinkClick}
                 sx={{
                     justifyContent: expanded ? 'initial' : 'center',
-                    display: userCanViewLink ? 'block' : 'none',
+                    display: userCanViewLink ? 'flex' : 'none',
                     margin:'auto',
                 }}
                 disabled={linkDisbled}

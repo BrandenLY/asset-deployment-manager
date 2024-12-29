@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import React, { useContext, useEffect, useRef, useState } from 'react'
-import { useCurrentUser, useModelOptions } from '../customHooks';
+import { useCurrentUser, useModelOptions, usePermissionCheck } from '../customHooks';
 import { backendApiContext, getCookie, notificationContext } from '../context';
 import { Button, Collapse, Divider, IconButton, List, ListItem, ListItemIcon, ListItemText, Paper, useMediaQuery, useTheme } from '@mui/material';
 import { Edit, Save } from '@mui/icons-material';
@@ -17,6 +17,7 @@ const DetailsPanel = props => {
     const queryClient = useQueryClient();
     const modelOptions = useModelOptions(model);
     const backend = useContext(backendApiContext);
+    const {check:checkUserPermission} = usePermissionCheck(backend.auth.user);
     const notifications = useContext(notificationContext);
     const userDeviceIsMobile = useMediaQuery("(max-width:1010px)");
 
@@ -196,7 +197,7 @@ const DetailsPanel = props => {
     }
 
     // Formatted Data
-    const userCanModify = backend.auth.user ? backend.auth.user.checkPermission(`change_${model}`) : false;
+    const userCanModify = checkUserPermission(`change_${model}`);
 
     return (
       <Paper className={`${model}DetailPanel`}

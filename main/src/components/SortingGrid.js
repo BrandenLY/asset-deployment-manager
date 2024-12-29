@@ -4,7 +4,7 @@ import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from
 import { MoreVert, ArrowUpward, ArrowDownward, ViewColumn, FirstPage, LastPage, NavigateNext, NavigateBefore, Loop } from '@mui/icons-material';
 import { useQueries } from "@tanstack/react-query";
 import { Link as RouterLink } from "react-router-dom";
-import { useModelOptions } from "../customHooks";
+import { useModelOptions, usePermissionCheck } from "../customHooks";
 import ActionButton from "./ActionButton";
 import { backendApiContext, notificationContext } from "../context";
 
@@ -604,6 +604,7 @@ const SortingGridRow = props => {
     const theme = useTheme();
     const queriesOrdering = useRef();
     const backend = useContext(backendApiContext);
+    const {check:checkUserPermission} = usePermissionCheck(backend.auth.user);
     const modelOptions = useModelOptions(modelName);
 
     const fieldOptions = modelOptions.data?.model_fields;
@@ -639,6 +640,10 @@ const SortingGridRow = props => {
         const columnOptions = modelOptions.data?.model_fields[column];
 
         switch(columnOptions.type){
+            case 'string':
+            case 'email':
+            case 'computed value':
+                return data[column];
             case 'date':
                 return (new Date(data[column])).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: '2-digit'});
             case 'datetime':
@@ -682,7 +687,7 @@ const SortingGridRow = props => {
                                 let hasPermission = false;
 
                                 if(actionPermission){
-                                    hasPermission = backend.auth.user ? backend.auth.user.checkPermission(actionPermission) : false;
+                                    hasPermission = checkUserPermission(actionPermission);
                                 }
                                 else{
                                     hasPermission = true;

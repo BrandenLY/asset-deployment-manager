@@ -4,7 +4,7 @@ import ScanTool from '../components/ScanTool'
 import { ModelAutoComplete } from '../components/ModelAutoComplete';
 import Section from '../components/Section';
 import {AssetTableRow} from '../components/ContentAssetsList';
-import { useModelOptions } from '../customHooks';
+import { useModelOptions, usePermissionCheck } from '../customHooks';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { backendApiContext } from '../context';
 import { Delete } from '@mui/icons-material';
@@ -13,6 +13,7 @@ const ScanView = () => {
 
   // Hooks
   const backend = useContext(backendApiContext);
+  const {check:checkUserPermission} = usePermissionCheck(backend.auth.user);
   const assetOptions = useModelOptions('asset');
   
   // State
@@ -165,7 +166,7 @@ const ScanView = () => {
   // Formatted Data
   const selectShipmentInputId = 'scan-tool-shipment-select';
   const shipmentIsSelected = shipment.current != null;
-  const canRemoveAssetsFromObj = backend.auth.user ? backend.auth.user.checkPermission(`change_asset`) : false;
+  const canRemoveAssetsFromObj = checkUserPermission(`change_asset`);
   const hasAssetSelections = shipment.current ? shipment.current.assets
   .map( a => [a, ...a.assets]).flat()
   .map( a => a._meta.selected )

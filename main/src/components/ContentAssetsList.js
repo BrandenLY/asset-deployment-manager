@@ -3,7 +3,7 @@ import { Badge, Box, Button, Checkbox, IconButton, Paper, Typography, useMediaQu
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import React, { useContext, useEffect, useState } from 'react';
 import { backendApiContext, getCookie } from '../context';
-import { useModelOptions } from '../customHooks';
+import { useModelOptions, usePermissionCheck } from '../customHooks';
 import AssetIcon from './AssetIcon';
 import ScanTool from './ScanTool';
 import Section from './Section';
@@ -212,6 +212,7 @@ const ContentAssetsList = props => {
     const theme = useTheme();
     const queryClient = useQueryClient();
     const backend = useContext(backendApiContext);
+    const {check:checkUserPermission} = usePermissionCheck(backend.auth.user);
     const assetOptions = useModelOptions(ASSETMODELNAME);
     const viewingFromMobile = useMediaQuery(theme.breakpoints.down('md'));
 
@@ -382,9 +383,9 @@ const ContentAssetsList = props => {
     }
 
     // Formatted data
-    let canReceiveAssetsFromObj = backend.auth.user ? backend.auth.user.checkPermission(`receive`) : false;
-    let canRemoveAssetsFromObj = backend.auth.user ? backend.auth.user.checkPermission(`change_asset`) : false;
-    let canMoveAssetsViaScan = backend.auth.user ? backend.auth.user.checkPermission(`scan_to_parent`) : false;
+    let canReceiveAssetsFromObj = checkUserPermission(`receive`);
+    let canRemoveAssetsFromObj = checkUserPermission(`change_asset`);
+    let canMoveAssetsViaScan = checkUserPermission(`scan_to_parent`);
 
     if (objContentType == 'shipment'){
         //If the shipment is 'Delivered' or 'Cancelled', allow receiving assets from it.

@@ -10,19 +10,21 @@ import GridLayout from 'react-grid-layout';
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
 import AvailableEquipmentChart from "../charts/AvailableEquipmentChart";
+import { usePermissionCheck } from "../customHooks";
 
 // Default Layout
-const STATICGRIDLAYOUT = [
-    { i: "equipmentAvailable", x: 0, y: 0, w: 4, h: 11 },
-    { i: "futureShipments", x: 4, y: 0, w: 8, h: 11 },
+const DEFAULTGRIDLAYOUT = [
+    { i: "equipmentAvailable", x: 0, y: 0, w: 12, h: 10 },
+    { i: "futureShipments", x: 0, y: 10, w: 12, h: 10 },
   ];
-  
+const SAVEDLAYOUT = localStorage.getItem("DashboardLayout");
+
 const Dashboard = props => {
 
     // State
     const dashboardElement = useRef(undefined);
     const [dashboardWidth, setDashboardWidth] = useState(window.innerWidth * 0.80);
-    const [dashboardLayout, setDashboardLayout] = useState(STATICGRIDLAYOUT); 
+    const [dashboardLayout, setDashboardLayout] = useState(SAVEDLAYOUT ? JSON.parse(SAVEDLAYOUT) : DEFAULTGRIDLAYOUT); 
 
     const shipments = useInfiniteQuery({queryKey: ['shipment']});
 
@@ -43,7 +45,12 @@ const Dashboard = props => {
         }
     }, [dashboardElement.current]) // Update dashboard width when component loads.
     
-
+    useEffect(() => {
+        const layoutJson = JSON.stringify(dashboardLayout);
+        if(layoutJson != SAVEDLAYOUT){
+            localStorage.setItem('DashboardLayout', layoutJson);
+        }
+    }, [dashboardLayout])
     // Callback Functions
     const onLayoutChange = (newLayout) => {
         setDashboardLayout(newLayout);
@@ -114,18 +121,16 @@ const QuickLink = props => {
     // Props Destructuring
     const {linkIcon, linkText, linkRoute, linkPerm} = props;
 
-    const theme = useTheme();
     const navigate = useNavigate();
     const backend = useContext(backendApiContext);
+    const {check:checkUserPermission} = usePermissionCheck(backend.auth.user);
 
     const navigateTo = e => {
         navigate(linkRoute);
     }
 
     // Formatted Data
-    const userCanView = backend.auth.user ? backend.auth.user.checkPermission(linkPerm) : linkPerm == undefined;
-    const shrinkQuicklinks = useMediaQuery("(max-width:1265px");
-    const displayQuicklinks = useMediaQuery("(min-width:981px)");
+    const userCanView = checkUserPermission(linkPerm);
     const displayIconQuicklinks = useMediaQuery("(max-width:630px)");
 
     if (displayIconQuicklinks){ // Return Mobile friendly components
