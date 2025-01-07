@@ -237,7 +237,6 @@ export const useCurrentUser = props => {
     
     // State
     const [state, dispatch] = useReducer(userReducer, null);
-    const {check} = usePermissionCheck(state);
 
     // Queries
     const userQuery = useQuery({
@@ -302,20 +301,14 @@ export const useCurrentUser = props => {
         }
     }, [allGroupPermissionQueriesSuccessful]);
 
-    // useEffect(() => { // Update callback function for checking user permissions
-    //     dispatch({type:'addCallback', fnName:"checkPermission", fn:check})
-    // }, [check]);
 
 
     return state;
 }
 export const usePermissionCheck = user => {
     
-    console.log('PERMISSION HOOK EXECUTION', user);
 
     const performCheck = useCallback((permissionCode) => {
-        
-        console.log('PERMISSION CHECK FUNCTION EXECUTION', user, permissionCode);
 
         // Ensure user is loaded
         if (user == null || user == undefined){
@@ -344,8 +337,6 @@ export const usePermissionCheck = user => {
         const allGroupPermissions = user.groups.map(g => g.permissions).flat();
         const allAvailablePermissions = [...allGroupPermissions, ...user.user_permissions];
         const userHasPermissionCode = allAvailablePermissions.map(p => p.codename).includes(permissionCode);
-
-        console.log(`${permissionCode} - ${userHasPermissionCode}`);
 
         return(userHasPermissionCode);
 
@@ -420,28 +411,31 @@ export const useCustomTheme = props => {
                     '"Segoe UI Symbol"',
                 ].join(','),
                 h1: {
-                    fontSize: "2.5rem",
+                    fontSize: "1.75em",
                     fontWeight: "bold",
                 },
                 h2: {
-                    fontSize: "2.25rem",
+                    fontSize: "1.75em",
                     fontWeight: "bold",
+                    opacity: "80%",
                 },
                 h3: {
-                    fontSize: "2rem",
+                    fontSize: "1.66em",
                     fontWeight: "bold",
                 },
                 h4: {
-                    fontSize: "1.75rem",
+                    fontSize: "1.66em",
                     fontWeight: "bold",
+                    opacity: "80%",
                 },
                 h5: {
-                    fontSize: "1.5rem",
+                    fontSize: "1.50em",
                     fontWeight: "bold",
                 },
                 h6: {
-                    fontSize: "1.25rem",
+                    fontSize: "1.50em",
                     fontWeight: "bold",
+                    opacity: "80%",
                 },
                 navtitle: {
                     fontSize: "1.75rem",

@@ -205,10 +205,11 @@ class Shipment(TrackedModel):
         return str(self)
 
 class Reservation(TrackedModel):
-    start_date = models.DateField('Start date')
-    end_date = models.DateField('End date')
+    title = models.CharField(_('Title'), max_length=150, blank=True, null=True)
+    start_date = models.DateField(_('Start date'))
+    end_date = models.DateField(_('End date'))
     event = models.ForeignKey('main.Event', on_delete=models.CASCADE, blank=True, null=True)
-
+    
     class Meta:
         ordering = ['start_date', 'end_date']
 

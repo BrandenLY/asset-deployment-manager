@@ -14,10 +14,10 @@ import { backendApiContext, notificationContext } from "../context";
 import ReserveTool from "../components/ReserveTool";
 
 const MODELNAME = 'equipmenthold';
-const SORTINGGRIDDEFAULTCOLUMNS = ['id', 'start_date', 'end_date'];
+const SORTINGGRIDDEFAULTCOLUMNS = ['id', 'title', 'start_date', 'end_date'];
 const CREATEEQUIPMENTHOLDFORMLAYOUT = [
+  ['title'],
   ['start_date', 'end_date'],
-  ['event']
 ];
 
 const EquipmentHolds = props => {

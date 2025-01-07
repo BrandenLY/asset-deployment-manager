@@ -224,13 +224,6 @@ const ScanTool = props => {
 
         if(data.result == "success" && scanAssetMutation.isIdle){
 
-            console.log('make mutation from qr')
-            console.log(scanAssetMutation)
-            console.log(shipment) // undefined
-            console.log(destinationContentType)
-            console.log(destination) // undefined
-            console.log(data)
-
             const payload = {
                 shipment : shipment.id,
                 destination_content_type: destinationContentType,

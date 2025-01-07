@@ -12,10 +12,8 @@ const EquipmentHoldsDetailView = props => {
       model={MODELNAME}
       detailFormLayout={[
         ['id', null],
-        ['quantity', null],
-        ['model'],
+        ['title'],
         ['start_date', 'end_date'],
-        ['event']
       ]}
     >
 

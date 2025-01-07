@@ -1,4 +1,5 @@
 import { Autocomplete, Checkbox, FormControl, FormControlLabel, FormHelperText, InputLabel, OutlinedInput, TextField } from '@mui/material';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -9,6 +10,7 @@ import { ModelAutoComplete } from './ModelAutoComplete';
 
 const toHtmlInputDate = date => {
     const _date = new Date(date);
+
     return `${_date.getFullYear()}-${String(_date.getMonth() + 1).padStart(2, '0')}-${String(_date.getDate()).padStart(2, '0')}T${String(_date.getHours()).padStart(2,'0')}:${String(_date.getMinutes()).padStart(2, '0')}`
 }
 
@@ -101,11 +103,39 @@ const DynamicInput = props => {
             return(
                 <TextField disabled={fieldIsDisabled} sx={{flexGrow:"2", width:"100%"}} label={fieldName} value={fieldDetails.current}/>
             );
+        case 'date':
+            // Const datetime input type with customized label styling.
+            let _formattedDateValue = null;
+            if (fieldDetails.current != null){
+                _formattedDateValue = toHtmlInputDate(fieldDetails.current) 
+            }
+            return(
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <DatePicker
+                        id={htmlInputId}
+                        label={fieldDetails.label}
+                        error={fieldError}
+                        disabled={fieldIsDisabled}
+                        value={dayjs(_formattedDateValue)}
+                        onChange={(value, ctx) => {updateValues(null, value.format('YYYY-MM-DD'))}}
+                        slotProps={{
+                            field: {
+                                fullWidth:true,
+                                required: fieldDetails.required,
+                            },
+                            textField: {
+                                error: fieldError,
+                                helperText:fieldError ? fieldDetails.errors.toString(): fieldDetails.help_text
+                            },
+                        }}
+                    />
+                </LocalizationProvider>
+            );
         case 'datetime':
             // Const datetime input type with customized label styling.
-            let _formattedValue = null;
+            let _formattedDatetimeValue = null;
             if (fieldDetails.current != null){
-                _formattedValue = toHtmlInputDate(fieldDetails.current) 
+                _formattedDatetimeValue = toHtmlInputDate(fieldDetails.current) 
             }
             return(
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -115,7 +145,7 @@ const DynamicInput = props => {
                         label={fieldDetails.label}
                         error={fieldError}
                         disabled={fieldIsDisabled}
-                        value={dayjs(_formattedValue)}
+                        value={dayjs(_formattedDatetimeValue)}
                         onChange={(value, ctx) => {updateValues(null, value.toDate())}}
                         slotProps={{
                             field: {

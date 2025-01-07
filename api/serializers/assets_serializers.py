@@ -138,13 +138,14 @@ class ReservationItemSerializer(CustomBaseSerializer):
         fields = ['id', 'model', 'quantity']
 
 class ReservationSerializer(CustomBaseSerializer):
-    reservation_items = ReservationItemSerializer(many=True)  # Nested ReservationItem serializer
+    reservation_items = ReservationItemSerializer(many=True, required=False)  # Nested ReservationItem serializer
 
     class Meta:
         model = Reservation
         fields = [
             'id',
             'label',
+            'title',
             'start_date',
             'end_date',
             'event',
@@ -179,9 +180,9 @@ class ReservationSerializer(CustomBaseSerializer):
         reservation_items_data = self.initial_data.get('reservation_items')
 
         # Update the instance fields
+        instance.title = validated_data.get('title', instance.title)
         instance.start_date = validated_data.get('start_date', instance.start_date)
         instance.end_date = validated_data.get('end_date', instance.end_date)
-        instance.notes = validated_data.get('notes', instance.notes)
         instance.save()
 
         if reservation_items_data:

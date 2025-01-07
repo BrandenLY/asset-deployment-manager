@@ -57,9 +57,17 @@ const PrimaryNav = props => {
 
     // Hooks
     const theme = useTheme();
+    const location = useLocation();
 
     // State
     const [expanded, setExpanded] = useState(false);
+
+    // Effects
+    useEffect(() => {
+        if(expanded){
+            setExpanded(false);
+        }
+    },[location]);
 
     // Callback Functions
     const toggleExpanded = useCallback((e) => {
@@ -115,7 +123,7 @@ const PrimaryNav = props => {
 
             {/* NAVIGATION LINKS */}
             <Box flexGrow={2} sx={{overflow: 'auto'}}>
-                <Box>
+                <Box component="nav">
                 
                     { PageLinks.map( (linkGroup, i) => <CustomLinkGroup linkGroupObj={linkGroup} expanded={expanded}/> )}
 
@@ -207,6 +215,12 @@ const CustomNavLink = props => {
             }
         }
     },[ListItemButtonElement.current]);
+
+    useEffect(() => {
+        if(displayPopover){
+            setDisplayPopover(false);
+        }
+    }, [location]);
 
     // Callback Functions
     const handleLinkClick = useCallback((e) => {

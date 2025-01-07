@@ -16,7 +16,7 @@ from rest_framework.response import Response
 from rest_framework.settings import api_settings
 from rest_framework.utils.field_mapping import ClassLookupDict
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
-from ..serializers import ContentAssetsField
+from ..serializers import ContentAssetsField, ReservationItemSerializer
 from ..exceptions import InvalidData
 
 SERIALIZER_FIELD_LABEL_LOOKUP = ClassLookupDict({
@@ -46,6 +46,8 @@ SERIALIZER_FIELD_LABEL_LOOKUP = ClassLookupDict({
         serializers.RelatedField: 'related object',
         serializers.SerializerMethodField: 'computed value',
         ContentAssetsField: 'computed value',
+        ReservationItemSerializer: 'related objects'
+
     })
 
 # Standard Functionality for all views to share

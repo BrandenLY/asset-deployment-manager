@@ -114,7 +114,11 @@ function ExportButton(props) {
             console.log('prepping download');
             setIsPreparingDownload(true);
 
-            const headerRow = Object.values(exportFields).map( field => field.label);
+            const selectedExportFields = Object.entries(exportFields)
+            .filter(([fieldName, fieldDetails]) => fieldDetails.selected == true)
+
+            const headerRow = selectedExportFields.map(([_,fieldDetails]) => fieldDetails.label)
+
             const modelObjectsData = allModelObjects.data.pages.map(page => page.results).flat();
             
             let sheetArrays = [
@@ -124,14 +128,8 @@ function ExportButton(props) {
             modelObjectsData.forEach( modelObj => {
                 let objRow = []
 
-                headerRow.forEach(fieldFriendlyName => {
-                
-                    const [backendFieldName, fieldDetails] = Object.entries(modelOptions.data.model_fields).find( 
-                        ([_, fieldDetails]) => fieldDetails.label == fieldFriendlyName 
-                    );
-
-                    objRow.push( modelObj[backendFieldName] );
-
+                selectedExportFields.forEach(([fieldName, _]) => {
+                    objRow.push(modelObj[fieldName])
                 })
 
                 sheetArrays.push(objRow);
@@ -231,7 +229,7 @@ function ExportButton(props) {
                     <Box component="ol" paddingY={1} paddingX={3} marginY='unset'>
 
                         <Box {...exportStepProps}>
-                            <Typography variant="h5">Select the fields you would like to see in the export</Typography>
+                            <Typography variant="h6">Select the fields you would like to see in the export</Typography>
                             <Box>
                                 <FormGroup>
                                     <FormControlLabel
@@ -274,7 +272,7 @@ function ExportButton(props) {
                         
                         { hasOneOrMoreSelections ?
                             <Box {...exportStepProps}>
-                                <Typography variant="h5">Select your preferred file type.</Typography>
+                                <Typography variant="h6">Select your preferred file type.</Typography>
                                 <Grid container marginTop={2}>
                                     <Grid item xs={4} minWidth="266px">
                                         <Autocomplete

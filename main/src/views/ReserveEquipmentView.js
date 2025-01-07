@@ -6,7 +6,7 @@ import ReserveTool from '../components/ReserveTool';
 const ReserveEquipmentView = props => {
 
   return (
-     <Box id="ReserveEquipmentView" padding={1}>
+     <Box id="ReserveEquipmentView">
       <ReserveTool />
      </Box>
   )

@@ -82,6 +82,10 @@ const DetailsPanel = props => {
 
     // Effects
     useEffect(() => {
+
+      if(objForm){
+        return;
+      }
       
       if (modelOptions.data === undefined){
         return;
@@ -102,7 +106,7 @@ const DetailsPanel = props => {
       
       setObjForm(tmp);
 
-    }, [modelOptions.data, data])
+    }, [modelOptions.data, data, objForm])
 
     // Callback Functions
     const toggleEditMode = e => {
@@ -121,6 +125,7 @@ const DetailsPanel = props => {
 
     const resetForm = () => {
       setObjForm(undefined);
+      setIsEditing(false);
     }
 
     const saveModel = () => {
@@ -144,11 +149,23 @@ const DetailsPanel = props => {
             return;
           }
 
+          const formFields = formLayout.flat();
+          if (!formFields.includes(fieldName)){
+            return;
+          }
+
           // Format data before sending to backend.
           switch(fieldDetails.type){
             case 'field':
+              
+              if (fieldDetails.child?.type == 'related objects'){
+                payload[fieldName] = fieldDetails.current;
+                return;
+              }
+              
               payload[fieldName] = new String(fieldDetails.current);
               return;
+              
             case 'boolean':
               payload[fieldName] = new Boolean(fieldDetails.current);
               return;
@@ -164,17 +181,8 @@ const DetailsPanel = props => {
             case 'slug':
               payload[fieldName] = new String(fieldDetails.current);
               return;
-            case 'date':
-              payload[fieldName] = new Date(fieldDetails.current);
-              return;
-            case 'datetime':
-              payload[fieldName] = new Date(fieldDetails.current);
-              return;
             case 'time':
               payload[fieldName] = new Date(fieldDetails.current);
-              return;
-            case 'choice':
-              payload[fieldName] = fieldDetails.current;
               return;
             case 'related object':
               payload[fieldName] = fieldDetails.current.id;
@@ -210,8 +218,7 @@ const DetailsPanel = props => {
           margin: `${theme.spacing(1)} 0`,
         }}
       >
-        <Collapse in={!isCollapsed} orientation="horizontal">
-          <Paper elevation={2} ref={formContainer} sx={{minHeight:"100%"}}>
+          <Paper elevation={2} ref={formContainer} sx={{minHeight:"100%", flexGrow:1, display: isCollapsed ? 'none' : 'auto'}}>
             <List sx={{padding: 1, display: "flex", flexDirection:"column", minHeight:"100%", height:"100%"}} dense>
 
               <ListItem
@@ -251,7 +258,6 @@ const DetailsPanel = props => {
 
             </List>
           </Paper>
-        </Collapse>
         <SwipeButton 
           containerProps={{sx:{minWidth: "24px"}}}
           onSwipeLeft={collapseSelf}

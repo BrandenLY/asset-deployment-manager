@@ -139,7 +139,7 @@ const GenericDetailView = props => {
         <Box id={viewContainerName} position="relative">
 
             <Box padding={1}>
-                <Typography variant="h3">{title ? title: data.label}</Typography>
+                <Typography variant="h2">{title ? title: data.label}</Typography>
                 <Box className='detail-view-actions'>
                     <Box display="flex" sx={{float:"right"}}>
                         

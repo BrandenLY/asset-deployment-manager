@@ -296,7 +296,7 @@ function ImportButton(props) {
                 <Box component='ol' paddingY={1} paddingX={3} marginY='unset'>
 
                     <Box {...importStepProps}>
-                        <Typography variant='h5'>Select a file to import</Typography>
+                        <Typography variant='h6'>Select a file to import</Typography>
                         <Box marginTop={2}>
                             <FormControl disabled={isParsing}>
 
@@ -337,7 +337,7 @@ function ImportButton(props) {
                     
                     { hasFileErrors ?
                     <Box {...importStepProps}>
-                        <Typography variant='h5'>Import failed. Please address the following issues and try again.</Typography>
+                        <Typography variant='h6'>Import failed. Please address the following issues and try again.</Typography>
                         <Box component="ul">
                             {fileErrors.map( e => (
                                 <Box component="li">
@@ -351,7 +351,7 @@ function ImportButton(props) {
 
                     { payloadData ?
                     <Box {...importStepProps}>
-                        <Typography variant="h5">Preview and confirm your upload.</Typography>
+                        <Typography variant="h6">Preview and confirm your upload.</Typography>
                         
                             {/* <SortingGrid
                                 modelName={model}

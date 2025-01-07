@@ -1,4 +1,4 @@
-import { Box, Button, Paper, Typography, useTheme } from "@mui/material";
+import { Box, Button, Paper, Typography, TextField } from "@mui/material";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -10,7 +10,7 @@ import IntegerSelector from "./IntegerSelector";
 import AssetIcon from "./AssetIcon";
 
 // Constants
-const DEFAULTRESERVATIONSTATE = { startDate: null, endDate: null, quantities: {} };
+const DEFAULTRESERVATIONSTATE = { title:null, startDate: null, endDate: null, quantities: {} };
 
 const RESERVATIONSREDUCER = (prev, action) => {
 
@@ -25,6 +25,9 @@ const RESERVATIONSREDUCER = (prev, action) => {
         case 'reset':
             return { ...DEFAULTRESERVATIONSTATE };
 
+        case 'setTitle':
+            state.title = action.title;
+
         case 'setStartDate':
             state.startDate = action.date;
             break;
@@ -36,7 +39,7 @@ const RESERVATIONSREDUCER = (prev, action) => {
         case 'setQuantity':
             state.quantities[action.modelId] = action.quantity;
             break;
-
+        
         case 'resolveUpdate':
 
             break;
@@ -120,6 +123,7 @@ const ReserveTool = props => {
         const reservationPayload = {}
         
         // Format Payload
+        reservationPayload.title = _reservations.title;
         reservationPayload.start_date = FORMATDATE(_reservations.startDate);
         reservationPayload.end_date = FORMATDATE(_reservations.endDate);
 
@@ -159,23 +163,40 @@ const ReserveTool = props => {
     return (
         <Box padding={1}>
             <Box padding={1} margin={1}>
-                <Typography variant="h5">1. Select the dates of reservation</Typography>
                 <Paper sx={{padding:2, marginY:1}}>
+                    <Typography variant="h2">1. Enter reservation title (optional)</Typography>
+                    <Box display="flex" gap={1} justifyContent="center" alignItems="center" paddingY={2}>
+                        
+                        <TextField 
+                            label="Title"
+                            variant="outlined"
+                            value={reservations.title}
+                            sx={{width: "320px"}}
+                            onChange={e => {
+                                dispatchReservations({type: 'setTitle', title: e.target.value})
+                            }}
+                        />
+
+                    </Box>
+                </Paper>
+            </Box>
+
+            <Box padding={1} margin={1}>
+                <Paper sx={{padding:2, marginY:1}}>
+                    <Typography variant="h2">2. Select the dates of reservation</Typography>
                     <Box display="flex" gap={1} justifyContent="center" alignItems="center" paddingY={2}>
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
 
                             <DatePicker
                                 label="Start date"
                                 value={reservations.startDate ? dayjs(reservations.startDate) : null}
-                                onChange={
-                                    (value, ctx) => {
-                                        dispatchReservations({ type: 'setStartDate', date: value.toDate() });
-                                    }
-                                }
+                                onChange={(value, ctx) => {
+                                    dispatchReservations({ type: 'setStartDate', date: value.toDate() });
+                                }}
                             />
 
                             <Box>
-                                <Typography>
+                                <Typography sx={{opacity:"70%"}}>
                                     To
                                 </Typography>
                             </Box>
@@ -183,11 +204,9 @@ const ReserveTool = props => {
                             <DatePicker
                                 label="End date"
                                 value={reservations.endDate ? dayjs(reservations.endDate) : null}
-                                onChange={
-                                    (value, ctx) => {
-                                        dispatchReservations({ type: 'setEndDate', date: value.toDate() })
-                                    }
-                                }
+                                onChange={(value, ctx) => {
+                                    dispatchReservations({ type: 'setEndDate', date: value.toDate() })
+                                }}
                             />
 
                         </LocalizationProvider>
@@ -197,9 +216,9 @@ const ReserveTool = props => {
 
             {!requiresDateSelection &&
                 <Box padding={1} margin={1}>
-                    <Typography variant="h5">2. Select reservation quantities</Typography>
                     <Paper sx={{padding:2, marginY:1}}>
-                        <Box display="flex" gap={1} justifyContent="center" alignItems="center" flexDirection="column" width="100%">
+                        <Typography variant="h2">3. Select reservation quantities</Typography>
+                        <Box display="flex" paddingY={2} gap={1} justifyContent="center" alignItems="center" flexDirection="column" width="100%">
                             {allLoadedModels &&
                                 allLoadedModels.map(m => {
 
@@ -246,8 +265,8 @@ const EquipmentSelectionRow = props => {
           {modelIcon.isSuccess ? <AssetIcon iconName={modelIcon.data.source_name} /> : null}
   
           <Box>
+            <Typography fontSize="0.85rem" sx={{opacity:"80%"}}>{model.manufacturer}</Typography>
             <Typography fontSize="1.15rem" fontWeight="bold">{model.label}</Typography>
-            <Typography fontSize="0.85rem" fontWeight="lighter">Manufacturer: {model.manufacturer}</Typography>
             {model.isContainer ? <Typography variant="code">Container</Typography> : null}
           </Box>
   
