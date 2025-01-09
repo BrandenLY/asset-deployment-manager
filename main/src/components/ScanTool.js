@@ -2,7 +2,7 @@ import { CameraAlt } from "@mui/icons-material";
 import { Box, Button, IconButton, Paper, TextField, Typography, useTheme } from "@mui/material";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Html5Qrcode} from "html5-qrcode";
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { backendApiContext, notificationContext } from "../context";
 import CustomDialog from "./CustomDialog";
 import { ModelAutoComplete } from "./ModelAutoComplete";
@@ -41,8 +41,6 @@ const ScanTool = props => {
     // Mutations
     const scanAssetMutation = useMutation({
         mutationFn: async (vars) => {
-            
-            console.log('mutate', vars)
 
             const { method , payload } = vars;
 
@@ -85,7 +83,7 @@ const ScanTool = props => {
                     data[submittedAssetCode] = {data:_data, error};
                     return data;
                 })
-                
+
                 // Update Scan Destination
                 if (_data.is_container){
                     setDestination(_data);
@@ -138,85 +136,81 @@ const ScanTool = props => {
         }
     },[scanLog]) // Provide cleanup function
 
-    useEffect(() => {
+    // useEffect(() => {
 
-        const filterEvents = e => {
-            if (e.key == "Enter"){
-                submitAssetCode(e);
-            }
-        }
+    //     if (inputElement.current != null){
 
-        if (inputElement.current != null){
+    //         inputElement.current.addEventListener('keydown', submitAssetCode);
+    //         inputElement.current.scrollIntoView({behavior: 'smooth', block: 'center'});
+    //         inputElement.current.focus();
 
-            inputElement.current.addEventListener('keydown', filterEvents);
-            inputElement.current.scrollIntoView({behavior: 'smooth', block: 'center'});
-            inputElement.current.focus();
+    //     }
 
-        }
+    //     return(() => {
 
-        return(() => {
+    //         if(inputElement.current != null){
+    //             inputElement.current.removeEventListener('keydown', submitAssetCode);
+    //         }
 
-            if(inputElement.current != null){
-                inputElement.current.removeEventListener('keydown', filterEvents);
-            }
+    //     })
 
-        })
-
-    }, [inputElement.current]) // Focus input on render
+    // }, [inputElement.current]) // Focus input on render
 
     useEffect(() => {
         if(inputElement.current){
             inputElement.current.focus();
         }
     })
+
     // Callback Functions
     const updateInputValue = e => {
         setInputData(e.target.value);
     }
 
-    const submitAssetCode = e => {
+    const submitAssetCode = useCallback(e => {
 
         // Ignore blank values
         if (inputData == "" && e.target.value == ""){
-            return false;
+            return;
         }
 
         // Do scan logic
-        if(e.type == "keydown"){
+        if(e.type == "keydown" && e.key == "Enter"){
 
-            const payload =  {
+            const payload = {
                 destination_content_type: destinationContentType,
                 destination_object_id: destination.id,
                 asset_code: e.target.value,
                 shipment: shipment.id,
             }
 
-            scanAssetMutation.mutate({ method: "POST", payload })
+            console.log(inputData, destination.id, destinationContentType, shipment.id);
+            scanAssetMutation.mutate({ method: "POST", payload });
+            setInputData("");
+            e.preventDefault()
         }
         
         if(e.type == "click"){
 
-            const payload =  {
+            const payload = {
                 destination_content_type: destinationContentType,
                 destination_object_id: destination.id,
                 asset_code: inputData,
                 shipment: shipment.id,
             }
 
+            console.log(inputData, destination.id, destinationContentType, shipment.id);
             scanAssetMutation.mutate({ method: "POST", payload })
+            setInputData("");
+            e.preventDefault()
         }
-        
-        // Clear State
-        setInputData("");
-        e.preventDefault();
-    }
+
+    }, [inputData, destination.id, destinationContentType, shipment.id])
 
     const openScanDialog = e => {
-        console.log('open dialog')
         setDisplayScanUi(true);
     }
     const closeScanDialog = e => {
-        console.log('close dialog')
         setDisplayScanUi(false);
     }
 
@@ -243,7 +237,6 @@ const ScanTool = props => {
     const destinationName = destination?.label;
     const destinationAssetCounts = destination?.assets.length;
     const destinationContentTypeDisplay = destinationContentType == 'asset' ? 'container' : destinationContentType;
-    const scanLogHasRow = Object.entries(scanLog).length > 0; 
     const inlineHelperText = `Currently scanning into ${destinationContentType} ${destinationName}`
     const styles = getScanToolStyles(variant);
     const scanUiDialogId = "scan-tool-camera-dialog";
@@ -268,7 +261,8 @@ const ScanTool = props => {
                             variant="outlined"
                             value={inputData}
                             onChange={updateInputValue}
-                            helperText={variant == "inline" ? inlineHelperText : ""}
+                            onKeyDown={submitAssetCode}
+                            helperText={variant == "in-line" ? inlineHelperText : ""}
                             sx={{minWidth: "200px"}}
                         />
                     </Box>
@@ -399,85 +393,6 @@ const getScanToolStyles = variant => {
 
     return({paperStyles,boxStyles});
 
-}
-
-// Supplementary Components
-const ShipmentSelector = props => {
-
-    // Props Destructuring
-    const {onSelect, variant} = props;
-
-    // Hooks
-    const [selectedShipment, setSelectedShipment] = useState(null);
-    const [shipmentFieldErrors, setShipmentFieldErrors] = useState([]);
-
-    // Call Back Functions
-    const updateSelectedShipment = (_, shipment) => {
-        setShipmentFieldErrors([]);
-        setSelectedShipment(shipment);
-    }
-
-    const confirmSelection = () => {
-
-        if (selectedShipment == null){
-            setShipmentFieldErrors(prev => [...prev, 'You must select a shipment.']);
-            return; // Do not proceed if the selection is blank.
-        }
-
-        // Update parent component with newly selected shipment.
-        onSelect(selectedShipment.id)
-    }
-
-    // Formatted Data
-    let paperStyles = {
-        display: "flex",
-        padding:1,
-        marginY: 1,
-    };
-    switch(variant){
-        case 'block':
-            paperStyles = {
-                ...paperStyles,
-                minHeight:"30vh",
-                flexDirection: "column",
-                gap: 1.5,
-                alignItems: "stretch",
-                justifyContent: "center"
-            }
-        case 'in-line':
-            paperStyles = {
-                ...paperStyles,
-                gap: 1,
-                alignItems:"center",
-                justifyContent: "flex-end"
-            }
-    }
-    const boxStyles = {textAlign:"center", flexGrow:1, display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", width:"100%"};
-
-    return <Paper id="ScanTool" sx={paperStyles}>
-        <Box sx={boxStyles}>
-            <Typography variant="h5" sx={{marginX:1}}>Select a shipment</Typography>
-            <Typography variant="subtitle2" sx={{marginX:1}}>to begin scanning</Typography>
-        </Box>
-        <Box sx={{...boxStyles, height:"min-content", flexGrow:0, flexShrink:1}}>
-            <ModelAutoComplete
-                    field = {{current:selectedShipment, errors:shipmentFieldErrors, help_text:" "}}
-                    dataModel = 'shipment'
-                    disabled={false}
-                    inputId={`select-shipment-to-scan`}
-                    onChange={updateSelectedShipment}
-                    inputProps={{
-                        sx:{width:"30%", maxWidth:"345px", minWidth:"230px", flexShrink:0, flexGrow:1}
-                    }}
-            />
-        </Box>
-        <Box sx={boxStyles}>
-            <Button onClick={confirmSelection}>
-                Select
-            </Button>
-        </Box>
-
-    </Paper>
 }
 
 export default ScanTool;

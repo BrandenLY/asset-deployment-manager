@@ -144,7 +144,7 @@ const ShipmentDetailView = props =>{
                 ['destination'],
                 ['departure_date', 'arrival_date'],
                 ['event'],
-                ['send_back_shipment']
+                ['return_shipment']
             ]}
         >
 
@@ -152,6 +152,7 @@ const ShipmentDetailView = props =>{
                 <ContentAssetsList 
                     obj={shipment}
                     objContentType={MODELNAME}
+                    objIsShipment={true} // REMOVE
                 />
             :
                 <Skeleton variant="rectangular" />

@@ -14,6 +14,7 @@ const EquipmentHoldsDetailView = props => {
         ['id', null],
         ['title'],
         ['start_date', 'end_date'],
+        ['shipment']
       ]}
     >
 

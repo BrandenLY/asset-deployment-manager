@@ -19,7 +19,7 @@ from ..serializers import LocationSerializer
 from ..serializers import ShipmentSerializer
 from ..serializers import ReservationSerializer
 from ..permissions import ScanToolPermission
-from ..filters import AssetFilter
+from ..filters import AssetFilter, ReservationFilter
 
 #       _                 _         _       _             __                     
 #      / \   ___ ___  ___| |_ ___  (_)_ __ | |_ ___ _ __ / _| __ _  ___ ___  ___ 
@@ -68,6 +68,7 @@ class ReservationView(BaseView):
     model = Reservation
     queryset = model.objects.all()
     serializer_class = ReservationSerializer
+    filterset_class = ReservationFilter
 
 class ShipmentView(BaseView):
     """

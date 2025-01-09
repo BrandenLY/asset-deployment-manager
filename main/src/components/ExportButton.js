@@ -111,7 +111,6 @@ function ExportButton(props) {
     useEffect(() => {
 
         if( userRequestedDownload && !allModelObjects.hasNextPage){
-            console.log('prepping download');
             setIsPreparingDownload(true);
 
             const selectedExportFields = Object.entries(exportFields)

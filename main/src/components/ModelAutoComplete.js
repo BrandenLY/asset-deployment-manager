@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import { Autocomplete, TextField } from "@mui/material";
 import { useInfiniteQuery } from "@tanstack/react-query";
 
@@ -22,6 +22,19 @@ export const ModelAutoComplete = props => {
         data.fetchNextPage();
 
     },[data.isFetching, data.hasNextPage])
+
+    // Callback functions
+    const internalOnChange = useCallback((e, reason) => {
+
+        // Set clear action to null instead of undefined.
+        if (reason == "clear"){
+            onChange(e, null);
+        }
+        else {
+            onChange(e);
+        }
+
+    }, [onChange])
 
     // Formatted Data
     const error = field.errors.length > 0;

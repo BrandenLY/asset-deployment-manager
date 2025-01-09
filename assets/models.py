@@ -168,7 +168,7 @@ class Shipment(TrackedModel):
     packed_assets = models.JSONField(_("Packed Assets"), default=list)
     departure_date = models.DateTimeField(_("Departure Date"), blank=True, null=True)
     arrival_date = models.DateTimeField(_("Arrival Date"), blank=True, null=True)
-    send_back_shipment = models.ForeignKey("assets.Shipment", on_delete=models.CASCADE, blank=True, null=True)
+    return_shipment = models.ForeignKey("assets.Shipment", on_delete=models.CASCADE, blank=True, null=True)
     
     class Meta:
         ordering = [ "status", "arrival_date", "id"]
@@ -209,6 +209,7 @@ class Reservation(TrackedModel):
     start_date = models.DateField(_('Start date'))
     end_date = models.DateField(_('End date'))
     event = models.ForeignKey('main.Event', on_delete=models.CASCADE, blank=True, null=True)
+    shipment = models.ForeignKey(Shipment, on_delete=models.CASCADE, blank=True, null=True)
     
     class Meta:
         ordering = ['start_date', 'end_date']

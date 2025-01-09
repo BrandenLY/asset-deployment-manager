@@ -1,6 +1,6 @@
 import { Delete } from '@mui/icons-material';
 import { Box, Button, Skeleton, Typography, useTheme, } from '@mui/material';
-import { useMutation, useQueries, useInfiniteQuery, useQuery } from '@tanstack/react-query';
+import { useMutation, useQueries, useInfiniteQuery, useQuery, useQueryClient } from '@tanstack/react-query';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { backendApiContext, notificationContext } from '../context';
@@ -21,6 +21,7 @@ const GenericDetailView = props => {
     const locationParams = useParams();
     const objOptions = useModelOptions(model);
     const backend = useContext(backendApiContext);
+    const queryClient = useQueryClient();
     const {check:checkUserPermission} = usePermissionCheck(backend.auth.user);
     const notifications = useContext(notificationContext);
 
@@ -128,6 +129,7 @@ const GenericDetailView = props => {
     const deleteObj = useCallback(e => {
         navigate(-1);
         backendObj.mutate({payload: data, method: 'DELETE'});
+        queryClient.invalidateQueries({ queryKey: ['shipment']});
     }, []);
 
     // Formatted Data

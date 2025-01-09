@@ -17,7 +17,7 @@ import { backendApiContext, notificationContext } from "../context";
 import ChangeLogTableRow from "../components/ChangeLogTableRow";
 
 const MODELNAME = "logentry";
-const SORTINGGRIDDEFAULTCOLUMNS = ["id", "label"];
+const SORTINGGRIDDEFAULTCOLUMNS = ["user_id", "label", "action_time"];
 
 // Primary Component
 const AdminLogsView = props => {

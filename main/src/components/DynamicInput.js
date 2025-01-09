@@ -42,11 +42,13 @@ const DynamicInput = props => {
     const fieldError =  fieldDetails.errors.length > 0;
 
     const updateValues = (onChangeEvent, newValue=undefined) => {
-        if(newValue == null){
+
+        if(newValue == undefined){
             updateFieldData(fieldName, onChangeEvent.target.value);
             return;
         }
         updateFieldData(fieldName, newValue);
+
     };
 
     // Formatted Data

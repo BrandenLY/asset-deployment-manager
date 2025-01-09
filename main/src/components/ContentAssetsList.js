@@ -206,6 +206,7 @@ const ContentAssetsList = props => {
     const {
         obj,
         objContentType,
+        objIsShipment // REMOVE
     } = props;
 
     // Hooks
@@ -223,12 +224,26 @@ const ContentAssetsList = props => {
     // Queries
     const contentTypes = useQuery({
         queryKey: ['contenttype'],
-    })
+    });
 
     const objQuery = useQuery({
         queryKey: [objContentType, obj.id],
         enabled: obj.id != undefined,
         initialData: obj
+    });
+
+    const reservations = useQuery({
+        queryKey: ['reservation', 'by-shipment', obj.id],
+        enabled: obj.id != undefined && objIsShipment,
+        queryFn: async () => {
+            const formattedUrl = new URL(`${backend.api.baseUrl}/equipmenthold/`);
+            formattedUrl.searchParams.set('shipment', obj.id);
+
+            const res = await fetch(formattedUrl);
+            const data = await res.json();
+
+            return data;
+        }
     })
 
     // Mutations
@@ -412,14 +427,43 @@ const ContentAssetsList = props => {
             defaultExpanded={true}
         >
 
-            <ScanTool visible={displayScanTool} variant={viewingFromMobile ? "block" : "in-line"} elevation={3} shipment={obj} onSuccessfulScan={refetchState}/>
+            { displayScanTool ? <ScanTool variant={viewingFromMobile ? "block" : "in-line"} elevation={3} shipment={obj} onSuccessfulScan={refetchState}/> : null }
             <Box display="flex" flexDirection="column" alignItems="stretch" gap={theme.spacing(1)}>
                 {objData.assets?.map( asset => {
                     return <AssetTableRow asset={asset} selectRow={selectAsset}/>;
                 })}
             </Box>
+            {console.log(reservations)}
+            { reservations.isSuccess ?
+                <Box display="flex" gap={1} marginTop={1}>
+                    <Typography>Reserved equipment:</Typography>
+                    {reservations.data.results.map(reservation => {
+                        return(reservation.reservation_items.map( item => <TemporaryEquipmentRequirementFlag reservationItem={item}/>))
+                    })}
+                </Box>
+            :
+                null
+            }
         </Section>
     )
 }
 
+const TemporaryEquipmentRequirementFlag = props => {
+    const {reservationItem} = props;
+
+    const theme = useTheme();
+
+    const itemModel = useQuery({
+        queryKey: ['model', reservationItem.model]
+    });
+
+    const itemLabel = itemModel.isSuccess ? itemModel.data.label : '-';
+
+    return(
+        <Box display="flex" gap={1} paddingY="3px" paddingX="6px" backgroundColor="rgba(0,0,0,0.15)" borderRadius={theme.shape.borderRadius}>
+            <Typography>{itemLabel}</Typography>
+            <Typography fontWeight="bolder" sx={{opacity:"80%"}} color="primary">x{reservationItem.quantity}</Typography>
+        </Box>
+    )
+}
 export default ContentAssetsList

@@ -110,7 +110,7 @@ class ShipmentSerializer(CustomBaseSerializer):
             "asset_counts",
             "assets",
             "packed_assets",
-            "send_back_shipment",
+            "return_shipment",
         ]
 
     def get_packed_assets(self, obj):
@@ -149,6 +149,7 @@ class ReservationSerializer(CustomBaseSerializer):
             'start_date',
             'end_date',
             'event',
+            'shipment',
             'reservation_items',
         ]
 
@@ -183,6 +184,7 @@ class ReservationSerializer(CustomBaseSerializer):
         instance.title = validated_data.get('title', instance.title)
         instance.start_date = validated_data.get('start_date', instance.start_date)
         instance.end_date = validated_data.get('end_date', instance.end_date)
+        instance.shipment = validated_data.get('shipment', instance.shipment)
         instance.save()
 
         if reservation_items_data:
