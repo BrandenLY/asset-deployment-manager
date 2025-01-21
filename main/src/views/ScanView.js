@@ -1,30 +1,46 @@
-import { Box, Button, Paper, Typography } from '@mui/material'
+import { Autocomplete, Box, Button, Paper, Table, TableBody, TextField, Typography } from '@mui/material'
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import ScanTool from '../components/ScanTool'
 import { ModelAutoComplete } from '../components/ModelAutoComplete';
 import Section from '../components/Section';
-import {AssetTableRow} from '../components/ContentAssetsList';
+import ContentAssetsList, {AssetTableRow, InternalAssetRow} from '../components/ContentAssetsList';
 import { useModelOptions, usePermissionCheck } from '../customHooks';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { backendApiContext } from '../context';
 import { Delete } from '@mui/icons-material';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const ScanView = () => {
 
   // Hooks
+  const location = useLocation();
+  const navigate = useNavigate();
+  const locationShipmentId = new URLSearchParams(location.search).get('shipment');
+
   const backend = useContext(backendApiContext);
-  const {check:checkUserPermission} = usePermissionCheck(backend.auth.user);
   const assetOptions = useModelOptions('asset');
+  const {check:checkUserPermission} = usePermissionCheck(backend.auth.user);
   
   // State
-  const [selectedShipmentId, setSelectedShipmentId] = useState(null);
-  const [shipment, setShipment] = useState({
-    current: null,
-    errors: [],
-    label: "Shipment"
-  });
+  const [selectedShipmentId, setSelectedShipmentId] = useState(locationShipmentId ? locationShipmentId : null);
 
   // Queries
+  const availableShipments = useQuery({
+    queryKey: ['shipment', 'by-status', 0 /* Scheduled Status */],
+    queryFn: async () => {
+
+      const formattedUrl = new URL(`${backend.api.baseUrl}/shipment/`);
+
+      // Only get shipments that are in 'scheduled' status.
+      formattedUrl.searchParams.set('status', 0 /* Scheduled Status */);
+
+      const res = await fetch(formattedUrl);
+      const data = await res.json();
+
+      return data;
+    
+    }
+  })
   const selectedShipment = useQuery({
     queryKey: selectedShipmentId != null ? ['shipment', selectedShipmentId] : null,
     enabled: selectedShipmentId != null
@@ -73,33 +89,19 @@ const ScanView = () => {
     return(() => {
       // Clear state
       setSelectedShipmentId(null);
-      setShipment(prev => {
-        return ({...prev, current: null})
-      });
       selectedShipment.remove();
     })
   }, []) // Setup cleanup function
 
-  useEffect(() => {
-
-    if (selectedShipment.data != undefined){
-
-      setShipment(prev => {
-
-        let newState = {...prev};
-        newState.errors = [];
-        newState.current = {...selectedShipment.data};
-
-        // Add selection state
-        newState.current.assets = newState.current.assets.map(asset => parseAssetData(asset));
-
-        return newState;
-
-      })
-
+  useEffect( () => {
+    
+    if(locationShipmentId == null){
+      return;
     }
 
-  }, [selectedShipment.data]) // Parse selectedShipment query to shipment state.
+    setSelectedShipmentId(locationShipmentId);
+
+  }, [locationShipmentId]); // Sync location with selectedShipmentId state var
 
   useEffect(() => {
     if(selectShipmentInputId != null){
@@ -108,11 +110,6 @@ const ScanView = () => {
   }, [selectedShipmentId]) // Refetch Query
 
   // Callback Functions
-  const parseAssetData = data => {
-    let tmpData = {...data,_meta:{selected:false}}
-    tmpData['assets'] = tmpData['assets'].map( a => ({...a,_meta:{selected:false}}));
-    return(tmpData);
-  }
 
   const refetchState = () => {
     selectedShipment.refetch();
@@ -124,54 +121,12 @@ const ScanView = () => {
       setSelectedShipmentId(null);
       return;
     }
-    setSelectedShipmentId(value.id);
-  }
-
-  const onRowSelect = selectedAsset => {
-    setShipment( prev => {
-      let newState={...prev};
-      newState.current.assets = newState.current.assets.map(asset => {
-        if(asset == selectedAsset){
-          let assetData = {...selectedAsset};
-          assetData._meta = { ...assetData._meta, selected:!assetData._meta.selected };
-          return assetData;
-        }
-        return asset;
-      })
-      return newState;
-    })
-  }
-
-  const getSelectedAssets = () => {
-    if (shipment.current){
-      return shipment.current?.assets
-      .map( a => [a, ...a.assets]).flat()
-      .filter( a => a._meta.selected )
-    }
-    else{
-      return new Array()
-    }
-  }
-
-  const removeSelectedAssets = e => {
-    const selectedAssets = getSelectedAssets();
-
-    selectedAssets.forEach( asset => {
-      updateAsset.mutate({...asset, location:shipment.current.origin, parent_object_id:null, parent_content_type:null})
-    })
-
-    refetchState();
+    navigate({pathname:"/scan/", search:`?shipment=${value.id}`});
   }
 
   // Formatted Data
   const selectShipmentInputId = 'scan-tool-shipment-select';
-  const shipmentIsSelected = shipment.current != null;
-  const canRemoveAssetsFromObj = checkUserPermission(`change_asset`);
-  const hasAssetSelections = shipment.current ? shipment.current.assets
-  .map( a => [a, ...a.assets]).flat()
-  .map( a => a._meta.selected )
-  .includes(true)
-  : false;
+  const shipmentIsSelected = selectedShipment.data !== undefined;
 
   // Render
   return (
@@ -181,13 +136,29 @@ const ScanView = () => {
         <Paper sx={{padding:2, marginY:1}}>
           <Typography variant="h2">1. Select a shipment</Typography>
           <Box display="flex" justifyContent="center" margin={1} paddingY={2}>
-            <ModelAutoComplete 
-              field={shipment}
-              dataModel='shipment'
-              inputId={selectShipmentInputId}
+
+
+
+
+
+
+
+            {console.log(selectedShipment.data)}
+            <Autocomplete 
+              id={selectShipmentInputId}
+              options={availableShipments.data?.results}
+              value={selectedShipment.data}
               onChange={updateShipment}
-              inputProps={{sx:{minWidth:"250px"}}}
+              renderInput={(params) => <TextField {...params} label="Shipment"/>}
+              isOptionEqualToValue={(opt, val) => opt.id == val.id}
+              label="Shipment"
+              loading={availableShipments.isInitialLoading || availableShipments.isFetching}
+              sx={{minWidth:"250px"}}
             />
+
+
+
+
           </Box>
         </Paper>
       </Box>
@@ -197,29 +168,20 @@ const ScanView = () => {
         <Paper sx={{padding:2, marginY:1}}>
           <Typography variant="h2">2. Scan</Typography>
           <Box paddingY={2}>
-            <ScanTool shipment={shipment.current} onSuccessfulScan={refetchState} elevation={2}/>
+            <ScanTool shipment={selectedShipment.data} onSuccessfulScan={refetchState} elevation={2}/>
           </Box>
         </Paper>
       </Box>
       }
 
-      {(shipmentIsSelected && shipment.current.assets.length > 0) &&
+      {(shipmentIsSelected && selectedShipment.data.assets.length > 0) &&
       <Box padding={1} margin={1}>
         <Typography variant="h2">3. Review</Typography>
         <Box>
-          <Section
-            title={`Assets (${shipment.current.assets.length})`}
-            defaultExpanded={true}
-            actions={[
-              hasAssetSelections && canRemoveAssetsFromObj ? <Button startIcon={<Delete/>} variant="outlined" onClick={removeSelectedAssets}>Remove selected</Button> : null,
-            ]}
-          >
-            <Box display="flex" flexDirection="column" alignItems="stretch" gap={1}>
-              {shipment.current.assets.map( asset => {
-                return <AssetTableRow asset={asset} selectRow={onRowSelect}/>;
-              })}
-            </Box>
-          </Section>
+          <ContentAssetsList 
+            obj={selectedShipment.data}
+            objContentType="shipment"
+          />
         </Box>
       </Box>
       }
