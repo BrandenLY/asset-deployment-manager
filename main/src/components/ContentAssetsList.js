@@ -1,7 +1,7 @@
 import { Archive, Close, Delete, DocumentScanner, ExpandLess, ExpandMore, SubdirectoryArrowRight } from '@mui/icons-material';
-import { Badge, Box, Button, Checkbox, IconButton, Paper, Typography, useMediaQuery, useTheme } from '@mui/material';
+import { Badge, Box, Button, Checkbox, IconButton, Paper, Table, TableBody, TableCell, TableRow, Typography, useMediaQuery, useTheme } from '@mui/material';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { backendApiContext, getCookie } from '../context';
 import { useModelOptions, usePermissionCheck } from '../customHooks';
 import AssetIcon from './AssetIcon';
@@ -10,194 +10,162 @@ import Section from './Section';
 
 const ASSETMODELNAME = 'asset';
 
-export const AssetSectionTitle = props => {
+export const InternalAssetRow = props => {
 
-    const {asset} = props;
-
-    const theme = useTheme();
-    const assetOptions = useModelOptions(ASSETMODELNAME);
-
-    const model = useQuery({
-        queryKey: ['model', asset.model]
-    })
-
-    const modelIconId = model.data?.icon;
-
-    const modelIcon = useQuery({
-        queryKey: ['asseticon', modelIconId],
-        enabled: !!modelIconId
-    })
-
-    const modelIconName = modelIcon.isSuccess ? modelIcon.data.source_name : "DevicesOther";
-    const conditionLabel = assetOptions.isSuccess ? assetOptions.data.model_fields.condition.choices
-    .find( c => c.value == asset.condition ).display_name
-    : "";
-    const conditionBgColor = conditionLabel != "" ? theme.palette.conditions[conditionLabel.toLowerCase()].main : "gray";
-    const conditionFgColor = conditionLabel != "" ? theme.palette.conditions[conditionLabel.toLowerCase()].contrastText : "black";
-
-    return(
-        <Box display="flex" alignItems="center" gap={theme.spacing(1)}>
-
-            { asset.is_container ?
-                <Badge color="secondary" badgeContent={asset.assets.length}>
-                    <AssetIcon iconName={modelIconName}/>
-                </Badge>
-            :
-                <AssetIcon iconName={modelIconName}/>
-            }
-
-            <Box marginLeft={theme.spacing(0.5)}>
-                <Typography variant="body2" fontSize="1.15em">
-                    {asset.label} 
-                    <Typography component="span" sx={{
-                        backgroundColor: conditionBgColor,
-                        color: conditionFgColor,
-                        borderRadius: theme.spacing(0.25),
-                        padding: theme.spacing(1),
-                        paddingTop: 0,
-                        paddingBottom: 0,
-                        display: "inline",    
-                        fontSize: "0.9em",
-                        marginLeft: theme.spacing(0.5)
-                    }}>{conditionLabel}</Typography>
-                </Typography>
-                <Typography variant="subtitle1" color={theme.palette.text.secondary} sx={{fontSize: "0.85em"}}>Note: {asset.note}</Typography>
-            </Box>
-        </Box>
-    )
-}
-
-export const AssetTableRow = props => {
-
-    const {asset, defaultExpanded = false, paperProps, selectRow = () => console.error('AssetTableRow', 'You must provide an implementation for `selectRow`.')} = props;
-
+    // Props Destructuring
+    const {
+        asset,
+        selectRow = () => console.error('ContentAssetsList.js', 'InternalAssetRow', 'You must provide an implementation for `selectRow`.'),
+        /*optional*/ paperProps = {},
+        /*optional*/ nestingLevel= 0
+    } = props;
+    
     // Hooks
     const theme = useTheme();
 
     // State
-    const [expanded, setExpanded] = useState(defaultExpanded);
+    const [expanded, setExpanded] = useState();
+
+    // Queries
+    const model = useQuery({queryKey:['model', asset.model]});
+    const modelIcon = useQuery({queryKey:['asseticon', model.data?.icon], enabled:model.isSuccess});
 
     // Callback Functions
-    const toggleExpanded = e => {
-        setExpanded( prev => !prev )
-    }
+    const toggleExpanded = useCallback(e => {
+        setExpanded( prev => !prev );
+    }, []);
 
-    const onCheckboxToggle = a =>{
-        selectRow(a);
-    }
+    const onCheckboxToggle = useCallback(asset => {
+        selectRow(asset);
+    }, []);
 
     // Formatted Data
     const clientDeviceIsSmall = useMediaQuery(theme.breakpoints.down('sm'));
-
-    if(asset.is_container){
-        return(
-            <Paper elevation={2} {...paperProps}>
-                <Box 
-                    className="asset-table-row"
-                    display="flex"
-                    alignItems="center"
-                    padding={theme.spacing(1)}
-                    width="100%"
-                >
-                    <IconButton onClick={toggleExpanded}>
-                        { expanded ? <ExpandLess /> : <ExpandMore />}
-                    </IconButton>
-                    <Box
-                        display="flex"
-                        flexBasis="300px"
-                        flexShrink={1}
-                        flexGrow={1}
-                        alignItems="center"
-                        gap={theme.spacing(1)}
-                        padding={theme.spacing(1)}
-                        paddingLeft={clientDeviceIsSmall ? theme.spacing(0.5) : theme.spacing(1.5)}
-                        borderRadius={theme.shape.borderRadius}
-                        backgroundColor={theme.palette.divider}
-                        border={`3px solid ${theme.palette.divider}`}
-                        sx={{[theme.breakpoints.down('md')]:{
-                            paddingLeft: "unset",
-                        }}}
-                    >
-                        <Checkbox checked={asset._meta.selected} onChange={() => {onCheckboxToggle(asset)}}/>
-                        <AssetSectionTitle asset={asset}/>
+    return(
+        <>
+            <TableRow selected={asset._meta.selected} sx={{backgroundColor:`rgba(0,0,0,${nestingLevel / 10})`}}>
+                
+                {/* Selection Checkbox */}
+                <TableCell align="left">
+                    <Box width="fit-content" marginLeft={`${nestingLevel * 10}px`}>
+                        <Checkbox checked={asset._meta.selected} onChange={() => onCheckboxToggle(asset)}/>
                     </Box>
-                </Box>
-    
-                { expanded &&
-                    <Box 
-                        className="asset-table-row-body"
-                        display="flex"
-                        flexDirection="column"
-                        alignItems="stretch"
-                        gap={theme.spacing(1)}
-                        padding={theme.spacing(1)}
-                        paddingLeft={theme.spacing(8)}
-                        sx={{
-                            [theme.breakpoints.down('md')]:{
-                                paddingLeft: theme.spacing(2),
-                            }
-                        }}
-                    >
-                        { asset.assets.map( childAsset => {
-                            return(
-                                <Box display="flex" alignItems="center">
-                                    <SubdirectoryArrowRight />
-                                    <Box
-                                        display="flex"
-                                        alignItems="center"
-                                        gap={theme.spacing(1)}
-                                        padding={theme.spacing(1)}
-                                        paddingLeft={theme.spacing(3)}
-                                        borderRadius={theme.shape.borderRadius}
-                                        border={`3px solid ${theme.palette.divider}`}
-                                        width="100%"
-                                        sx={{
-                                            [theme.breakpoints.down('md')]:{
-                                                paddingLeft: "unset",
-                                            }
-                                        }}
-                                    >
-                                        <Checkbox checked={childAsset._meta.selected} onChange={() => {onCheckboxToggle(childAsset)}}/>
-                                        <AssetSectionTitle asset={childAsset}/>
-                                    </Box>
-                                </Box>
-                            )
-                        }) }
+                </TableCell>
+                
+                {/* Model Icon */}
+                <TableCell align="left">
+                { asset.is_container ?
+                    <Box width="fit-content" marginLeft={`${nestingLevel * 10}px`}>
+                        <Badge color="primary" badgeContent={asset.assets.length}>
+                            <AssetIcon iconName={modelIcon.data?.source_name} />
+                        </Badge>
+                    </Box>
+                :
+                    <Box width="fit-content" marginLeft={`${nestingLevel * 10}px`}>
+                        <AssetIcon iconName={modelIcon.data?.source_name} />
                     </Box>
                 }
-            </Paper>
-        )
-    }
-    else{
-        return(
-            <Paper elevation={2} {...paperProps}>
-                <Box 
-                    className="asset-table-row-title"
-                    display="flex"
-                    alignItems="center"
-                    gap={theme.spacing(1)}
-                    padding={theme.spacing(1)}
-                >
-                    <IconButton disabled={true}>
-                        <ExpandMore />
+                </TableCell>
+                
+                {/* Asset Code */}
+                <TableCell>
+                    <Typography variant="dataPointLabel">Asset Code</Typography>
+                    <Typography whiteSpace="nowrap">{asset.code}</Typography>
+                </TableCell>
+
+                {/* Model Label */}
+                <TableCell>
+                    <Typography variant="dataPointLabel">Model</Typography>
+                    <Typography whiteSpace="nowrap">{model.data?.label}</Typography>
+                </TableCell>
+
+                {/* Asset Condition */}
+                <TableCell>
+                    <Typography variant="dataPointLabel">Condition</Typography>
+                    <Typography>
+                        <Box 
+                            component="span"
+                            paddingX={1}
+                            color={theme.palette.conditions[asset.condition].contrastText}
+                            backgroundColor={theme.palette.conditions[asset.condition].main}
+                            borderRadius={theme.shape.borderRadius}
+                        >
+                            {theme.palette.conditions[asset.condition].label}
+                        </Box>
+                    </Typography>
+                </TableCell>
+
+                {/* Supplementary Actions Actions */}
+                <TableCell>
+
+                </TableCell>
+                
+                {/* Expand Button */}
+                <TableCell align="right">
+                    { asset.is_container &&
+                        <IconButton onClick={toggleExpanded} disabled={!asset.assets}>
+                            { expanded ? <ExpandLess /> : <ExpandMore />}
+                        </IconButton>
+                    }
+                </TableCell>
+
+            </TableRow>
+
+            { expanded && 
+                asset.assets.map( childAsset => (
+                    
+                    <InternalAssetRow
+                        {...props}
+                        asset={childAsset}
+                        nestingLevel={nestingLevel + 1}
+                    />
+
+                ))
+            }
+        </>
+
+    )
+
+}
+
+const AssetRequirementRow = props => {
+
+    return(
+
+        <TableRow selected={asset._meta.selected}>
+                    
+            {/* Expand Button */}
+            <TableCell>
+                { asset.is_container &&
+                    <IconButton onClick={toggleExpanded} disabled={!asset.assets}>
+                        { expanded ? <ExpandLess /> : <ExpandMore />}
                     </IconButton>
-                    <Box
-                        display="flex"
-                        alignItems="center"
-                        gap={theme.spacing(1)}
-                        padding={theme.spacing(1)}
-                        paddingLeft={theme.spacing(3)}
-                        borderRadius={theme.shape.borderRadius}
-                        border={`3px solid ${theme.palette.divider}`}
-                        width="100%"
-                    >
-                        <Checkbox checked={asset._meta.selected} onChange={() => {onCheckboxToggle(asset)}}/>
-                        <AssetSectionTitle asset={asset}/>
-                    </Box>
+                }
+            </TableCell>
+            
+            {/* Selection Checkbox */}
+            <TableCell>
+                <Checkbox checked={asset._meta.selected} onChange={() => onCheckboxToggle(asset)}/>
+            </TableCell>
+            
+            {/* Model Icon */}
+            <TableCell>
+            { asset.is_container ?
+                <Badge color="primary" badgeContent={asset.assets.length}>
+                    <AssetIcon iconName={modelIcon.data?.source_name} />
+                </Badge>
+            :
+                <Box width="fit-content">
+                    <AssetIcon iconName={modelIcon.data?.source_name} />
                 </Box>
-            </Paper>
-        )
-    }
+            }
+            </TableCell>
+            
+            {/* Data Columns */}
+            {getDataColumnCells(asset)}
+
+        </TableRow>
+    )
 }
 
 const ContentAssetsList = props => {
@@ -206,7 +174,6 @@ const ContentAssetsList = props => {
     const {
         obj,
         objContentType,
-        objIsShipment // REMOVE
     } = props;
 
     // Hooks
@@ -219,7 +186,6 @@ const ContentAssetsList = props => {
 
     // State
     const [objData, setObjData] = useState(false);
-    const [displayScanTool, setDisplayScanTool] = useState(false);
 
     // Queries
     const contentTypes = useQuery({
@@ -234,7 +200,7 @@ const ContentAssetsList = props => {
 
     const reservations = useQuery({
         queryKey: ['reservation', 'by-shipment', obj.id],
-        enabled: obj.id != undefined && objIsShipment,
+        enabled: obj.id != undefined && objContentType == "shipment",
         queryFn: async () => {
             const formattedUrl = new URL(`${backend.api.baseUrl}/equipmenthold/`);
             formattedUrl.searchParams.set('shipment', obj.id);
@@ -404,9 +370,11 @@ const ContentAssetsList = props => {
 
     if (objContentType == 'shipment'){
         //If the shipment is 'Delivered' or 'Cancelled', allow receiving assets from it.
-        canReceiveAssetsFromObj = obj.status >= 3;
+        canReceiveAssetsFromObj = obj.status >= 3 && canReceiveAssetsFromObj;
         //If the shipment is 'scheduled' then allow removing assets.
-        canRemoveAssetsFromObj = obj.status == 0;
+        canRemoveAssetsFromObj = obj.status == 0 && canRemoveAssetsFromObj;
+        //If the shipment is 'scheduled' then allow scanning new assets in.
+        canMoveAssetsViaScan = obj.status == 0 && canMoveAssetsViaScan;
     }
 
     const hasAssetSelections = objData ? objData.assets
@@ -421,49 +389,28 @@ const ContentAssetsList = props => {
             actions={[
                 hasAssetSelections && canReceiveAssetsFromObj ? <Button startIcon={<Archive/>} variant="outlined" onClick={receiveSelectedAssets}>Receive selected</Button> : null,
                 hasAssetSelections && canRemoveAssetsFromObj ? <Button startIcon={<Delete/>} variant="outlined" onClick={removeSelectedAssets}>Remove selected</Button> : null,
-                canMoveAssetsViaScan ? <Button startIcon={displayScanTool ? <Close/> : <DocumentScanner sx={{transform:"rotate(90deg)"}}/> } variant="outlined" color={displayScanTool ? 'error' : 'primary'} onClick={toggleScanTool}>Scan</Button> : null,
             ]}
 
             defaultExpanded={true}
         >
+            
+            <Paper variant="outlined" sx={{padding:1, overflowX: 'auto'}}>
+                <Table size="small">
+                    <TableBody>
 
-            { displayScanTool ? <ScanTool variant={viewingFromMobile ? "block" : "in-line"} elevation={3} shipment={obj} onSuccessfulScan={refetchState}/> : null }
-            <Box display="flex" flexDirection="column" alignItems="stretch" gap={theme.spacing(1)}>
-                {objData.assets?.map( asset => {
-                    return <AssetTableRow asset={asset} selectRow={selectAsset}/>;
-                })}
-            </Box>
-            {console.log(reservations)}
-            { reservations.isSuccess ?
-                <Box display="flex" gap={1} marginTop={1}>
-                    <Typography>Reserved equipment:</Typography>
-                    {reservations.data.results.map(reservation => {
-                        return(reservation.reservation_items.map( item => <TemporaryEquipmentRequirementFlag reservationItem={item}/>))
-                    })}
-                </Box>
-            :
-                null
-            }
+                        {objData.assets?.map( asset => (
+                            <InternalAssetRow
+                                asset={asset}
+                                selectRow={selectAsset}
+                            />
+                        ))}
+
+                    </TableBody>
+                </Table>
+            </Paper>
+
         </Section>
     )
 }
 
-const TemporaryEquipmentRequirementFlag = props => {
-    const {reservationItem} = props;
-
-    const theme = useTheme();
-
-    const itemModel = useQuery({
-        queryKey: ['model', reservationItem.model]
-    });
-
-    const itemLabel = itemModel.isSuccess ? itemModel.data.label : '-';
-
-    return(
-        <Box display="flex" gap={1} paddingY="3px" paddingX="6px" backgroundColor="rgba(0,0,0,0.15)" borderRadius={theme.shape.borderRadius}>
-            <Typography>{itemLabel}</Typography>
-            <Typography fontWeight="bolder" sx={{opacity:"80%"}} color="primary">x{reservationItem.quantity}</Typography>
-        </Box>
-    )
-}
-export default ContentAssetsList
+export default ContentAssetsList;
