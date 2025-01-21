@@ -43,10 +43,11 @@ const DynamicInput = props => {
 
     const updateValues = (onChangeEvent, newValue=undefined) => {
 
-        if(newValue == undefined){
+        if(newValue === undefined){
             updateFieldData(fieldName, onChangeEvent.target.value);
             return;
         }
+        
         updateFieldData(fieldName, newValue);
 
     };

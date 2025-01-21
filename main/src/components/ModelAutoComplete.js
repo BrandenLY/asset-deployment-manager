@@ -23,19 +23,6 @@ export const ModelAutoComplete = props => {
 
     },[data.isFetching, data.hasNextPage])
 
-    // Callback functions
-    const internalOnChange = useCallback((e, reason) => {
-
-        // Set clear action to null instead of undefined.
-        if (reason == "clear"){
-            onChange(e, null);
-        }
-        else {
-            onChange(e);
-        }
-
-    }, [onChange])
-
     // Formatted Data
     const error = field.errors.length > 0;
     const errors = field.errors.toString();

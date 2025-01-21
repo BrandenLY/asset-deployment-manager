@@ -145,6 +145,8 @@ const GenericDetailView = props => {
                 <Box className='detail-view-actions'>
                     <Box display="flex" sx={{float:"right"}}>
                         
+                        { actions }
+
                         { userCanDelete && data ? 
                         
                             <Button

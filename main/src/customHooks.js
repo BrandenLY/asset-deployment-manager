@@ -357,7 +357,7 @@ export const useCustomTheme = props => {
 
     // Formatted Data
     const primaryDark = "#1F35FF";
-    const primaryLight = "#1F35FF";
+    const primaryLight = "#6B7AFF";
     const secondaryDark = "#DE70FF";
     const secondaryLight = "#E697FF";
 
@@ -366,9 +366,9 @@ export const useCustomTheme = props => {
             palette: {
                 mode: mediaQuery.matches ? "dark" : "light",
                 primary: {
-                    main: mediaQuery.matches ? primaryDark : primaryLight,
+                    main: primaryDark,
                     light: primaryLight,
-                    dark: "#07002B",
+                    dark: primaryDark,
                     contrastText: "#FFFFFF"
                 },
                 secondary: {
@@ -383,19 +383,23 @@ export const useCustomTheme = props => {
                     disabled: mediaQuery.matches ? "rgba(250, 240, 250, 0.38)" : "rgba(7, 0, 43, 0.38)"
                 },
                 conditions : {
-                    working: {
+                    0: {
+                        label: 'Working',
                         main: baseTheme.palette.success.dark,
                         contrastText: baseTheme.palette.success.contrastText 
                     },
-                    damaged: {
+                    1: {
+                        label: 'Damaged',
                         main: baseTheme.palette.error.dark,
                         contrastText: baseTheme.palette.error.contrastText
                     },
-                    faulty: {
+                    2: {
+                        label: 'Faulty',
                         main: baseTheme.palette.warning.dark,
                         contrastText: baseTheme.palette.warning.contrastText
                     },
-                    lost: {
+                    3: {
+                        label: 'Lost',
                         main: baseTheme.palette.error.dark,
                         contrastText: baseTheme.palette.error.contrastText
                     },
@@ -492,6 +496,11 @@ export const useCustomTheme = props => {
                     paddingBottom: 0,
                     display: "inline-block",
                     color: "rgba(250, 240, 250, 0.87)"
+                },
+                dataPointLabel: {
+                    fontSize: "0.80em",
+                    fontWeight: "bolder",
+                    opacity: "60%",
                 }
             },
             components: {
@@ -499,11 +508,12 @@ export const useCustomTheme = props => {
                     styleOverrides: {
                         root: {fontWeight:'bold'},
                         containedPrimary: {
-                            backgroundColor: primaryLight
+                            backgroundColor: primaryDark
                         },
                         outlinedPrimary: {
-                            color: mediaQuery.matches ? primaryDark : primaryLight,
-                            borderColor: mediaQuery.matches ? primaryDark : primaryLight
+                            color: mediaQuery.matches ? primaryLight : primaryDark,
+                            borderColor: mediaQuery.matches ? primaryLight : primaryDark,
+                            borderWidth: "2px"
                         }
                     }
                 },

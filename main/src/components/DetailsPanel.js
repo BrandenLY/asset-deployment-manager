@@ -114,6 +114,7 @@ const DetailsPanel = props => {
     };
 
     const updateForm = (_, fieldName, value) => {
+
         setObjForm( prev => {
 
             let tmp = {...prev};
@@ -139,12 +140,12 @@ const DetailsPanel = props => {
           }
 
           // Ignore undefined fields
-          if (fieldDetails.current == undefined){
+          if (fieldDetails.current === undefined){
             return;
           }
 
           // Set null fields
-          if (fieldDetails.current == null){
+          if (fieldDetails.current === null){
             payload[fieldName] = null;
             return;
           }

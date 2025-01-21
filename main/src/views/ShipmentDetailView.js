@@ -117,7 +117,7 @@ const ShipmentDetailView = props =>{
         }
 
 
-    }, [shipmentQuery.data, contentTypes.isSuccess, shipmentQuery.isSuccess, ...Object.values(relatedQueries).map(query => query.isSuccess)])
+    }, [shipmentQuery.data, shipmentQuery.isSuccess, ...Object.values(relatedQueries).map(query => query.isSuccess),  contentTypes.isSuccess])
 
 
     // Callback Functions
@@ -152,7 +152,6 @@ const ShipmentDetailView = props =>{
                 <ContentAssetsList 
                     obj={shipment}
                     objContentType={MODELNAME}
-                    objIsShipment={true} // REMOVE
                 />
             :
                 <Skeleton variant="rectangular" />

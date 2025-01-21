@@ -33,16 +33,13 @@ export const BackendContextProvider = ({children}) => {
     let auth = {
         csrfToken: getCookie('csrftoken'),
         user: authenticatedUser ? authenticatedUser : null,
-    }
+    };
 
     let api = {
         baseUrl : `${window.location.protocol}${window.location.host}/api`
     };
     
-    let value = {
-        api: api,
-        auth: auth
-    }
+    let value = { api, auth };
 
     // Callback Functions
     const getRequestHeaders = useCallback(() => {
@@ -51,7 +48,8 @@ export const BackendContextProvider = ({children}) => {
         headers.set("X-CSRFToken", auth.csrfToken);
 
         return headers;
-    }, );
+    }, []);
+
     api['getRequestHeaders'] = getRequestHeaders;
 
     return (
