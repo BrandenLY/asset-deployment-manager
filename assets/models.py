@@ -51,7 +51,7 @@ class Asset(TrackedModel):
         ordering = ["code"]
         indexes  = [models.Index(fields=["code", "model"])]
         permissions = [
-            ("scan_to_parent", "Can move this asset via Scan API")
+            ("scan_asset_to_parent", "Can move this asset via Scan API")
         ]
 
     def __str__(self):
@@ -174,6 +174,10 @@ class Shipment(TrackedModel):
         ordering = [ "status", "arrival_date", "id"]
         indexes = [ models.Index(fields=["departure_date", "arrival_date"]), ]
         permissions = [
+            ("mark_shipment_packed", "Can progress a shipment's status to 'Packed'"),
+            ("mark_shipment_in_transit", "Can progress a shipment's status to 'In Transit'"),
+            ("mark_shipment_delivered", "Can progress a shipment's status to 'Delivered'"),
+            ("mark_shipment_canceled", "Can progress a shipment's status to 'Canceled'"),
             ("receive", "Can receive shipments"),
             ("progress", "Can progress a shipment's status"),
         ]

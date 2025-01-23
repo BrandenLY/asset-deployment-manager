@@ -170,7 +170,7 @@ const QuickAccessLinks = [
         linkIcon: <QrCodeScanner />,
         linkText: "Scan",
         linkRoute: "/scan",
-        linkPerm: "scan_to_parent"
+        linkPerm: "scan_asset_to_parent"
     },
     {
         linkIcon: <Summarize />,

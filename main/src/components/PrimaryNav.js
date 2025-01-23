@@ -22,7 +22,7 @@ const PageLinks = [
         links: [
             // Link Format: Link Button Text, Icon element, linkto url, required permission.
             ['Dashboard', Home ,'/'],
-            ['Scan', QrCodeScanner, '/scan'],
+            ['Scan', QrCodeScanner, '/scan', 'scan_asset_to_parent'],
             ['Reserve Equipment', Summarize , '/reserve', 'add_equipmenthold']
         ]
     },
