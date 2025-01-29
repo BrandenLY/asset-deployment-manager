@@ -6,7 +6,7 @@ import ContentAssetsList from "../components/ContentAssetsList";
 import { backendApiContext, getCookie } from "../context";
 import GenericDetailView from "../components/GenericDetailView";
 import { Button, Skeleton } from "@mui/material";
-import { QrCodeScanner } from "@mui/icons-material";
+import { Close, QrCodeScanner } from "@mui/icons-material";
 import ScanTool from "../components/ScanTool";
 
 const MODELNAME = 'shipment'
@@ -150,6 +150,16 @@ const ShipmentDetailView = props =>{
     const allowContentAdditions = shipment && shipment.status == 0;
     const allowScan = allowContentAdditions && checkUserPermission('scan_asset_to_parent');
     const allowPackAndLock = allowContentAdditions && (checkUserPermission('mark_shipment_packed') || checkUserPermission('change_shipment'));
+
+    const scanToolButton = <Button 
+        startIcon={displayScanTool ? <Close/> : <QrCodeScanner sx={{transform: "rotate 90deg"}}/>}
+        variant="contained"
+        onClick={toggleScanTool}
+        color={displayScanTool ? "error" : "primary"}
+    >
+        Scan
+    </Button>;
+    
     return (
         <GenericDetailView
             {...props}
@@ -166,8 +176,7 @@ const ShipmentDetailView = props =>{
                 ['return_shipment']
             ]}
             actions={[
-                allowScan ? <Button startIcon={<QrCodeScanner sx={{transform: "rotate 90deg"}}/>} variant="contained" onClick={toggleScanTool}>Scan</Button> : null,
-
+                allowScan ? scanToolButton : null,
             ]}
         >
             
