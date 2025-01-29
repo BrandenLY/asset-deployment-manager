@@ -210,7 +210,7 @@ const ContentAssetsList = props => {
 
             return data;
         }
-    })
+    });
 
     // Mutations
     const updateAsset = useMutation({
@@ -272,6 +272,10 @@ const ContentAssetsList = props => {
 
 
     }, [objQuery.data, contentTypes.isSuccess, objQuery.isSuccess])
+
+    useEffect(() => {
+        objQuery.refetch();
+    }, [obj]);
 
     // Callback Functions
     const refetchState = () => {
@@ -385,7 +389,7 @@ const ContentAssetsList = props => {
 
     return (
         <Section
-            title={`Assets (${obj.asset_counts?.total_assets})`}
+            title={`Assets (${objData.asset_counts?.total_assets})`}
             actions={[
                 hasAssetSelections && canReceiveAssetsFromObj ? <Button startIcon={<Archive/>} variant="outlined" onClick={receiveSelectedAssets}>Receive selected</Button> : null,
                 hasAssetSelections && canRemoveAssetsFromObj ? <Button startIcon={<Delete/>} variant="outlined" onClick={removeSelectedAssets}>Remove selected</Button> : null,

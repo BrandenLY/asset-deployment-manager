@@ -1,11 +1,13 @@
-import { useMutation, useQueries, useQuery } from "@tanstack/react-query";
-import React, { useEffect, useState } from "react";
+import { useMutation, useQueries, useQuery, useQueryClient } from "@tanstack/react-query";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { useModelOptions } from "../customHooks";
+import { useModelOptions, usePermissionCheck } from "../customHooks";
 import ContentAssetsList from "../components/ContentAssetsList";
-import { getCookie } from "../context";
+import { backendApiContext, getCookie } from "../context";
 import GenericDetailView from "../components/GenericDetailView";
-import { Skeleton } from "@mui/material";
+import { Button, Skeleton } from "@mui/material";
+import { QrCodeScanner } from "@mui/icons-material";
+import ScanTool from "../components/ScanTool";
 
 const MODELNAME = 'shipment'
 
@@ -13,11 +15,16 @@ const ShipmentDetailView = props =>{
 
     // Hooks
     const locationParams = useParams();
+    const queryClient = useQueryClient();
+    const backend = useContext(backendApiContext);
     const shipmentOptions = useModelOptions(MODELNAME);
+    const {check:checkUserPermission} = usePermissionCheck(backend.auth.user);
+
+    // State
     const [shipment, setShipment] = useState(false);
+    const [displayScanTool, setDisplayScanTool] = useState(false);
 
     // Queries
-
     const shipmentQuery = useQuery({
         queryKey: [MODELNAME, locationParams.id],
     });
@@ -131,6 +138,18 @@ const ShipmentDetailView = props =>{
         return(tmpData);
     }
 
+    const toggleScanTool = useCallback(e => {
+        setDisplayScanTool(prev => !prev);
+    }, [setDisplayScanTool]);
+
+    const refetchShipment = useCallback(() => {
+        queryClient.invalidateQueries(['shipment', locationParams.id])
+    }, [shipmentQuery.remove])
+
+    // Formatted Data
+    const allowContentAdditions = shipment && shipment.status == 0;
+    const allowScan = allowContentAdditions && checkUserPermission('scan_asset_to_parent');
+    const allowPackAndLock = allowContentAdditions && (checkUserPermission('mark_shipment_packed') || checkUserPermission('change_shipment'));
     return (
         <GenericDetailView
             {...props}
@@ -146,7 +165,25 @@ const ShipmentDetailView = props =>{
                 ['event'],
                 ['return_shipment']
             ]}
+            actions={[
+                allowScan ? <Button startIcon={<QrCodeScanner sx={{transform: "rotate 90deg"}}/>} variant="contained" onClick={toggleScanTool}>Scan</Button> : null,
+
+            ]}
         >
+            
+            { displayScanTool ?
+            
+                <>
+                    {console.log(shipment)}
+                    <ScanTool
+                        shipment={shipment}
+                        onSuccessfulScan={refetchShipment}
+                        variant="in-line"
+                    />
+                </>
+            :
+                null
+            }
 
             { shipment ?
                 <ContentAssetsList 

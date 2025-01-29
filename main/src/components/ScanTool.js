@@ -120,7 +120,7 @@ const ScanTool = props => {
     }, [])
 
     useEffect(() => {
-        if (destination != shipment){
+        if (destinationContentType == shipment && destination.id == shipment.id){
 
             setDestination(shipment)
             setDestinationContentType('shipment')
@@ -135,26 +135,6 @@ const ScanTool = props => {
             }
         }
     },[scanLog]) // Provide cleanup function
-
-    // useEffect(() => {
-
-    //     if (inputElement.current != null){
-
-    //         inputElement.current.addEventListener('keydown', submitAssetCode);
-    //         inputElement.current.scrollIntoView({behavior: 'smooth', block: 'center'});
-    //         inputElement.current.focus();
-
-    //     }
-
-    //     return(() => {
-
-    //         if(inputElement.current != null){
-    //             inputElement.current.removeEventListener('keydown', submitAssetCode);
-    //         }
-
-    //     })
-
-    // }, [inputElement.current]) // Focus input on render
 
     useEffect(() => {
         if(inputElement.current){
@@ -184,7 +164,6 @@ const ScanTool = props => {
                 shipment: shipment.id,
             }
 
-            console.log(inputData, destination.id, destinationContentType, shipment.id);
             scanAssetMutation.mutate({ method: "POST", payload });
             setInputData("");
             e.preventDefault()
@@ -199,7 +178,6 @@ const ScanTool = props => {
                 shipment: shipment.id,
             }
 
-            console.log(inputData, destination.id, destinationContentType, shipment.id);
             scanAssetMutation.mutate({ method: "POST", payload })
             setInputData("");
             e.preventDefault()
@@ -224,7 +202,6 @@ const ScanTool = props => {
                 destination_object_id: destination.id,
                 asset_code: data.decodedData
             }
-            console.log(payload)
 
             scanAssetMutation.mutate({method:"POST", payload});
 

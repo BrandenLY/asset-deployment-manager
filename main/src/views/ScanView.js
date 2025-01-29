@@ -15,18 +15,26 @@ const ScanView = () => {
   // Hooks
   const location = useLocation();
   const navigate = useNavigate();
-  const locationShipmentId = new URLSearchParams(location.search).get('shipment');
+  const locationShipmentId = (new URLSearchParams(location.search)).get('shipment');
 
   const backend = useContext(backendApiContext);
   const assetOptions = useModelOptions('asset');
   const {check:checkUserPermission} = usePermissionCheck(backend.auth.user);
   
   // State
-  const [selectedShipmentId, setSelectedShipmentId] = useState(locationShipmentId ? locationShipmentId : null);
+  const [selectedShipmentId, setSelectedShipmentId] = useState(locationShipmentId);
 
   // Queries
+
+  console.log(selectedShipmentId);
+
+  const selectedShipment = useQuery({
+    queryKey: ['shipment', selectedShipmentId],
+    enabled: selectedShipmentId !== null
+  });
+
   const availableShipments = useQuery({
-    queryKey: ['shipment', 'by-status', 0 /* Scheduled Status */],
+    queryKey: ['shipment', 'filter-by-status', 0 /* Scheduled Status */],
     queryFn: async () => {
 
       const formattedUrl = new URL(`${backend.api.baseUrl}/shipment/`);
@@ -40,11 +48,7 @@ const ScanView = () => {
       return data;
     
     }
-  })
-  const selectedShipment = useQuery({
-    queryKey: selectedShipmentId != null ? ['shipment', selectedShipmentId] : null,
-    enabled: selectedShipmentId != null
-  })
+  });
 
   // Mutations
   const updateAsset = useMutation({
@@ -104,7 +108,7 @@ const ScanView = () => {
   }, [locationShipmentId]); // Sync location with selectedShipmentId state var
 
   useEffect(() => {
-    if(selectShipmentInputId != null){
+    if(selectedShipmentId != null){
       refetchState();
     }
   }, [selectedShipmentId]) // Refetch Query
@@ -126,7 +130,7 @@ const ScanView = () => {
 
   // Formatted Data
   const selectShipmentInputId = 'scan-tool-shipment-select';
-  const shipmentIsSelected = selectedShipment.data !== undefined;
+  const selectedShipmentLoaded = selectedShipment.data !== undefined;
 
   // Render
   return (
@@ -136,14 +140,6 @@ const ScanView = () => {
         <Paper sx={{padding:2, marginY:1}}>
           <Typography variant="h2">1. Select a shipment</Typography>
           <Box display="flex" justifyContent="center" margin={1} paddingY={2}>
-
-
-
-
-
-
-
-            {console.log(selectedShipment.data)}
             <Autocomplete 
               id={selectShipmentInputId}
               options={availableShipments.data?.results}
@@ -163,7 +159,9 @@ const ScanView = () => {
         </Paper>
       </Box>
 
-      {shipmentIsSelected && 
+      {console.log(selectedShipment, availableShipments)}
+
+      {selectedShipmentLoaded && 
       <Box padding={1} margin={1}>
         <Paper sx={{padding:2, marginY:1}}>
           <Typography variant="h2">2. Scan</Typography>
@@ -174,15 +172,17 @@ const ScanView = () => {
       </Box>
       }
 
-      {(shipmentIsSelected && selectedShipment.data.assets.length > 0) &&
+      {(selectedShipmentLoaded && selectedShipment.data.asset_counts.total_assets > 0) &&
       <Box padding={1} margin={1}>
-        <Typography variant="h2">3. Review</Typography>
-        <Box>
-          <ContentAssetsList 
-            obj={selectedShipment.data}
-            objContentType="shipment"
-          />
-        </Box>
+        <Paper sx={{padding:2, marginY:1}}>
+          <Typography variant="h2">3. Review</Typography>
+          <Box>
+            <ContentAssetsList 
+              obj={selectedShipment.data}
+              objContentType="shipment"
+            />
+          </Box>
+        </Paper>
       </Box>
       }
 
