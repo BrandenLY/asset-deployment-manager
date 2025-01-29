@@ -2,7 +2,7 @@ import django_filters
 
 from assets.models import Shipment
 
-class Shipmentfilter(django_filters.FilterSet):
+class ShipmentFilter(django_filters.FilterSet):
     
     class Meta:
         model = Shipment

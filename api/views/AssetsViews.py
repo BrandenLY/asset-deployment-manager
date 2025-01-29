@@ -19,7 +19,7 @@ from ..serializers import LocationSerializer
 from ..serializers import ShipmentSerializer
 from ..serializers import ReservationSerializer
 from ..permissions import ScanToolPermission
-from ..filters import AssetFilter, ReservationFilter
+from ..filters import AssetFilter, ReservationFilter, ShipmentFilter
 
 #       _                 _         _       _             __                     
 #      / \   ___ ___  ___| |_ ___  (_)_ __ | |_ ___ _ __ / _| __ _  ___ ___  ___ 
@@ -77,6 +77,7 @@ class ShipmentView(BaseView):
     model = Shipment
     queryset = model.objects.all()
     serializer_class = ShipmentSerializer
+    filterset_class = ShipmentFilter
 
     @action(methods=['get'], detail=True, url_path="mark-shipment-packed", url_name="mark_shipment_packed")
     def mark_shipment_packed(self, request, pk=None):
