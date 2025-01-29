@@ -1,4 +1,4 @@
-import { Delete } from '@mui/icons-material';
+import { Delete, DeleteForever } from '@mui/icons-material';
 import { Box, Button, Skeleton, Typography, useTheme, } from '@mui/material';
 import { useMutation, useQueries, useInfiniteQuery, useQuery, useQueryClient } from '@tanstack/react-query';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
@@ -9,6 +9,7 @@ import ChangeLogTableRow from './ChangeLogTableRow';
 import DetailsPanel from './DetailsPanel';
 import Section from './Section';
 import SortingGrid from './SortingGrid';
+import CustomDialog from './CustomDialog';
 
 const GenericDetailView = props => {
 
@@ -26,6 +27,7 @@ const GenericDetailView = props => {
     const notifications = useContext(notificationContext);
 
     const [data, setData] = useState(false);
+    const [displayDeletionConfirmation, setDisplayDeletionConfirmation] = useState(false);
 
     // Queries
     const obj = useQuery({
@@ -132,6 +134,14 @@ const GenericDetailView = props => {
         queryClient.invalidateQueries({ queryKey: ['shipment']});
     }, []);
 
+    const showObjDeletionConfirmation = useCallback(e => {
+        setDisplayDeletionConfirmation(true);
+    }, []);
+
+    const hideObjDeletionConfirmation = useCallback(e => {
+        setDisplayDeletionConfirmation(false);
+    }, []);
+
     // Formatted Data
     const viewContainerName = `${model}-detail-view`;
     const viewContainerContentName = `${model}-detail-content`;
@@ -153,7 +163,7 @@ const GenericDetailView = props => {
                                 color="error"
                                 variant="contained"
                                 startIcon={<Delete/>} 
-                                onClick={deleteObj}
+                                onClick={showObjDeletionConfirmation}
                             >
                                 Delete
                             </Button> 
@@ -206,8 +216,44 @@ const GenericDetailView = props => {
                 </Box>
 
             </Box>
+
+            {displayDeletionConfirmation &&
+                <ConfirmObjectDeletionDialog
+                    objLabel={data?.label}
+                    onConfirm={deleteObj}
+                    onClose={hideObjDeletionConfirmation}
+                />
+            }
         </Box>
     );
+}
+
+const ConfirmObjectDeletionDialog = props => {
+
+    const { objLabel, onConfirm, onClose } = props;
+
+    return(
+        <CustomDialog
+            title="Confirm"
+            open={true}
+            onClose={onClose}
+            actions={[
+                <Button color="error" startIcon={<DeleteForever/>} onClick={onConfirm}>Delete</Button>,
+                <Button variant="contained" onClick={onClose}>Cancel</Button>
+            ]}
+        >
+            <Box padding={1} display="flex" flexDirection="column" gap={1}>
+                <Typography>
+                    Are you sure you would like to delete '<Typography component="span" fontWeight="bolder">{objLabel}</Typography>'?
+                </Typography>
+
+                <Typography sx={{opacity: "60%"}}>
+                    This action can't be undone.
+                </Typography>
+            </Box>
+
+        </CustomDialog>
+    )
 }
 
 export default GenericDetailView;
