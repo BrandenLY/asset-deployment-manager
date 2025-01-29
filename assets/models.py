@@ -1,4 +1,3 @@
-import json
 from django.db import models, transaction, IntegrityError
 from django.core.exceptions import ValidationError
 from django.contrib.auth import get_user_model
@@ -45,7 +44,7 @@ class Asset(TrackedModel):
     parent_content_type = models.ForeignKey(ContentType, on_delete=models.SET_NULL, blank=True, null=True)
     parent_object_id = models.PositiveIntegerField(blank=True, null=True)
     parent_object = GenericForeignKey('parent_content_type', 'parent_object_id')
-    assets = GenericRelation(to="Asset",content_type_field="parent_content_type",object_id_field="parent_object_id")
+    assets = GenericRelation(to="Asset", content_type_field="parent_content_type", object_id_field="parent_object_id")
 
     class Meta:
         ordering = ["code"]
