@@ -39,18 +39,21 @@ const Section = props => {
                 <IconButton onClick={toggleExpansion}>
                     { expanded ? <ExpandLess /> : <ExpandMore />}
                 </IconButton>
-                <Typography variant="h4">{title}</Typography>
+                <Typography variant="h5">{title}</Typography>
             </Box>
             <Box className="section-actions" display="flex" alignItems="center" gap={theme.spacing(0.5)}>
                 {actions}
             </Box>
         </Box>
 
-        <Divider sx={{borderBottomWidth: "3px", marginBottom: theme.spacing(1)}}></Divider>
+        { expanded && <Divider sx={{borderBottomWidth: "3px", marginBottom: theme.spacing(1)}} />}
+
         <ErrorBoundary fallback={<PageError/>}>
-            <Box className="section-content" padding={theme.spacing(1)}>
-                { expanded ? children : null}
-            </Box>
+            {expanded ?
+                <Box className="section-content" padding={theme.spacing(1)} >
+                    {children}
+                </Box>
+            : null}
         </ErrorBoundary>
 
     </Paper>
