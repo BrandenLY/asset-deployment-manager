@@ -1,4 +1,4 @@
-import { Delete, DeleteForever } from '@mui/icons-material';
+import { Delete, DeleteForever, History } from '@mui/icons-material';
 import { Box, Button, Skeleton, Typography, useTheme, } from '@mui/material';
 import { useMutation, useQueries, useInfiniteQuery, useQuery, useQueryClient } from '@tanstack/react-query';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
@@ -200,7 +200,7 @@ const GenericDetailView = props => {
                     {children}
 
                     <Section
-                        title={`History`}
+                        title={<Box display="flex" alignItems="center" gap={1}><History fontSize="large"/>Change History</Box>}
                     >
                         <SortingGrid
                             modelName={model} 
