@@ -172,7 +172,7 @@ const ScanView = () => {
       </Box>
       }
 
-      {(selectedShipmentLoaded && selectedShipment.data.asset_counts.total_assets > 0) &&
+      {(selectedShipmentLoaded && selectedShipment.data?.asset_counts.total_assets > 0) &&
       <Box padding={1} margin={1}>
         <Paper sx={{padding:2, marginY:1}}>
           <Typography variant="h2">3. Review</Typography>

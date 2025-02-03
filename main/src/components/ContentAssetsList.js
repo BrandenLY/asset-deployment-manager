@@ -1,4 +1,4 @@
-import { Archive, Close, Delete, DocumentScanner, ExpandLess, ExpandMore, SubdirectoryArrowRight } from '@mui/icons-material';
+import { Archive, Close, Delete, DocumentScanner, ExpandLess, ExpandMore, PriorityHigh, SubdirectoryArrowRight } from '@mui/icons-material';
 import { Badge, Box, Button, Checkbox, IconButton, Paper, Table, TableBody, TableCell, TableRow, Typography, useMediaQuery, useTheme } from '@mui/material';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
@@ -40,73 +40,88 @@ export const InternalAssetRow = props => {
     }, []);
 
     // Formatted Data
-    const clientDeviceIsSmall = useMediaQuery(theme.breakpoints.down('sm'));
+    const nestingLevelMarginModifier = 15;
+
     return(
         <>
-            <TableRow selected={asset._meta.selected} sx={{backgroundColor:`rgba(0,0,0,${nestingLevel / 10})`}}>
+            <TableRow 
+                selected={asset._meta.selected}
+                sx={{
+                    backgroundColor:`rgba(0,0,0,${nestingLevel / (theme.mode == "dark" ? 25 : 10)})`,
+                    border: `3px solid ${theme.palette.divider}`
+                }}
+            >
                 
                 {/* Selection Checkbox */}
-                <TableCell align="left">
-                    <Box width="fit-content" marginLeft={`${nestingLevel * 10}px`}>
+                <TableCell align="left" sx={{borderBottom: 'none'}}>
+                    <Box width="fit-content" marginLeft={`${nestingLevel * nestingLevelMarginModifier}px`}>
                         <Checkbox checked={asset._meta.selected} onChange={() => onCheckboxToggle(asset)}/>
                     </Box>
                 </TableCell>
                 
                 {/* Model Icon */}
-                <TableCell align="left">
+                <TableCell align="left" sx={{borderBottom: 'none'}}>
                 { asset.is_container ?
-                    <Box width="fit-content" marginLeft={`${nestingLevel * 10}px`}>
+                    <Box width="fit-content" marginLeft={`${nestingLevel * nestingLevelMarginModifier}px`}>
                         <Badge color="primary" badgeContent={asset.assets.length}>
                             <AssetIcon iconName={modelIcon.data?.source_name} />
                         </Badge>
                     </Box>
                 :
-                    <Box width="fit-content" marginLeft={`${nestingLevel * 10}px`}>
+                    <Box width="fit-content" marginLeft={`${nestingLevel * nestingLevelMarginModifier}px`}>
                         <AssetIcon iconName={modelIcon.data?.source_name} />
                     </Box>
                 }
                 </TableCell>
                 
                 {/* Asset Code */}
-                <TableCell>
-                    <Typography variant="dataPointLabel">Asset Code</Typography>
-                    <Typography whiteSpace="nowrap">{asset.code}</Typography>
+                <TableCell sx={{borderBottom: 'none'}}>
+                    <Box width="fit-content" marginLeft={`${nestingLevel * nestingLevelMarginModifier}px`}>
+                        <Typography variant="dataPointLabel">Asset Code</Typography>
+                        <Typography whiteSpace="nowrap">{asset.code}</Typography>
+                    </Box>
                 </TableCell>
 
                 {/* Model Label */}
-                <TableCell>
-                    <Typography variant="dataPointLabel">Model</Typography>
-                    <Typography whiteSpace="nowrap">{model.data?.label}</Typography>
+                <TableCell sx={{borderBottom: 'none'}}>
+                    <Box width="fit-content" marginLeft={`${nestingLevel * nestingLevelMarginModifier}px`}>
+                        <Typography variant="dataPointLabel">Model</Typography>
+                        <Typography whiteSpace="nowrap">{model.data?.label}</Typography>
+                    </Box>
                 </TableCell>
 
                 {/* Asset Condition */}
-                <TableCell>
-                    <Typography variant="dataPointLabel">Condition</Typography>
-                    <Typography>
-                        <Box 
-                            component="span"
-                            paddingX={1}
-                            color={theme.palette.conditions[asset.condition].contrastText}
-                            backgroundColor={theme.palette.conditions[asset.condition].main}
-                            borderRadius={theme.shape.borderRadius}
-                        >
-                            {theme.palette.conditions[asset.condition].label}
-                        </Box>
-                    </Typography>
+                <TableCell sx={{borderBottom: 'none'}}>
+                    <Box width="fit-content" marginLeft={`${nestingLevel * nestingLevelMarginModifier}px`}>
+                        <Typography variant="dataPointLabel">Condition</Typography>
+                        <Typography>
+                            <Box 
+                                component="span"
+                                paddingX={1}
+                                color={theme.palette.conditions[asset.condition].contrastText}
+                                backgroundColor={theme.palette.conditions[asset.condition].main}
+                                borderRadius={theme.shape.borderRadius}
+                            >
+                                {theme.palette.conditions[asset.condition].label}
+                            </Box>
+                        </Typography>
+                    </Box>
                 </TableCell>
 
                 {/* Supplementary Actions Actions */}
-                <TableCell>
+                <TableCell sx={{borderBottom: 'none'}}>
 
                 </TableCell>
                 
                 {/* Expand Button */}
-                <TableCell align="right">
-                    { asset.is_container &&
-                        <IconButton onClick={toggleExpanded} disabled={!asset.assets}>
-                            { expanded ? <ExpandLess /> : <ExpandMore />}
-                        </IconButton>
-                    }
+                <TableCell align="right" sx={{borderBottom: 'none'}}>
+                    <Box width="fit-content" marginLeft={`${nestingLevel * nestingLevelMarginModifier}px`}>
+                        { asset.is_container &&
+                            <IconButton onClick={toggleExpanded} disabled={!asset.assets}>
+                                { expanded ? <ExpandLess /> : <ExpandMore />}
+                            </IconButton>
+                        }
+                    </Box>
                 </TableCell>
 
             </TableRow>
@@ -128,41 +143,200 @@ export const InternalAssetRow = props => {
 
 }
 
-const AssetRequirementRow = props => {
+export const AssetRequirementRow = props => {
+
+    // Props Destructuring
+    const {
+        asset,
+        /*optional*/ paperProps = {},
+        /*optional*/ nestingLevel= 0
+    } = props;
+
+    // Hooks
+    const theme = useTheme();
+
+    // State
+    const [expanded, setExpanded] = useState();
+
+    // Queries
+    const model = useQuery({queryKey:['model', asset.model]});
+    const modelIcon = useQuery({queryKey:['asseticon', model.data?.icon], enabled:model.isSuccess});
+
+    // Callback Functions
+    const toggleExpanded = useCallback(e => {
+        setExpanded( prev => !prev );
+    }, []);
+
+    // Formatted Data
+    const nestingLevelMarginModifier = 15;
+    const backgroundColor = nestingLevel == 0 ? "rgba(255,0,0,0.05)" : `rgba(255,0,0,${nestingLevel / (theme.mode == "dark" ? 25 : 10)})`;
+    
+    return(
+        <>
+            <TableRow 
+                selected={asset._meta.selected}
+                sx={{
+                    backgroundColor:backgroundColor,
+                }}
+            >
+                
+                {/* Selection Checkbox */}
+                <TableCell align="left" sx={{borderBottom: 'none'}}>
+                    <Box width="fit-content" marginLeft={`${nestingLevel * nestingLevelMarginModifier}px`}>
+                    </Box>
+                </TableCell>
+                
+                {/* Model Icon */}
+                <TableCell align="left" sx={{borderBottom: 'none'}}>
+                { asset.is_container ?
+                    <Box width="fit-content" marginLeft={`${nestingLevel * nestingLevelMarginModifier}px`}>
+                        <Badge color="primary" badgeContent={asset.assets.length}>
+                            <AssetIcon iconName={modelIcon.data?.source_name} />
+                        </Badge>
+                    </Box>
+                :
+                    <Box width="fit-content" marginLeft={`${nestingLevel * nestingLevelMarginModifier}px`}>
+                        <AssetIcon iconName={modelIcon.data?.source_name} />
+                    </Box>
+                }
+                </TableCell>
+                
+                {/* Asset Code */}
+                <TableCell sx={{borderBottom: 'none'}}>
+                    <Box width="fit-content" marginLeft={`${nestingLevel * nestingLevelMarginModifier}px`}>
+                        <Typography variant="dataPointLabel">Asset Code</Typography>
+                        <Typography whiteSpace="nowrap">{asset.code}</Typography>
+                    </Box>
+                </TableCell>
+
+                {/* Model Label */}
+                <TableCell sx={{borderBottom: 'none'}}>
+                    <Box width="fit-content" marginLeft={`${nestingLevel * nestingLevelMarginModifier}px`}>
+                        <Typography variant="dataPointLabel">Model</Typography>
+                        <Typography whiteSpace="nowrap">{model.data?.label}</Typography>
+                    </Box>
+                </TableCell>
+
+                {/* Asset Condition */}
+                <TableCell sx={{borderBottom: 'none'}}>
+                    <Box width="fit-content" marginLeft={`${nestingLevel * nestingLevelMarginModifier}px`}>
+                        <Typography variant="dataPointLabel">Condition</Typography>
+                        <Typography>
+                            <Box 
+                                component="span"
+                                paddingX={1}
+                                color={theme.palette.conditions[asset.condition].contrastText}
+                                backgroundColor={theme.palette.conditions[asset.condition].main}
+                                borderRadius={theme.shape.borderRadius}
+                            >
+                                {theme.palette.conditions[asset.condition].label}
+                            </Box>
+                        </Typography>
+                    </Box>
+                </TableCell>
+
+                {/* Supplementary Actions Actions */}
+                <TableCell sx={{borderBottom: 'none'}}>
+
+                </TableCell>
+                
+                {/* Expand Button */}
+                <TableCell align="right" sx={{borderBottom: 'none'}}>
+                    <Box width="fit-content" marginLeft={`${nestingLevel * nestingLevelMarginModifier}px`}>
+                        { asset.is_container &&
+                            <IconButton onClick={toggleExpanded} disabled={!asset.assets}>
+                                { expanded ? <ExpandLess /> : <ExpandMore />}
+                            </IconButton>
+                        }
+                    </Box>
+                </TableCell>
+
+            </TableRow>
+
+            { expanded && 
+                asset.assets.map( childAsset => (
+                    
+                    <InternalAssetRow
+                        {...props}
+                        asset={childAsset}
+                        nestingLevel={nestingLevel + 1}
+                    />
+
+                ))
+            }
+        </>
+    )
+
+}
+
+export const ReservationRequirementRow = props => {
+
+    // Props Destructuring
+    const {model, quantity} = props;
+
+    // Hooks
+    const theme = useTheme();
+
+    const modelQuery = useQuery({queryKey:['model', model]});
+    const modelIcon = useQuery({queryKey:['asseticon', modelQuery.data?.icon], enabled:modelQuery.isSuccess});
 
     return(
-
-        <TableRow selected={asset._meta.selected}>
+        <TableRow sx={{backgroundColor: "rgba(255,0,0,0.05)"}}>
                     
-            {/* Expand Button */}
-            <TableCell>
-                { asset.is_container &&
-                    <IconButton onClick={toggleExpanded} disabled={!asset.assets}>
-                        { expanded ? <ExpandLess /> : <ExpandMore />}
-                    </IconButton>
-                }
-            </TableCell>
-            
             {/* Selection Checkbox */}
-            <TableCell>
-                <Checkbox checked={asset._meta.selected} onChange={() => onCheckboxToggle(asset)}/>
+            <TableCell align="left" sx={{borderBottom:"none"}}>
+                <Box width="fit-content">
+
+                </Box>
             </TableCell>
             
             {/* Model Icon */}
-            <TableCell>
-            { asset.is_container ?
-                <Badge color="primary" badgeContent={asset.assets.length}>
-                    <AssetIcon iconName={modelIcon.data?.source_name} />
-                </Badge>
-            :
+            <TableCell align="left" sx={{borderBottom:"none"}}>
                 <Box width="fit-content">
                     <AssetIcon iconName={modelIcon.data?.source_name} />
                 </Box>
-            }
             </TableCell>
             
-            {/* Data Columns */}
-            {getDataColumnCells(asset)}
+            {/* Asset Code */}
+            <TableCell sx={{borderBottom:"none"}}>
+                <Box width="fit-content">
+                    <Typography variant="dataPointLabel">Model Code</Typography>
+                    <Typography whiteSpace="nowrap">{modelQuery.data?.model_code}</Typography>
+                </Box>
+            </TableCell>
+
+            {/* Model Label */}
+            <TableCell sx={{borderBottom:"none"}}>
+                <Box width="fit-content">
+                    <Typography variant="dataPointLabel">Model</Typography>
+                    <Typography whiteSpace="nowrap">{modelQuery.data?.label}</Typography>
+                </Box>
+            </TableCell>
+
+            {/* Asset Condition */}
+            <TableCell sx={{borderBottom:"none"}}>
+                <Box width="fit-content">
+                    <Typography variant="dataPointLabel">Quantity</Typography>
+                    <Typography>
+                        <Typography component="span" sx={{opacity: "0.75"}}>x</Typography>
+                        <Typography component="span" fontWeight="bolder" fontSize="1.5rem">{quantity}</Typography>
+                    </Typography>
+                </Box>
+            </TableCell>
+
+            {/* Supplementary Actions Actions */}
+            <TableCell sx={{borderBottom:"none"}}>
+                <Box width="fit-content">
+
+                </Box>
+            </TableCell>
+            
+            {/* Expand Button */}
+            <TableCell align="right" sx={{borderBottom:"none"}}>
+                <Box width="fit-content">
+
+                </Box>
+            </TableCell>
 
         </TableRow>
     )
@@ -170,7 +344,7 @@ const AssetRequirementRow = props => {
 
 const ContentAssetsList = props => {
 
-    // Props
+    // Props Destructuring
     const {
         obj,
         objContentType,
@@ -182,10 +356,11 @@ const ContentAssetsList = props => {
     const backend = useContext(backendApiContext);
     const {check:checkUserPermission} = usePermissionCheck(backend.auth.user);
     const assetOptions = useModelOptions(ASSETMODELNAME);
-    const viewingFromMobile = useMediaQuery(theme.breakpoints.down('md'));
 
     // State
     const [objData, setObjData] = useState(false);
+    const [requiredItems, setRequiredItems] = useState([]);
+    const [requiredAssets, setRequiredAssets] = useState([]);
 
     // Queries
     const contentTypes = useQuery({
@@ -198,7 +373,7 @@ const ContentAssetsList = props => {
         initialData: obj
     });
 
-    const reservations = useQuery({
+    const reservationsQuery = useQuery({
         queryKey: ['reservation', 'by-shipment', obj.id],
         enabled: obj.id != undefined && objContentType == "shipment",
         queryFn: async () => {
@@ -211,6 +386,22 @@ const ContentAssetsList = props => {
             return data;
         }
     });
+
+    const sourceShipmentsQuery = useQuery({
+        queryKey: ['shipment', 'by-successor-shipment', obj.id],
+        enabled: obj.id != undefined && objContentType == "shipment",
+        queryFn: async () => {
+            const formattedUrl = new URL(`${backend.api.baseUrl}/shipment/`);
+            formattedUrl.searchParams.set('return_shipment', obj.id);
+
+            const res = await fetch(formattedUrl);
+            const data = await res.json();
+
+            return data;
+        }
+    });
+
+    console.log(sourceShipmentsQuery.data);
 
     // Mutations
     const updateAsset = useMutation({
@@ -251,9 +442,10 @@ const ContentAssetsList = props => {
     })
 
     // Effects
-    useEffect(() => {
+    useEffect(() => { // Sync objData state value with objQuery results
 
         if (!contentTypes.isSuccess){
+            // contentTypes must be loaded before selectAsset() function can work properly. Prevent populating objData state before contentTypes query is successful.
             return;
         }
         
@@ -271,11 +463,72 @@ const ContentAssetsList = props => {
 
 
 
-    }, [objQuery.data, contentTypes.isSuccess, objQuery.isSuccess])
+    }, [objQuery.data, contentTypes.isSuccess, objQuery.isSuccess]);
 
-    useEffect(() => {
+    useEffect(() => { // Ensure objQuery refetches when obj prop changes.
         objQuery.refetch();
     }, [obj]);
+
+    useEffect(() => { // Sync requiredItems state value with reservationsQuery query results.
+
+        if(!objData){ // Abort if objData is not loaded
+            return;
+        }
+
+        if(reservationsQuery.data){
+
+            // Get Model counts for reservations
+            const reservationItems = {};
+            reservationsQuery.data.results.forEach(r => {
+
+                r.reservation_items.forEach( i => {
+
+                    const currentModelCount = reservationItems[i.model];
+                    reservationItems[i.model] = typeof(currentModelCount) == 'number' ? currentModelCount + i.quantity : i.quantity;
+
+                })
+
+            });
+
+            // Get Model count for currently contained assets
+            const currentItems = {};
+            objData.assets.forEach( asset => {
+
+                const currentParentModelCount = currentItems[asset.model];
+                currentItems[asset.model] = typeof(currentParentModelCount) == 'number' ? currentParentModelCount + 1 : 1;
+
+                asset.assets.forEach( a => {
+                    
+                    const currentChildModelCount = currentItems[a.model];
+                    currentItems[a.model] = typeof(currentChildModelCount) == 'number' ? currentChildModelCount + 1 : 1;
+
+                });
+
+            });
+
+            // Calculate difference in reservation items vs current contents
+            const requiredItems = Object.entries(reservationItems).map( ([modelId, qty]) => {
+
+                if(typeof(currentItems[modelId]) == 'number'){
+
+                    const difference = qty - currentItems[modelId];
+
+                    return [modelId, difference];
+
+                }
+                else{
+                    return [modelId, qty];
+                }
+
+            }).filter( ([modelId, qty]) => qty > 0);
+
+
+            // Update state
+            setRequiredItems(requiredItems);
+
+        }
+    
+    }, [reservationsQuery.data, objData]);
 
     // Callback Functions
     const refetchState = () => {
@@ -322,10 +575,6 @@ const ContentAssetsList = props => {
         })
 
         refetchState();
-    }
-
-    const toggleScanTool = e => {
-        setDisplayScanTool(prev => !prev)
     }
     
     const selectAsset = asset => {
@@ -389,7 +638,7 @@ const ContentAssetsList = props => {
 
     return (
         <Section
-            title={`Assets (${objData.asset_counts?.total_assets})`}
+            title={<Box textTransform="capitalize">{objContentType} Contents ({objData.asset_counts?.total_assets})</Box>}
             actions={[
                 hasAssetSelections && canReceiveAssetsFromObj ? <Button startIcon={<Archive/>} variant="outlined" onClick={receiveSelectedAssets}>Receive selected</Button> : null,
                 hasAssetSelections && canRemoveAssetsFromObj ? <Button startIcon={<Delete/>} variant="outlined" onClick={removeSelectedAssets}>Remove selected</Button> : null,
@@ -397,10 +646,16 @@ const ContentAssetsList = props => {
 
             defaultExpanded={true}
         >
-            
-            <Paper variant="outlined" sx={{padding:1, overflowX: 'auto'}}>
-                <Table size="small">
+            <Box sx={{overflowX:"auto"}}>
+                <Table size="small" className={'asset-content-list'} sx={{borderSpacing:"0 10px", borderCollapse:"separate"}}>
                     <TableBody>
+
+                        {requiredItems.map( requiredItem => (
+                            <ReservationRequirementRow 
+                                model={requiredItem[0]}
+                                quantity={requiredItem[1]}
+                            />
+                        ))}
 
                         {objData.assets?.map( asset => (
                             <InternalAssetRow
@@ -409,9 +664,19 @@ const ContentAssetsList = props => {
                             />
                         ))}
 
+                        {objData.assets?.length == 0 &&
+                            <TableRow>
+                                <TableCell align='center' sx={{borderBottom: "none"}}>
+                                    <Typography sx={{opacity:"70%"}}>
+                                        This {objContentType} does not contain any assets.
+                                    </Typography>
+                                </TableCell>
+                            </TableRow>
+                        }
+
                     </TableBody>
                 </Table>
-            </Paper>
+            </Box>
 
         </Section>
     )

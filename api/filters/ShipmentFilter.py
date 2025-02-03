@@ -13,5 +13,6 @@ class ShipmentFilter(django_filters.FilterSet):
             'destination',
             'carrier',
             'departure_date',
-            'arrival_date'
+            'arrival_date',
+            'return_shipment'
         ]
