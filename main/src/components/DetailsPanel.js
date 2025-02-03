@@ -2,8 +2,8 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import { useCurrentUser, useModelOptions, usePermissionCheck } from '../customHooks';
 import { backendApiContext, getCookie, notificationContext } from '../context';
-import { Button, Collapse, Divider, IconButton, List, ListItem, ListItemIcon, ListItemText, Paper, useMediaQuery, useTheme } from '@mui/material';
-import { Edit, Save } from '@mui/icons-material';
+import { Box, Button, Collapse, Divider, IconButton, List, ListItem, ListItemIcon, ListItemText, Paper, useMediaQuery, useTheme } from '@mui/material';
+import { Edit, InfoOutlined, Save } from '@mui/icons-material';
 import ModelForm from './ModelForm';
 import SwipeButton from './SwipeButton';
 
@@ -230,7 +230,12 @@ const DetailsPanel = props => {
                 ) : null}
                 sx={{marginBottom:1}}
               >
-                <ListItemText primary="Details" primaryTypographyProps={{variant:"h4"}}/>
+
+                <ListItemText 
+                  primary={<Box display="flex" alignItems="center" gap={1}><InfoOutlined fontSize="large"/>Details</Box>}
+                  primaryTypographyProps={{variant:"h5"}}
+                />
+
               </ListItem>
 
               <Divider sx={{borderBottomWidth: "3px", marginBottom: theme.spacing(1)}} flexItem />
