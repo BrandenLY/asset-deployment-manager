@@ -1,11 +1,10 @@
-import { Archive, Close, Delete, DocumentScanner, ExpandLess, ExpandMore, PriorityHigh, SubdirectoryArrowRight } from '@mui/icons-material';
-import { Badge, Box, Button, Checkbox, IconButton, Paper, Table, TableBody, TableCell, TableRow, Typography, useMediaQuery, useTheme } from '@mui/material';
+import { Archive, Delete, ExpandLess, ExpandMore, PriorityHigh } from '@mui/icons-material';
+import { Badge, Box, Button, Checkbox, IconButton, Table, TableBody, TableCell, TableRow, Tooltip, Typography, useTheme } from '@mui/material';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
-import { backendApiContext, getCookie } from '../context';
+import { backendApiContext } from '../context';
 import { useModelOptions, usePermissionCheck } from '../customHooks';
 import AssetIcon from './AssetIcon';
-import ScanTool from './ScanTool';
 import Section from './Section';
 
 const ASSETMODELNAME = 'asset';
@@ -183,6 +182,9 @@ export const AssetRequirementRow = props => {
                 {/* Selection Checkbox */}
                 <TableCell align="left" sx={{borderBottom: 'none'}}>
                     <Box width="fit-content" marginLeft={`${nestingLevel * nestingLevelMarginModifier}px`}>
+                        <Tooltip title="This item was packed in a prior shipment, and was marked to return with this shipment but has not been scanned.">
+                            <PriorityHigh/>
+                        </Tooltip>
                     </Box>
                 </TableCell>
                 
@@ -256,7 +258,7 @@ export const AssetRequirementRow = props => {
             { expanded && 
                 asset.assets.map( childAsset => (
                     
-                    <InternalAssetRow
+                    <AssetRequirementRow
                         {...props}
                         asset={childAsset}
                         nestingLevel={nestingLevel + 1}
@@ -399,9 +401,7 @@ const ContentAssetsList = props => {
 
             return data;
         }
-    });
-
-    console.log(sourceShipmentsQuery.data);
+    });;
 
     // Mutations
     const updateAsset = useMutation({
@@ -530,6 +530,22 @@ const ContentAssetsList = props => {
     
     }, [reservationsQuery.data, objData]);
 
+    useEffect(() => { // Sync requiredAssets state value with sourceShipmentsQuery query results.
+        
+        if (!objData){ // Abort if objData is not loaded
+            return;
+        }
+
+        if (sourceShipmentsQuery.data){
+
+            const rawAssets = sourceShipmentsQuery.data.results.map(sourceShipment => sourceShipment.packed_assets).flat();
+            const formattedAssets = rawAssets.map( asset => parseAssetData(asset) );
+
+            // FIXME: Ensure you're only adding assets that are not currently contained in the shipment to the requiredAssets state.
+            setRequiredAssets(formattedAssets);
+        }
+    }, [sourceShipmentsQuery.data, objData]);
+
     // Callback Functions
     const refetchState = () => {
         queryClient.invalidateQueries({queryKey : [objContentType, obj.id]})
@@ -619,15 +635,12 @@ const ContentAssetsList = props => {
     // Formatted data
     let canReceiveAssetsFromObj = checkUserPermission(`receive`);
     let canRemoveAssetsFromObj = checkUserPermission(`change_asset`);
-    let canMoveAssetsViaScan = checkUserPermission(`scan_to_parent`);
 
     if (objContentType == 'shipment'){
         //If the shipment is 'Delivered' or 'Cancelled', allow receiving assets from it.
         canReceiveAssetsFromObj = obj.status >= 3 && canReceiveAssetsFromObj;
         //If the shipment is 'scheduled' then allow removing assets.
         canRemoveAssetsFromObj = obj.status == 0 && canRemoveAssetsFromObj;
-        //If the shipment is 'scheduled' then allow scanning new assets in.
-        canMoveAssetsViaScan = obj.status == 0 && canMoveAssetsViaScan;
     }
 
     const hasAssetSelections = objData ? objData.assets
@@ -657,6 +670,12 @@ const ContentAssetsList = props => {
                             />
                         ))}
 
+                        {requiredAssets.map( requiredAsset => (
+                            <AssetRequirementRow
+                                asset={requiredAsset}
+                            />
+                        ))}
+
                         {objData.assets?.map( asset => (
                             <InternalAssetRow
                                 asset={asset}
@@ -666,7 +685,7 @@ const ContentAssetsList = props => {
 
                         {objData.assets?.length == 0 &&
                             <TableRow>
-                                <TableCell align='center' sx={{borderBottom: "none"}}>
+                                <TableCell align='center' sx={{borderBottom: "none"}} colSpan={7}>
                                     <Typography sx={{opacity:"70%"}}>
                                         This {objContentType} does not contain any assets.
                                     </Typography>

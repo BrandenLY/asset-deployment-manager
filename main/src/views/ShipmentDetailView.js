@@ -6,7 +6,7 @@ import ContentAssetsList from "../components/ContentAssetsList";
 import { backendApiContext, getCookie } from "../context";
 import GenericDetailView from "../components/GenericDetailView";
 import { Button, Skeleton } from "@mui/material";
-import { Close, QrCodeScanner } from "@mui/icons-material";
+import { Close, Lock, QrCodeScanner, ThumbUp } from "@mui/icons-material";
 import ScanTool from "../components/ScanTool";
 
 const MODELNAME = 'shipment'
@@ -140,14 +140,20 @@ const ShipmentDetailView = props =>{
 
     const toggleScanTool = useCallback(e => {
         setDisplayScanTool(prev => !prev);
-    }, [setDisplayScanTool]);
+    }, [setDisplayScanTool]); // Displays/Hides scan tool ui
+
+    const packAndLockShipment = useCallback(e => {
+        console.log("")
+    }, [shipment]);
 
     const refetchShipment = useCallback(() => {
         queryClient.invalidateQueries(['shipment', locationParams.id])
-    }, [shipmentQuery.remove])
+    }, [shipmentQuery.remove]); // Refresh query
 
     // Formatted Data
     const allowContentAdditions = shipment && shipment.status == 0;
+    const allowContentRemovals = shipment && shipment.status >= 3;
+
     const allowScan = allowContentAdditions && checkUserPermission('scan_asset_to_parent');
     const allowPackAndLock = allowContentAdditions && (checkUserPermission('mark_shipment_packed') || checkUserPermission('change_shipment'));
 
@@ -159,7 +165,15 @@ const ShipmentDetailView = props =>{
     >
         Scan
     </Button>;
-    
+
+    const packAndLockButton = <Button
+        startIcon={<Lock/>}
+        variant="contained"
+        onClick={packAndLockShipment}
+    >
+        Pack and Lock
+    </Button>;
+
     return (
         <GenericDetailView
             {...props}
@@ -177,6 +191,7 @@ const ShipmentDetailView = props =>{
             ]}
             actions={[
                 allowScan ? scanToolButton : null,
+                allowPackAndLock ? packAndLockButton : null,
             ]}
         >
             

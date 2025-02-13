@@ -98,16 +98,13 @@ class ShipmentView(BaseView):
 
             ## Serialize Shipment Assets
             assets = shipment.assets.all()
-            serialized_assets = AssetSerializer(assets, many=True) 
+            serialized_assets = AssetSerializer(assets, many=True)
             
             ## Perform model updates
-            with transaction.atomic():
-                ## Set shipment status to 'Packed'
-                shipment.status = 1
-
-                ## Update shipment packed_assets
-                shipment.packed_assets = serialized_assets.data
-
+            shipment.status = 1 ## Set shipment status to 'Packed'
+            shipment.packed_assets = serialized_assets.data ## Update shipment packed_assets
+            shipment.save()
+            
             ## Serialize and return new modified object
             payload = self.get_serializer(instance=shipment).data
             return Response(payload, status=status.HTTP_200_OK)
