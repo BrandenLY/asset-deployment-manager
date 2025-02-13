@@ -1,25 +1,26 @@
+from django.db import transaction
 from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
-from ..exceptions import InvalidData
-from .BaseView import BaseView
+from api.exceptions import InvalidData
+from api.views.BaseView import BaseView
 from assets.models import Asset
 from assets.models import AssetIcon
 from assets.models import Model
 from assets.models import Location
 from assets.models import Shipment
 from assets.models import Reservation
-from ..serializers import AssetSerializer
-from ..serializers import AssetIconSerializer
-from ..serializers import ModelSerializer
-from ..serializers import LocationSerializer
-from ..serializers import ShipmentSerializer
-from ..serializers import ReservationSerializer
-from ..permissions import ScanToolPermission
-from ..filters import AssetFilter, ReservationFilter, ShipmentFilter
+from api.serializers import AssetSerializer
+from api.serializers import AssetIconSerializer
+from api.serializers import ModelSerializer
+from api.serializers import LocationSerializer
+from api.serializers import ShipmentSerializer
+from api.serializers import ReservationSerializer
+from api.permissions import ScanToolPermission
+from api.filters import AssetFilter, ReservationFilter, ShipmentFilter
 
 #       _                 _         _       _             __                     
 #      / \   ___ ___  ___| |_ ___  (_)_ __ | |_ ___ _ __ / _| __ _  ___ ___  ___ 
@@ -81,45 +82,40 @@ class ShipmentView(BaseView):
 
     @action(methods=['get'], detail=True, url_path="mark-shipment-packed", url_name="mark_shipment_packed")
     def mark_shipment_packed(self, request, pk=None):
-        shipment_id = pk
 
         ## Check for shipment id in url.
-        shipment_id = pk
-        if not shipment_id:
+        if not pk:
             return Response(
                 {
-                    "error": f"Unable to lock {self.model.__name__} with id:{shipment_id}"
+                    "error": f"Primary key is required"
                 },
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
         try:
             ## Retrieve Shipment instance.
-            shipment = self.get_queryset().get(id=shipment_id)
+            shipment = self.get_queryset().get(id=pk)
 
-            ## Serialize Shipment's current assets.
-            assets_serializer = AssetSerializer(shipment.assets, many=True)
-
-            ## Save serialized assets to 'Locked Assets' field.
-            shipment.locked_assets = assets_serializer.data
-
-            ## Progress Shipment's status to 'Packed'.
-            statuses = [ s[1] for s in shipment.STATUS_OPTIONS ]
-            shipment.status = statuses.index('Packed')
+            ## Serialize Shipment Assets
+            assets = shipment.assets.all()
+            serialized_assets = AssetSerializer(assets, many=True) 
             
-            try:
-                # Save and serialize the Shipment before returning it to the user.
-                shipment.save()
-                serializer = self.get_serializer_class()(shipment)
-                return Response(serializer.data)
+            ## Perform model updates
+            with transaction.atomic():
+                ## Set shipment status to 'Packed'
+                shipment.status = 1
 
-            except Exception as E:
-                raise(E)
+                ## Update shipment packed_assets
+                shipment.packed_assets = serialized_assets.data
+
+            ## Serialize and return new modified object
+            payload = self.get_serializer(instance=shipment).data
+            return Response(payload, status=status.HTTP_200_OK)
 
         except self.model.DoesNotExist:
             return Response(
                 {
-                    "error": f"{self.model.__name__} with id:{shipment_id} does not exist."
+                    "error": f"{self.model.__name__} with id:{pk} does not exist."
                 },
                 status=status.HTTP_404_NOT_FOUND,
             )
@@ -127,7 +123,7 @@ class ShipmentView(BaseView):
         except Exception as E:
             return Response(
                 {
-                    "error": f"Encountered an error locking shipment with id:{shipment_id}",
+                    "error": f"Encountered an error locking shipment with id:{pk}",
                     "details": str(E),
                 },
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR,
@@ -216,5 +212,3 @@ class ScanView(APIView):
         else:
             # Unknown Destination Content Type
             raise InvalidData("The provided destination content-type is not permitted.")
-
-        return Response({'request': str(request.data)})

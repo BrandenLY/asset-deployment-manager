@@ -1,4 +1,4 @@
-from django.db import models, transaction, IntegrityError
+from django.db import models
 from django.core.exceptions import ValidationError
 from django.contrib.auth import get_user_model
 from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
@@ -180,18 +180,6 @@ class Shipment(TrackedModel):
             ("receive", "Can receive shipments"),
             ("progress", "Can progress a shipment's status"),
         ]
-
-    def mark_shipment_packed(self):
-        try: 
-            assets = self.assets.all()
-            with transaction.atomic():
-                ## SAVE SNAPSHOT OF LOCKED ASSETS TO THIS INSTANCE'S 'PACKED ASSETS' FIELD
-                self.status = 1
-                pass
-        
-        except IntegrityError as e:
-
-            raise(IntegrityError)
     
     def can_accept_scan_entries(self):
         
