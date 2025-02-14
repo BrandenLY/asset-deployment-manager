@@ -168,7 +168,7 @@ export const AssetRequirementRow = props => {
 
     // Formatted Data
     const nestingLevelMarginModifier = 15;
-    const backgroundColor = nestingLevel == 0 ? "rgba(255,0,0,0.05)" : `rgba(255,0,0,${nestingLevel / (theme.mode == "dark" ? 25 : 10)})`;
+    const backgroundColor = "rgba(255,0,0,0.05)";
     
     return(
         <>
