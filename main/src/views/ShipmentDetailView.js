@@ -3,11 +3,12 @@ import React, { useCallback, useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useModelOptions, usePermissionCheck } from "../customHooks";
 import ContentAssetsList from "../components/ContentAssetsList";
-import { backendApiContext, getCookie } from "../context";
+import { backendApiContext, getCookie, notificationContext } from "../context";
 import GenericDetailView from "../components/GenericDetailView";
 import { Button, Skeleton } from "@mui/material";
 import { Close, Lock, QrCodeScanner, ThumbUp } from "@mui/icons-material";
 import ScanTool from "../components/ScanTool";
+import ActionButton from "../components/ActionButton";
 
 const MODELNAME = 'shipment'
 
@@ -17,6 +18,7 @@ const ShipmentDetailView = props =>{
     const locationParams = useParams();
     const queryClient = useQueryClient();
     const backend = useContext(backendApiContext);
+    const notifications = useContext(notificationContext);
     const shipmentOptions = useModelOptions(MODELNAME);
     const {check:checkUserPermission} = usePermissionCheck(backend.auth.user);
 
@@ -45,43 +47,52 @@ const ShipmentDetailView = props =>{
 
     // Mutations
     const updateShipment = useMutation({
-        mutationFn: (method, data) => {
+        mutationFn: ({method, payload}) => {
 
-            const updateUrl = new URL(`${window.location.protocol}${window.location.host}/api/shipment/${data.id}/`);
-
-            const requestHeaders = new Headers();
-            requestHeaders.set("Content-Type", "application/json");
-            requestHeaders.set("X-CSRFToken", getCookie("csrftoken"));
+            const updateUrl = new URL(`${backend.api.baseUrl}/shipment/${locationParams.id}/`);
             
-            // Deletions
-            if (method=="DELETE"){
-                return fetch(updateUrl, {
-                    method: method,
-                    headers: requestHeaders,
-                })
-            }
+            return fetch(updateUrl, {
+                method: method,
+                headers: backend.api.getRequestHeaders(),
+                body: payload
+            });
 
-            // Updates
-            if (method=="PUT"){
-                let payload = {};
+        }
 
-                shipmentOptions.model_fields.forEach( (fieldName, fieldDetails) => {
-                    if(!fieldDetails.read_only && data[fieldName] != undefined){
-                        payload[fieldName] = data[fieldName];
-                    }
-                });
-    
-                return fetch(updateUrl, {
-                  method: method,
-                  headers: requestHeaders,
-                  body: JSON.stringify(payload),
-                });
-            }
-
-            throw new Error("ShipmentDetailView", "Unsupported method provided to mutation")
-
-          }
     });
+
+    const {mutate: packShipment} = useMutation({
+        mutationFn: async () => {
+
+            const updateUrl = new URL(`${backend.api.baseUrl}/shipment/${locationParams.id}/mark-shipment-packed/`);
+            
+            const res = fetch(updateUrl, {
+                method: "GET",
+                headers: backend.api.getRequestHeaders(),
+            });
+
+            return res;
+
+        },
+        onSettled: async (res, err, vars, ctx) => {
+
+            // Frontend error
+            if(err){
+                notifications.add({message:new String(err), severity:notifications.ERROR});
+                return;
+            }
+
+            // Backend error
+            if(!res.ok){
+                const data = await res.json();
+                notifications.add({message: data.detail, severity:notifications.ERROR});
+                return;
+            }
+
+            notifications.add({message: "Successfully updated shipment."});
+            refetchShipment(); // Refresh shipment query
+        }
+    })
 
     // Effects
     useEffect(() => {
@@ -126,7 +137,6 @@ const ShipmentDetailView = props =>{
 
     }, [shipmentQuery.data, shipmentQuery.isSuccess, ...Object.values(relatedQueries).map(query => query.isSuccess),  contentTypes.isSuccess])
 
-
     // Callback Functions
     const parseShipmentData = data => {
         return({...data});
@@ -143,12 +153,15 @@ const ShipmentDetailView = props =>{
     }, [setDisplayScanTool]); // Displays/Hides scan tool ui
 
     const packAndLockShipment = useCallback(e => {
-        console.log("")
-    }, [shipment]);
+        packShipment();
+    }, [packShipment]);
 
     const refetchShipment = useCallback(() => {
-        queryClient.invalidateQueries(['shipment', locationParams.id])
-    }, [shipmentQuery.remove]); // Refresh query
+        
+        queryClient.invalidateQueries(['shipment', locationParams.id]);
+        shipmentQuery.refetch();
+
+    }, [queryClient.invalidateQueries]); // Refresh query
 
     // Formatted Data
     const allowContentAdditions = shipment && shipment.status == 0;
@@ -157,22 +170,25 @@ const ShipmentDetailView = props =>{
     const allowScan = allowContentAdditions && checkUserPermission('scan_asset_to_parent');
     const allowPackAndLock = allowContentAdditions && (checkUserPermission('mark_shipment_packed') || checkUserPermission('change_shipment'));
 
-    const scanToolButton = <Button 
-        startIcon={displayScanTool ? <Close/> : <QrCodeScanner sx={{transform: "rotate 90deg"}}/>}
-        variant="contained"
-        onClick={toggleScanTool}
-        color={displayScanTool ? "error" : "primary"}
+    const scanToolButton = <ActionButton
+        popoverText={`${displayScanTool ? "Hide" : "Display"} the scan tool`}
+        callbackFn={toggleScanTool}
+        elementProps={{
+            startIcon: displayScanTool ? <Close/> : <QrCodeScanner/>,
+            variant:"contained",
+            color: displayScanTool ? "error" : "primary"
+        }}
     >
         Scan
-    </Button>;
+    </ActionButton>;
 
-    const packAndLockButton = <Button
-        startIcon={<Lock/>}
-        variant="contained"
-        onClick={packAndLockShipment}
+    const packAndLockButton = <ActionButton
+        callbackFn={packAndLockShipment}
+        popoverText="Set shipment status to 'Packed' and save current asset details"
+        elementProps={{startIcon:<Lock/>,variant:"contained"}}
     >
         Pack and Lock
-    </Button>;
+    </ActionButton>;
 
     return (
         <GenericDetailView
