@@ -190,21 +190,18 @@ const ShipmentDetailView = props =>{
                 ['return_shipment']
             ]}
             actions={[
-                allowScan ? scanToolButton : null,
                 allowPackAndLock ? packAndLockButton : null,
+                allowScan ? scanToolButton : null,
             ]}
         >
             
             { displayScanTool ?
             
-                <>
-                    {console.log(shipment)}
-                    <ScanTool
-                        shipment={shipment}
-                        onSuccessfulScan={refetchShipment}
-                        variant="in-line"
-                    />
-                </>
+                <ScanTool
+                    shipment={shipment}
+                    onSuccessfulScan={refetchShipment}
+                    variant="in-line"
+                />
             :
                 null
             }
