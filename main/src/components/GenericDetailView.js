@@ -10,6 +10,7 @@ import DetailsPanel from './DetailsPanel';
 import Section from './Section';
 import SortingGrid from './SortingGrid';
 import CustomDialog from './CustomDialog';
+import ActionButton from './ActionButton';
 
 const GenericDetailView = props => {
 
@@ -157,16 +158,15 @@ const GenericDetailView = props => {
                         
                         { actions }
 
-                        { userCanDelete && data ? 
-                        
-                            <Button
-                                color="error"
-                                variant="contained"
-                                startIcon={<Delete/>} 
-                                onClick={showObjDeletionConfirmation}
+                        { userCanDelete && data ?
+
+                            <ActionButton
+                                callbackFn={showObjDeletionConfirmation}
+                                elementProps={{color:"error", variant:"contained", startIcon:<Delete/>}}
+                                popoverText={`Permanently delete this ${model}`}
                             >
                                 Delete
-                            </Button> 
+                            </ActionButton>
 
                         : null}
                     
