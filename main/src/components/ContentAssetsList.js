@@ -173,7 +173,6 @@ export const AssetRequirementRow = props => {
     return(
         <>
             <TableRow 
-                selected={asset._meta.selected}
                 sx={{
                     backgroundColor:backgroundColor,
                 }}
@@ -538,10 +537,33 @@ const ContentAssetsList = props => {
 
         if (sourceShipmentsQuery.data){
 
-            const rawAssets = sourceShipmentsQuery.data.results.map(sourceShipment => sourceShipment.packed_assets).flat();
-            const formattedAssets = rawAssets.map( asset => parseAssetData(asset) );
+            const rawRequiredAssets = sourceShipmentsQuery.data.results.map(sourceShipment => sourceShipment.packed_assets).flat();
+            const containedAssetsCodes = objData.assets.map(a => [a, ...a.assets]).flat().map(a => a.code);
 
-            // FIXME: Ensure you're only adding assets that are not currently contained in the shipment to the requiredAssets state.
+            let formattedAssets = [];
+
+            // Ensure only missing required assets are displayed
+            rawRequiredAssets.forEach(asset => {
+
+                const tmp = [];
+
+                if (containedAssetsCodes.includes(asset.code)){
+                    asset.assets.filter( a => !(containedAssetsCodes.includes(a.code))).forEach( a => {
+                        tmp.push(a);
+                    });
+                }
+                else{
+                    tmp.push({
+                        ...asset,
+                        assets: asset.assets.filter( a => !containedAssetsCodes.includes(a.code))
+                    });
+                }
+
+                formattedAssets = formattedAssets.concat(tmp);
+            });
+            
+            console.log(rawRequiredAssets, containedAssetsCodes, formattedAssets);
+            
             setRequiredAssets(formattedAssets);
         }
     }, [sourceShipmentsQuery.data, objData]);
