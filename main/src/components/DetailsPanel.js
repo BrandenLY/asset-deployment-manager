@@ -10,7 +10,7 @@ import SwipeButton from './SwipeButton';
 const DetailsPanel = props => {
 
     // Props
-    const {model, data, formLayout} = props;
+    const {model, query, data, formLayout} = props;
 
     // Hooks
     const theme = useTheme();
@@ -27,6 +27,7 @@ const DetailsPanel = props => {
 
     const formContainer = useRef(null);
 
+    // Mutations
     const { mutate } = useMutation({
         mutationFn: async (payload, method="PUT") => {
             const updateUrl = new URL(`${backend.api.baseUrl}/${model}/${data.id}/`);
@@ -74,7 +75,7 @@ const DetailsPanel = props => {
       
               notifications.add({message:`Successfully updated ${model}`});
               res.json().then(resData => {
-                queryClient.setQueryData([model, data.id], {...data, ...resData})
+                query.refetch();
                 setIsEditing(false);
               })
         }
@@ -82,31 +83,20 @@ const DetailsPanel = props => {
 
     // Effects
     useEffect(() => {
-
-      if(objForm){
-        return;
+      if (!modelOptions.data || !data) {
+          return;
       }
-      
-      if (modelOptions.data === undefined){
-        return;
-      }
-
-      if (data === undefined){
-        return;
-      }
-
+  
       let tmp = {};
-
-      Object.entries(modelOptions.data.model_fields)
-      .map( ([fieldName, fieldDetails]) => {
-
-        tmp[fieldName] = {...fieldDetails, errors:[], current:data[fieldName]}
-
-      })
-      
+  
+      console.log("updating detail form state");
+  
+      Object.entries(modelOptions.data.model_fields).forEach(([fieldName, fieldDetails]) => {
+          tmp[fieldName] = { ...fieldDetails, errors: [], current: data[fieldName] };
+      });
+  
       setObjForm(tmp);
-
-    }, [modelOptions.data, data, objForm])
+    }, [data, modelOptions.data]);
 
     // Callback Functions
     const toggleEditMode = e => {

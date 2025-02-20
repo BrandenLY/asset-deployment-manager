@@ -75,6 +75,8 @@ const ShipmentDetailView = props =>{
 
         },
         onSettled: async (res, err, vars, ctx) => {
+            
+            refetchShipment(); // Refresh shipment query
 
             // Frontend error
             if(err){
@@ -90,7 +92,6 @@ const ShipmentDetailView = props =>{
             }
 
             notifications.add({message: "Successfully updated shipment."});
-            refetchShipment(); // Refresh shipment query
         }
     })
 
@@ -158,7 +159,7 @@ const ShipmentDetailView = props =>{
 
     const refetchShipment = useCallback(() => {
         
-        queryClient.invalidateQueries(['shipment', locationParams.id]);
+        // queryClient.invalidateQueries(['shipment', locationParams.id]);
         shipmentQuery.refetch();
 
     }, [queryClient.invalidateQueries]); // Refresh query
@@ -194,6 +195,7 @@ const ShipmentDetailView = props =>{
         <GenericDetailView
             {...props}
             model={MODELNAME}
+            query={shipmentQuery}
             detailFormLayout={[
                 ['id', null],
                 ['label'],

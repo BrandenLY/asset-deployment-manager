@@ -8,6 +8,9 @@ import {ThemeProvider, CssBaseline, Typography} from "@mui/material";
 
 // TANSTACK QUERY
 import CustomQueryClientProvider from "./queryConfig";
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+
+
 
 // PAGE VIEWS
 import CustomPage from "./components/CustomPage";
@@ -25,13 +28,14 @@ import ModelsView from "./views/ModelsView";
 import ModelDetailView from "./views/ModelDetailView";
 import EquipmentHolds from "./views/EquipmentHolds";
 import EquipmentHoldsDetailView from "./views/EquipmentHoldsDetailView";
-
-import { useCustomTheme } from "./customHooks";
-import { NotificationContextProvider } from "./context";
-import { DocumentScanner, QrCodeScanner, Summarize } from "@mui/icons-material";
 import ReserveEquipmentView from "./views/ReserveEquipmentView";
 import UsersView from "./views/UsersView";
 import AdminLogsView from "./views/AdminLogsView";
+
+import { useCustomTheme } from "./customHooks";
+import { NotificationContextProvider } from "./context";
+import { QrCodeScanner, Summarize } from "@mui/icons-material";
+
 
 const betaFlagStyles = {padding:1, backgroundColor:"rgba(18,18,18,0.66"};
 const titleIconSize = "45pt";
@@ -131,6 +135,7 @@ const App = () => {
   return (
     <React.StrictMode>
       <CustomQueryClientProvider>
+      <ReactQueryDevtools initialIsOpen={true} position="bottom-right" />
         <ThemeProvider theme={theme}>
           <CssBaseline />
           <NotificationContextProvider>

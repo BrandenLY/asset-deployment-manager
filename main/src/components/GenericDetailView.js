@@ -15,7 +15,7 @@ import ActionButton from './ActionButton';
 const GenericDetailView = props => {
 
     // Props
-    const {model, title, actions, detailFormLayout, addNotif=()=>{}, children} = props;
+    const { model, rootQuery, title, actions, detailFormLayout, addNotif=()=>{}, children} = props;
 
     // Hooks
     const theme = useTheme();
@@ -27,11 +27,11 @@ const GenericDetailView = props => {
     const {check:checkUserPermission} = usePermissionCheck(backend.auth.user);
     const notifications = useContext(notificationContext);
 
-    const [data, setData] = useState(false);
+    const [data, setData] = useState(null);
     const [displayDeletionConfirmation, setDisplayDeletionConfirmation] = useState(false);
 
     // Queries
-    const obj = useQuery({
+    const objQuery = rootQuery ? rootQuery : useQuery({
         queryKey: [model, locationParams.id],
     });
 
@@ -81,12 +81,12 @@ const GenericDetailView = props => {
     });
 
     const relatedQueries = useQueries({
-        queries: objOptions.isSuccess && obj.isSuccess ?
+        queries: objOptions.isSuccess && objQuery.isSuccess ?
         // Get related query option objects
         Object.entries(objOptions.data.model_fields)
         .filter( ([fieldName, fieldData]) => fieldData['type'] == "related object") // Only get foreign key relationships
-        .filter(([fieldName, fieldData]) => obj.data[fieldName] != null )  // Only get non null foreign keys
-        .map(([fieldName, fieldData]) => ({queryKey:[fieldData['related_model_name'], obj.data[fieldName]]})) // Construct query option object(s) 
+        .filter(([fieldName, fieldData]) => objQuery.data[fieldName] != null )  // Only get non null foreign keys
+        .map(([fieldName, fieldData]) => ({queryKey:[fieldData['related_model_name'], objQuery.data[fieldName]]})) // Construct query option object(s) 
         : [] // Don't make any queries if dependant queries not completed.
     });
 
@@ -95,7 +95,7 @@ const GenericDetailView = props => {
         // Update State to include object and related-object data.
 
         // Escape hatch: exit if no related objects to query.
-        if (relatedQueries.length == 0 && !obj.isSuccess) {
+        if (relatedQueries.length == 0 && !objQuery.isSuccess) {
             return;
         }
 
@@ -103,15 +103,15 @@ const GenericDetailView = props => {
         const relatedQueriesAreSuccess = Object.values(relatedQueries).every( q => q.isFetched && q.isSuccess );
 
         // Parse & Merge Data
-        if ([obj.isSuccess, objOptions.isSuccess, relatedQueriesAreSuccess].every( b => b == true)){
+        if ([objQuery.isSuccess, objOptions.isSuccess, relatedQueriesAreSuccess].every( b => b == true)){
             
-            let temporaryState = {...obj.data}
+            let temporaryState = {...objQuery.data}
 
             // Queries are returned in the same order they're called. The filtering done below must produce the same result as the filtering
             // used within the useQueries hook defined above.
             const queryOrdering = Object.entries(objOptions.data.model_fields)
             .filter( ([fieldName, fieldData]) => fieldData['type'] == "related object") // Only get foreign key relationships
-            .filter( ([fieldName, fieldData]) => obj.data[fieldName] != null ) // Only get non null foreign keys
+            .filter( ([fieldName, fieldData]) => objQuery.data[fieldName] != null ) // Only get non null foreign keys
             .map( ([fieldName, fieldData]) => fieldName)
 
             // Update foreign key relations to object data
@@ -124,7 +124,7 @@ const GenericDetailView = props => {
 
     }, [
         objOptions.isSuccess,
-        obj.isSuccess,
+        objQuery.data,
         ...Object.values(relatedQueries).map(query => query.isSuccess)
     ]);
 
@@ -152,7 +152,7 @@ const GenericDetailView = props => {
         <Box id={viewContainerName} position="relative">
 
             <Box padding={1}>
-                <Typography variant="h2">{title ? title: data.label}</Typography>
+                <Typography variant="h2">{title ? title: data?.label}</Typography>
                 <Box className='detail-view-actions'>
                     <Box display="flex" gap={1} sx={{float:"right"}}>
                         
@@ -179,7 +179,8 @@ const GenericDetailView = props => {
                 { data ? 
                 <DetailsPanel
                     model={model}
-                    data={data ? data : obj.data}
+                    data={data ? data : objQuery.data}
+                    query={objQuery}
                     formLayout={detailFormLayout ? detailFormLayout : undefined}
                 /> :
                 <Skeleton
