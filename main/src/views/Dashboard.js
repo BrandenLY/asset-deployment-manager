@@ -121,6 +121,7 @@ const QuickLink = props => {
     // Props Destructuring
     const {linkIcon, linkText, linkRoute, linkPerm} = props;
 
+    const theme = useTheme();
     const navigate = useNavigate();
     const backend = useContext(backendApiContext);
     const {check:checkUserPermission} = usePermissionCheck(backend.auth.user);
@@ -133,15 +134,21 @@ const QuickLink = props => {
     const userCanView = checkUserPermission(linkPerm);
     const displayIconQuicklinks = useMediaQuery("(max-width:630px)");
 
+    console.log(theme.palette)
+
     if (displayIconQuicklinks){ // Return Mobile friendly components
         return(
             <Button 
                 variant="contained"
-                color='inherit'
                 onClick={navigateTo}
                 disabled={!userCanView}
                 sx={{
+                    backgroundColor: "secondary.main",
+                    color: theme.palette.secondary.contrastText,
                     flexGrow: 1,
+                    "&:hover":{
+                        backgroundColor: "secondary.dark"
+                    }
                 }}
             >
                 {linkIcon}
@@ -152,12 +159,22 @@ const QuickLink = props => {
     return(
         <Button 
             variant="contained"
-            color='inherit'
             startIcon={linkIcon}
             onClick={navigateTo}
             disabled={!userCanView}
             sx={{
+                backgroundColor: "secondary.main",
+                color: theme.palette.secondary.contrastText,
                 flexGrow: 1,
+                "& .MuiButton-startIcon": {
+                    fontSize: "1.66em", // Increase icon size
+                  },
+                "& .MuiButton-startIcon>*:nth-of-type(1)": {
+                    fontSize: "inherit !important", // Increase icon size
+                  },
+                "&:hover":{
+                    backgroundColor: "secondary.dark"
+                }
             }}
         >
             {linkText}
