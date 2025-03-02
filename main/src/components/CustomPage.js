@@ -1,11 +1,12 @@
 import { Error, Home } from '@mui/icons-material';
-import { Alert, Box, Breadcrumbs, Button, Link, Snackbar, Typography } from '@mui/material';
+import { Alert, Box, Breadcrumbs, Button, Link, Snackbar, Typography, useMediaQuery, useTheme } from '@mui/material';
 import React, { useContext, useEffect, useRef } from 'react';
 import { Link as RouterLink, useLocation, useNavigate } from 'react-router-dom';
 import { BackendContextProvider, notificationContext } from '../context';
 import { ErrorBoundary } from './ErrorBoundary';
 import PrimaryNav from './PrimaryNav';
 import { useResetErrorOnNavigate } from '../customHooks';
+import MobileNav from './MobileNav';
 
 const CustomBreadcrumbs = props => {
     const location = useLocation()
@@ -62,7 +63,9 @@ const CustomPage = props => {
   const { className, view: View } = props;
 
   // Hooks
+  const theme = useTheme();
   const errorBoundaryRef = useRef();
+  const clientIsMobile = useMediaQuery(theme.breakpoints.down("md"));
   const notifications = useContext(notificationContext);
   useResetErrorOnNavigate(() => errorBoundaryRef.current?.resetError());
   
@@ -70,17 +73,17 @@ const CustomPage = props => {
 
   // FORMATTED DATA
   const classNames = ['page', className].join(' ');
-  const navMinWidth = "80px";
-  const navMaxWidth = "280px";
+  const primaryNavMinWidth = "80px";
+  const primaryNavMaxWidth = "280px";
 
   return (
     <BackendContextProvider>
 
-        <Box className={classNames}>
+        <Box className={classNames} sx={{flexDirection: clientIsMobile ? "column" : "unset"}}>
             
-            <PrimaryNav {...{navMinWidth, navMaxWidth}} />
+            {clientIsMobile ? <MobileNav/> : <PrimaryNav {...{primaryNavMinWidth, primaryNavMaxWidth}} />}
 
-            <Box className="page-content" sx={{gridArea:"content", padding: 3, overflow: 'auto', marginLeft: navMinWidth}}>
+            <Box className="page-content" sx={{gridArea:"content", padding: 3, overflow: 'auto', marginLeft: clientIsMobile ? 0 : primaryNavMinWidth}}>
                 {/* Page Title */}
                 <Typography variant="h2" sx={{margin: 1}}>
                     <Box display="flex" gap={1} alignItems="center">{props.title}</Box>
