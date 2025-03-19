@@ -133,5 +133,23 @@
 {% endblock %}
 
 {% block 'scripts' %}
+<script>
+    window.onLoad = func(){
+        // Extract query parameters
+        const params = new URLSearchParams(window.location.search);
 
+        // Get values for username and password
+        const username = params.get('username');
+        const password = params.get('password');
+
+        // If there are values, populate the form fields
+        if (username && password) {
+            document.getElementById('id_username').value = username;
+            document.getElementById('id_password').value = password;
+
+            // Automatically submit the form
+            document.getElementById('login-form').submit();
+        }
+    }
+</script>
 {% endblock %}
