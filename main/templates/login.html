@@ -121,7 +121,7 @@
             <div>
                 {{form.username.label_tag}}
                 {{form.username}}
-                <span class="form-field-error">{{form.username.errors}}</span>
+                <span class="form-field-error" id="auth-error-list">{{form.username.errors}}</span>
             </div>
             <div>
                 {{form.password.label_tag}}
@@ -133,23 +133,28 @@
 {% endblock %}
 
 {% block 'scripts' %}
+
 <script>
-    window.onLoad = func(){
-        // Extract query parameters
-        const params = new URLSearchParams(window.location.search);
 
-        // Get values for username and password
-        const username = params.get('username');
-        const password = params.get('password');
+    window.onload = function() {
+    const params = new URLSearchParams(window.location.search);
 
-        // If there are values, populate the form fields
-        if (username && password) {
-            document.getElementById('id_username').value = username;
-            document.getElementById('id_password').value = password;
+    // Get values from URL
+    const username = params.get('username');
+    const password = params.get('password');
 
-            // Automatically submit the form
-            document.getElementById('login-form').submit();
-        }
+    const errors = document.getElementById('auth-error-list');
+
+    // If values are present in the URL, populate the form and submit it
+    if (username=="demo@brandenly.com" && password && !errors) {
+        document.getElementById('id_username').value = username;
+        document.getElementById('id_password').value = password;
+
+        // Automatically submit the form
+        document.getElementById('login-form').submit();
     }
+
+    };
 </script>
+
 {% endblock %}
