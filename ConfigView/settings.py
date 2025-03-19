@@ -26,7 +26,7 @@ SECRET_KEY = "d7T1JA8dBBaFa0yMY+KVNfb3i/8aMLIrYepgxTN8sTk="
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['catapult.systems', 'www.catapult.systems', 'app.catapult.systems', '50.116.25.10']
+ALLOWED_HOSTS = ['catapult.systems', 'www.catapult.systems', 'app.catapult.systems', 'ims-demo.brandenly.com', '50.116.25.10']
 if DEBUG:
     ALLOWED_HOSTS.append('127.0.0.1')
 
@@ -164,7 +164,7 @@ REST_FRAMEWORK = {
         'django_filters.rest_framework.DjangoFilterBackend',
     ),
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 25,
+    'PAGE_SIZE': 2000,
 }
 
 AVAILABLE_PRINTER_TYPES = [
