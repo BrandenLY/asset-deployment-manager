@@ -26,7 +26,9 @@ SECRET_KEY = "d7T1JA8dBBaFa0yMY+KVNfb3i/8aMLIrYepgxTN8sTk="
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['catapult.systems', 'www.catapult.systems', 'app.catapult.systems', '50.116.25.10']
+if DEBUG:
+    ALLOWED_HOSTS.append('127.0.0.1')
 
 
 # Application definition
