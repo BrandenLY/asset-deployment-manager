@@ -19,7 +19,6 @@ class EventSerializer(CustomBaseSerializer):
             "timetracking_url",
             "external_project_url",
             "sharepoint_url",
-            "project"
         ]
         read_only_fields=["date_created", "last_modified"]
 
