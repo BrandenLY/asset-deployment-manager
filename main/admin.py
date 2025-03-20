@@ -1,34 +1,6 @@
 from django.contrib import admin
 from .models import Event
 from .models import User
-from tasklist.models import Project
-from tasklist.models import Service
-
-# Register your models here.
-class ProjectInline(admin.StackedInline):
-    model = Project
-    fieldsets = [
-        (
-            'Service Information',
-            {
-                "fields": [
-                    "printer_type",
-                    ("production_redwood_id", "production_show_code"),
-                    ("test_redwood_id", "test_show_code"),
-                    "services"
-                ]
-            }
-        ),
-        (
-            'Team',
-            {
-                "fields": [
-                    ("account_manager", "project_manager"),
-                    ("solutions_specialist", "lead_retrieval_specialist"),
-                ]
-            }
-        )
-    ]
 
 class EventAdmin(admin.ModelAdmin):
 
@@ -38,7 +10,6 @@ class EventAdmin(admin.ModelAdmin):
     list_display = (
         "id", "name", "start_date", "end_date",
     )
-    inlines = [ ProjectInline, ]
     fieldsets = [
         (
             'Event Information',
