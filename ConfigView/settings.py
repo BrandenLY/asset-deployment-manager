@@ -49,10 +49,7 @@ INSTALLED_APPS = [
     # Custom apps
     'main.apps.MainConfig',
     'assets.apps.AssetsConfig',
-    'staffing.apps.StaffingConfig',
-    'wiki.apps.WikiConfig',
     'api.apps.ApiConfig',
-    'tasklist.apps.TasklistConfig',
 ]
 
 MIDDLEWARE = [
