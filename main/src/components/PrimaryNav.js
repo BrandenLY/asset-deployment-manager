@@ -38,7 +38,7 @@ export const PageLinks = [
         links: [
             // Link Format: Link Button Text, Icon element, linkto url, required permission.
             ['Reporting', Assessment ,'/reports'],
-            ['Users', PersonAdd ,'/users', 'view_location'],
+            ['Users', PersonAdd ,'/users', 'view_user'],
             ['Groups & Permissions', Group ,'/permissions', 'view_asset', "---DELETE-THIS-ARRAY-STRING-TO-ENABLE-LINK"],
             ['Admin Logs', Article ,'/logs', 'IsAdminUser']
         ]
